@@ -19,6 +19,8 @@ class Generalfunction_library
         $this->CI->userId = $data['userId'];
         $this->CI->session->set_userdata('user_type', ADMIN_USER);
         $this->CI->userType = ADMIN_USER;
+        $this->CI->session->set_userdata('user_name', $data['userName']);
+        $this->CI->userName = $data['userName'];
     }
 
     public function setSessionVariable($key, $value)

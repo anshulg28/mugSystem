@@ -86,6 +86,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 /* Custom constants defined */
 defined('PAGE_404')  OR define('PAGE_404', 'page404');
+defined('RESPONSE_JSON') OR define('RESPONSE_JSON','json');
+defined('RESPONSE_RETURN') OR define('RESPONSE_RETURN','return');
 
 /* User Type */
 defined('ADMIN_USER') OR define('ADMIN_USER',1);

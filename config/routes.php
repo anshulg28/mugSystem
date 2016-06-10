@@ -52,4 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['404_override'] = 'Page404';
 $route['translate_uri_dashes'] = FALSE;
-
+$route['mugclub/add'] = 'mugclub/addNewMug';
+$route['mugclub/edit/(:any)'] = 'mugclub/editExistinMug/$1';
+$route['mugclub/save'] = 'mugclub/saveOrUpdateMug';
+$route['mugclub/delete/(:any)'] = 'mugclub/deleteMugData/$1';

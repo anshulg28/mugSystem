@@ -16,13 +16,13 @@
                         ?>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span>
-                                <?php echo $this->userName; ?>
+                                <?php echo ucfirst($this->userName); ?>
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Mug Club</a></li>
-                                <li><a href="#">Check-Ins</a></li>
-                                <li><a href="<?php echo base_url(); ?>logout">Check-Ins</a></li>
+                                <li><a href="<?php echo base_url();?>"><i class="fa fa-home"></i> Home</a></li>
+                                <li><a href="<?php echo base_url();?>mugclub"><i class="fa fa-beer"></i> Mug Club</a></li>
+                                <li><a href="#"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
+                                <li><a href="<?php echo base_url(); ?>login/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                             </ul>
                         </li>
                         <?php

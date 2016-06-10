@@ -26,4 +26,27 @@ class Mydatafetch_library
 
         return $result;
     }
+
+    public function getBaseLocations()
+    {
+        $this->CI->db->select('id, locName, locUniqueLink');
+        $this->CI->db->from('locationmaster');
+        $this->CI->db->where('ifActive', '1');
+
+        $result = $this->CI->db->get()->result_array();
+
+        return $result;
+    }
+
+    public function getBaseLocationsById($id)
+    {
+        $this->CI->db->select('locName');
+        $this->CI->db->from('locationmaster');
+        $this->CI->db->where('ifActive', '1');
+        $this->CI->db->where('id', $id);
+
+        $result = $this->CI->db->get()->row_array();
+
+        return $result;
+    }
 }
