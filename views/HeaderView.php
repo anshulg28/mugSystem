@@ -6,7 +6,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Doolally</a>
+            <a class="navbar-brand" href="<?php echo base_url();?>">Doolally</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
@@ -21,7 +21,10 @@
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo base_url();?>"><i class="fa fa-home"></i> Home</a></li>
                                 <li><a href="<?php echo base_url();?>mugclub"><i class="fa fa-beer"></i> Mug Club</a></li>
-                                <li><a href="#"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
+                                <li><a href="<?php echo base_url();?>check-ins"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
+                                <li><a href="<?php echo base_url().'location-select';?>">
+                                        <i class="glyphicon glyphicon-map-marker"></i> Change Location</a>
+                                </li>
                                 <li><a href="<?php echo base_url(); ?>login/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                             </ul>
                         </li>
@@ -29,6 +32,16 @@
                     }
                     else
                     {
+                        ?>
+                        <?php
+                            if(isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === true)
+                            {
+                                ?>
+                                <li><a href="<?php echo base_url().'location-select';?>">
+                                        <i class="glyphicon glyphicon-map-marker"></i> Change Location</a>
+                                </li>
+                                <?php
+                            }
                         ?>
                         <li><a href="<?php echo base_url(); ?>login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         <?php

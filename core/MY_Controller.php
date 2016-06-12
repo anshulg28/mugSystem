@@ -18,11 +18,10 @@ class MY_Controller extends CI_Controller
 	public $userType = '';
 	public $userId = '';
 	public $userName = '';
+	public $currentLocation = '';
 
 	public $currentUrl = '';
 
-
-	//public $shortlistedProducts = '';
 
 	function __construct()
 	{
@@ -50,6 +49,13 @@ class MY_Controller extends CI_Controller
 			$this->userType = $this->session->user_type;
 			$this->userName = $this->session->user_name;
 		}
+
+		//get location from session
+		if(isSessionVariableSet($this->session->currentLocation) === true)
+        {
+            $this->currentLocation = $this->session->currentLocation;
+        }
+
 		//
 		$this->currentUrl = str_replace('/index.php', '', current_url());
 	}

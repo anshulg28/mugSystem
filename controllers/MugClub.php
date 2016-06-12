@@ -63,7 +63,7 @@ class Mugclub extends MY_Controller {
         $this->load->view('MugAddView', $data);
     }
 
-    public function editExistinMug($mugId)
+    public function editExistingMug($mugId)
     {
         $data = array();
         if(isSessionVariableSet($this->isUserSession) === false)
@@ -89,7 +89,7 @@ class Mugclub extends MY_Controller {
     {
         $post = $this->input->post();
 
-        $mugExists = $this->mugclub_model->checkMugExists($post['mugNum']);
+        $mugExists = $this->mugclub_model->getMugDataById($post['mugNum']);
 
         $params = $this->mugclub_model->filterMugParameters($post);
         
@@ -106,7 +106,7 @@ class Mugclub extends MY_Controller {
 
     public function deleteMugData($mugId)
     {
-        $mugExists = $this->mugclub_model->checkMugExists($mugId);
+        $mugExists = $this->mugclub_model->getMugDataById($mugId);
 
         if($mugExists['status'] === false)
         {
@@ -124,11 +124,39 @@ class Mugclub extends MY_Controller {
         $data = array();
         if(isset($mugid))
         {
-            $result = $this->mugclub_model->checkMugExists($mugid);
+            $result = $this->mugclub_model->getMugDataById($mugid);
             if($result['status'] === true)
             {
                 $data['status'] = false;
                 $data['errorMsg'] = 'Mug Number Already Exists';
+            }
+            else
+            {
+                $data['status'] = true;
+            }
+        }
+
+        //returning the response
+        if($responseType == RESPONSE_JSON)
+        {
+            echo json_encode($data);
+        }
+        else
+        {
+            return $data;
+        }
+    }
+
+    public function CheckMobileNumber($responseType = RESPONSE_JSON, $mobNo)
+    {
+        $data = array();
+        if(isset($mobNo))
+        {
+            $result = $this->mugclub_model->verifyMobileNo($mobNo);
+            if($result['status'] === true)
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Mobile Number Already Exists';
             }
             else
             {

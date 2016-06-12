@@ -88,6 +88,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 defined('PAGE_404')  OR define('PAGE_404', 'page404');
 defined('RESPONSE_JSON') OR define('RESPONSE_JSON','json');
 defined('RESPONSE_RETURN') OR define('RESPONSE_RETURN','return');
+defined('DATE_FORMAT_UI')   OR define('DATE_FORMAT_UI', 'jS M, Y');
+defined('DATE_TIME_FORMAT_UI')   OR define('DATE_TIME_FORMAT_UI', 'D, jS F, Y g:i a');
 
 /* User Type */
 defined('ADMIN_USER') OR define('ADMIN_USER',1);

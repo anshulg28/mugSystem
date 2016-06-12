@@ -25,5 +25,10 @@ class Dataformatinghtml_library
         $htmlPage = $this->CI->load->view('HeaderView', $data, true);
         return $htmlPage;
     }
+    public function getFooterHtml($data)
+    {
+        $htmlPage = $this->CI->load->view('FooterView', $data, true);
+        return $htmlPage;
+    }
 }
 /* End of file */

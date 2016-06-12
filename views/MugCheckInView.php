@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Mug Club :: Doolally</title>
+	<title>Mug Check-In :: Doolally</title>
 	<?php echo $globalStyle; ?>
 </head>
 <body>
@@ -11,9 +11,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-9 col-xs-8">
-                    <a class="btn btn-primary" href="<?php echo base_url().'mugclub/add';?>">
+                    <a class="btn btn-primary" href="<?php echo base_url().'check-ins/add';?>">
                     <i class="fa fa-plus"></i>
-                    Add New Mug</a>
+                    New Check-In</a>
                     <ul class="list-inline pagination-List">
                         <li>
                             <label class="control-label" for="pageEntry">Show</label>
@@ -41,15 +41,10 @@
             <table class="table table-hover table-bordered table-striped paginated">
                 <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Mug #</th>
-                    <th>Mug Tag</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Homebase</th>
-                    <th>Birthday</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th>Location</th>
+                    <th>Date & Time</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -61,7 +56,7 @@
                         ?>
                         <tbody>
                             <tr class="my-danger-text text-center">
-                                <td colspan="10">No Data Found!</td>
+                                <td colspan="5">No Data Found!</td>
                             </tr>
                         </tbody>
                         <?php
@@ -71,25 +66,20 @@
                         ?>
                         <tbody>
                         <?php
-                            foreach($mugData['mugList'] as $key => $row)
+                            foreach($mugData['checkInList'] as $key => $row)
                             {
-                                if(isset($row['mugId']))
+                                if(isset($row['id']))
                                 {
                                     ?>
                                     <tr>
-                                        <th scope="row"><?php echo $row['mugId'];?></th>
-                                        <td><?php echo $row['mugTag'];?></td>
-                                        <td><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></td>
-                                        <td><?php echo $row['emailId'];?></td>
-                                        <td><?php echo $row['mobileNo'];?></td>
+                                        <th scope="row"><?php echo $row['id'];?></th>
+                                        <td><?php echo $row['mugId'];?></td>
                                         <td><?php echo $row['locationName']['locName'];?></td>
-                                        <td><?php echo $row['birthDate'];?></td>
-                                        <td><?php echo $row['membershipStart'];?></td>
-                                        <td><?php echo $row['membershipEnd'];?></td>
-                                        <td><a data-toggle="tooltip" title="Edit" href="<?php echo base_url().'mugclub/edit/'.$row['mugId'];?>">
+                                        <td><?php $d = date_create($row['checkinDateTime']); echo date_format($d,DATE_TIME_FORMAT_UI);?></td>
+                                        <td><a data-toggle="tooltip" title="Edit" href="<?php echo base_url().'check-ins/edit/'.$row['id'];?>">
                                                 <i class="glyphicon glyphicon-edit"></i></a>&nbsp;
-                                            <!--<a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-mugId = "<?php /*echo $row['mugId'];*/?>">
-                                                <i class="fa fa-trash-o"></i></a>-->
+                                            <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-mugId = "<?php echo $row['id'];?>">
+                                                <i class="fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
                                     <?php
@@ -134,10 +124,10 @@
     });
     $(document).on('click','.mugDelete-icon',function(){
         var mugId = $(this).attr('data-mugId');
-        bootbox.confirm("Are you sure you want to delete Mug #"+mugId+" ?", function(result) {
+        bootbox.confirm("Are you sure you want to delete Check-In Entry #"+mugId+" ?", function(result) {
             if(result === true)
             {
-                window.location.href='<?php echo base_url();?>mugclub/delete/'+mugId;
+                window.location.href='<?php echo base_url();?>check-ins/delete/'+mugId;
             }
         });
     });

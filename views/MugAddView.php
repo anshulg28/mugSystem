@@ -65,18 +65,19 @@
                         <label class="control-label col-sm-2" for="mobNum">Mobile No. :</label>
                         <div class="col-sm-10">
                             <input type="text" name="mobNum" class="form-control" id="mobNum" placeholder="Eg. 9876543210" required>
+                            <div class="mobile-verification-holder"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="email">Email:</label>
                         <div class="col-sm-10">
-                            <input type="email" name="emailId" class="form-control" id="email" placeholder="Eg. abc@gmail.com">
+                            <input type="email" name="emailId" class="form-control" id="email" placeholder="Eg. abc@gmail.com" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="bdate">BirthDate:</label>
                         <div class="col-sm-10">
-                            <input type="date" name="birthdate" class="form-control" id="bdate" placeholder="Eg. 12 June 1990" required>
+                            <input type="date" name="birthdate" class="form-control" id="bdate" placeholder="Eg. 12 June 1990">
                         </div>
                     </div>
                     <div class="form-group">
@@ -157,6 +158,41 @@
                     $('.mugNumber-status').css('color','red').html('Some Error Occurred');
                 }
             });
+        }
+        else
+        {
+            $('.mugNumber-status').empty();
+        }
+    });
+
+    $(document).on('focusout','#mobNum', function(){
+        if($(this).val() != '')
+        {
+            var mobNo = $(this).val();
+            $('.mobile-verification-holder').empty();
+
+            $.ajax({
+                type:'get',
+                dataType:'json',
+                url:'<?php echo base_url();?>mugclub/CheckMobileNumber/json/'+mobNo,
+                success: function(data){
+                    if(data.status === true)
+                    {
+                        $('.mobile-verification-holder').css('color','green').html('Mobile Number is Available');
+                    }
+                    else
+                    {
+                        $('.mobile-verification-holder').css('color','red').html(data.errorMsg);
+                    }
+                },
+                error: function(){
+                    $('.mobile-verification-holder  ').css('color','red').html('Some Error Occurred');
+                }
+            });
+        }
+        else
+        {
+            $('.mobile-verification-holder').empty();
         }
     });
 </script>

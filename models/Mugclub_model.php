@@ -54,15 +54,16 @@ class Mugclub_Model extends CI_Model
 
         return $data;
     }
-    public function checkMugExists($mugid)
+
+    public function verifyMobileNo($mobNo)
     {
         $query = "SELECT * "
             ."FROM mugmaster "
-            ."where mugId = ".$mugid;
+            ."where mobileNo = '".$mobNo."'";
 
         $result = $this->db->query($query)->row_array();
 
-        $data = $result;
+        $data['mugList'] = $result;
         if(myIsArray($result))
         {
             $data['status'] = true;
