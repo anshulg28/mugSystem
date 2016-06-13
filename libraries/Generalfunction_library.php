@@ -17,8 +17,8 @@ class Generalfunction_library
 
         $this->CI->session->set_userdata('user_id', $data['userId']);
         $this->CI->userId = $data['userId'];
-        $this->CI->session->set_userdata('user_type', ADMIN_USER);
-        $this->CI->userType = ADMIN_USER;
+        $this->CI->session->set_userdata('user_type', $data['userType']);
+        $this->CI->userType = $data['userType'];
         $this->CI->session->set_userdata('user_name', $data['userName']);
         $this->CI->userName = $data['userName'];
     }

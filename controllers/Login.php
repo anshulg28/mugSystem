@@ -34,7 +34,7 @@ class Login extends MY_Controller {
         $post = $this->input->post();
 
         $userResult = $this->login_model->checkUser($post['userName'],md5($post['password']));
-
+        
         if($userResult['status'] === true && $userResult['userId'] != 0)
         {
             if($userResult['ifActive'] == NOT_ACTIVE)
