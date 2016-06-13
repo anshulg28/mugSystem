@@ -17,7 +17,7 @@ class Checkin_Model extends CI_Model
     public function getAllCheckInList()
     {
         $query = "SELECT * "
-            ."FROM mugcheckinmaster ";
+            ."FROM mugcheckinmaster ORDER BY id DESC";
 
         $result = $this->db->query($query)->result_array();
 

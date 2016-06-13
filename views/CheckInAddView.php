@@ -29,14 +29,14 @@
                                     <span>Mug #</span>
                                 </label>
                             </li>
-                            <li>
+                            <!--<li>
                                 <input type="radio" name="checkInInput" onchange="showForm(this)" id="mobInput" value="2" />
                                 <label for="mobInput">
                                     <i class="fa fa-mobile fa-3x"></i>
                                     <br>
                                     <span>Mobile #</span>
                                 </label>
-                            </li>
+                            </li>-->
                             <li>
                                 <a href="#" data-toggle="modal" data-target="#searchModal">
                                     <div class="menuWrap text-center">
@@ -76,7 +76,6 @@
                             <div class="col-sm-4 col-xs-4 visual-status-icons hide">
                                 <i class="fa fa-home fa-4x" data-toggle="tooltip" title="Home"></i>
                                 <i class="fa fa-plane fa-4x" data-toggle="tooltip" title="Roaming"></i>
-                                <i class="fa fa-exclamation-triangle fa-4x my-danger-text" data-toggle="tooltip" title="Membership Expired"></i>
                             </div>
                         </div>
 
@@ -117,12 +116,11 @@
                             <input type="text" placeholder="Search" class="form-control my-searchField"/>
                         </div>
                         <br><br><br>
-                        <div class="col-sm-12 col-xs-12">
+                        <div class="col-sm-12 col-xs-12 modal-table">
                             <table class="table table-hover table-bordered table-striped my-checkIn-search-table">
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Mug Tag</th>
                                     <th>Email</th>
                                     <th>Birth Date</th>
                                 </tr>
@@ -162,21 +160,25 @@
                                                         <span class="infoLabel hide">Name</span>
                                                         <span class="infoData"><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></span>
                                                     </td>
-                                                    <td>
+                                                    <td class="hide">
                                                         <span class="infoLabel hide">Mug Tag</span>
                                                         <span class="infoData"><?php echo $row['mugTag'];?></span>
                                                     </td>
-                                                    <td class="hide">
-                                                        <span class="infoLabel">Mobile #</span>
+                                                    <td>
+                                                        <span class="infoLabel hide">Mobile #</span>
                                                         <span class="infoData"><?php echo $row['mobileNo'];?></span>
                                                     </td>
-                                                    <td>
-                                                        <span class="infoLabel hide">Email</span>
+                                                    <td class="hide">
+                                                        <span class="infoLabel">Email</span>
                                                         <span class="infoData"><?php echo $row['emailId'];?></span>
                                                     </td>
                                                     <td>
                                                         <span class="infoLabel hide">Birth Date</span>
                                                         <span class="infoData"><?php $d = date_create($row['birthDate']); echo date_format($d,DATE_FORMAT_UI);?></span>
+                                                    </td>
+                                                    <td class="hide">
+                                                        <span class="infoLabel hide">Home Base</span>
+                                                        <span class="infoData"><?php echo $row['locationName']['locName'];?></span>
                                                     </td>
                                                 </tr>
                                                 <?php
@@ -310,7 +312,8 @@
                         'Mug Tag': mugList[0].mugTag,
                         'Mobile #': mugList[0].mobileNo,
                         'Email': mugList[0].emailId,
-                        'Birth Date': formatJsDate(mugList[0].birthDate)
+                        'Birth Date': formatJsDate(mugList[0].birthDate),
+                        'Home Base': mugList[0].locationName.locName
                     };
 
 
@@ -324,25 +327,34 @@
                     $('.mugCheckIn .final-checkIn-row').removeClass('hide');
 
                     //validity and location check
-                    if(checkMembershipValidity(mugList[0].membershipEnd) === true)
+                    if(checkMemberLocation(mugList[0].homeBase) === true)
                     {
-                        $('.visual-status-icons').removeClass('hide');
-                        $('.visual-status-icons').find('i').addClass('hide');
-                        $('.visual-status-icons').find('i:last-child').removeClass('hide');
-                    }
-                    else
-                    {
-                        if(checkMemberLocation(mugList[0].homeBase) === true)
+                        if(checkMembershipValidity(mugList[0].membershipEnd) === true)
                         {
                             $('.visual-status-icons').removeClass('hide');
                             $('.visual-status-icons').find('i').addClass('hide');
-                            $('.visual-status-icons').find('i:first-child').removeClass('hide');
+                            $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-danger-text');
                         }
                         else
                         {
                             $('.visual-status-icons').removeClass('hide');
                             $('.visual-status-icons').find('i').addClass('hide');
-                            $('.visual-status-icons').find('i:nth-child(2)').removeClass('hide');
+                            $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-success-text');
+                        }
+                    }
+                    else
+                    {
+                        if (checkMembershipValidity(mugList[0].membershipEnd) === true)
+                        {
+                            $('.visual-status-icons').removeClass('hide');
+                            $('.visual-status-icons').find('i').addClass('hide');
+                            $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-danger-text');
+                        }
+                        else
+                        {
+                            $('.visual-status-icons').removeClass('hide');
+                            $('.visual-status-icons').find('i').addClass('hide');
+                            $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
                         }
                     }
                         
@@ -414,7 +426,8 @@
             'Mug Tag': mugList.mugTag,
             'Mobile #': mugList.mobileNo,
             'Email': mugList.emailId,
-            'Birth Date': formatJsDate(mugList.birthDate)
+            'Birth Date': formatJsDate(mugList.birthDate),
+            'Home Base': mugList.locationName.locName
         };
         for(var mugIndex in myFormatedData)
         {
@@ -427,25 +440,34 @@
         $('.mugCheckIn .final-checkIn-row').removeClass('hide');
 
         //validity and location check
-        if(checkMembershipValidity(mugList.membershipEnd) === true)
+        if(checkMemberLocation(mugList.homeBase) === true)
         {
-            $('.visual-status-icons').removeClass('hide');
-            $('.visual-status-icons').find('i').addClass('hide');
-            $('.visual-status-icons').find('i:last-child').removeClass('hide');
-        }
-        else
-        {
-            if(checkMemberLocation(mugList.homeBase) === true)
+            if(checkMembershipValidity(mugList.membershipEnd) === true)
             {
                 $('.visual-status-icons').removeClass('hide');
                 $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:first-child').removeClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-danger-text');
             }
             else
             {
                 $('.visual-status-icons').removeClass('hide');
                 $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:nth-child(2)').removeClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-success-text');
+            }
+        }
+        else
+        {
+            if (checkMembershipValidity(mugList.membershipEnd) === true)
+            {
+                $('.visual-status-icons').removeClass('hide');
+                $('.visual-status-icons').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-danger-text');
+            }
+            else
+            {
+                $('.visual-status-icons').removeClass('hide');
+                $('.visual-status-icons').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
             }
         }
     }
@@ -462,7 +484,7 @@
 
     $(document).on('click','.my-checkIn-search-table td', function(){
         var row_index = $(this).parent().index();
-        var selectedRow = $(this).parent()[row_index];
+        var selectedRow = $(this).parent()[0];
         var currentRowLocation,membershipEnd;
         var myBigStatusHtml = '<ul>';
         $(selectedRow).find('td').each(function(i,val){
@@ -488,26 +510,34 @@
         $('.mugNumber-status').html(myBigStatusHtml);
         $('.mugCheckIn .final-checkIn-row').removeClass('hide');
         //validity and location check
-        if(checkMembershipValidity(membershipEnd) === true)
+        if(checkMemberLocation(currentRowLocation) === true)
         {
-            $('.visual-status-icons').removeClass('hide');
-            $('.visual-status-icons').find('i').addClass('hide');
-            $('.visual-status-icons').find('i:last-child').removeClass('hide');
-        }
-        else
-        {
-            console.log(checkMemberLocation(currentRowLocation));
-            if(checkMemberLocation(currentRowLocation) === true)
+            if(checkMembershipValidity(membershipEnd) === true)
             {
                 $('.visual-status-icons').removeClass('hide');
                 $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:first-child').removeClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-danger-text');
             }
             else
             {
                 $('.visual-status-icons').removeClass('hide');
                 $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:nth-child(2)').removeClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-success-text');
+            }
+        }
+        else
+        {
+            if (checkMembershipValidity(membershipEnd) === true)
+            {
+                $('.visual-status-icons').removeClass('hide');
+                $('.visual-status-icons').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-danger-text');
+            }
+            else
+            {
+                $('.visual-status-icons').removeClass('hide');
+                $('.visual-status-icons').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
             }
         }
         $('#searchModal').modal('hide');
@@ -527,7 +557,8 @@
                     hideCustomLoader();
                     if(data.status === true)
                     {
-                        window.location.href = data.pageUrl;
+                        bootbox.alert('Successfully Checked In!');
+                        window.location.reload();
                     }
                 },
                 error: function()
@@ -537,6 +568,51 @@
                 }
             });
         }
+    });
+
+    setInterval(fetchAllMugList,(60*60*1000));
+
+    function fetchAllMugList()
+    {
+        $.ajax({
+            type:"GET",
+            dataType:"json",
+            url:base_url+'mugclub/getAllMugListMembers',
+            success: function(data)
+            {
+                if(data.mugData.status === true)
+                {
+                    myMugDataInfo = data.mugData;
+                }
+                else
+                {
+                    myMugDataInfo = 'error';
+                }
+
+            },
+            error: function()
+            {
+                myMugDataInfo = 'error';
+            }
+        });
+    }
+
+    var numPerPage = 10;
+    $("table.my-checkIn-search-table").simplePagination({
+        // the number of rows to show per page
+        perPage: numPerPage,
+
+        // CSS classes to custom the pagination
+        containerClass: 'pagination-container',
+        previousButtonClass: 'btn btn-primary',
+        nextButtonClass: 'btn btn-success',
+
+        // text for next and prev buttons
+        previousButtonText: 'Previous',
+        nextButtonText: 'Next',
+
+        // initial page
+        currentPage: 1
     });
 </script>
 </html>

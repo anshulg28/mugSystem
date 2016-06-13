@@ -133,36 +133,35 @@
     });
 
     var numPerPage = 10;
-    //Table Pagination
-    function makeTablePagination(){
-        $('table.paginated').each(function() {
-            var currentPage = 0;
-            var $table = $(this);
-            $table.bind('repaginate', function () {
-                $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
-            });
-            $table.trigger('repaginate');
-            var numRows = $table.find('tbody tr').length;
-            var numPages = Math.ceil(numRows / numPerPage);
-            var $pager = $('<ul class="pagination pull-right"></ul>');
-            for (var page = 0; page < numPages; page++) {
-                $('<li class="page-number"></li>').html('<a href="#">'+(page + 1)+'</a>').bind('click', {
-                    newPage: page
-                }, function (event) {
-                    currentPage = event.data['newPage'];
-                    $table.trigger('repaginate');
-                    $(this).addClass('active').siblings().removeClass('active');
-                }).appendTo($pager);
-            }
-            $pager.insertAfter($table).find('li.page-number:first').addClass('active');
-        });
-    }
-    makeTablePagination();
+
     function changePagination(ele)
     {
-        numPerPage = $(ele).val();
-        $('body').find('.pagination.pull-right').remove();
-        makeTablePagination();
+        numPerPage = Number($(ele).val());
+        //$('body').find('.pagination.pull-right').remove();
+        newPaginationFunc();
     }
+
+    function newPaginationFunc()
+    {
+        $('.pagination-container').remove();
+        $("table.paginated").simplePagination({
+            // the number of rows to show per page
+            perPage: numPerPage,
+
+            // CSS classes to custom the pagination
+            containerClass: 'pagination-container',
+            previousButtonClass: 'btn btn-primary',
+            nextButtonClass: 'btn btn-success',
+
+            // text for next and prev buttons
+            previousButtonText: 'Previous',
+            nextButtonText: 'Next',
+
+            // initial page
+            currentPage: 1
+        });
+
+    }
+    newPaginationFunc();
 </script>
 </html>

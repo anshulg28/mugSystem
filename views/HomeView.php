@@ -27,7 +27,7 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li>
+                                <!--<li>
                                     <a href="#">
                                         <div class="menuWrap">
                                             <i class="fa fa-print fa-5x"></i>
@@ -35,7 +35,7 @@
                                             <span>Print List</span>
                                         </div>
                                     </a>
-                                </li>
+                                </li>-->
                                 <li>
                                     <a href="<?php echo base_url().'check-ins';?>">
                                         <div class="menuWrap">

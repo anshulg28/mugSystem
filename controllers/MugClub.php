@@ -174,4 +174,24 @@ class Mugclub extends MY_Controller {
             return $data;
         }
     }
+
+    public function getAllMugListMembers()
+    {
+        //Getting All Mug List
+        $mugData = $this->mugclub_model->getAllMugClubList();
+
+        if(isset($mugData['mugList']) && myIsArray($mugData['mugList']))
+        {
+            foreach($mugData['mugList'] as $key => $row)
+            {
+                if(myIsArray($row))
+                {
+                    $mugData['mugList'][$key]['locationName'] = $this->mydatafetch_library->getBaseLocationsById($row['homeBase']);
+                }
+            }
+        }
+
+        $data['mugData'] = $mugData;
+        echo json_encode($data);
+    }
 }

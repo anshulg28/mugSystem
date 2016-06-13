@@ -13,7 +13,7 @@
                 <h2><i class="fa fa-beer fa-1x"></i> Add New Mug</h2>
                 <hr>
                 <br>
-                <form action="<?php echo base_url();?>mugclub/save" method="post" class="form-horizontal" role="form">
+                <form action="<?php echo base_url();?>mugclub/save" id="mugNumSave-form" method="post" class="form-horizontal" role="form">
                     <div class="mugNumber-status text-center"></div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="mugNum">Mug No. :</label>
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="mobNum">Mobile No. :</label>
                         <div class="col-sm-10">
-                            <input type="text" name="mobNum" class="form-control" id="mobNum" placeholder="Eg. 9876543210" required>
+                            <input type="number" name="mobNum" maxlength="10" oninput="maxLengthCheck(this)" class="form-control" id="mobNum" placeholder="Eg. 9876543210" required>
                             <div class="mobile-verification-holder"></div>
                         </div>
                     </div>
@@ -134,6 +134,8 @@
 <?php echo $globalJs; ?>
 
 <script>
+    var mugVerified = 0;
+    var mobileVerified = 0;
     $(document).on('focusout','#mugNum', function(){
         if($(this).val() != '')
         {
@@ -148,10 +150,12 @@
                     if(data.status === true)
                     {
                         $('.mugNumber-status').css('color','green').html('Mug Number is Available');
+                        mugVerified = 1;
                     }
                     else
                     {
                         $('.mugNumber-status').css('color','red').html(data.errorMsg);
+                        mugVerified = 0;
                     }
                 },
                 error: function(){
@@ -179,10 +183,12 @@
                     if(data.status === true)
                     {
                         $('.mobile-verification-holder').css('color','green').html('Mobile Number is Available');
+                        mobileVerified = 1;
                     }
                     else
                     {
                         $('.mobile-verification-holder').css('color','red').html(data.errorMsg);
+                        mobileVerified = 0;
                     }
                 },
                 error: function(){
@@ -194,6 +200,27 @@
         {
             $('.mobile-verification-holder').empty();
         }
+    });
+    function maxLengthCheck(object)
+    {
+        if (object.value.length > object.maxLength)
+            object.value = object.value.slice(0, object.maxLength)
+    }
+
+    $(document).on('submit', '#mugNumSave-form', function(e){
+        e.preventDefault();
+
+        if(mugVerified == 0)
+        {
+            $('#mugNum').focus();
+            return false;
+        }
+        if(mobileVerified == 0)
+        {
+            $('#mobNum').focus();
+            return false;
+        }
+        $(this).submit();
     });
 </script>
 </html>

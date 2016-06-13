@@ -4,6 +4,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/moment.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootbox.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery.simplePagination.js"></script>
 
 <!-- constants -->
 <script>
