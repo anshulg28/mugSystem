@@ -326,7 +326,15 @@
 
                     for(var mugIndex in myFormatedData)
                     {
-                        myBigStatusHtml += '<li>'+mugIndex+': '+myFormatedData[mugIndex]+'</li>';
+                        if(myFormatedData[mugIndex] == '')
+                        {
+                            myBigStatusHtml += '<li class="my-common-highlighter">'+mugIndex+': '+myFormatedData[mugIndex]+'</li>';
+                        }
+                        else
+                        {
+                            myBigStatusHtml += '<li>'+mugIndex+': '+myFormatedData[mugIndex]+'</li>';
+                        }
+
                     }
                     myBigStatusHtml += '</ul>';
                     $('.mugNumber-status').html(myBigStatusHtml);
@@ -438,7 +446,15 @@
         };
         for(var mugIndex in myFormatedData)
         {
-            myBigStatusHtml += '<li>'+mugIndex+': '+myFormatedData[mugIndex]+'</li>';
+            if(myFormatedData[mugIndex] == '')
+            {
+                myBigStatusHtml += '<li class="my-common-highlighter">'+mugIndex+': '+myFormatedData[mugIndex]+'</li>';
+            }
+            else
+            {
+                myBigStatusHtml += '<li>'+mugIndex+': '+myFormatedData[mugIndex]+'</li>';
+            }
+
         }
         myBigStatusHtml += '</ul>';
         $('.mugNumber-status').html(myBigStatusHtml);
@@ -483,7 +499,7 @@
         $('body').addClass('custom-loader-body');
         $('.info-fill-overlay').css('top',$(window).scrollTop()).addClass('show');*/
     }
-    
+
     $(document).ready(function(){
        myMugDataInfo = <?php if(isset($mugData) && myIsArray($mugData)) {if($mugData['status'] === false){ echo 'error';} else{echo json_encode($mugData);}}else {echo 'error';}?>;
         $('[data-toggle="tooltip"]').tooltip();
@@ -515,7 +531,15 @@
             }
             else
             {
-                myBigStatusHtml += '<li>'+$(val).find('.infoLabel')[0].innerText+': '+$(val).find('.infoData')[0].innerText+'</li>';
+                if($(val).find('.infoData')[0].innerText == '')
+                {
+                    myBigStatusHtml += '<li class="my-common-highlighter">'+$(val).find('.infoLabel')[0].innerText+': '+$(val).find('.infoData')[0].innerText+'</li>';
+                }
+                else
+                {
+                    myBigStatusHtml += '<li>'+$(val).find('.infoLabel')[0].innerText+': '+$(val).find('.infoData')[0].innerText+'</li>';
+                }
+
             }
 
         });
