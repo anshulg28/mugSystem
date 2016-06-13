@@ -12,7 +12,13 @@
             <div class="row">
                 <div class="col-sm-2 col-xs-1"></div>
                 <div class="col-sm-8 col-xs-10 main-box">
-                    <h2 class="text-center"><i class="fa fa-calendar-check-o fa-1x"></i> Add New Check-In</h2>
+                    <h2 class="text-center">
+                        <i class="fa fa-calendar-check-o fa-1x"></i> Add New Check-In
+                        <span class="pull-right fill-remaining-info hide">
+                            <i class="fa fa-file-text-o my-pointer-item" data-placement="left"
+                               data-toggle="popover" data-content="Fill Missing Info?"></i>
+                        </span>
+                    </h2>
                     <hr>
                     <br>
                     <!--<div class="pull-right">
@@ -201,6 +207,7 @@
 
         </div>
     </div>
+    <div class="info-fill-overlay"></div>
 <?php echo $footerView; ?>
 </body>
 <?php echo $globalJs; ?>
@@ -470,11 +477,17 @@
                 $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
             }
         }
-    }
 
+        //Fill Info Trigger
+        /*$('.fill-remaining-info').removeClass('hide').find('i').trigger('click');
+        $('body').addClass('custom-loader-body');
+        $('.info-fill-overlay').css('top',$(window).scrollTop()).addClass('show');*/
+    }
+    
     $(document).ready(function(){
        myMugDataInfo = <?php if(isset($mugData) && myIsArray($mugData)) {if($mugData['status'] === false){ echo 'error';} else{echo json_encode($mugData);}}else {echo 'error';}?>;
         $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
     });
     function maxLengthCheck(object)
     {
@@ -613,6 +626,11 @@
 
         // initial page
         currentPage: 1
+    });
+    $(document).on('click','.info-fill-overlay', function(){
+        $('.fill-remaining-info').find('i').trigger('click');
+        $('body').removeClass('custom-loader-body');
+        $('.info-fill-overlay').removeClass('show');
     });
 </script>
 </html>
