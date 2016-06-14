@@ -93,7 +93,8 @@ defined('DATE_TIME_FORMAT_UI')   OR define('DATE_TIME_FORMAT_UI', 'D, jS F, Y g:
 
 /* User Type */
 defined('ADMIN_USER') OR define('ADMIN_USER',1);
-defined('END_USER') OR define('END_USER',2);
+defined('EXECUTIVE_USER') OR define('EXECUTIVE_USER',2);
+defined('SERVER_USER') OR define('SERVER_USER',3);
 
 /*Active or not*/
 defined('ACTIVE')   OR define('ACTIVE', 1);

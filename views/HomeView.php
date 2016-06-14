@@ -27,33 +27,45 @@
                                         </div>
                                     </a>
                                 </li>
-                                <!--<li>
-                                    <a href="#">
-                                        <div class="menuWrap">
-                                            <i class="fa fa-print fa-5x"></i>
-                                            <br>
-                                            <span>Print List</span>
-                                        </div>
-                                    </a>
-                                </li>-->
-                                <li>
-                                    <a href="<?php echo base_url().'check-ins';?>">
-                                        <div class="menuWrap">
-                                            <i class="fa fa-calendar-check-o fa-5x"></i>
-                                            <br>
-                                            <span>Check-Ins</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="menuWrap">
-                                            <i class="fa fa-globe fa-5x"></i>
-                                            <br>
-                                            <span>Locations</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                <?php
+                                    if($this->userType != SERVER_USER)
+                                    {
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo base_url().'users';?>">
+                                                <div class="menuWrap">
+                                                    <i class="fa fa-user fa-5x"></i>
+                                                    <br>
+                                                    <span>Users List</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo base_url().'locations'; ?>">
+                                                <div class="menuWrap">
+                                                    <i class="fa fa-globe fa-5x"></i>
+                                                    <br>
+                                                    <span>Locations</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
+                                    if($this->userType != EXECUTIVE_USER)
+                                    {
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo base_url() . 'check-ins'; ?>">
+                                                <div class="menuWrap">
+                                                    <i class="fa fa-calendar-check-o fa-5x"></i>
+                                                    <br>
+                                                    <span>Check-Ins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
+                                    ?>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +95,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-default">Submit</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </form>

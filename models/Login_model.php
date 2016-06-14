@@ -35,4 +35,15 @@ class Login_Model extends CI_Model
 
         return $data;
     }
+
+    public function setLastLogin($userId)
+    {
+        $data = array(
+          'lastLogin'=> date('Y-m-d H:i:s')
+        );
+
+        $this->db->where('userId', $userId);
+        $this->db->update('doolally_usersmaster', $data);
+        return true;
+    }
 }

@@ -21,12 +21,27 @@
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo base_url();?>"><i class="fa fa-home"></i> Home</a></li>
                                 <li><a href="<?php echo base_url();?>mugclub"><i class="fa fa-beer"></i> Mug Club</a></li>
-                                <li><a href="<?php echo base_url();?>check-ins"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
+                                <?php
+                                    if($this->userType != SERVER_USER)
+                                    {
+                                        ?>
+                                        <li><a href="<?php echo base_url();?>users"><i class="fa fa-user"></i> Users List</a></li>
+                                        <li><a href="<?php echo base_url();?>locations"><i class="fa fa-globe"></i> Locations</a></li>
+                                        <?php
+                                    }
+                                    if($this->userType != EXECUTIVE_USER)
+                                    {
+                                        ?>
+                                        <li><a href="<?php echo base_url();?>check-ins"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
+                                        <?php
+                                    }
+                                ?>
                                 <li><a href="<?php echo base_url().'location-select';?>">
                                         <i class="glyphicon glyphicon-map-marker"></i> Change Location</a>
                                 </li>
                                 <li><a href="<?php echo base_url(); ?>login/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                             </ul>
+
                         </li>
                         <?php
                     }

@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Mug Club :: Doolally</title>
+	<title>Locations :: Doolally</title>
 	<?php echo $globalStyle; ?>
 </head>
 <body>
     <?php echo $headerView; ?>
-    <main class="mugClub">
+    <main class="locationsList">
         <div class="container">
             <div class="row">
                 <div class="col-sm-9 col-xs-8">
-                    <a class="btn btn-primary" href="<?php echo base_url().'mugclub/add';?>">
+                    <a class="btn btn-primary adduser-btn" href="<?php echo base_url().'locations/add';?>">
                     <i class="fa fa-plus"></i>
-                    Add New Mug</a>
+                    Add New Location</a>
                     <ul class="list-inline pagination-List">
                         <li>
                             <label class="control-label" for="pageEntry">Show</label>
@@ -41,27 +41,22 @@
             <table id="main-mugclub-table" class="table table-hover table-bordered table-striped paginated">
                 <thead>
                 <tr>
-                    <th>Mug #</th>
-                    <th>Mug Tag</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Homebase</th>
-                    <th>Birthday</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th>Id</th>
+                    <th>Location</th>
+                    <th>Created</th>
+                    <th>Last Updated</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <?php
-                if(isset($mugData) && myIsArray($mugData))
+                if(isset($storeLocations) && myIsArray($storeLocations))
                 {
-                    if($mugData['status'] === false)
+                    if($storeLocations['status'] === false)
                     {
                         ?>
                         <tbody>
                             <tr class="my-danger-text text-center">
-                                <td colspan="10">No Data Found!</td>
+                                <td colspan="9">No Data Found!</td>
                             </tr>
                         </tbody>
                         <?php
@@ -71,32 +66,22 @@
                         ?>
                         <tbody>
                         <?php
-                            foreach($mugData['mugList'] as $key => $row)
+                            foreach($storeLocations as $key => $row)
                             {
-                                if(isset($row['mugId']))
+                                if(isset($row['id']))
                                 {
                                     ?>
                                     <tr>
-                                        <th scope="row"><?php echo $row['mugId'];?></th>
-                                        <td><?php echo $row['mugTag'];?></td>
-                                        <td><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></td>
-                                        <td><?php echo $row['emailId'];?></td>
-                                        <td><?php echo $row['mobileNo'];?></td>
-                                        <td><?php echo $row['locationName']['locName'];?></td>
-                                        <td><?php echo $row['birthDate'];?></td>
-                                        <td><?php echo $row['membershipStart'];?></td>
-                                        <td><?php echo $row['membershipEnd'];?></td>
-                                        <td><a data-toggle="tooltip" title="Edit" href="<?php echo base_url().'mugclub/edit/'.$row['mugId'];?>">
+                                        <th scope="row"><?php echo $row['id'];?></th>
+                                        <td><?php echo $row['locName'];?></td>
+                                        <td><?php echo $row['insertedDate'];?></td>
+                                        <td><?php echo $row['lastUpdate'];?></td>
+                                        <td>
+                                            <a data-toggle="tooltip" title="Edit" href="<?php echo base_url().'locations/edit/'.$row['id'];?>">
                                                 <i class="glyphicon glyphicon-edit"></i></a>&nbsp;
-                                            <?php
-                                                if($this->userType != SERVER_USER)
-                                                {
-                                                    ?>
-                                                    <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-mugId = "<?php echo $row['mugId'];?>">
-                                                        <i class="fa fa-trash-o"></i></a>
-                                                    <?php
-                                                }
-                                            ?>
+                                            <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-locId="<?php echo $row['id'];?>"
+                                               data-locName= "<?php echo $row['locName'];?>">
+                                                <i class="fa fa-trash-o"></i></a>&nbsp;
                                         </td>
                                     </tr>
                                     <?php
@@ -140,11 +125,12 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
     $(document).on('click','.mugDelete-icon',function(){
-        var mugId = $(this).attr('data-mugId');
-        bootbox.confirm("Are you sure you want to delete Mug #"+mugId+" ?", function(result) {
+        var locName = $(this).attr('data-locName');
+        var locId = $(this).attr('data-locId');
+        bootbox.confirm("Are you sure you want to delete Location "+locName+" ?", function(result) {
             if(result === true)
             {
-                window.location.href='<?php echo base_url();?>mugclub/delete/'+mugId;
+                window.location.href='<?php echo base_url();?>locations/delete/'+locId;
             }
         });
     });
