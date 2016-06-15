@@ -1,10 +1,10 @@
 <!--not tho change js-->
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/moment.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootbox.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery.simplePagination.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery.simplePagination.min.js"></script>
 
 <!-- constants -->
 <script>
@@ -88,6 +88,6 @@
     var isPushEnabled = 0;
     function registerNotification()
     {
-        
+
     }
 </script>

@@ -104,6 +104,27 @@ class Mugclub extends MY_Controller {
         redirect(base_url().'mugclub');
     }
 
+    public function ajaxMugUpdate()
+    {
+        $post = $this->input->post();
+        $data = array();
+
+        $mugExists = $this->mugclub_model->getMugDataById($post['mugNum']);
+
+        if($mugExists['status'] === false)
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Mug Number Not Found!';
+        }
+        else
+        {
+            $params = $this->mugclub_model->filterMugParameters($post);
+            $this->mugclub_model->updateMugRecord($params);
+            $data['status'] = true;
+        }
+        echo json_encode($data);
+    }
+
     public function deleteMugData($mugId)
     {
         $mugExists = $this->mugclub_model->getMugDataById($mugId);
@@ -193,5 +214,57 @@ class Mugclub extends MY_Controller {
 
         $data['mugData'] = $mugData;
         echo json_encode($data);
+    }
+
+    public function getAllExpiringMugs($responseType = RESPONSE_RETURN, $intervalNum, $intervalSpan)
+    {
+        $data = array();
+        $mugData = $this->mugclub_model->getExpiringMugsList($intervalNum, $intervalSpan);
+
+        if($mugData['status'] === false)
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = "No Result Found!";
+        }
+        else
+        {
+            $data['status'] = true;
+            $data['mugData'] = $mugData;
+        }
+
+        if($responseType == RESPONSE_JSON)
+        {
+            echo json_encode($data);
+        }
+        else
+        {
+            return $data;
+        }
+    }
+
+    public function getAllExpiredMugs($responseType = RESPONSE_RETURN)
+    {
+        $data = array();
+        $mugData = $this->mugclub_model->getExpiredMugsList();
+
+        if($mugData['status'] === false)
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = "No Mugs Expired!";
+        }
+        else
+        {
+            $data['status'] = true;
+            $data['mugData'] = $mugData;
+        }
+
+        if($responseType == RESPONSE_JSON)
+        {
+            echo json_encode($data);
+        }
+        else
+        {
+            return $data;
+        }
     }
 }
