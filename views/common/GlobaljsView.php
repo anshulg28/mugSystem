@@ -84,4 +84,10 @@
 
         return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
+
+    var isPushEnabled = 0;
+    function registerNotification()
+    {
+        
+    }
 </script>

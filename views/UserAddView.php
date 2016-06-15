@@ -91,6 +91,10 @@
 <?php echo $globalJs; ?>
 
 <script>
+
+    $(document).ready(function(){
+       $('form button[type="submit"]').attr('disabled','true');
+    });
     var passGoodToGo = 0;
     var userVerified = 0;
     $(document).on('keyup','#pass2',function(){
@@ -100,28 +104,15 @@
             {
                 passGoodToGo = 0;
                 $('.password-status').removeClass('my-success-text').addClass('my-danger-text').html("Password Doesn't Match!");
+                $('form button[type="submit"]').attr('disabled','true');
             }
             else
             {
                 passGoodToGo = 1;
                 $('.password-status').removeClass('my-danger-text').addClass('my-success-text').html("Password Matched!");
+                $('form button[type="submit"]').removeAttr('disabled');
             }
         }
-    });
-
-    $(document).on('submit','#userSave-form', function(e){
-       e.preventDefault();
-        if(passGoodToGo == 0)
-        {
-            $('#pass2').focus();
-            return false;
-        }
-        if(userVerified == 0)
-        {
-            $('#userName').focus();
-            return false;
-        }
-        $(this).submit();
     });
 
     $(document).on('focusout','#userName', function(){

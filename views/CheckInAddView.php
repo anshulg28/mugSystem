@@ -15,8 +15,9 @@
                     <h2 class="text-center">
                         <i class="fa fa-calendar-check-o fa-1x"></i> Add New Check-In
                         <span class="pull-right fill-remaining-info hide">
-                            <i class="fa fa-file-text-o my-pointer-item" data-placement="left"
-                               data-toggle="popover" data-content="Fill Missing Info?"></i>
+                            <a href="#" data-placement="left"
+                               data-toggle="popover" data-content="Fill Missing Info?">&nbsp;</a>
+                            <i class="fa fa-file-text-o my-pointer-item" data-toggle="modal" data-target="#missingInfoModal"></i>
                         </span>
                     </h2>
                     <hr>
@@ -127,7 +128,7 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Email</th>
+                                    <th>Mobile #</th>
                                     <th>Birth Date</th>
                                 </tr>
                                 </thead>
@@ -207,6 +208,74 @@
 
         </div>
     </div>
+
+    <div id="missingInfoModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Information</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <form id="saveMissingInfo" action="<?php echo base_url().'mugclub/ajaxSave';?>" method="post" role="form" class="form-horizontal">
+                            <input type="hidden" name="mugNum" id="missingMugNum" />
+                            <div class="form-group my-marginLR-zero hide" id="missingFirstName">
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <input type="text" name="firstName"
+                                           class="form-control" placeholder="First Name">
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
+                            </div>
+                            <div class="form-group my-marginLR-zero hide" id="missingLastName">
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <input type="text" name="lastName"
+                                           class="form-control" placeholder="Last Name">
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
+                            </div>
+                            <div class="form-group my-marginLR-zero hide" id="missingMobNum">
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <input type="text" name="mobNum"
+                                           class="form-control" placeholder="Mobile Number">
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
+                            </div>
+                            <div class="form-group my-marginLR-zero hide" id="missingEmail">
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <input type="email" name="emailId"
+                                           class="form-control" placeholder="Email">
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
+                            </div>
+                            <div class="form-group my-marginLR-zero hide" id="missingBdate">
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <input type="date" name="birthdate"
+                                           class="form-control" placeholder="Birth Date">
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
+                            </div>
+                            <div class="form-group my-marginLR-zero">
+                                <div class="col-sm-12 col-xs-12 text-center">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="info-fill-overlay"></div>
 <?php echo $footerView; ?>
 </body>
@@ -214,6 +283,7 @@
 
 <script>
     var myMugDataInfo,checkedInMugNum;
+    var dataMissing= [];
     function showForm(ele)
     {
         if($(ele).val() == '1')
@@ -234,7 +304,7 @@
         }
     }
     $(".my-searchField").on("keyup", function() {
-        var value = $(this).val();
+        var value = $(this).val().toLowerCase();
 
         $("table tr").each(function(index) {
             if (index !== 0) {
@@ -242,7 +312,7 @@
                 $row = $(this);
 
                 var id = $row.find("td").each(function(){
-                    if($(this).html().indexOf(value) >-1){
+                    if($(this).html().toLowerCase().indexOf(value) >-1){
                         $row.show();
                         return false;
                     }
@@ -328,6 +398,7 @@
                     {
                         if(myFormatedData[mugIndex] == '')
                         {
+                            dataMissing[mugIndex] =  myFormatedData[mugIndex];
                             myBigStatusHtml += '<li class="my-common-highlighter">'+mugIndex+': '+myFormatedData[mugIndex]+'</li>';
                         }
                         else
@@ -338,6 +409,7 @@
                     }
                     myBigStatusHtml += '</ul>';
                     $('.mugNumber-status').html(myBigStatusHtml);
+                    dataMissing['mugId'] = mugList[0].mugId;
                     checkedInMugNum = mugList[0].mugId;
                     $('.mugCheckIn .final-checkIn-row').removeClass('hide');
 
@@ -406,6 +478,8 @@
                 {
                     foundAnyData = 1;
                     fillMugData(mugList[mugI]);
+                    fillMissingParams(mugList[mugI]);
+                    checkMissingInfo();
                     return false;
                 }
             }
@@ -416,6 +490,8 @@
                 {
                     foundAnyData = 1;
                     fillMugData(mugList[mugI]);
+                    fillMissingParams(mugList[mugI]);
+                    checkMissingInfo();
                     return false;
                 }
             }
@@ -444,6 +520,7 @@
             'Birth Date': formatJsDate(mugList.birthDate),
             'Home Base': mugList.locationName.locName
         };
+
         for(var mugIndex in myFormatedData)
         {
             if(myFormatedData[mugIndex] == '')
@@ -493,11 +570,6 @@
                 $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
             }
         }
-
-        //Fill Info Trigger
-        /*$('.fill-remaining-info').removeClass('hide').find('i').trigger('click');
-        $('body').addClass('custom-loader-body');
-        $('.info-fill-overlay').css('top',$(window).scrollTop()).addClass('show');*/
     }
 
     $(document).ready(function(){
@@ -652,9 +724,82 @@
         currentPage: 1
     });
     $(document).on('click','.info-fill-overlay', function(){
-        $('.fill-remaining-info').find('i').trigger('click');
+        $('.fill-remaining-info').find('a').trigger('click');
         $('body').removeClass('custom-loader-body');
         $('.info-fill-overlay').removeClass('show');
+    });
+
+    function fillMissingParams(mugList)
+    {
+        dataMissing = [];
+        if(mugList.mobileNo == '')
+        {
+            dataMissing.push('missingMobNum');
+        }
+        if(mugList.firstName == '')
+        {
+            dataMissing.push('missingFirstName');
+        }
+        if(mugList.lastName == '')
+        {
+            dataMissing.push('missingLastName');
+        }
+        if(mugList.emailId == '')
+        {
+            dataMissing.push('missingEmail');
+        }
+        if(mugList.birthDate == '')
+        {
+            dataMissing.push('missingBdate');
+        }
+    }
+    function checkMissingInfo()
+    {
+        if(dataMissing.length != 0)
+        {
+            $('#missingInfoModal #missingMugNum').val(checkedInMugNum);
+            for(var i=0;i<dataMissing.length;i++)
+            {
+                $('#missingInfoModal #'+dataMissing[i]).removeClass('hide');
+            }
+
+            //Fill Info Trigger
+            $('.fill-remaining-info').removeClass('hide').find('a').trigger('click');
+            $('body').addClass('custom-loader-body');
+            $('.info-fill-overlay').css('top',$(window).scrollTop()).addClass('show');
+        }
+        else
+        {
+            $('.fill-remaining-info').addClass('hide');
+        }
+
+    }
+
+    $(document).on('submit','#saveMissingInfo', function(e){
+        e.preventDefault();
+        showCustomLoader();
+        $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:$(this).attr('action'),
+            data:$(this).serialize(),
+            success: function(data){
+                hideCustomLoader();
+                if(data.status === false)
+                {
+                    bootbox.alert(data.errorMsg);
+                }
+                else
+                {
+                    bootbox.alert('Data Saved!');
+                    $('#missingInfoModal').modal('hide');
+                }
+            },
+            error: function(){
+                hideCustomLoader();
+                bootbox.alert("Some Error Occurred!");
+            }
+        });
     });
 </script>
 </html>

@@ -138,23 +138,15 @@
             {
                 passGoodToGo = 0;
                 $('.password-status').removeClass('my-success-text').addClass('my-danger-text').html("Password Doesn't Match!");
+                $('form button[type="submit"]').attr('disabled','true');
             }
             else
             {
                 passGoodToGo = 1;
                 $('.password-status').removeClass('my-danger-text').addClass('my-success-text').html("Password Matched!");
+                $('form button[type="submit"]').removeAttr('disabled');
             }
         }
-    });
-
-    $(document).on('submit','#userEdit-form', function(e){
-       e.preventDefault();
-        if(passGoodToGo == 0)
-        {
-            $('#pass2').focus();
-            return false;
-        }
-        $(this).submit();
     });
 
 </script>

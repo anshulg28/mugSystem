@@ -151,11 +151,16 @@
                     {
                         $('.mugNumber-status').css('color','green').html('Mug Number is Available');
                         mugVerified = 1;
+                        if(mobileVerified == 1)
+                        {
+                            $('form button[type="submit"]').removeAttr('disabled');
+                        }
                     }
                     else
                     {
                         $('.mugNumber-status').css('color','red').html(data.errorMsg);
                         mugVerified = 0;
+                        $('form button[type="submit"]').attr('disabled','true');
                     }
                 },
                 error: function(){
@@ -184,11 +189,16 @@
                     {
                         $('.mobile-verification-holder').css('color','green').html('Mobile Number is Available');
                         mobileVerified = 1;
+                        if(mugVerified == 1)
+                        {
+                            $('form button[type="submit"]').removeAttr('disabled');
+                        }
                     }
                     else
                     {
                         $('.mobile-verification-holder').css('color','red').html(data.errorMsg);
                         mobileVerified = 0;
+                        $('form button[type="submit"]').attr('disabled','true');
                     }
                 },
                 error: function(){
@@ -207,20 +217,9 @@
             object.value = object.value.slice(0, object.maxLength)
     }
 
-    $(document).on('submit', '#mugNumSave-form', function(e){
-        e.preventDefault();
-
-        if(mugVerified == 0)
-        {
-            $('#mugNum').focus();
-            return false;
-        }
-        if(mobileVerified == 0)
-        {
-            $('#mobNum').focus();
-            return false;
-        }
-        $(this).submit();
+    $(document).ready(function(){
+        $('form button[type="submit"]').attr('disabled','true');
     });
+    
 </script>
 </html>

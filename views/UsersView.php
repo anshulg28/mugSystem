@@ -187,7 +187,7 @@
 
 <script>
     $(".my-searchField").on("keyup", function() {
-        var value = $(this).val();
+        var value = $(this).val().toLowerCase();
 
         $("table tr").each(function(index) {
             if (index !== 0) {
@@ -195,7 +195,7 @@
                 $row = $(this);
 
                 var id = $row.find("td").each(function(){
-                    if($(this).html().indexOf(value) >-1){
+                    if($(this).html().toLowerCase().indexOf(value) >-1){
                         $row.show();
                         return false;
                     }

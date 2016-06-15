@@ -103,7 +103,10 @@ class Checkin_Model extends CI_Model
 
     public function updateCheckInRecord($post)
     {
-        $post['checkinDateTime'] = date('Y-m-d H:i:s', strtotime($post['checkinDateTime']));
+        if(isset($post['checkinDateTime']))
+        {
+            $post['checkinDateTime'] = date('Y-m-d H:i:s', strtotime($post['checkinDateTime']));
+        }
 
         $this->db->where('id', $post['id']);
         $this->db->update('mugcheckinmaster', $post);

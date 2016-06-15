@@ -72,3 +72,4 @@ $route['users/setDeActive/(:any)'] = 'users/setUserDeActive/$1';
 $route['locations/edit/(:any)'] = 'locations/editExistingUser/$1';
 $route['locations/save'] = 'locations/saveOrUpdateLocation';
 $route['locations/add'] = 'locations/addNewLocation';
+$route['mugclub/ajaxSave'] = 'mugclub/ajaxMugUpdate';

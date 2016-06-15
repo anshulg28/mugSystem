@@ -132,11 +132,30 @@ class Mugclub_Model extends CI_Model
 
     public function saveMugRecord($post)
     {
-        $post['birthDate'] = date('Y-m-d', strtotime($post['birthDate']));
-        $post['invoiceDate'] = date('Y-m-d', strtotime($post['invoiceDate']));
-        $post['membershipStart'] = date('Y-m-d', strtotime($post['membershipStart']));
-        $post['membershipEnd'] = date('Y-m-d', strtotime($post['membershipEnd']));
-        $post['notes'] = trim($post['notes']);
+        if(isset($post['birthDate']))
+        {
+            $post['birthDate'] = date('Y-m-d', strtotime($post['birthDate']));
+        }
+
+        if(isset($post['invoiceDate']))
+        {
+            $post['invoiceDate'] = date('Y-m-d', strtotime($post['invoiceDate']));
+        }
+
+        if(isset($post['membershipStart']))
+        {
+            $post['membershipStart'] = date('Y-m-d', strtotime($post['membershipStart']));
+        }
+
+        if(isset($post['membershipEnd']))
+        {
+            $post['membershipEnd'] = date('Y-m-d', strtotime($post['membershipEnd']));
+        }
+
+        if(isset($post['notes']))
+        {
+            $post['notes'] = trim($post['notes']);
+        }
         $post['ifActive'] = '1';
 
         $this->db->insert('mugmaster', $post);
@@ -145,11 +164,31 @@ class Mugclub_Model extends CI_Model
 
     public function updateMugRecord($post)
     {
-        $post['birthDate'] = date('Y-m-d', strtotime($post['birthDate']));
-        $post['invoiceDate'] = date('Y-m-d', strtotime($post['invoiceDate']));
-        $post['membershipStart'] = date('Y-m-d', strtotime($post['membershipStart']));
-        $post['membershipEnd'] = date('Y-m-d', strtotime($post['membershipEnd']));
-        $post['notes'] = trim($post['notes']);
+        if(isset($post['birthDate']))
+        {
+            $post['birthDate'] = date('Y-m-d', strtotime($post['birthDate']));
+        }
+
+        if(isset($post['invoiceDate']))
+        {
+            $post['invoiceDate'] = date('Y-m-d', strtotime($post['invoiceDate']));
+        }
+
+        if(isset($post['membershipStart']))
+        {
+            $post['membershipStart'] = date('Y-m-d', strtotime($post['membershipStart']));
+        }
+
+        if(isset($post['membershipEnd']))
+        {
+            $post['membershipEnd'] = date('Y-m-d', strtotime($post['membershipEnd']));
+        }
+
+        if(isset($post['notes']))
+        {
+            $post['notes'] = trim($post['notes']);
+        }
+
         $post['ifActive'] = '1';
 
         $this->db->where('mugId', $post['mugId']);
@@ -162,4 +201,67 @@ class Mugclub_Model extends CI_Model
         $this->db->delete('mugmaster');
         return true;
     }
+
+    public function getExpiringMugsList($intervalNum, $intervalSpan)
+    {
+
+        $timeInterval = 'DAY';
+
+        switch(strtolower($intervalSpan))
+        {
+            case 'day':
+                $timeInterval = 'DAY';
+                break;
+            case 'week':
+                $timeInterval = 'WEEK';
+                break;
+            case 'month':
+                $timeInterval = 'MONTH';
+                break;
+            case 'year':
+                $timeInterval = 'YEAR';
+                break;
+        }
+
+        $query = "SELECT * "
+                ." FROM mugmaster "
+                ."WHERE membershipEnd = (CURRENT_DATE() - INTERVAL ".$intervalNum." ".$timeInterval.")";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['expiringMugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
+    public function getExpiredMugsList()
+    {
+        $query = "SELECT * "
+            ." FROM mugmaster "
+            ."WHERE membershipEnd < CURRENT_DATE()";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['expiredMugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+
+    }
+
 }

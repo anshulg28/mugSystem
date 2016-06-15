@@ -49,7 +49,7 @@
                     {
                         ?>
                         <?php
-                            if(isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === true)
+                            if(isset($this->currentLocation) && isSessionVariableSet($this->currentLocation) === true)
                             {
                                 ?>
                                 <li><a href="<?php echo base_url().'location-select';?>">
