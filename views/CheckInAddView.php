@@ -723,10 +723,10 @@
         // initial page
         currentPage: 1
     });
-    $(document).on('click','.info-fill-overlay', function(){
+    $(document).on('click','.my-pointer-item', function(){
         $('.fill-remaining-info').find('a').trigger('click');
-        $('body').removeClass('custom-loader-body');
-        $('.info-fill-overlay').hide();
+        //$('body').removeClass('custom-loader-body');
+        //$('.info-fill-overlay').hide();
     });
 
     function fillMissingParams(mugList)
@@ -765,8 +765,8 @@
 
             //Fill Info Trigger
             $('.fill-remaining-info').removeClass('hide').find('a').trigger('click');
-            $('body').addClass('custom-loader-body');
-            $('.info-fill-overlay').css('top',$(window).scrollTop()).show();
+            //$('body').addClass('custom-loader-body');
+            //$('.info-fill-overlay').css('top',$(window).scrollTop()).show();
         }
         else
         {
