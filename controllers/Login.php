@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Class Login
  * @property Login_Model $login_model
+ * @property Users_Model $users_model
 */
 
 class Login extends MY_Controller {
@@ -12,6 +13,7 @@ class Login extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->model('login_model');
+        $this->load->model('users_model');
 	}
 	public function index()
 	{
@@ -75,5 +77,38 @@ class Login extends MY_Controller {
         $this->session->unset_userdata('user_name');
 
         redirect(base_url());
+    }
+
+    public function changeSetting()
+    {
+        $data = array();
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        
+        $data['userData'] = $this->users_model->getUserDetailsByUsername($this->userName);
+        if(isSessionVariableSet($this->isUserSession) === false)
+        {
+            redirect(base_url());
+        }
+        else
+        {
+            $this->load->view('ChangePasswordView', $data);
+        }
+    }
+
+    public function changePassword()
+    {
+        $post = $this->input->post();
+
+        if(isset($post['userId']))
+        {
+            $this->login_model->updateUserPass($post);
+            redirect($this->pageUrl);
+        }
+        else
+        {
+            redirect(base_url().'home');
+        }
     }
 }

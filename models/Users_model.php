@@ -111,6 +111,7 @@ class Users_Model extends CI_Model
 
     public function saveUserRecord($post)
     {
+        $post['insertedDate'] = date('Y-m-d H:i:s');
         $post['updateDate'] = date('Y-m-d H:i:s');
         $post['updatedBy'] = $this->userName;
         $post['ifActive'] = '1';

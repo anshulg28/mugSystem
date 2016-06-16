@@ -63,6 +63,7 @@ $route['check-ins/save/(:any)'] = 'checkin/saveOrUpdateCheckIn/$1';
 $route['check-ins/delete/(:any)'] = 'checkin/deleteMugCheckIn/$1';
 $route['check-ins/verify'] = 'checkin/verifyCheckIn';
 $route['location-select'] = 'home/getLocation';
+$route['login/settings'] = 'login/changeSetting';
 $route['users/edit/(:any)'] = 'users/editExistingUser/$1';
 $route['users/save'] = 'users/saveOrUpdateUser';
 $route['users/add'] = 'users/addNewUser';

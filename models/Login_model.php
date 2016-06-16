@@ -46,4 +46,15 @@ class Login_Model extends CI_Model
         $this->db->update('doolally_usersmaster', $data);
         return true;
     }
+
+    public function updateUserPass($post)
+    {
+        $post['updateDate'] = date('Y-m-d H:i:s');
+        $post['updatedBy'] = $this->userName;
+        $post['password'] = md5($post['password']);
+
+        $this->db->where('userId', $post['userId']);
+        $this->db->update('doolally_usersmaster', $post);
+        return true;
+    }
 }

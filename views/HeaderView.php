@@ -39,6 +39,8 @@
                                 <li><a href="<?php echo base_url().'location-select';?>">
                                         <i class="glyphicon glyphicon-map-marker"></i> Change Location</a>
                                 </li>
+                                <li class="divider"></li>
+                                <li><a href="<?php echo base_url();?>login/settings"><i class="fa fa-cog"></i> Settings</a></li>
                                 <li><a href="<?php echo base_url(); ?>login/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
                             </ul>
 
