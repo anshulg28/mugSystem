@@ -86,6 +86,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 /* Custom constants defined */
 defined('PAGE_404')  OR define('PAGE_404', 'page404');
+defined('FROM_NAME_EMAIL')  OR define('FROM_NAME_EMAIL', 'Doolally');
 defined('RESPONSE_JSON') OR define('RESPONSE_JSON','json');
 defined('RESPONSE_RETURN') OR define('RESPONSE_RETURN','return');
 defined('DATE_FORMAT_UI')   OR define('DATE_FORMAT_UI', 'jS M, Y');
