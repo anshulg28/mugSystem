@@ -6,19 +6,16 @@
 </head>
 
 <body>
-    <p>Dear <?php echo ucfirst($mailData['firstName']).' '.ucfirst(['lastName']);?></p>
+    <p>Dear <?php echo ucfirst($mailData['firstName']).' '.ucfirst($mailData['lastName']);?></p>
     <br><br>
-    <p>Thanks for being part of the Doolally Mug Club.<br>
+    <p>Thanks for being part of the Doolally Mug Club.<br><br>
+        We started serving breakfast everyday, 7 am onwards, and since we really want you to try it out - your first breakfast's on us! <br>Don't hurry or anything, it's valid till hell freezes over! Also, this is valid at both, Andheri or Bandra.<br><br>
 
-        We started serving breakfast everyday, 7 am onwards, and since we really want you to try it out - your first breakfast's on us! <br>Don't hurry or anything, it's valid till hell freezes over! Also, this is valid at both, Andheri or Bandra.<br>
-
-        Just show this email to the person taking your order the next time you're in the mood for breakfast.<br>
+        Just show this email to the person taking your order the next time you're in the mood for breakfast.<br><br>
 
         Cheers!<br>
         Priyanka,<br>
-        Doolally<br>
-
-
+        Doolally<br><br><br>
         P.S. We promise to never spam you or give out your information to anyone.<br> If you don't wish to receive these emails, do let me know by replying to this mail.<br> The offers will still always be valid for you. Just inquire at the bar for Mug Club goodies.
     </p>
 

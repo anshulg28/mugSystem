@@ -96,6 +96,7 @@ class Mugclub extends MY_Controller {
         if($mugExists['status'] === false)
         {
             $this->mugclub_model->saveMugRecord($params);
+            $this->sendemail_library->signUpWelcomeSendMail($params);
         }
         else
         {

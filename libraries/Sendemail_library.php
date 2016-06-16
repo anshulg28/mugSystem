@@ -14,6 +14,7 @@ class Sendemail_library
     public function signUpWelcomeSendMail($userData)
     {
 
+        $data['mailData'] = $userData;
         $content = $this->CI->load->view('emailtemplates/signUpWelcomeMailView', $userData, true);
 
         $fromEmail = 'anshul@doolally.in';
