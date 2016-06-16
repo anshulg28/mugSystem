@@ -16,7 +16,7 @@
         Cheers!<br>
         Priyanka,<br>
         Doolally<br><br><br>
-        P.S. We promise to never spam you or give out your information to anyone.<br> If you don't wish to receive these emails, do let me know by replying to this mail.<br> The offers will still always be valid for you. Just inquire at the bar for Mug Club goodies.
+        P.S. We promise to never spam you or give out your information to anyone. If you don't wish to receive these emails, do let me know by replying to this mail.<br> The offers will still always be valid for you. Just inquire at the bar for Mug Club goodies.
     </p>
 
 </body>

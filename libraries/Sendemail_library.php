@@ -15,7 +15,7 @@ class Sendemail_library
     {
 
         $data['mailData'] = $userData;
-        $content = $this->CI->load->view('emailtemplates/signUpWelcomeMailView', $userData, true);
+        $content = $this->CI->load->view('emailtemplates/signUpWelcomeMailView', $data, true);
 
         $fromEmail = 'anshul@doolally.in';
         $cc        = '';
