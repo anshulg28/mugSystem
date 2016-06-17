@@ -4,7 +4,9 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootbox.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery.simplePagination.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/doolally-local-session.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/dataTables.bootstrap.min.js"></script>
 
 <!-- constants -->
 <script>
@@ -85,9 +87,65 @@
         return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
 
-    var isPushEnabled = 0;
-    function registerNotification()
+    function checkExpiredMugs()
     {
+        $.ajax({
+            type:"GET",
+            dataType:"json",
+            async: true,
+            url:base_url+'mugclub/getAllExpiredMugs/json',
+            success: function(data){
+                if(data.status === true)
+                {
+                    localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                    $('.notification-indicator').addClass('notification-animate-cls');
+                    $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                }
+            },
+            error: function(){
 
+            }
+        });
     }
+
+    function checkExpiringMugs()
+    {
+        $.ajax({
+            type:"GET",
+            dataType:"json",
+            async: true,
+            url:base_url+'mugclub/getAllExpiringMugs/json/1/week',
+            success: function(data){
+                if(data.status === true)
+                {
+                    localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                    if(!$('.notification-indicator').hasClass('notification-animate-cls'))
+                    {
+                        $('.notification-indicator').addClass('notification-animate-cls');
+                        $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                    }
+                }
+            },
+            error: function(){
+
+            }
+        });
+    }
+
+    /*if(localStorageUtil.getLocal('mailCheckDone') == null)
+    {
+        localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
+        checkExpiredMugs();
+        checkExpiringMugs();
+    }
+    else if(localStorageUtil.getLocal('mailCheckDone') == '0') {
+        localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
+        checkExpiredMugs();
+        checkExpiringMugs();
+    }
+    else if(localStorageUtil.getLocal('foundMails') == '1')
+    {
+        $('.notification-indicator').addClass('notification-animate-cls');
+        $('.notification-indicator-mobile').addClass('notification-animate-cls');
+    }*/
 </script>

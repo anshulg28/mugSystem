@@ -12,27 +12,8 @@
             <div class="row">
                 <div class="col-sm-9 col-xs-8">
                     <a class="btn btn-primary adduser-btn" href="<?php echo base_url().'locations/add';?>">
-                    <i class="fa fa-plus"></i>
-                    Add New Location</a>
-                    <ul class="list-inline pagination-List">
-                        <li>
-                            <label class="control-label" for="pageEntry">Show</label>
-                        </li>
-                        <li>
-                            <select id="pageEntry" onchange="changePagination(this)" class="form-control">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label class="control-label" for="pageEntry">entries</label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3 col-xs-4">
-                    <input type="text" placeholder="Search" class="form-control my-searchField"/>
+                        <i class="fa fa-plus"></i>
+                        Add New Location</a>
                 </div>
             </div>
         </div>
@@ -95,32 +76,20 @@
                 ?>
             </table>
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 col-xs-8">
+                    <a class="btn btn-primary adduser-btn" href="<?php echo base_url().'locations/add';?>">
+                        <i class="fa fa-plus"></i>
+                        Add New Location</a>
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 <?php echo $globalJs; ?>
 
 <script>
-    $(".my-searchField").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-
-        $("table tr").each(function(index) {
-            if (index !== 0) {
-
-                $row = $(this);
-
-                var id = $row.find("td").each(function(){
-                    if($(this).html().toLowerCase().indexOf(value) >-1){
-                        $row.show();
-                        return false;
-                    }
-                    else
-                    {
-                        $row.hide();
-                    }
-                });
-            }
-        });
-    });
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -135,36 +104,6 @@
         });
     });
 
-    var numPerPage = 10;
-
-    function changePagination(ele)
-    {
-        numPerPage = Number($(ele).val());
-        //$('body').find('.pagination.pull-right').remove();
-        newPaginationFunc();
-    }
-
-    function newPaginationFunc()
-    {
-        $('.pagination-container').remove();
-        $("table.paginated").simplePagination({
-            // the number of rows to show per page
-            perPage: numPerPage,
-
-            // CSS classes to custom the pagination
-            containerClass: 'pagination-container',
-            previousButtonClass: 'btn btn-primary',
-            nextButtonClass: 'btn btn-success',
-
-            // text for next and prev buttons
-            previousButtonText: 'Previous',
-            nextButtonText: 'Next',
-
-            // initial page
-            currentPage: 1
-        });
-
-    }
-    newPaginationFunc();
+    $('#main-mugclub-table').DataTable();
 </script>
 </html>

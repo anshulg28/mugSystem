@@ -107,4 +107,5 @@
     </main>
 </body>
 <?php echo $globalJs; ?>
+
 </html>

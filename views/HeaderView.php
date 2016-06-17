@@ -2,6 +2,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <div class="notification-indicator-mobile"></div>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -22,6 +23,8 @@
                         ?>
                         <li><a href="<?php echo base_url();?>users"><i class="fa fa-user"></i> Users List</a></li>
                         <li><a href="<?php echo base_url();?>locations"><i class="fa fa-globe"></i> Locations</a></li>
+                        <li><a href="<?php echo base_url();?>locations"><i class="fa fa-envelope"></i> Mailers</a>
+                            <div class="notification-indicator"></div></li>
                         <?php
                     }
                     if($this->userType != EXECUTIVE_USER)

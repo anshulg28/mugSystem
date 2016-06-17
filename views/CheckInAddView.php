@@ -119,14 +119,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-5 col-xs-5">
-                            <input type="text" placeholder="Search" class="form-control my-searchField"/>
-                        </div>
-                        <br><br><br>
-                        <div class="col-sm-12 col-xs-12 modal-table">
-                            <table class="table table-hover table-bordered table-striped my-checkIn-search-table">
+                        <div class="col-sm-12 col-xs-12 modal-table table-responsive">
+                            <table id="main-mugclub-table" class="table table-hover table-bordered table-striped my-checkIn-search-table">
                                 <thead>
                                 <tr>
+                                    <th class="hide">Mug #</th>
                                     <th>Name</th>
                                     <th>Mobile #</th>
                                     <th>Birth Date</th>
@@ -154,37 +151,37 @@
                                         {
                                             ?>
                                             <tr>
-                                                <td class="hide location-info"><?php echo $row['homeBase'];?></td>
-                                                <td class="hide membershipEnd-info"><?php echo $row['membershipEnd'];?></td>
-                                                <td class="hide mugNumber-info"><?php echo $row['mugId'];?></td>
+                                                <!--<td class="hide location-info"><?php /*echo $row['homeBase'];*/?></td>
+                                                <td class="hide membershipEnd-info"><?php /*echo $row['membershipEnd'];*/?></td>
+                                                <td class="hide mugNumber-info"><?php /*echo $row['mugId'];*/?></td>-->
                                                 <td class="hide">
-                                                    <span class="infoLabel">Mug #</span>
-                                                    <span class="infoData"><?php echo $row['mugId'];?></span>
+                                                    <span class="infoLabel hide">Mug #</span>
+                                                    <span class="infoData mugNumber-info"><?php echo $row['mugId'];?></span>
                                                 </td>
                                                 <td>
                                                     <span class="infoLabel hide">Name</span>
                                                     <span class="infoData"><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></span>
                                                 </td>
-                                                <td class="hide">
+                                                <!--<td class="hide">
                                                     <span class="infoLabel hide">Mug Tag</span>
-                                                    <span class="infoData"><?php echo $row['mugTag'];?></span>
-                                                </td>
+                                                    <span class="infoData"><?php /*echo $row['mugTag'];*/?></span>
+                                                </td>-->
                                                 <td>
                                                     <span class="infoLabel hide">Mobile #</span>
                                                     <span class="infoData"><?php echo $row['mobileNo'];?></span>
                                                 </td>
-                                                <td class="hide">
+                                                <!--<td class="hide">
                                                     <span class="infoLabel">Email</span>
-                                                    <span class="infoData"><?php echo $row['emailId'];?></span>
-                                                </td>
+                                                    <span class="infoData"><?php /*echo $row['emailId'];*/?></span>
+                                                </td>-->
                                                 <td>
                                                     <span class="infoLabel hide">Birth Date</span>
                                                     <span class="infoData"><?php $d = date_create($row['birthDate']); echo date_format($d,DATE_FORMAT_UI);?></span>
                                                 </td>
-                                                <td class="hide">
+                                                <!--<td class="hide">
                                                     <span class="infoLabel hide">Home Base</span>
-                                                    <span class="infoData"><?php echo $row['locName'];?></span>
-                                                </td>
+                                                    <span class="infoData"><?php /*echo $row['locName'];*/?></span>
+                                                </td>-->
                                             </tr>
                                             <?php
                                         }
@@ -300,33 +297,6 @@
             }
         }*/
     }
-    $(".my-searchField").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-
-        if(value != '')
-        {
-            $("table tr").each(function(index) {
-                if (index !== 0) {
-
-                    $row = $(this);
-
-                    var id = $row.find("td").each(function(){
-                        if($(this).html().toLowerCase().indexOf(value) >-1){
-                            $row.show();
-                            return false;
-                        }
-                        else
-                        {
-                            $row.hide();
-                        }
-                    });
-                }
-            });
-        }
-        else {
-            newPaginationFunc();
-        }
-    });
 
     $(document).on('click','.verify-checkin-btn',function(){
         showCustomLoader();
@@ -417,9 +387,9 @@
                     $('.mugCheckIn .final-checkIn-row').removeClass('hide');
 
                     //validity and location check
-                    if(checkMemberLocation(currentRowLocation) === true)
+                    if(checkMemberLocation(mugList[0].homeBase) === true)
                     {
-                        if(checkMembershipValidity(membershipEnd) === true)
+                        if(checkMembershipValidity(mugList[0].membershipEnd) === true)
                         {
                             $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
                             $('.visual-status-icons').find('i:first-child').removeClass('hide my-success-text').addClass('my-danger-text');
@@ -432,7 +402,7 @@
                     }
                     else
                     {
-                        if (checkMembershipValidity(membershipEnd) === true)
+                        if (checkMembershipValidity(mugList[0].membershipEnd) === true)
                         {
                             $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
                             $('.visual-status-icons').find('i:last-child').removeClass('hide my-success-text').addClass('my-danger-text');
@@ -539,9 +509,9 @@
         $('.mugCheckIn .final-checkIn-row').removeClass('hide');
 
         //validity and location check
-        if(checkMemberLocation(currentRowLocation) === true)
+        if(checkMemberLocation(mugList.homeBase) === true)
         {
-            if(checkMembershipValidity(membershipEnd) === true)
+            if(checkMembershipValidity(mugList.membershipEnd) === true)
             {
                 $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
                 $('.visual-status-icons').find('i:first-child').removeClass('hide my-success-text').addClass('my-danger-text');
@@ -554,7 +524,7 @@
         }
         else
         {
-            if (checkMembershipValidity(membershipEnd) === true)
+            if (checkMembershipValidity(mugList.membershipEnd) === true)
             {
                 $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
                 $('.visual-status-icons').find('i:last-child').removeClass('hide my-success-text').addClass('my-danger-text');
@@ -582,7 +552,19 @@
         var row_index = $(this).parent().index();
         var selectedRow = $(this).parent()[0];
         var currentRowLocation,membershipEnd;
-        var myBigStatusHtml = '<ul>';
+        var mugList = myMugDataInfo.mugList;
+        for(var mugIndex in mugList)
+        {
+            if(mugList[mugIndex].mugId == $(selectedRow).find('.mugNumber-info')[0].innerText)
+            {
+                fillMugData(mugList[mugIndex]);
+                fillMissingParams(mugList[mugIndex]);
+                checkMissingInfo();
+                $('#searchModal').modal('hide');
+                return false;
+            }
+        }
+    /*    var myBigStatusHtml = '<ul>';
         $(selectedRow).find('td').each(function(i,val){
             if($(val).hasClass('location-info'))
             {
@@ -639,8 +621,7 @@
                 $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
                 $('.visual-status-icons').find('i:last-child').removeClass('hide my-danger-text').addClass('my-success-text');
             }
-        }
-        $('#searchModal').modal('hide');
+        }*/
     });
 
     $(document).on('click','.final-checkin-btn', function(){
@@ -696,23 +677,8 @@
             }
         });
     }
-
-    var numPerPage = 10;
-    $("table.my-checkIn-search-table").simplePagination({
-        // the number of rows to show per page
-        perPage: numPerPage,
-
-        // CSS classes to custom the pagination
-        containerClass: 'pagination-container',
-        previousButtonClass: 'btn btn-primary',
-        nextButtonClass: 'btn btn-success',
-
-        // text for next and prev buttons
-        previousButtonText: 'Previous',
-        nextButtonText: 'Next',
-
-        // initial page
-        currentPage: 1
+    $(window).load(function(){
+        $('#main-mugclub-table').DataTable({ordering:  false});
     });
     $(document).on('click','.my-pointer-item', function(){
         $('.fill-remaining-info').find('a').trigger('click');

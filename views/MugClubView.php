@@ -8,87 +8,121 @@
 <body>
     <?php echo $headerView; ?>
     <main class="mugClub">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9 col-xs-8">
-                    <a class="btn btn-primary" href="<?php echo base_url().'mugclub/add';?>">
-                    <i class="fa fa-plus"></i>
-                    Add New Mug</a>
-                    <ul class="list-inline pagination-List">
-                        <li>
-                            <label class="control-label" for="pageEntry">Show</label>
-                        </li>
-                        <li>
-                            <select id="pageEntry" onchange="changePagination(this)" class="form-control">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label class="control-label" for="pageEntry">entries</label>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3 col-xs-4">
-                    <input type="text" placeholder="Search" class="form-control my-searchField"/>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="container">
-            <table id="main-mugclub-table" class="table table-hover table-bordered table-striped paginated">
-                <thead>
-                <tr>
-                    <th>Mug #</th>
-                    <th>Mug Tag</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Homebase</th>
-                    <th>Birthday</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
+        <?php
+            if($this->userType == SERVER_USER)
+            {
+                ?>
+                    <div class="container">
+                        <div class="row">
+                            <h2 class="text-center">Mug # Check</h2>
+                            <br>
+                            <div class="col-sm-2 col-xs-1"></div>
+                            <div class="col-sm-8 col-xs-10">
+                                <div class="form-group my-marginLR-zero">
+                                    <div class="col-sm-1 col-xs-0"></div>
+                                    <div class="col-sm-10 col-xs-12">
+                                        <input type="number" name="mobNum" id="mobNumCheck"
+                                               class="form-control" placeholder="Mug #">
+                                    </div>
+                                    <div class="col-sm-1 col-xs-0"></div>
+                                </div>
+                                <br><br>
+                                <div class="form-group my-marginLR-zero">
+                                    <div class="col-sm-12 col-xs-12 text-center">
+                                        <button type="button" class="btn btn-primary mugCheck-btn">Check</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-xs-1"></div>
+                        </div>
+                    </div>
                 <?php
-                if(isset($mugData) && myIsArray($mugData))
-                {
-                    if($mugData['status'] === false)
-                    {
-                        ?>
-                        <tbody>
-                            <tr class="my-danger-text text-center">
-                                <td colspan="10">No Data Found!</td>
-                            </tr>
-                        </tbody>
+            }
+            else
+            {
+                ?>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-9 col-xs-8">
+                            <a class="btn btn-primary" href="<?php echo base_url().'mugclub/add';?>">
+                                <i class="fa fa-plus"></i>
+                                Add New Mug</a>
+                            <!--<ul class="list-inline pagination-List">
+                                <li>
+                                    <label class="control-label" for="pageEntry">Show</label>
+                                </li>
+                                <li>
+                                    <select id="pageEntry" onchange="changePagination(this)" class="form-control">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <label class="control-label" for="pageEntry">entries</label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-3 col-xs-4">
+                            <input type="text" placeholder="Search" class="form-control my-searchField"/>
+                        </div>-->
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="container table-responsive">
+                    <table id="main-mugclub-table" class="table table-hover table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Mug #</th>
+                            <th>Mug Tag</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Homebase</th>
+                            <th>Birthday</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
                         <?php
-                    }
-                    else
-                    {
-                        ?>
-                        <tbody>
-                        <?php
-                            foreach($mugData['mugList'] as $key => $row)
+                        if(isset($mugData) && myIsArray($mugData))
+                        {
+                            if($mugData['status'] === false)
                             {
-                                if(isset($row['mugId']))
+                                ?>
+                                <tbody>
+                                <tr class="my-danger-text text-center">
+                                    <td colspan="10">No Data Found!</td>
+                                </tr>
+                                </tbody>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <tbody>
+                                <?php
+                                foreach($mugData['mugList'] as $key => $row)
                                 {
-                                    ?>
-                                    <tr>
-                                        <th scope="row"><?php echo $row['mugId'];?></th>
-                                        <td><?php echo $row['mugTag'];?></td>
-                                        <td><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></td>
-                                        <td><?php echo $row['emailId'];?></td>
-                                        <td><?php echo $row['mobileNo'];?></td>
-                                        <td><?php echo $row['locName'];?></td>
-                                        <td><?php echo $row['birthDate'];?></td>
-                                        <td><?php echo $row['membershipStart'];?></td>
-                                        <td><?php echo $row['membershipEnd'];?></td>
-                                        <td><a data-toggle="tooltip" title="Edit" href="<?php echo base_url().'mugclub/edit/'.$row['mugId'];?>">
-                                                <i class="glyphicon glyphicon-edit"></i></a>&nbsp;
-                                            <?php
+                                    if(isset($row['mugId']))
+                                    {
+                                        ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $row['mugId'];?></th>
+                                            <td><?php echo $row['mugTag'];?></td>
+                                            <td><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></td>
+                                            <td><?php echo $row['emailId'];?></td>
+                                            <td><?php echo $row['mobileNo'];?></td>
+                                            <td><?php echo $row['locName'];?></td>
+                                            <td><?php echo $row['birthDate'];?></td>
+                                            <td><?php echo $row['membershipStart'];?></td>
+                                            <td><?php echo $row['membershipEnd'];?></td>
+                                            <td><a data-toggle="tooltip" title="Edit" href="<?php echo base_url().'mugclub/edit/'.$row['mugId'];?>">
+                                                    <i class="glyphicon glyphicon-edit"></i></a>&nbsp;
+                                                <?php
                                                 if($this->userType != SERVER_USER)
                                                 {
                                                     ?>
@@ -96,89 +130,154 @@
                                                         <i class="fa fa-trash-o"></i></a>
                                                     <?php
                                                 }
-                                            ?>
-                                        </td>
-                                    </tr>
-                                    <?php
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
                                 }
+                                ?>
+                                </tbody>
+                                <?php
                             }
+                        }
                         ?>
-                        </tbody>
-                        <?php
-                    }
-                }
-                ?>
-            </table>
-        </div>
+                    </table>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-9 col-xs-8">
+                            <a class="btn btn-primary" href="<?php echo base_url().'mugclub/add';?>">
+                                <i class="fa fa-plus"></i>
+                                Add New Mug</a>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+        ?>
+
     </main>
 </body>
 <?php echo $globalJs; ?>
 
 <script>
-    $(".my-searchField").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
 
-        $("table tr").each(function(index) {
-            if (index !== 0) {
+    <?php
+        if($this->userType == SERVER_USER)
+        {
+            ?>
+                $(document).on('click','.mugCheck-btn',function(){
 
-                $row = $(this);
-
-                var id = $row.find("td").each(function(){
-                    if($(this).html().toLowerCase().indexOf(value) >-1){
-                        $row.show();
-                        return false;
+                    var mugNum = $('#mobNumCheck').val();
+                    if(mugNum != '')
+                    {
+                        showCustomLoader();
+                        //send ajax request to check mobile number
+                        $.ajax({
+                            type:"GET",
+                            dataType:"json",
+                            url:base_url+'mugclub/MugAvailability/json/'+mugNum,
+                            success: function(data)
+                            {
+                                hideCustomLoader();
+                                if(data.status === true)
+                                {
+                                    bootbox.alert('Mug Number is Available');
+                                }
+                                else
+                                {
+                                    bootbox.alert('Mug Number is Not Available');
+                                }
+                            },
+                            error: function()
+                            {
+                                hideCustomLoader();
+                                bootbox.alert('Unable To Connect To Server!');
+                            }
+                        });
                     }
                     else
                     {
-                        $row.hide();
+                        bootbox.alert('Please Provide Mug Number!');
                     }
                 });
-            }
-        });
-    });
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-    $(document).on('click','.mugDelete-icon',function(){
-        var mugId = $(this).attr('data-mugId');
-        bootbox.confirm("Are you sure you want to delete Mug #"+mugId+" ?", function(result) {
-            if(result === true)
+            <?php
+        }
+        else
+        {
+            ?>
+           /* $(".my-searchField").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+
+                $("table tr").each(function(index) {
+                    if (index !== 0) {
+
+                        $row = $(this);
+
+                        var id = $row.find("td").each(function(){
+                            if($(this).html().toLowerCase().indexOf(value) >-1){
+                                $row.show();
+                                return false;
+                            }
+                            else
+                            {
+                                $row.hide();
+                            }
+                        });
+                    }
+                });
+            });*/
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            $(document).on('click','.mugDelete-icon',function(){
+                var mugId = $(this).attr('data-mugId');
+                bootbox.confirm("Are you sure you want to delete Mug #"+mugId+" ?", function(result) {
+                    if(result === true)
+                    {
+                        window.location.href='<?php echo base_url();?>mugclub/delete/'+mugId;
+                    }
+                });
+            });
+
+            /*var numPerPage = 10;
+
+            function changePagination(ele)
             {
-                window.location.href='<?php echo base_url();?>mugclub/delete/'+mugId;
+                numPerPage = Number($(ele).val());
+                //$('body').find('.pagination.pull-right').remove();
+                newPaginationFunc();
             }
-        });
-    });
 
-    var numPerPage = 10;
+            function newPaginationFunc()
+            {
+                $('.pagination-container').remove();
+                $("table.paginated").simplePagination({
+                    // the number of rows to show per page
+                    perPage: numPerPage,
 
-    function changePagination(ele)
-    {
-        numPerPage = Number($(ele).val());
-        //$('body').find('.pagination.pull-right').remove();
-        newPaginationFunc();
-    }
+                    // CSS classes to custom the pagination
+                    containerClass: 'pagination-container',
+                    previousButtonClass: 'btn btn-primary',
+                    nextButtonClass: 'btn btn-success',
 
-    function newPaginationFunc()
-    {
-        $('.pagination-container').remove();
-        $("table.paginated").simplePagination({
-            // the number of rows to show per page
-            perPage: numPerPage,
+                    // text for next and prev buttons
+                    previousButtonText: 'Previous',
+                    nextButtonText: 'Next',
 
-            // CSS classes to custom the pagination
-            containerClass: 'pagination-container',
-            previousButtonClass: 'btn btn-primary',
-            nextButtonClass: 'btn btn-success',
+                    // initial page
+                    currentPage: 1
+                });
 
-            // text for next and prev buttons
-            previousButtonText: 'Previous',
-            nextButtonText: 'Next',
+            }*/
+    //$(document).ready(function(){
+        $('#main-mugclub-table').DataTable();
+    //});
+            //newPaginationFunc();
+            <?php
+        }
+    ?>
 
-            // initial page
-            currentPage: 1
-        });
-
-    }
-    newPaginationFunc();
 </script>
 </html>
