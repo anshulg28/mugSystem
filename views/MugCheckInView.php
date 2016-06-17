@@ -56,7 +56,7 @@
                         ?>
                         <tbody>
                             <tr class="my-danger-text text-center">
-                                <td colspan="5">No Data Found!</td>
+                                <td colspan="5">No Today Check-Ins!</td>
                             </tr>
                         </tbody>
                         <?php
@@ -74,7 +74,7 @@
                                     <tr>
                                         <th scope="row"><?php echo $row['id'];?></th>
                                         <td><?php echo $row['mugId'];?></td>
-                                        <td><?php echo $row['locationName']['locName'];?></td>
+                                        <td><?php echo $row['locName'];?></td>
                                         <td><?php $d = date_create($row['checkinDateTime']); echo date_format($d,DATE_TIME_FORMAT_UI);?></td>
                                         <td><a data-toggle="tooltip" title="Edit" href="<?php echo base_url().'check-ins/edit/'.$row['id'];?>">
                                                 <i class="glyphicon glyphicon-edit"></i></a>&nbsp;

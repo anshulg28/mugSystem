@@ -29,9 +29,9 @@
                     <div class="col-sm-12 col-xs-12">
                         <ul class="list-inline my-mainMenuList text-center">
                             <li>
-                                <input type="radio" name="checkInInput" onchange="showForm(this)" id="mugInput" value="1" />
+                                <input type="radio" name="checkInInput" onchange="showForm(this)" id="mugInput" value="1" checked />
                                 <label for="mugInput">
-                                    <i class="fa fa-beer fa-3x"></i>
+                                    <i class="fa fa-beer fa-2x"></i>
                                     <br>
                                     <span>Mug #</span>
                                 </label>
@@ -47,7 +47,7 @@
                             <li>
                                 <a href="#" data-toggle="modal" data-target="#searchModal">
                                     <div class="menuWrap text-center">
-                                        <i class="fa fa-search fa-3x"></i>
+                                        <i class="fa fa-search fa-2x"></i>
                                         <br>
                                         <span>Search List</span>
                                     </div>
@@ -55,7 +55,7 @@
                             </li>
                         </ul>
                         <br>
-                        <div class="form-group mugInput hide">
+                        <div class="form-group mugInput">
                             <div class="col-sm-1 col-xs-1 form-adjust-insmall"></div>
                             <div class="col-sm-8 col-xs-8">
                                 <input type="number" name="mugNum" class="form-control" id="mugNum" placeholder="Mug #">
@@ -81,8 +81,8 @@
                                 <div class="mugNumber-status"></div>
                             </div>
                             <div class="col-sm-4 col-xs-4 visual-status-icons hide">
-                                <i class="fa fa-home fa-4x" data-toggle="tooltip" title="Home"></i>
-                                <i class="fa fa-plane fa-4x" data-toggle="tooltip" title="Roaming"></i>
+                                <i class="fa fa-home fa-4x first-icon" data-toggle="tooltip" title="Home"></i>
+                                <i class="fa fa-plane fa-4x last-icon" data-toggle="tooltip" title="Roaming"></i>
                             </div>
                         </div>
 
@@ -152,44 +152,41 @@
                                         <?php
                                         foreach($mugData['mugList'] as $key => $row)
                                         {
-                                            if(isset($row['mugId']))
-                                            {
-                                                ?>
-                                                <tr>
-                                                    <td class="hide location-info"><?php echo $row['homeBase'];?></td>
-                                                    <td class="hide membershipEnd-info"><?php echo $row['membershipEnd'];?></td>
-                                                    <td class="hide mugNumber-info"><?php echo $row['mugId'];?></td>
-                                                    <td class="hide">
-                                                        <span class="infoLabel">Mug #</span>
-                                                        <span class="infoData"><?php echo $row['mugId'];?></span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="infoLabel hide">Name</span>
-                                                        <span class="infoData"><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></span>
-                                                    </td>
-                                                    <td class="hide">
-                                                        <span class="infoLabel hide">Mug Tag</span>
-                                                        <span class="infoData"><?php echo $row['mugTag'];?></span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="infoLabel hide">Mobile #</span>
-                                                        <span class="infoData"><?php echo $row['mobileNo'];?></span>
-                                                    </td>
-                                                    <td class="hide">
-                                                        <span class="infoLabel">Email</span>
-                                                        <span class="infoData"><?php echo $row['emailId'];?></span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="infoLabel hide">Birth Date</span>
-                                                        <span class="infoData"><?php $d = date_create($row['birthDate']); echo date_format($d,DATE_FORMAT_UI);?></span>
-                                                    </td>
-                                                    <td class="hide">
-                                                        <span class="infoLabel hide">Home Base</span>
-                                                        <span class="infoData"><?php echo $row['locationName']['locName'];?></span>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                            }
+                                            ?>
+                                            <tr>
+                                                <td class="hide location-info"><?php echo $row['homeBase'];?></td>
+                                                <td class="hide membershipEnd-info"><?php echo $row['membershipEnd'];?></td>
+                                                <td class="hide mugNumber-info"><?php echo $row['mugId'];?></td>
+                                                <td class="hide">
+                                                    <span class="infoLabel">Mug #</span>
+                                                    <span class="infoData"><?php echo $row['mugId'];?></span>
+                                                </td>
+                                                <td>
+                                                    <span class="infoLabel hide">Name</span>
+                                                    <span class="infoData"><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></span>
+                                                </td>
+                                                <td class="hide">
+                                                    <span class="infoLabel hide">Mug Tag</span>
+                                                    <span class="infoData"><?php echo $row['mugTag'];?></span>
+                                                </td>
+                                                <td>
+                                                    <span class="infoLabel hide">Mobile #</span>
+                                                    <span class="infoData"><?php echo $row['mobileNo'];?></span>
+                                                </td>
+                                                <td class="hide">
+                                                    <span class="infoLabel">Email</span>
+                                                    <span class="infoData"><?php echo $row['emailId'];?></span>
+                                                </td>
+                                                <td>
+                                                    <span class="infoLabel hide">Birth Date</span>
+                                                    <span class="infoData"><?php $d = date_create($row['birthDate']); echo date_format($d,DATE_FORMAT_UI);?></span>
+                                                </td>
+                                                <td class="hide">
+                                                    <span class="infoLabel hide">Home Base</span>
+                                                    <span class="infoData"><?php echo $row['locName'];?></span>
+                                                </td>
+                                            </tr>
+                                            <?php
                                         }
                                         ?>
                                         </tbody>
@@ -294,35 +291,41 @@
                 $('.mobileInput').addClass('hide');
             }
         }
-        else
+        /*else
         {
             $('.mobileInput').removeClass('hide');
             if(!$('.mugInput').hasClass('hide'))
             {
                 $('.mugInput').addClass('hide');
             }
-        }
+        }*/
     }
     $(".my-searchField").on("keyup", function() {
         var value = $(this).val().toLowerCase();
 
-        $("table tr").each(function(index) {
-            if (index !== 0) {
+        if(value != '')
+        {
+            $("table tr").each(function(index) {
+                if (index !== 0) {
 
-                $row = $(this);
+                    $row = $(this);
 
-                var id = $row.find("td").each(function(){
-                    if($(this).html().toLowerCase().indexOf(value) >-1){
-                        $row.show();
-                        return false;
-                    }
-                    else
-                    {
-                        $row.hide();
-                    }
-                });
-            }
-        });
+                    var id = $row.find("td").each(function(){
+                        if($(this).html().toLowerCase().indexOf(value) >-1){
+                            $row.show();
+                            return false;
+                        }
+                        else
+                        {
+                            $row.hide();
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            newPaginationFunc();
+        }
     });
 
     $(document).on('click','.verify-checkin-btn',function(){
@@ -347,7 +350,7 @@
                 }
             }
         }
-        else if(selectedInputVal == '2')
+        /*else if(selectedInputVal == '2')
         {
             if($('#mobNum').val() == '')
             {
@@ -365,7 +368,7 @@
                     localCheckIn({mobNum:$('#mobNum').val()});
                 }
             }
-        }
+        }*/
     });
 
     function ajaxCheckIn(inputData)
@@ -390,7 +393,7 @@
                         'Mobile #': mugList[0].mobileNo,
                         'Email': mugList[0].emailId,
                         'Birth Date': formatJsDate(mugList[0].birthDate),
-                        'Home Base': mugList[0].locationName.locName
+                        'Home Base': mugList[0].locName
                     };
 
 
@@ -414,34 +417,30 @@
                     $('.mugCheckIn .final-checkIn-row').removeClass('hide');
 
                     //validity and location check
-                    if(checkMemberLocation(mugList[0].homeBase) === true)
+                    if(checkMemberLocation(currentRowLocation) === true)
                     {
-                        if(checkMembershipValidity(mugList[0].membershipEnd) === true)
+                        if(checkMembershipValidity(membershipEnd) === true)
                         {
-                            $('.visual-status-icons').removeClass('hide');
-                            $('.visual-status-icons').find('i').addClass('hide');
-                            $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-danger-text');
+                            $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                            $('.visual-status-icons').find('i:first-child').removeClass('hide my-success-text').addClass('my-danger-text');
                         }
                         else
                         {
-                            $('.visual-status-icons').removeClass('hide');
-                            $('.visual-status-icons').find('i').addClass('hide');
-                            $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-success-text');
+                            $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                            $('.visual-status-icons').find('i:first-child').removeClass('hide my-danger-text').addClass('my-success-text');
                         }
                     }
                     else
                     {
-                        if (checkMembershipValidity(mugList[0].membershipEnd) === true)
+                        if (checkMembershipValidity(membershipEnd) === true)
                         {
-                            $('.visual-status-icons').removeClass('hide');
-                            $('.visual-status-icons').find('i').addClass('hide');
-                            $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-danger-text');
+                            $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                            $('.visual-status-icons').find('i:last-child').removeClass('hide my-success-text').addClass('my-danger-text');
                         }
                         else
                         {
-                            $('.visual-status-icons').removeClass('hide');
-                            $('.visual-status-icons').find('i').addClass('hide');
-                            $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
+                            $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                            $('.visual-status-icons').find('i:last-child').removeClass('hide my-danger-text').addClass('my-success-text');
                         }
                     }
                         
@@ -518,7 +517,7 @@
             'Mobile #': mugList.mobileNo,
             'Email': mugList.emailId,
             'Birth Date': formatJsDate(mugList.birthDate),
-            'Home Base': mugList.locationName.locName
+            'Home Base': mugList.locName
         };
 
         for(var mugIndex in myFormatedData)
@@ -540,34 +539,30 @@
         $('.mugCheckIn .final-checkIn-row').removeClass('hide');
 
         //validity and location check
-        if(checkMemberLocation(mugList.homeBase) === true)
+        if(checkMemberLocation(currentRowLocation) === true)
         {
-            if(checkMembershipValidity(mugList.membershipEnd) === true)
+            if(checkMembershipValidity(membershipEnd) === true)
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-danger-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide my-success-text').addClass('my-danger-text');
             }
             else
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-success-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide my-danger-text').addClass('my-success-text');
             }
         }
         else
         {
-            if (checkMembershipValidity(mugList.membershipEnd) === true)
+            if (checkMembershipValidity(membershipEnd) === true)
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-danger-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide my-success-text').addClass('my-danger-text');
             }
             else
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide my-danger-text').addClass('my-success-text');
             }
         }
     }
@@ -623,30 +618,26 @@
         {
             if(checkMembershipValidity(membershipEnd) === true)
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-danger-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide my-success-text').addClass('my-danger-text');
             }
             else
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:first-child').removeClass('hide').addClass('my-success-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:first-child').removeClass('hide my-danger-text').addClass('my-success-text');
             }
         }
         else
         {
             if (checkMembershipValidity(membershipEnd) === true)
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-danger-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide my-success-text').addClass('my-danger-text');
             }
             else
             {
-                $('.visual-status-icons').removeClass('hide');
-                $('.visual-status-icons').find('i').addClass('hide');
-                $('.visual-status-icons').find('i:last-child').removeClass('hide').addClass('my-success-text');
+                $('.visual-status-icons').removeClass('hide').find('i').addClass('hide');
+                $('.visual-status-icons').find('i:last-child').removeClass('hide my-danger-text').addClass('my-success-text');
             }
         }
         $('#searchModal').modal('hide');

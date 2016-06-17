@@ -82,7 +82,7 @@
                                         <td><?php echo ucfirst($row['firstName']) .' '.ucfirst($row['lastName']);?></td>
                                         <td><?php echo $row['emailId'];?></td>
                                         <td><?php echo $row['mobileNo'];?></td>
-                                        <td><?php echo $row['locationName']['locName'];?></td>
+                                        <td><?php echo $row['locName'];?></td>
                                         <td><?php echo $row['birthDate'];?></td>
                                         <td><?php echo $row['membershipStart'];?></td>
                                         <td><?php echo $row['membershipEnd'];?></td>

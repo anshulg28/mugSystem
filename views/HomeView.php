@@ -55,7 +55,7 @@
                                     {
                                         ?>
                                         <li>
-                                            <a href="<?php echo base_url() . 'check-ins'; ?>">
+                                            <a href="<?php echo base_url() . 'check-ins/add'; ?>">
                                                 <div class="menuWrap">
                                                     <i class="fa fa-calendar-check-o fa-5x"></i>
                                                     <br>

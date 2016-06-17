@@ -27,17 +27,6 @@ class Checkin extends MY_Controller {
         //Getting All Mug Check-Ins List
         $mugData = $this->checkin_model->getAllCheckInList();
 
-        if(isset($mugData['checkInList']) && myIsArray($mugData['checkInList']))
-        {
-            foreach($mugData['checkInList'] as $key => $row)
-            {
-                if(myIsArray($row))
-                {
-                    $mugData['checkInList'][$key]['locationName'] = $this->mydatafetch_library->getBaseLocationsById($row['location']);
-                }
-            }
-        }
-
         $data['mugData'] = $mugData;
 
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
@@ -57,9 +46,9 @@ class Checkin extends MY_Controller {
         }
 
         //Getting All Mug List
-        $mugData = $this->mugclub_model->getAllMugClubList();
+        $mugData = $this->mugclub_model->getCheckInMugClubList();
 
-        if(isset($mugData['mugList']) && myIsArray($mugData['mugList']))
+        /*if(isset($mugData['mugList']) && myIsArray($mugData['mugList']))
         {
             foreach($mugData['mugList'] as $key => $row)
             {
@@ -68,7 +57,7 @@ class Checkin extends MY_Controller {
                     $mugData['mugList'][$key]['locationName'] = $this->mydatafetch_library->getBaseLocationsById($row['homeBase']);
                 }
             }
-        }
+        }*/
 
         $data['mugData'] = $mugData;
 

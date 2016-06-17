@@ -16,8 +16,30 @@ class Mugclub_Model extends CI_Model
 
     public function getAllMugClubList()
     {
-        $query = "SELECT * "
-            ."FROM mugmaster ";
+        $query = "SELECT mugId,mugTag,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipStart, membershipEnd,notes "
+            ."FROM mugmaster m "
+            ."LEFT JOIN locationmaster l ON id = m.homeBase";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['mugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
+    public function getCheckInMugClubList()
+    {
+        $query = "SELECT mugId,mugTag,homeBase,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipEnd "
+                ."FROM mugmaster m "
+                ."LEFT JOIN locationmaster l ON id = m.homeBase";
 
         $result = $this->db->query($query)->result_array();
 
@@ -225,7 +247,7 @@ class Mugclub_Model extends CI_Model
 
         $query = "SELECT * "
                 ." FROM mugmaster "
-                ."WHERE membershipEnd = (CURRENT_DATE() - INTERVAL ".$intervalNum." ".$timeInterval.")";
+                ."WHERE membershipEnd IS NOT NULL AND membershipEnd = (CURRENT_DATE() - INTERVAL ".$intervalNum." ".$timeInterval.")";
 
         $result = $this->db->query($query)->result_array();
 
@@ -246,7 +268,7 @@ class Mugclub_Model extends CI_Model
     {
         $query = "SELECT * "
             ." FROM mugmaster "
-            ."WHERE membershipEnd < CURRENT_DATE()";
+            ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' AND membershipEnd < CURRENT_DATE()";
 
         $result = $this->db->query($query)->result_array();
 
