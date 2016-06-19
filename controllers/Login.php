@@ -111,4 +111,20 @@ class Login extends MY_Controller {
             redirect(base_url().'home');
         }
     }
+
+    public function sendSample()
+    {
+        $fromEmail = 'anshul@doolally.in';
+        $cc        = '';
+        $toList= array('anshul@doolally.in','gaurav_07rulz@yahoo.co.in','amarlibra88@gmail.com');
+        $fromName  = 'Anshul';
+        $subject = 'Breakfast for Mug #';
+        $toEmail = '';
+
+        foreach ($toList as $key)
+        {
+            $toEmail = $key;
+            $this->sendemail_library->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, '<html><body><p>hi</p></body></html>');
+        }
+    }
 }

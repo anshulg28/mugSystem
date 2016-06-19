@@ -105,7 +105,7 @@ class Mugclub_Model extends CI_Model
 
             foreach ($post as $key => $row)
             {
-                if ($row != '')
+                if ($row != '' && $key != 'ifMail')
                 {
                     switch ($key)
                     {

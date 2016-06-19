@@ -121,6 +121,15 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <label class="control-label" for="mugMail">
+                                <input type="checkbox" name="ifMail" id="mugMail" value="1" />
+                                Send Confirmation E-Mail?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="reset" class="btn btn-success">Reset</button>
