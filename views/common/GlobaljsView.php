@@ -100,6 +100,7 @@
                     localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
                     $('.notification-indicator').addClass('notification-animate-cls');
                     $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                    $('.notification-indicator-big').addClass('notification-animate-cls');
                 }
             },
             error: function(){
@@ -123,6 +124,7 @@
                     {
                         $('.notification-indicator').addClass('notification-animate-cls');
                         $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                        $('.notification-indicator-big').addClass('notification-animate-cls');
                     }
                 }
             },
@@ -132,11 +134,12 @@
         });
     }
 
-    /*if(localStorageUtil.getLocal('mailCheckDone') == null)
+    if(localStorageUtil.getLocal('mailCheckDone') == null)
     {
         localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
         checkExpiredMugs();
         checkExpiringMugs();
+        //write for recurring expired mugs
     }
     else if(localStorageUtil.getLocal('mailCheckDone') == '0') {
         localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
@@ -147,5 +150,6 @@
     {
         $('.notification-indicator').addClass('notification-animate-cls');
         $('.notification-indicator-mobile').addClass('notification-animate-cls');
-    }*/
+        $('.notification-indicator-big').addClass('notification-animate-cls');
+    }
 </script>
