@@ -363,7 +363,8 @@
                         'Mobile #': mugList[0].mobileNo,
                         'Email': mugList[0].emailId,
                         'Birth Date': formatJsDate(mugList[0].birthDate),
-                        'Home Base': mugList[0].locName
+                        'Home Base': mugList[0].locName,
+                        'Expiry Date': formatJsDate(mugList[0].membershipEnd)
                     };
 
 
@@ -487,7 +488,8 @@
             'Mobile #': mugList.mobileNo,
             'Email': mugList.emailId,
             'Birth Date': formatJsDate(mugList.birthDate),
-            'Home Base': mugList.locName
+            'Home Base': mugList.locName,
+            'Expiry Date': formatJsDate(mugList.membershipEnd)
         };
 
         for(var mugIndex in myFormatedData)
