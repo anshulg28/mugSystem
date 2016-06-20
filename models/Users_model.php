@@ -94,6 +94,10 @@ class Users_Model extends CI_Model
                             $parameter['userType'] = $row;
                             break;
 
+                        case 'email':
+                            $parameter['emailId'] = $row;
+                            break;
+
                         default:
                             $parameter[$key] = $row;
                             break;

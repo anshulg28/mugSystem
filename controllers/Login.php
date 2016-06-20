@@ -116,7 +116,7 @@ class Login extends MY_Controller {
     {
         $userData = array(
             'mugId' => '10',
-            'emailId' => 'priyanka@doolally.in',
+            'emailId' => 'anshul@doolally.in',
             'firstName' => 'Priyanka'
         );
         $this->sendemail_library->signUpWelcomeSendMail($userData);

@@ -21,6 +21,13 @@ class Generalfunction_library
         $this->CI->userType = $data['userType'];
         $this->CI->session->set_userdata('user_name', $data['userName']);
         $this->CI->userName = $data['userName'];
+        if(isset($data['emailId']))
+        {
+            $this->CI->session->set_userdata('user_email', $data['emailId']);
+            $this->CI->userEmail = $data['emailId'];
+        }
+        $this->CI->session->set_userdata('user_firstname', $data['firstName']);
+        $this->CI->userFirstName = $data['firstName'];
     }
 
     public function setSessionVariable($key, $value)

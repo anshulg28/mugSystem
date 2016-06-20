@@ -17,7 +17,7 @@ class Mydatafetch_library
     */
     public function getUserDetailsByUserId($userId)
     {
-        $this->CI->db->select('userName, userId, userType');
+        $this->CI->db->select('userName, firstName, userId, userType, emailId');
         $this->CI->db->from('doolally_usersmaster');
         $this->CI->db->where('userId', $userId);
 

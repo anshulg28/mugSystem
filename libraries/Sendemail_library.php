@@ -13,13 +13,21 @@ class Sendemail_library
     }
     public function signUpWelcomeSendMail($userData)
     {
-
         $data['mailData'] = $userData;
         $content = $this->CI->load->view('emailtemplates/signUpWelcomeMailView', $data, true);
 
         $fromEmail = 'priyanka@doolally.in';
+
+        if(isset($this->CI->userEmail))
+        {
+            $fromEmail = $this->CI->userEmail;
+        }
         $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
-        $fromName  = '';
+        $fromName  = 'Doolally';
+        if(isset($this->CI->userFirstName))
+        {
+            $fromName = ucfirst($this->CI->userFirstName);
+        }
         $subject = 'Breakfast for Mug #'.$userData['mugId'];
         $toEmail = $userData['emailId'];
 
@@ -32,7 +40,7 @@ class Sendemail_library
         $CI->load->library('email');
         $config['mailtype'] = 'html';
         $CI->email->initialize($config);
-        $CI->email->from($from, FROM_NAME_EMAIL);
+        $CI->email->from($from, $fromName);
         $CI->email->to($to);
         if ($cc != '') {
             $CI->email->cc($cc);
