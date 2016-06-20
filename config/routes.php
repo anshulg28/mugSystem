@@ -75,3 +75,4 @@ $route['locations/save'] = 'locations/saveOrUpdateLocation';
 $route['locations/add'] = 'locations/addNewLocation';
 $route['mugclub/ajaxSave'] = 'mugclub/ajaxMugUpdate';
 $route['mailers/send/(:any)'] = 'mailers/sendMail/$1';
+$route['mailers/add'] = 'mailers/showMailAdd';

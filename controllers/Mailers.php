@@ -12,7 +12,7 @@ class Mailers extends MY_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		//$this->load->model('mailers_model');
+		$this->load->model('mailers_model');
         $this->load->model('mugclub_model');
 	}
 	public function index()
@@ -33,6 +33,28 @@ class Mailers extends MY_Controller {
        $this->load->view('MailersView',$data);
 	}
 
+    public function showMailAdd()
+    {
+        $data = array();
+        if(isSessionVariableSet($this->isUserSession) === false)
+        {
+            redirect(base_url().'home');
+        }
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+
+        $this->load->view('MailAddView',$data);
+
+    }
+
+    public function saveMail()
+    {
+        $post = $this->input->post();
+
+        $this->mailers_model->saveMailTemplate($post);
+
+    }
     public function sendMail($mailType)
     {
 
