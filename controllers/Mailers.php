@@ -32,4 +32,9 @@ class Mailers extends MY_Controller {
 
        $this->load->view('MailersView',$data);
 	}
+
+    public function sendMail($mailType)
+    {
+
+    }
 }

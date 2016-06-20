@@ -74,4 +74,4 @@ $route['locations/edit/(:any)'] = 'locations/editExistingUser/$1';
 $route['locations/save'] = 'locations/saveOrUpdateLocation';
 $route['locations/add'] = 'locations/addNewLocation';
 $route['mugclub/ajaxSave'] = 'mugclub/ajaxMugUpdate';
-$route['mailers/send'] = 'mailers/sendMail';
+$route['mailers/send/(:any)'] = 'mailers/sendMail/$1';
