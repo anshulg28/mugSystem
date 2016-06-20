@@ -152,4 +152,10 @@
         $('.notification-indicator-mobile').addClass('notification-animate-cls');
         $('.notification-indicator-big').addClass('notification-animate-cls');
     }
+
+    function removeNotifications()
+    {
+        localStorageUtil.setLocal('foundMails','0');
+    }
+
 </script>

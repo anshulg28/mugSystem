@@ -12,7 +12,8 @@
             <div class="row">
                 <h2 class="text-center">Mail View</h2>
                 <br>
-                <div class="col-sm-12 text-center">
+                <div class="col-sm-2 col-xs-0"></div>
+                <div class="col-sm-8 col-xs-12 text-center">
                     <ul class="list-inline my-mainMenuList">
                         <li>
                             <?php
@@ -20,7 +21,7 @@
                                 {
                                     ?>
                                         <span class="badge"><?php echo count($expiredMugs['expiredMugList']); ?></span>
-                                        <a href="<?php echo base_url().'mailers/send/1';?>">
+                                        <a href="<?php echo base_url().'mailers/send/1';?>" onclick="removeNotifications()">
                                     <?php
                                 }
                                 else
@@ -43,7 +44,7 @@
                             {
                                 ?>
                                     <span class="badge"><?php echo count($expiringMugs['expiringMugList']); ?></span>
-                                    <a href="<?php echo base_url().'mailers/send/2';?>">
+                                    <a href="<?php echo base_url().'mailers/send/2';?>" onclick="removeNotifications()">
                                 <?php
                             }
                             else
@@ -71,6 +72,7 @@
                         </li>
                     </ul>
                 </div>
+                <div class="col-sm-2 col-xs-0"></div>
             </div>
         </div>
 
