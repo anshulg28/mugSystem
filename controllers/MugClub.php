@@ -158,7 +158,7 @@ class Mugclub extends MY_Controller {
                 $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap);
                 if(count($mugResult) < 1)
                 {
-                    while(count($mugResult) < 1 && $searchCap != 150)
+                    while(count($mugResult) < 1 && $searchCap != 500)
                     {
                         if($opFlag == 1)
                         {
@@ -174,12 +174,10 @@ class Mugclub extends MY_Controller {
 
                         $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap);
                     }
-                    rsort($mugResult);
                     $data['availMugs'] = $mugResult;
                 }
                 else
                 {
-                    rsort($mugResult);
                     $data['availMugs'] = $mugResult;
                 }
 
@@ -218,7 +216,7 @@ class Mugclub extends MY_Controller {
                 break;
             case 'minus':
                 $rangeEnd = $mugId - $searchCap;
-                if($rangeEnd < -9998)
+                if($rangeEnd < 0)
                 {
                     $rangeEnd = $mugId + $searchCap;
                 }
@@ -239,7 +237,7 @@ class Mugclub extends MY_Controller {
                 break;
             case 'minus':
                 $allMugs = range(($mugId-$searchCap),$mugId);
-                if(($mugId-$searchCap) < -9998)
+                if(($mugId-$searchCap) < 0)
                 {
                     $allMugs = range($mugId,($mugId+$searchCap));
                 }
