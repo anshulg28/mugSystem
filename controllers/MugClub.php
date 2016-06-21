@@ -232,14 +232,14 @@ class Mugclub extends MY_Controller {
         {
             case 'plus':
                 $allMugs = range($mugId,($mugId+$searchCap));
-                if($allMugs > 9998)
+                if(($mugId+$searchCap) > 9998)
                 {
                     $allMugs = range(($mugId-$searchCap),$mugId);
                 }
                 break;
             case 'minus':
                 $allMugs = range(($mugId-$searchCap),$mugId);
-                if($allMugs < -9998)
+                if(($mugId-$searchCap) < -9998)
                 {
                     $allMugs = range($mugId,($mugId+$searchCap));
                 }
