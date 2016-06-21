@@ -84,7 +84,7 @@ class Mugclub extends MY_Controller {
 
         $this->load->view('MugEditView', $data);
     }
-
+    
     public function saveOrUpdateMug()
     {
         $post = $this->input->post();
@@ -147,11 +147,42 @@ class Mugclub extends MY_Controller {
     public function MugAvailability($responseType = RESPONSE_JSON, $mugid)
     {
         $data = array();
+        $op = 'plus';
+        $searchCap = 50;
+        $opFlag = 1;
         if(isset($mugid))
         {
             $result = $this->mugclub_model->getMugDataById($mugid);
             if($result['status'] === true)
             {
+                $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap);
+                if(count($mugResult) < 1)
+                {
+                    while(count($mugResult) < 1 && $searchCap != 150)
+                    {
+                        if($opFlag == 1)
+                        {
+                            $opFlag = 2;
+                            $op = 'minus';
+                        }
+                        else
+                        {
+                            $opFlag = 1;
+                            $op = 'plus';
+                            $searchCap += 50;
+                        }
+
+                        $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap);
+                    }
+                    rsort($mugResult);
+                    $data['availMugs'] = $mugResult;
+                }
+                else
+                {
+                    rsort($mugResult);
+                    $data['availMugs'] = $mugResult;
+                }
+
                 $data['status'] = false;
                 $data['errorMsg'] = 'Mug Number Already Exists';
             }
@@ -170,6 +201,61 @@ class Mugclub extends MY_Controller {
         {
             return $data;
         }
+    }
+
+    function getAllUnusedMugs($mugId, $op, $searchCap)
+    {
+        $rangeEnd = $mugId + $searchCap;
+
+        switch($op)
+        {
+            case 'plus':
+                $rangeEnd = $mugId + $searchCap;
+                if($rangeEnd > 9998)
+                {
+                    $rangeEnd = $mugId - $searchCap;
+                }
+                break;
+            case 'minus':
+                $rangeEnd = $mugId - $searchCap;
+                if($rangeEnd < -9998)
+                {
+                    $rangeEnd = $mugId + $searchCap;
+                }
+                break;
+        }
+
+        $result = $this->mugclub_model->getMugRange($mugId, $rangeEnd);
+
+        $allMugs = range(($mugId-$searchCap),$mugId);
+        switch($op)
+        {
+            case 'plus':
+                $allMugs = range($mugId,($mugId+$searchCap));
+                if($allMugs > 9998)
+                {
+                    $allMugs = range(($mugId-$searchCap),$mugId);
+                }
+                break;
+            case 'minus':
+                $allMugs = range(($mugId-$searchCap),$mugId);
+                if($allMugs < -9998)
+                {
+                    $allMugs = range($mugId,($mugId+$searchCap));
+                }
+                break;
+        }
+
+        if(myIsArray($result))
+        {
+            $availMugs = array_diff($allMugs, $result);
+        }
+        else
+        {
+            $availMugs = $allMugs;
+        }
+
+        return $availMugs;
     }
 
     public function CheckMobileNumber($responseType = RESPONSE_JSON, $mobNo)
