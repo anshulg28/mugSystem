@@ -236,25 +236,29 @@
                     }
                 });
 
+                $(document).on('keypress','#mobNumCheck', function(event){
+
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+
+                    if(keycode == 45)
+                    {
+                       return false;
+                    }
+                });
+
                 $(document).on('keyup','#mobNumCheck', function(event){
 
                     var keycode = (event.keyCode ? event.keyCode : event.which);
 
                     var finalVal;
-                    if($(this).val() > 9999)
+                    if($(this).val() > 9998)
                     {
                         finalVal = 9999 /*- (Number($(this).val()) - 9999)*/;
-                        $(this).val(finalVal);
-                    }
-                    else if($(this).val() < -9999)
-                    {
-                        finalVal = (-9999)/* - (Number($(this).val()) - (-9999))*/;
                         $(this).val(finalVal);
                     }
                     else if(keycode == '13'){
                         $('.mugCheck-btn').trigger('click');
                     }
-
                 });
                 $(document).on('click','.avail-mugs', function(){
                     $('#mobNumCheck').val($(this).html());
