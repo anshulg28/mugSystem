@@ -58,7 +58,7 @@
                         <div class="form-group mugInput">
                             <div class="col-sm-1 col-xs-1 form-adjust-insmall"></div>
                             <div class="col-sm-8 col-xs-8">
-                                <input type="number" name="mugNum" class="form-control" id="mugNum" placeholder="Mug #">
+                                <input type="number" name="mugNum" maxlength="4" oninput="maxLengthCheck(this)" class="form-control" id="mugNum" placeholder="Mug #">
                             </div>
                             <div class="col-sm-2 col-xs-2">
                                 <button type="button" class="btn btn-primary verify-checkin-btn">Verify</button>
@@ -544,11 +544,6 @@
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
     });
-    function maxLengthCheck(object)
-    {
-        if (object.value.length > object.maxLength)
-            object.value = object.value.slice(0, object.maxLength)
-    }
 
     $(document).on('click','.my-checkIn-search-table td', function(){
         var row_index = $(this).parent().index();

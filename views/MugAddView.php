@@ -220,11 +220,6 @@
             $('.mobile-verification-holder').empty();
         }
     });
-    function maxLengthCheck(object)
-    {
-        if (object.value.length > object.maxLength)
-            object.value = object.value.slice(0, object.maxLength)
-    }
 
     $(document).ready(function(){
         $('form button[type="submit"]').attr('disabled','true');

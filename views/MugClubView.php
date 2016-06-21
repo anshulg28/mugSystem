@@ -22,7 +22,7 @@
                                     <div class="col-sm-1 col-xs-0"></div>
                                     <div class="col-sm-10 col-xs-12">
                                         <input type="number" name="mobNum" id="mobNumCheck"
-                                               class="form-control" placeholder="Mug #">
+                                               class="form-control" placeholder="Mug # (Max 9999)">
                                     </div>
                                     <div class="col-sm-1 col-xs-0"></div>
                                 </div>
@@ -32,6 +32,19 @@
                                         <button type="button" class="btn btn-primary mugCheck-btn">Check</button>
                                     </div>
                                 </div>
+                                <br><br>
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <div class="panel panel-default avail-header hide">
+                                        <div class="panel-heading">Available Mug Number(s)</div>
+                                        <div class="panel-body">
+                                            <ul class="list-inline available-mugs-list">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
                             </div>
                             <div class="col-sm-2 col-xs-1"></div>
                         </div>
@@ -183,11 +196,31 @@
                                 hideCustomLoader();
                                 if(data.status === true)
                                 {
-                                    bootbox.alert('Mug Number is Available');
+                                    if(!$('.avail-header').hasClass('hide'))
+                                    {
+                                        $('.avail-header').addClass('hide');
+                                    }
+                                    bootbox.alert('Mug Number is <label class="my-success-text">Available</label>');
                                 }
                                 else
                                 {
-                                    bootbox.alert('Mug Number is Not Available');
+                                    bootbox.alert('Mug Number is <label class="my-danger-text">Not Available</label>');
+                                    if(typeof data.availMugs != 'undefined')
+                                    {
+                                        var mugHtml = '';
+                                        for(var index in data.availMugs)
+                                        {
+                                            if(index == 5)
+                                            {
+                                                $('.avail-header').removeClass('hide');
+                                                $('.available-mugs-list').html(mugHtml);
+                                                return false;
+                                            }
+                                            mugHtml += '<li><span class="label label-primary avail-mugs">'+data.availMugs[index]+'</span></li>';
+                                        }
+                                        $('.avail-header').removeClass('hide');
+                                        $('.available-mugs-list').html(mugHtml);
+                                    }
                                 }
                             },
                             error: function()
@@ -201,6 +234,30 @@
                     {
                         bootbox.alert('Please Provide Mug Number!');
                     }
+                });
+
+                $(document).on('keyup','#mobNumCheck', function(event){
+
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+
+                    var finalVal;
+                    if($(this).val() > 9999)
+                    {
+                        finalVal = 9999 /*- (Number($(this).val()) - 9999)*/;
+                        $(this).val(finalVal);
+                    }
+                    else if($(this).val() < -9999)
+                    {
+                        finalVal = (-9999)/* - (Number($(this).val()) - (-9999))*/;
+                        $(this).val(finalVal);
+                    }
+                    else if(keycode == '13'){
+                        $('.mugCheck-btn').trigger('click');
+                    }
+
+                });
+                $(document).on('click','.avail-mugs', function(){
+                    $('#mobNumCheck').val($(this).html());
                 });
             <?php
         }
