@@ -76,6 +76,26 @@ class Mugclub_Model extends CI_Model
 
         return $data;
     }
+    public function getMugDataForMailById($mugId)
+    {
+        $query = "SELECT mugId, firstName, lastName, mobileNo, emailId, birthDate, membershipEnd "
+            ."FROM mugmaster "
+            ."where mugId = ".$mugId;
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['mugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
 
     public function verifyMobileNo($mobNo)
     {
@@ -247,11 +267,12 @@ class Mugclub_Model extends CI_Model
 
         $query = "SELECT mugId, firstName, lastName, emailId, membershipEnd "
                 ." FROM mugmaster "
-                ."WHERE membershipEnd IS NOT NULL AND membershipEnd = (CURRENT_DATE() - INTERVAL ".$intervalNum." ".$timeInterval.")";
+                ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' "
+                ."AND membershipEnd = (CURRENT_DATE() + INTERVAL ".$intervalNum." ".$timeInterval.") AND emailId IS NOT NULL AND emailId != ''";
 
         $result = $this->db->query($query)->result_array();
 
-        $data['expiringMugList'] = $result;
+        $data['expiryMugList'] = $result;
         if(myIsArray($result))
         {
             $data['status'] = true;
@@ -268,11 +289,12 @@ class Mugclub_Model extends CI_Model
     {
         $query = "SELECT mugId, firstName, lastName, emailId, membershipEnd "
             ." FROM mugmaster "
-            ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' AND membershipEnd < CURRENT_DATE()";
+            ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' "
+            ."AND membershipEnd < CURRENT_DATE() AND emailId IS NOT NULL AND emailId != ''";
 
         $result = $this->db->query($query)->result_array();
 
-        $data['expiredMugList'] = $result;
+        $data['expiryMugList'] = $result;
         if(myIsArray($result))
         {
             $data['status'] = true;

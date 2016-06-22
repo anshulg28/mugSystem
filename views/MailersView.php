@@ -17,10 +17,10 @@
                     <ul class="list-inline my-mainMenuList">
                         <li>
                             <?php
-                                if(count($expiredMugs['expiredMugList']) > 0)
+                                if(count($expiredMugs['expiryMugList']) > 0)
                                 {
                                     ?>
-                                        <span class="badge"><?php echo count($expiredMugs['expiredMugList']); ?></span>
+                                        <span class="badge"><?php echo count($expiredMugs['expiryMugList']); ?></span>
                                         <a href="<?php echo base_url().'mailers/send/1';?>" onclick="removeNotifications()">
                                     <?php
                                 }
@@ -40,10 +40,10 @@
                         </li>
                         <li>
                             <?php
-                            if(count($expiringMugs['expiringMugList']) > 0)
+                            if(count($expiringMugs['expiryMugList']) > 0)
                             {
                                 ?>
-                                    <span class="badge"><?php echo count($expiringMugs['expiringMugList']); ?></span>
+                                    <span class="badge"><?php echo count($expiringMugs['expiryMugList']); ?></span>
                                     <a href="<?php echo base_url().'mailers/send/2';?>" onclick="removeNotifications()">
                                 <?php
                             }

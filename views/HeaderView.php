@@ -23,7 +23,7 @@
                         ?>
                         <li><a href="<?php echo base_url();?>users"><i class="fa fa-user"></i> Users List</a></li>
                         <li><a href="<?php echo base_url();?>locations"><i class="fa fa-globe"></i> Locations</a></li>
-                        <li><a href="<?php echo base_url();?>locations"><i class="fa fa-envelope"></i> Mailers</a>
+                        <li><a href="<?php echo base_url();?>mailers"><i class="fa fa-envelope"></i> Mailers</a>
                             <div class="notification-indicator"></div></li>
                         <?php
                     }

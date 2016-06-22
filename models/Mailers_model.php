@@ -14,16 +14,15 @@ class Mailers_Model extends CI_Model
         $this->load->library('mydatafetch_library');
 	}
 
-    public function getAll($userName, $userPassword)
+    public function getAllTemplatesByType($mailType)
     {
-        $query = "SELECT userId,ifActive "
+        $query = "SELECT mailSubject, mailBody, mailType "
             ."FROM mailtemplates "
-            ."where userName = '".$userName."' "
-            ."AND password = '".$userPassword."' ";
+            ."where mailType = ".$mailType;
 
-        $result = $this->db->query($query)->row_array();
+        $result = $this->db->query($query)->result_array();
 
-        $data = $result;
+        $data['mailData'] = $result;
         if(myIsArray($result))
         {
             $data['status'] = true;
