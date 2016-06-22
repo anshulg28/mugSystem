@@ -19,6 +19,8 @@ class MY_Controller extends CI_Controller
 	public $userType = '';
 	public $userId = '';
 	public $userName = '';
+    public $userFirstName = '';
+	public $userEmail = '';
 	public $currentLocation = '';
 
 	public $currentUrl = '';
@@ -50,6 +52,11 @@ class MY_Controller extends CI_Controller
 			$this->isUserSession = ACTIVE;
 			$this->userType = $this->session->user_type;
 			$this->userName = $this->session->user_name;
+			if(isset($this->session->user_email))
+			{
+				$this->userEmail = $this->session->user_email;
+			}
+            $this->userFirstName = $this->session->user_firstname;
 		}
 
 		//get location from session

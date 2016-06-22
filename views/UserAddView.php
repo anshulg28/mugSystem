@@ -62,20 +62,22 @@
                         <label class="control-label col-sm-2">Roles:</label>
                         <div class="col-sm-10">
                             <label for="is_admin">
-                                <input type="radio" id="is_admin" name="userLevel" value="1">
+                                <input type="radio" onchange="toggleEmailField(this)" id="is_admin" name="userLevel" value="1">
                                 Administrator (Full Access)
                             </label>
                             <br>
                             <label for="is_executive">
-                                <input type="radio" id="is_executive" name="userLevel" value="2">
+                                <input type="radio" onchange="toggleEmailField(this)" id="is_executive" name="userLevel" value="2">
                                 Executive (Back Office access only, no check-ins)
                             </label>
                             <br>
                             <label for="is_server">
-                                <input type="radio" id="is_server" name="userLevel" value="3">
+                                <input type="radio" onchange="toggleEmailField(this)" id="is_server" name="userLevel" value="3">
                                 Server (new mugs, check-ins)
                             </label>
-
+                            <br>
+                            <input type="email" name="email"
+                                   class="form-control hide" id="emailid" placeholder="Email (abc@doolally.in)" required/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -147,5 +149,17 @@
             $('.username-status').empty();
         }
     });
+
+    function toggleEmailField(ele)
+    {
+        if($(ele).val() != '3')
+        {
+            $('#emailid').removeClass('hide');
+        }
+        else
+        {
+            $('#emailid').addClass('hide');
+        }
+    }
 </script>
 </html>

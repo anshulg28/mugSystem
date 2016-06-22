@@ -97,6 +97,39 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
+    public function getMugRange($mugId, $rangeEnd)
+    {
+
+        if($mugId < $rangeEnd)
+        {
+            $query = "SELECT mugId FROM mugmaster"
+                ." WHERE mugId BETWEEN ".$mugId." AND ".$rangeEnd;
+        }
+        else
+        {
+            $query = "SELECT mugId FROM mugmaster"
+                ." WHERE mugId BETWEEN ".$rangeEnd." AND ".$mugId;
+        }
+
+        $result = $this->db->query($query)->result_array();
+
+        if(myIsArray($result))
+        {
+            $numArray = array();
+            foreach($result as $key)
+            {
+                $numArray[] = $key['mugId'];
+            }
+
+            return $numArray;
+        }
+        else
+        {
+            return $result;
+        }
+
+    }
+
     public function verifyMobileNo($mobNo)
     {
         $query = "SELECT * "

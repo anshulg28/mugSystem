@@ -58,7 +58,7 @@
                         <div class="form-group mugInput">
                             <div class="col-sm-1 col-xs-1 form-adjust-insmall"></div>
                             <div class="col-sm-8 col-xs-8">
-                                <input type="number" name="mugNum" class="form-control" id="mugNum" placeholder="Mug #">
+                                <input type="number" name="mugNum" maxlength="4" oninput="maxLengthCheck(this)" class="form-control" id="mugNum" placeholder="Mug #">
                             </div>
                             <div class="col-sm-2 col-xs-2">
                                 <button type="button" class="btn btn-primary verify-checkin-btn">Verify</button>
@@ -363,7 +363,8 @@
                         'Mobile #': mugList[0].mobileNo,
                         'Email': mugList[0].emailId,
                         'Birth Date': formatJsDate(mugList[0].birthDate),
-                        'Home Base': mugList[0].locName
+                        'Home Base': mugList[0].locName,
+                        'Expiry Date': formatJsDate(mugList[0].membershipEnd)
                     };
 
 
@@ -487,7 +488,8 @@
             'Mobile #': mugList.mobileNo,
             'Email': mugList.emailId,
             'Birth Date': formatJsDate(mugList.birthDate),
-            'Home Base': mugList.locName
+            'Home Base': mugList.locName,
+            'Expiry Date': formatJsDate(mugList.membershipEnd)
         };
 
         for(var mugIndex in myFormatedData)
@@ -542,11 +544,6 @@
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
     });
-    function maxLengthCheck(object)
-    {
-        if (object.value.length > object.maxLength)
-            object.value = object.value.slice(0, object.maxLength)
-    }
 
     $(document).on('click','.my-checkIn-search-table td', function(){
         var row_index = $(this).parent().index();

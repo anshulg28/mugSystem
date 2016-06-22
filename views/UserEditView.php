@@ -103,6 +103,16 @@
                                                         ?>>
                                                     Server (new mugs, check-ins)
                                                 </label>
+                                                <br>
+                                                <?php
+                                                    if($row['userType'] != SERVER_USER)
+                                                    {
+                                                        ?>
+                                                        <input type="email" name="email" value="<?php echo $row['emailId'];?>"
+                                                               class="form-control hide" id="emailid" placeholder="Email (abc@doolally.in)" required/>
+                                                        <?php
+                                                    }
+                                                ?>
 
                                             </div>
                                         </div>
