@@ -16,10 +16,10 @@
                 <div class="col-sm-10 col-xs-12 mail-content text-center">
                     <div class="row">
                         <?php
-                            if($mailType == EXPIRED_MAIL || $mailType == EXPIRING_MAIL)
+                            if($mailType == EXPIRED_MAIL || $mailType == EXPIRING_MAIL || $mailType == BIRTHDAY_MAIL)
                             {
                                 ?>
-                                <form action="<?php echo base_url();?>mailers/sendAllMails" id="mainMailerForm" method="post" role="form">
+                                <form action="<?php echo base_url();?>mailers/sendAllMails/json" id="mainMailerForm" method="post" role="form">
                                     <input type="hidden" name="mailType" value="<?php echo $mailType;?>"/>
                                     <nav class="col-sm-2 custom-mugs-list">
                                         <ul class="nav nav-pills nav-stacked text-left">
@@ -129,7 +129,7 @@
                                 ?>
                                 <div class="col-sm-1 col-xs-0"></div>
                                 <div class="col-sm-10 col-xs-12">
-                                    <form action="<?php echo base_url();?>mailers/sendAllMails" id="mainMailerForm" method="post" class="form-horizontal" role="form">
+                                    <form action="<?php echo base_url();?>mailers/sendAllMails/json" id="mainMailerForm" method="post" class="form-horizontal" role="form">
                                         <input type="hidden" name="mailType" value="<?php echo $mailType;?>"/>
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" for="toList">To:</label>
@@ -439,6 +439,54 @@
             $('.mailPage #toExpiryList').html('ALL');
         }
     }
+
+    $(document).on('submit','#mainMailerForm',function(e){
+        e.preventDefault();
+        if($('textarea[name="mugNums"]').val() == '')
+        {
+            bootbox.alert('Mug Numbers Are Required!',function(){
+                $('textarea[name="mugNums"]').focus();
+            });
+            return false;
+        }
+
+        if($('input[name="mailSubject"]').val() == '')
+        {
+            bootbox.alert('Subject is Required!',function(){
+                $('input[name="mailSubject"]').focus();
+            });
+            return false;
+        }
+        if($('textarea[name="mailBody"]').val() == '')
+        {
+            bootbox.alert('Body is Required!',function(){
+                $('textarea[name="mailBody"]').focus();
+            });
+            return false;
+        }
+
+        showCustomLoader();
+        $.ajax({
+            type:"POST",
+            url:$(this).attr('action'),
+            dataType:"json",
+            data:$(this).serialize(),
+            success: function(data){
+                hideCustomLoader();
+                if(data.status === true)
+                {
+                    bootbox.alert('Mail Send Successfully', function(){
+                        window.location.href=base_url+'mailers';
+                    });
+                }
+            },
+            error: function(){
+                hideCustomLoader();
+                bootbox.alert('Some Error occurred');
+            }
+        });
+
+    });
 </script>
 
 </html>

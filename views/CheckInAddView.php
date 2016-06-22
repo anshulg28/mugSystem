@@ -635,8 +635,9 @@
                     hideCustomLoader();
                     if(data.status === true)
                     {
-                        bootbox.alert('Successfully Checked In!');
-                        window.location.reload();
+                        bootbox.alert('Successfully Checked In!',function(){
+                            window.location.reload();
+                        });
                     }
                 },
                 error: function()

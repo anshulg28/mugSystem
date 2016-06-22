@@ -34,6 +34,16 @@ class Mailers_Model extends CI_Model
 
         return $data;
     }
+
+    public function setMailSend($mugId)
+    {
+        $details['mailStatus'] = 1;
+        $details['mailDate'] = date('Y-m-d');
+
+        $this->db->where('mugId', $mugId);
+        $this->db->update('mugmaster', $details);
+        return true;
+    }
     
     public function saveMailTemplate($post)
     {

@@ -24,7 +24,29 @@
                         <textarea name="mailBody" class="form-control" id="mailbody" placeholder="Enter Mail Body"></textarea>
                     </div>
                 </div>
-                <input type="hidden" name="mailType" value="1"/>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Mail Type:</label>
+                    <div class="col-sm-10">
+                        <label for="is_expired">
+                            <input type="radio" id="is_expired" name="mailType" value="1">
+                            Expired Mail
+                        </label>
+                        <br>
+                        <label for="is_expiring">
+                            <input type="radio" id="is_expiring" name="mailType" value="2">
+                            Expiring Mail
+                        </label>
+                        <br>
+                        <label for="is_birthday">
+                            <input type="radio" id="is_birthday" name="mailType" value="3">
+                            Birthday Mail
+                        </label>
+                        <br>
+                        <label for="is_custom">
+                            <input type="radio" id="is_custom" name="mailType" value="0">
+                            Others
+                        </label>
+                    </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-default">Submit</button>

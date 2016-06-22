@@ -90,12 +90,14 @@ defined('FROM_NAME_EMAIL')  OR define('FROM_NAME_EMAIL', 'Doolally');
 defined('RESPONSE_JSON') OR define('RESPONSE_JSON','json');
 defined('RESPONSE_RETURN') OR define('RESPONSE_RETURN','return');
 defined('DATE_FORMAT_UI')   OR define('DATE_FORMAT_UI', 'jS M, Y');
+defined('DATE_MAIL_FORMAT_UI')   OR define('DATE_MAIL_FORMAT_UI', 'jS M Y');
 defined('DATE_TIME_FORMAT_UI')   OR define('DATE_TIME_FORMAT_UI', 'D, jS F, Y g:i a');
 
 /* Mail Type */
 defined('EXPIRED_MAIL') OR define('EXPIRED_MAIL',1);
 defined('EXPIRING_MAIL') OR define('EXPIRING_MAIL',2);
-defined('CUSTOM_MAIL') OR define('CUSTOM_MAIL',3);
+defined('BIRTHDAY_MAIL') OR define('BIRTHDAY_MAIL',3);
+defined('CUSTOM_MAIL') OR define('CUSTOM_MAIL',0);
 
 /* User Type */
 defined('ADMIN_USER') OR define('ADMIN_USER',1);

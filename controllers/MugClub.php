@@ -355,4 +355,30 @@ class Mugclub extends MY_Controller {
             return $data;
         }
     }
+
+    public function getAllBirthdayMugs($responseType = RESPONSE_RETURN)
+    {
+        $data = array();
+        $mugData = $this->mugclub_model->getBirthdayMugsList();
+
+        if($mugData['status'] === false)
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = "No Mugs Found!";
+        }
+        else
+        {
+            $data['status'] = true;
+            $data['mugData'] = $mugData;
+        }
+
+        if($responseType == RESPONSE_JSON)
+        {
+            echo json_encode($data);
+        }
+        else
+        {
+            return $data;
+        }
+    }
 }

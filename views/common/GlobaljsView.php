@@ -92,75 +92,110 @@
         return day + ' ' + monthNames[monthIndex] + ' ' + year;
     }
 
-    function checkExpiredMugs()
+<?php
+    if(isSessionVariableSet($this->isUserSession) === true && isSessionVariableSet($this->userType)
+        && ($this->userType == ADMIN_USER || $this->userType == EXECUTIVE_USER) )
     {
-        $.ajax({
-            type:"GET",
-            dataType:"json",
-            async: true,
-            url:base_url+'mugclub/getAllExpiredMugs/json',
-            success: function(data){
-                if(data.status === true)
-                {
-                    localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
-                    $('.notification-indicator').addClass('notification-animate-cls');
-                    $('.notification-indicator-mobile').addClass('notification-animate-cls');
-                    $('.notification-indicator-big').addClass('notification-animate-cls');
-                }
-            },
-            error: function(){
+        ?>
+            function checkExpiredMugs()
+            {
+                $.ajax({
+                    type:"GET",
+                    dataType:"json",
+                    async: true,
+                    url:base_url+'mugclub/getAllExpiredMugs/json',
+                    success: function(data){
+                        if(data.status === true)
+                        {
+                            localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                            $('.notification-indicator').addClass('notification-animate-cls');
+                            $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                            $('.notification-indicator-big').addClass('notification-animate-cls');
+                        }
+                    },
+                    error: function(){
 
-            }
-        });
-    }
-
-    function checkExpiringMugs()
-    {
-        $.ajax({
-            type:"GET",
-            dataType:"json",
-            async: true,
-            url:base_url+'mugclub/getAllExpiringMugs/json/1/week',
-            success: function(data){
-                if(data.status === true)
-                {
-                    localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
-                    if(!$('.notification-indicator').hasClass('notification-animate-cls'))
-                    {
-                        $('.notification-indicator').addClass('notification-animate-cls');
-                        $('.notification-indicator-mobile').addClass('notification-animate-cls');
-                        $('.notification-indicator-big').addClass('notification-animate-cls');
                     }
-                }
-            },
-            error: function(){
-
+                });
             }
-        });
-    }
 
-    if(localStorageUtil.getLocal('mailCheckDone') == null)
-    {
-        localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
-        checkExpiredMugs();
-        checkExpiringMugs();
-        //write for recurring expired mugs
-    }
-    else if(localStorageUtil.getLocal('mailCheckDone') == '0') {
-        localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
-        checkExpiredMugs();
-        checkExpiringMugs();
-    }
-    else if(localStorageUtil.getLocal('foundMails') == '1')
-    {
-        $('.notification-indicator').addClass('notification-animate-cls');
-        $('.notification-indicator-mobile').addClass('notification-animate-cls');
-        $('.notification-indicator-big').addClass('notification-animate-cls');
-    }
+            function checkExpiringMugs()
+            {
+                $.ajax({
+                    type:"GET",
+                    dataType:"json",
+                    async: true,
+                    url:base_url+'mugclub/getAllExpiringMugs/json/1/week',
+                    success: function(data){
+                        if(data.status === true)
+                        {
+                            localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                            if(!$('.notification-indicator').hasClass('notification-animate-cls'))
+                            {
+                                $('.notification-indicator').addClass('notification-animate-cls');
+                                $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                                $('.notification-indicator-big').addClass('notification-animate-cls');
+                            }
+                        }
+                    },
+                    error: function(){
 
-    function removeNotifications()
-    {
-        localStorageUtil.setLocal('foundMails','0');
+                    }
+                });
+            }
+            function checkBirthdayMugs()
+            {
+                $.ajax({
+                    type:"GET",
+                    dataType:"json",
+                    async: true,
+                    url:base_url+'mugclub/getAllBirthdayMugs/json',
+                    success: function(data){
+                        if(data.status === true)
+                        {
+                            localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                            if(!$('.notification-indicator').hasClass('notification-animate-cls'))
+                            {
+                                $('.notification-indicator').addClass('notification-animate-cls');
+                                $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                                $('.notification-indicator-big').addClass('notification-animate-cls');
+                            }
+                        }
+                    },
+                    error: function(){
+
+                    }
+                });
+            }
+
+            if(localStorageUtil.getLocal('mailCheckDone') == null)
+            {
+                localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
+                checkExpiredMugs();
+                checkExpiringMugs();
+                checkBirthdayMugs();
+                //write for recurring expired mugs
+            }
+            else if(localStorageUtil.getLocal('mailCheckDone') == '0') {
+                localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
+                checkExpiredMugs();
+                checkExpiringMugs();
+                checkBirthdayMugs();
+            }
+            else if(localStorageUtil.getLocal('foundMails') == '1')
+            {
+                $('.notification-indicator').addClass('notification-animate-cls');
+                $('.notification-indicator-mobile').addClass('notification-animate-cls');
+                $('.notification-indicator-big').addClass('notification-animate-cls');
+            }
+
+            function removeNotifications()
+            {
+                localStorageUtil.setLocal('foundMails','0');
+            }
+        <?php
     }
+?>
+
 
 </script>

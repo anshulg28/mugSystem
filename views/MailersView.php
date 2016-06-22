@@ -21,13 +21,13 @@
                                 {
                                     ?>
                                         <span class="badge"><?php echo count($expiredMugs['expiryMugList']); ?></span>
-                                        <a href="<?php echo base_url().'mailers/send/1';?>" onclick="removeNotifications()">
+                                        <a class="mail-notify-remove" href="<?php echo base_url().'mailers/send/1';?>">
                                     <?php
                                 }
                                 else
                                 {
                                     ?>
-                                            <a href="#">
+                                            <a class="mail-notify-remove" href="#">
                                     <?php
                                 }
                             ?>
@@ -44,13 +44,13 @@
                             {
                                 ?>
                                     <span class="badge"><?php echo count($expiringMugs['expiryMugList']); ?></span>
-                                    <a href="<?php echo base_url().'mailers/send/2';?>" onclick="removeNotifications()">
+                                    <a class="mail-notify-remove" href="<?php echo base_url().'mailers/send/2';?>">
                                 <?php
                             }
                             else
                             {
                                 ?>
-                                    <a href="#">
+                                    <a class="mail-notify-remove" href="#">
                                 <?php
                             }
                             ?>
@@ -62,7 +62,30 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url().'mailers/send/3'; ?>">
+                            <?php
+                            if(count($birthdayMugs['expiryMugList']) > 0)
+                            {
+                            ?>
+                            <span class="badge"><?php echo count($birthdayMugs['expiryMugList']); ?></span>
+                            <a class="mail-notify-remove" href="<?php echo base_url().'mailers/send/3';?>">
+                                <?php
+                                }
+                                else
+                                {
+                                ?>
+                                <a class="mail-notify-remove" href="#">
+                                    <?php
+                                    }
+                                    ?>
+                                    <div class="menuWrap">
+                                        <i class="fa fa-birthday-cake fa-2x my-success-text"></i>
+                                        <br>
+                                        <span>Today Birthday's</span>
+                                    </div>
+                                </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url().'mailers/send/0'; ?>">
                                 <div class="menuWrap">
                                     <i class="fa fa-plus fa-2x"></i>
                                     <br>
@@ -80,4 +103,19 @@
 </body>
 <?php echo $globalJs; ?>
 
+<script>
+    $(document).on('click','.mail-notify-remove', function(){
+       var isAllMailDone = 1;
+        $('.mail-notify-remove').each(function(i,val){
+            if($(val).attr('href') != '#')
+            {
+                isAllMailDone = 0;
+            }
+        });
+        if(isAllMailDone == 1)
+        {
+            removeNotifications();
+        }
+    });
+</script>
 </html>
