@@ -79,6 +79,12 @@
                                                             {
                                                                 echo 'readonly';
                                                             }
+                                                           else
+                                                           {
+                                                               ?>
+                                                               onfocus="whichHasFocus = 1"
+                                                                <?php
+                                                           }
                                                        ?>
                                                        />
                                             </div>
@@ -90,6 +96,12 @@
                                                 if($mailList['status'] === true)
                                                 {
                                                     echo 'readonly';
+                                                }
+                                                else
+                                                {
+                                                    ?>
+                                                    onfocus="whichHasFocus = 2"
+                                                    <?php
                                                 }
                                                 ?>></textarea>
                                             </div>
@@ -107,14 +119,14 @@
                                             <div>
                                                 <p>Available Tags:</p>
                                                 <div class="col-sm-2"></div>
-                                                <ul class="col-sm-10 list-inline">
-                                                    <li><span class="label label-default">[mugno]</span></li>
-                                                    <li><span class="label label-default">[firstname]</span></li>
-                                                    <li><span class="label label-default">[lastname]</span></li>
-                                                    <li><span class="label label-default">[birthdate]</span></li>
-                                                    <li><span class="label label-default">[mobno]</span></li>
-                                                    <li><span class="label label-default">[expirydate]</span></li>
-                                                    <li><span class="label label-default">[sendername]</span></li>
+                                                <ul class="col-sm-10 list-inline mugtags-list">
+                                                    <li class="my-pointer-item"><span class="label label-success">[mugno]</span></li>
+                                                    <li class="my-pointer-item"><span class="label label-success">[firstname]</span></li>
+                                                    <li class="my-pointer-item"><span class="label label-success">[lastname]</span></li>
+                                                    <li class="my-pointer-item"><span class="label label-success">[birthdate]</span></li>
+                                                    <li class="my-pointer-item"><span class="label label-success">[mobno]</span></li>
+                                                    <li class="my-pointer-item"><span class="label label-success">[expirydate]</span></li>
+                                                    <li class="my-pointer-item"><span class="label label-success">[sendername]</span></li>
                                                 </ul>
                                             </div>
                                             <?php
@@ -147,13 +159,13 @@
                                         <div class="form-group">
                                             <button type="button" class="btn btn-danger col-sm-2 my-marginDown" data-toggle="modal" data-target="#subjectModal" >Select Subject</button>
                                             <div class="col-sm-10">
-                                                <input type="text" name="mailSubject" class="form-control" id="mailSubject" placeholder="Subject">
+                                                <input type="text" name="mailSubject" class="form-control" onfocus="whichHasFocus = 1" id="mailSubject" placeholder="Subject">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <button type="button" class="btn btn-danger col-sm-2 my-marginDown" data-toggle="modal" data-target="#bodyModal" >Select Body</button>
                                             <div class="col-sm-10">
-                                                <textarea name="mailBody" rows="10" class="form-control" id="mailBody" placeholder="Body"></textarea>
+                                                <textarea name="mailBody" rows="10" class="form-control" onfocus="whichHasFocus= 2" id="mailBody" placeholder="Body"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -165,14 +177,14 @@
                                         <div>
                                             <p>Available Tags:</p>
                                             <div class="col-sm-2"></div>
-                                            <ul class="col-sm-10 list-inline">
-                                                <li><span class="label label-default">[mugno]</span></li>
-                                                <li><span class="label label-default">[firstname]</span></li>
-                                                <li><span class="label label-default">[lastname]</span></li>
-                                                <li><span class="label label-default">[birthdate]</span></li>
-                                                <li><span class="label label-default">[mobno]</span></li>
-                                                <li><span class="label label-default">[expirydate]</span></li>
-                                                <li><span class="label label-default">[sendername]</span></li>
+                                            <ul class="col-sm-10 list-inline mugtags-list">
+                                                <li class="my-pointer-item"><span class="label label-success">[mugno]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[firstname]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[lastname]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[birthdate]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[mobno]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[expirydate]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[sendername]</span></li>
                                             </ul>
                                         </div>
                                     </form>
@@ -371,6 +383,7 @@
 <?php echo $globalJs; ?>
 
 <script>
+    var whichHasFocus = 0;
     $(document).on('click','#bodyModal .body-half-txt li', function(){
         $('#bodyModal .body-half-txt li').removeClass('my-primary-highlighter');
         $(this).addClass('my-primary-highlighter');
@@ -485,6 +498,20 @@
                 bootbox.alert('Some Error occurred');
             }
         });
+
+    });
+
+    $(document).on('click','.mugtags-list li', function(){
+        var mugTag = $(this).find('span').html();
+
+        if(whichHasFocus == 1)
+        {
+            $('input[name="mailSubject"]').val($('input[name="mailSubject"]').val()+mugTag);
+        }
+        else if(whichHasFocus == 2)
+        {
+            $('textarea[name="mailBody"]').append(mugTag);
+        }
 
     });
 </script>
