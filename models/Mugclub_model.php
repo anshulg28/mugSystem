@@ -323,7 +323,7 @@ class Mugclub_Model extends CI_Model
         $query = "SELECT mugId, firstName"
             ." FROM mugmaster "
             ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' "
-            ."AND membershipEnd < CURRENT_DATE() AND emailId IS NOT NULL AND emailId != '' AND mailStatus = 0";
+            ."AND membershipEnd <= CURRENT_DATE() AND emailId IS NOT NULL AND emailId != '' AND mailStatus = 0";
 
         $result = $this->db->query($query)->result_array();
 

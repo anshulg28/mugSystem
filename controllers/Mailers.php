@@ -115,7 +115,7 @@ class Mailers extends MY_Controller {
             $fromName  = 'Doolally';
             if(isset($this->userFirstName))
             {
-                $fromName = ucfirst($this->userFirstName);
+                $fromName = trim(ucfirst($this->userFirstName));
             }
             $fromEmail = 'priyanka@doolally.in';
 
@@ -141,26 +141,26 @@ class Mailers extends MY_Controller {
 
     function replaceMugTags($tagStr,$mugInfo)
     {
-        $tagStr = str_replace('[sendername]',$this->userName,$tagStr);
+        $tagStr = str_replace('[sendername]',trim($this->userName),$tagStr);
         foreach($mugInfo['mugList'][0] as $key => $row)
         {
             switch($key)
             {
                 case 'mugId':
-                    $tagStr = str_replace('[mugno]',$row,$tagStr);
+                    $tagStr = str_replace('[mugno]',trim($row),$tagStr);
                     break;
                 case 'firstName':
-                    $tagStr = str_replace('[firstname]',$row,$tagStr);
+                    $tagStr = str_replace('[firstname]',trim($row),$tagStr);
                     break;
                 case 'lastName':
-                    $tagStr = str_replace('[lastname]',$row,$tagStr);
+                    $tagStr = str_replace('[lastname]',trim($row),$tagStr);
                     break;
                 case 'birthDate':
                     $d = date_create($row);
                     $tagStr = str_replace('[birthdate]',date_format($d,DATE_MAIL_FORMAT_UI),$tagStr);
                     break;
                 case 'mobileNo':
-                    $tagStr = str_replace('[mobno]',$row,$tagStr);
+                    $tagStr = str_replace('[mobno]',trim($row),$tagStr);
                     break;
                 case 'membershipEnd':
                     $d = date_create($row);
