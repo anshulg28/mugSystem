@@ -76,6 +76,37 @@ class Mugclub_Model extends CI_Model
 
         return $data;
     }
+
+    public function getMugEndDateById($mugId)
+    {
+        $query = "SELECT membershipEnd "
+            ."FROM mugmaster "
+            ."where mugId = ".$mugId;
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['mugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+    public function setMugRenew($post)
+    {
+        if(isset($post['mugId']))
+        {
+            $post['mailStatus'] = 0;
+        }
+        $this->db->where('mugId', $post['mugId']);
+        $this->db->update('mugmaster', $post);
+        return true;
+    }
     public function getMugDataForMailById($mugId)
     {
         $query = "SELECT mugId, firstName, lastName, mobileNo, emailId, birthDate, membershipEnd "
@@ -298,10 +329,10 @@ class Mugclub_Model extends CI_Model
                 break;
         }
 
-        $query = "SELECT mugId, firstName"
+        $query = "SELECT mugId, firstName, emailId"
                 ." FROM mugmaster "
                 ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' AND mailStatus = 0 "
-                ."AND membershipEnd = (CURRENT_DATE() + INTERVAL ".$intervalNum." ".$timeInterval.") AND emailId IS NOT NULL AND emailId != ''";
+                ."AND membershipEnd = (CURRENT_DATE() + INTERVAL ".$intervalNum." ".$timeInterval.")";
 
         $result = $this->db->query($query)->result_array();
 
@@ -320,10 +351,10 @@ class Mugclub_Model extends CI_Model
 
     public function getExpiredMugsList()
     {
-        $query = "SELECT mugId, firstName"
+        $query = "SELECT mugId, firstName, emailId"
             ." FROM mugmaster "
             ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' "
-            ."AND membershipEnd <= CURRENT_DATE() AND emailId IS NOT NULL AND emailId != '' AND mailStatus = 0";
+            ."AND membershipEnd <= CURRENT_DATE() AND mailStatus = 0";
 
         $result = $this->db->query($query)->result_array();
 
@@ -343,10 +374,10 @@ class Mugclub_Model extends CI_Model
 
     public function getBirthdayMugsList()
     {
-        $query = "SELECT mugId, firstName "
+        $query = "SELECT mugId, firstName, emailId "
             ." FROM mugmaster "
             ."WHERE birthDate IS NOT NULL AND birthDate != '0000-00-00' "
-            ."AND birthDate = CURRENT_DATE() AND emailId IS NOT NULL AND emailId != '' AND mailStatus = 0";
+            ."AND birthDate = CURRENT_DATE() AND mailStatus = 0";
 
         $result = $this->db->query($query)->result_array();
 

@@ -84,7 +84,35 @@ class Mugclub extends MY_Controller {
 
         $this->load->view('MugEditView', $data);
     }
-    
+
+    public function renewExistingMug($mugId)
+    {
+        $data = array();
+        if(isSessionVariableSet($this->isUserSession) === false)
+        {
+            redirect(base_url());
+        }
+
+        $muginfo = $this->mugclub_model->getMugEndDateById($mugId);
+
+        $data['mugInfo'] = $muginfo;
+        $data['mugId'] = $mugId;
+
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+
+        $this->load->view('MugRenewView', $data);
+    }
+
+    public function mugRenew()
+    {
+        $post = $this->input->post();
+
+        $this->mugclub_model->setMugRenew($post);
+
+        redirect(base_url().'mugclub');
+    }
     public function saveOrUpdateMug()
     {
         $post = $this->input->post();
@@ -253,6 +281,7 @@ class Mugclub extends MY_Controller {
             $availMugs = $allMugs;
         }
 
+        $availMugs = array_values($availMugs);
         return $availMugs;
     }
 

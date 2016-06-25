@@ -140,8 +140,15 @@
                                                 {
                                                     ?>
                                                     <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-mugId = "<?php echo $row['mugId'];?>">
-                                                        <i class="fa fa-trash-o"></i></a>
+                                                        <i class="fa fa-trash-o"></i></a>&nbsp;
                                                     <?php
+                                                    if(isset($row['membershipEnd']) && $row['membershipEnd'] <= date('Y-m-d'))
+                                                    {
+                                                        ?>
+                                                        <a data-toggle="tooltip" class="mugRenew-icon my-pointer-item my-noUnderline" title="Renew" data-mugId = "<?php echo $row['mugId'];?>">
+                                                            <i class="fa fa-repeat"></i></a>
+                                                        <?php
+                                                    }
                                                 }
                                                 ?>
                                             </td>
@@ -300,6 +307,11 @@
                         window.location.href='<?php echo base_url();?>mugclub/delete/'+mugId;
                     }
                 });
+            });
+
+            $(document).on('click','.mugRenew-icon',function(){
+                var mugId = $(this).attr('data-mugId');
+                window.location.href='<?php echo base_url();?>mugclub/renew/'+mugId;
             });
 
             /*var numPerPage = 10;

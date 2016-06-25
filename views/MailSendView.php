@@ -38,7 +38,17 @@
                                                             <li>
                                                                 <label for="mug_<?php echo $row['mugId'];?>" class="my-pointer-item">
                                                                     <input type="checkbox" id="mug_<?php echo $row['mugId'];?>" name="mugNums[]"
-                                                                           value="<?php echo $row['mugId'];?>" class="mugCheckList" onchange="changeToList()" checked>
+                                                                           value="<?php echo $row['mugId'];?>" class="mugCheckList" onchange="changeToList()"
+                                                                           <?php
+                                                                                if(isset($row['emailId']) && $row['emailId'] != '')
+                                                                                {
+                                                                                    echo 'checked';
+                                                                                }
+                                                                               else
+                                                                               {
+                                                                                   echo 'disabled';
+                                                                               }
+                                                                           ?>>
                                                                     <?php echo $row['mugId'].': '.ucfirst($row['firstName']);?>
                                                                 </label>
                                                             </li>
@@ -379,6 +389,7 @@
         </div>
 
     </main>
+    <?php echo $footerView; ?>
 </body>
 <?php echo $globalJs; ?>
 

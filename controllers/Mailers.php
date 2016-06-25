@@ -30,6 +30,7 @@ class Mailers extends MY_Controller {
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
         $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
 
        $this->load->view('MailersView',$data);
 	}
@@ -44,6 +45,7 @@ class Mailers extends MY_Controller {
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
         $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
 
         $this->load->view('MailAddView',$data);
 
@@ -93,6 +95,7 @@ class Mailers extends MY_Controller {
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
         $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
 
         $this->load->view('MailSendView',$data);
     }
@@ -141,7 +144,7 @@ class Mailers extends MY_Controller {
 
     function replaceMugTags($tagStr,$mugInfo)
     {
-        $tagStr = str_replace('[sendername]',trim($this->userName),$tagStr);
+        $tagStr = str_replace('[sendername]',trim(ucfirst($this->userName)),$tagStr);
         foreach($mugInfo['mugList'][0] as $key => $row)
         {
             switch($key)
@@ -150,10 +153,10 @@ class Mailers extends MY_Controller {
                     $tagStr = str_replace('[mugno]',trim($row),$tagStr);
                     break;
                 case 'firstName':
-                    $tagStr = str_replace('[firstname]',trim($row),$tagStr);
+                    $tagStr = str_replace('[firstname]',trim(ucfirst($row)),$tagStr);
                     break;
                 case 'lastName':
-                    $tagStr = str_replace('[lastname]',trim($row),$tagStr);
+                    $tagStr = str_replace('[lastname]',trim(ucfirst($row)),$tagStr);
                     break;
                 case 'birthDate':
                     $d = date_create($row);
