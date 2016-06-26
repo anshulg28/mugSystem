@@ -15,6 +15,14 @@
 
                 <form id="locationForm" method="post" action="<?php echo base_url().'home/setLocation';?>">
                     <div class="col-sm-12 text-center">
+                        <?php
+                            if(isset($pageUrl) && $pageUrl != '')
+                            {
+                                ?>
+                                <input type="hidden" name="pageUrl" value="<?php echo $pageUrl; ?>"/>
+                                <?php
+                            }
+                        ?>
                         <ul class="list-inline my-mainMenuList">
                             <li>
                                 <input type="radio" name="currentLoc" onchange="submitLocation()" id="andheri" value="2" />

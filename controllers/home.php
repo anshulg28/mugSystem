@@ -38,6 +38,12 @@ class Home extends MY_Controller {
     public function getLocation()
     {
         $data = array();
+        if(isset($this->session->page_url))
+        {
+            $data['pageUrl']= $this->session->page_url;
+            $this->session->unset_userdata('page_url');
+        }
+
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
         $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
@@ -50,7 +56,14 @@ class Home extends MY_Controller {
         $post = $this->input->post();
 
         $this->generalfunction_library->setSessionVariable("currentLocation",$post['currentLoc']);
-        redirect(base_url());
+        if(isset($post['pageUrl']))
+        {
+            redirect($post['pageUrl']);
+        }
+        else
+        {
+            redirect(base_url());
+        }
 
     }
 }

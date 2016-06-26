@@ -48,7 +48,17 @@
                     if(data.status === true)
                     {
                         hideCustomLoader();
-                        $(this).submit();
+                        $.ajax({
+                            type:"POST",
+                            url:"<?php echo base_url();?>locations/save",
+                            data:{locName:$('#locName').val()},
+                            success: function(data){
+                                window.location.href=base_url+'locations';
+                            },
+                            error: function(){
+                                $('.location-status').css('color','red').html('Some Error Occurred');
+                            }
+                        });
                     }
                     else
                     {

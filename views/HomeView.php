@@ -21,7 +21,7 @@
                                 <li>
                                     <a href="<?php echo base_url().'mugclub';?>">
                                         <div class="menuWrap">
-                                            <i class="fa fa-beer fa-4x"></i>
+                                            <i class="fa fa-beer fa-2x"></i>
                                             <br>
                                             <span>Mug Club</span>
                                         </div>
@@ -35,7 +35,7 @@
                                             <div class="notification-indicator-big"></div>
                                             <a href="<?php echo base_url().'mailers';?>">
                                                 <div class="menuWrap">
-                                                    <i class="fa fa-envelope fa-4x"></i>
+                                                    <i class="fa fa-envelope fa-2x"></i>
                                                     <br>
                                                     <span>Mail View</span>
                                                 </div>
@@ -44,7 +44,7 @@
                                         <li>
                                             <a href="<?php echo base_url().'users';?>">
                                                 <div class="menuWrap">
-                                                    <i class="fa fa-user fa-4x"></i>
+                                                    <i class="fa fa-user fa-2x"></i>
                                                     <br>
                                                     <span>Users List</span>
                                                 </div>
@@ -53,7 +53,7 @@
                                         <li>
                                             <a href="<?php echo base_url().'locations'; ?>">
                                                 <div class="menuWrap">
-                                                    <i class="fa fa-globe fa-4x"></i>
+                                                    <i class="fa fa-globe fa-2x"></i>
                                                     <br>
                                                     <span>Locations</span>
                                                 </div>
@@ -67,7 +67,7 @@
                                         <li>
                                             <a href="<?php echo base_url() . 'check-ins/add'; ?>">
                                                 <div class="menuWrap">
-                                                    <i class="fa fa-calendar-check-o fa-4x"></i>
+                                                    <i class="fa fa-calendar-check-o fa-2x"></i>
                                                     <br>
                                                     <span>Check-Ins</span>
                                                 </div>
