@@ -25,7 +25,14 @@ class Checkin extends MY_Controller {
         }
 
         //Getting All Mug Check-Ins List
-        $mugData = $this->checkin_model->getAllCheckInList();
+        if($this->userType == SERVER_USER)
+        {
+            $mugData = $this->checkin_model->getAllTodayCheckInList();
+        }
+        else
+        {
+            $mugData = $this->checkin_model->getAllCheckInList();
+        }
 
         $data['mugData'] = $mugData;
 

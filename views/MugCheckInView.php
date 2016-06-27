@@ -19,7 +19,7 @@
         </div>
         <br>
         <div class="container">
-            <table class="table table-hover table-bordered table-striped paginated">
+            <table id="main-mugclub-table" class="table table-hover table-bordered table-striped paginated">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -101,6 +101,8 @@
         });
     });
 
-    $('#main-mugclub-table').DataTable();
+    $('#main-mugclub-table').DataTable({
+        "ordering": false
+    });
 </script>
 </html>

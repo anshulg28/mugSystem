@@ -14,12 +14,33 @@ class Checkin_Model extends CI_Model
         $this->load->library('mydatafetch_library');
 	}
 
-    public function getAllCheckInList()
+    public function getAllTodayCheckInList()
     {
         $query = "SELECT m.id,mugId,l.locName,checkinDateTime "
             ."FROM mugcheckinmaster m "
             ."LEFT JOIN locationmaster l ON l.id = m.location "
             ."WHERE DATE(checkinDateTime) = CURRENT_DATE() ORDER BY id DESC";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['checkInList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+    public function getAllCheckInList()
+    {
+        $query = "SELECT m.id,mugId,l.locName,checkinDateTime "
+            ."FROM mugcheckinmaster m "
+            ."LEFT JOIN locationmaster l ON l.id = m.location "
+            ."ORDER BY m.id DESC";
 
         $result = $this->db->query($query)->result_array();
 
