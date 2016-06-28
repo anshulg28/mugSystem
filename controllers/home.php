@@ -35,6 +35,15 @@ class Home extends MY_Controller {
 		$this->load->view('HomeView', $data);
 	}
 
+    public function main()
+    {
+        $data = array();
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+
+        $this->load->view('MainView', $data);
+    }
     public function getLocation()
     {
         $data = array();
