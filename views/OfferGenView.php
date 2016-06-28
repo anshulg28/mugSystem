@@ -31,14 +31,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary"
-                                <?php
-                                    if($todayCount['status'] === true)
-                                    {
-                                        echo 'disabled';
-                                    }
-                                ?>
-                            >Generate</button>
+                            <button type="submit" class="btn btn-primary">Generate</button>
                             <p class="my-display-inline">Today's Generated Codes:
                                 <?php
                                 if($todayCount['status'] === true)
