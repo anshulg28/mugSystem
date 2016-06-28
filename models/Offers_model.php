@@ -38,6 +38,11 @@ class Offers_Model extends CI_Model
         $this->db->insert_batch('offersmaster',$data);
         return true;
     }
+    public function setSingleCode($data)
+    {
+        $this->db->insert('offersmaster',$data);
+        return true;
+    }
 
     public function getTodayCodes()
     {

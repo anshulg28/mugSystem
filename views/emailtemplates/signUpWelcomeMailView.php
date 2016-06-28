@@ -8,9 +8,9 @@
 <body>
     <p>Dear <?php echo trim(ucfirst($mailData['firstName']));?>,</p>
     <p>Thanks for being part of the Doolally Mug Club.<br><br>
-        We started serving breakfast everyday, 7 am onwards, and since we really want you to try it out - your first breakfast is on us! Don't hurry or anything, it's valid till hell freezes over! Also, this is valid at both, Andheri or Bandra.<br><br>
+        We serve breakfast everyday, 7 am onwards, and since we really want you to try it out - your first Breakfast of Champions (includes a beer) is on us! Don't hurry or anything, it's valid till hell freezes over! Also, this is valid at any of our Mumbai taprooms.<br><br>
 
-        Just show this email to the person taking your order the next time you're in the mood for breakfast.<br><br>
+        Just show this code <?php echo trim($breakfastCode);?> to the person taking your order the next time you're in the mood for breakfast.<br><br>
 
         Cheers!<br>
         <?php echo trim(ucfirst($this->userFirstName));?>,<br>
