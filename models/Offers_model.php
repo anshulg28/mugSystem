@@ -113,6 +113,35 @@ class Offers_Model extends CI_Model
 
         return $data;
     }
+
+    public function checkOldOfferCode($offerCode)
+    {
+        $query = "SELECT offerType, isRedeemed"
+            ." FROM oldoffersmaster "
+            ."WHERE offerCode = ".$offerCode;
+
+        $result = $this->db->query($query)->row_array();
+
+        $data['codeCheck'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
+    public function setoldOfferUsed($offerData)
+    {
+        $this->db->where('offerCode', $offerData['offerCode']);
+        $this->db->update('oldoffersmaster', $offerData);
+        return true;
+    }
+
     public function setOfferUsed($offerData)
     {
         $this->db->where('offerCode', $offerData['offerCode']);

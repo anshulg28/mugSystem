@@ -49,6 +49,7 @@ class Offers extends MY_Controller {
 
         $this->load->view('OfferCheckView', $data);
     }
+    
 
     public function generate()
     {
@@ -223,7 +224,7 @@ class Offers extends MY_Controller {
             if($offerStatus['codeCheck']['isRedeemed'] == 1)
             {
                 $data['status'] = false;
-                $data['errorMsg'] = 'Offer Code Already Used';
+                $data['errorMsg'] = 'Sorry, this code has been redeemed before.';
             }
             else
             {
@@ -236,6 +237,42 @@ class Offers extends MY_Controller {
                 $offerData['isRedeemed'] = 1;
                 $offerData['useDateTime'] = date('Y-m-d H:i:s');
                 $this->offers_model->setOfferUsed($offerData);
+                $data['status'] = true;
+                $data['offerType'] = $offerStatus['codeCheck']['offerType'];
+            }
+        }
+
+        echo json_encode($data);
+    }
+
+    public function oldOfferCheck($offerCode)
+    {
+        $data = array();
+        $offerStatus = $this->offers_model->checkOldOfferCode($offerCode);
+
+        if($offerStatus['status'] === false)
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Invalid Code!';
+        }
+        else
+        {
+            if($offerStatus['codeCheck']['isRedeemed'] == 1)
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Sorry, this code has been redeemed before.';
+            }
+            else
+            {
+                $offerData = array();
+                $offerData['offerCode'] = $offerCode;
+                if(isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === true)
+                {
+                    $offerData['offerLoc'] = $this->currentLocation;
+                }
+                $offerData['isRedeemed'] = 1;
+                $offerData['useDateTime'] = date('Y-m-d H:i:s');
+                $this->offers_model->setoldOfferUsed($offerData);
                 $data['status'] = true;
                 $data['offerType'] = $offerStatus['codeCheck']['offerType'];
             }
