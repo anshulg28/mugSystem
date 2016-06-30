@@ -20,6 +20,10 @@ class Locations extends MY_Controller {
         {
             redirect(base_url());
         }
+        if($this->userType == GUEST_USER)
+        {
+            redirect(base_url());
+        }
 
         $data['storeLocations'] = $this->locations_model->getAllLocations();
 

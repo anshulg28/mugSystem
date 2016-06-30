@@ -75,6 +75,8 @@ class Login extends MY_Controller {
         $this->session->unset_userdata('user_id');
         $this->session->unset_userdata('user_type');
         $this->session->unset_userdata('user_name');
+        $this->session->unset_userdata('user_email');
+        $this->session->unset_userdata('user_firstname');
 
         redirect(base_url());
     }

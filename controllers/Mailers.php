@@ -22,6 +22,10 @@ class Mailers extends MY_Controller {
         {
             redirect(base_url().'home');
         }
+        if($this->userType == GUEST_USER)
+        {
+            redirect(base_url());
+        }
 
         $data['expiredMugs'] = $this->mugclub_model->getExpiredMugsList();
         $data['expiringMugs'] = $this->mugclub_model->getExpiringMugsList(1,'week');

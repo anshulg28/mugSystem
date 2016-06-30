@@ -11,23 +11,25 @@
         <?php
             if(isSessionVariableSet($this->isUserSession) === true)
             {
-                ?>
-                <div class="container-fluid">
-                    <div class="row">
-                        <h2 class="text-center">Welcome <?php echo ucfirst($this->userName); ?></h2>
-                        <br>
-                        <div class="col-sm-12 text-center">
-                            <ul class="list-inline my-mainMenuList">
-                                <li>
-                                    <a href="<?php echo base_url().'mugclub';?>">
-                                        <div class="menuWrap">
-                                            <i class="fa fa-beer fa-2x"></i>
-                                            <br>
-                                            <span>Mug Club</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <?php
+                if($this->userType != GUEST_USER)
+                {
+                    ?>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <h2 class="text-center">Welcome <?php echo ucfirst($this->userName); ?></h2>
+                            <br>
+                            <div class="col-sm-12 text-center">
+                                <ul class="list-inline my-mainMenuList">
+                                    <li>
+                                        <a href="<?php echo base_url().'mugclub';?>">
+                                            <div class="menuWrap">
+                                                <i class="fa fa-beer fa-2x"></i>
+                                                <br>
+                                                <span>Mug Club</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <?php
                                     if($this->userType != SERVER_USER)
                                     {
                                         ?>
@@ -108,11 +110,36 @@
                                         <?php
                                     }
                                     ?>
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <?php
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <h2 class="text-center">Welcome <?php echo ucfirst($this->userName); ?></h2>
+                            <br>
+                            <div class="col-sm-12 text-center">
+                                <ul class="list-inline my-mainMenuList">
+                                    <li>
+                                        <a href="<?php echo base_url() . 'offers'; ?>">
+                                            <div class="menuWrap">
+                                                <i class="fa fa-trophy fa-2x"></i>
+                                                <br>
+                                                <span>Offers Page</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
             }
             else
             {
