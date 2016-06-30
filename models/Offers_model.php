@@ -69,7 +69,7 @@ class Offers_Model extends CI_Model
     {
         $query = "SELECT o.id, offerCode, offerType, isRedeemed, createDateTime, useDateTime ,l.locName"
                 ." FROM offersmaster o "
-                ."LEFT JOIN locationmaster l ON l.id = offerLoc";
+                ."LEFT JOIN locationmaster l ON l.id = offerLoc ORDER BY useDateTime DESC";
 
         $result = $this->db->query($query)->result_array();
 
@@ -89,7 +89,7 @@ class Offers_Model extends CI_Model
     {
         $query = "SELECT o.id, offerCode, offerType, isRedeemed, createDateTime, useDateTime ,l.locName"
             ." FROM oldoffersmaster o "
-            ."LEFT JOIN locationmaster l ON l.id = offerLoc";
+            ."LEFT JOIN locationmaster l ON l.id = offerLoc ORDER BY useDateTime DESC";
 
         $result = $this->db->query($query)->result_array();
 

@@ -235,6 +235,8 @@
         });
     });
 
-    $('#new-offers-table, #old-offers-table').DataTable();
+    $('#new-offers-table, #old-offers-table').DataTable({
+        ordering: false
+    });
 </script>
 </html>

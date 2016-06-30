@@ -82,6 +82,15 @@
                                                 </div>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="<?php echo base_url() . 'offers/check'; ?>">
+                                                <div class="menuWrap">
+                                                    <i class="fa fa-trophy fa-2x"></i>
+                                                    <br>
+                                                    <span>Offers Check</span>
+                                                </div>
+                                            </a>
+                                        </li>
                                         <?php
                                     }
                                     else
@@ -93,20 +102,6 @@
                                                     <i class="fa fa-calendar-check-o fa-2x"></i>
                                                     <br>
                                                     <span>Check-Ins</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <?php
-                                    }
-                                    if($this->userType == SERVER_USER)
-                                    {
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo base_url() . 'offers/check'; ?>">
-                                                <div class="menuWrap">
-                                                    <i class="fa fa-trophy fa-2x"></i>
-                                                    <br>
-                                                    <span>Offers Check</span>
                                                 </div>
                                             </a>
                                         </li>
