@@ -130,7 +130,7 @@
                 success: function(data){
                     if(data.status === true)
                     {
-                        $('.username-status').css('color','green').html('Mobile Number is Available');
+                        $('.username-status').css('color','green').html('Username is Available');
                         userVerified = 1;
                     }
                     else

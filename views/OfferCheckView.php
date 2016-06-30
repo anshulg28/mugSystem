@@ -52,7 +52,7 @@
 
         var newOffer = $('#offerCode').val();
         var oldOffer = $('#oldOfferCode').val();
-        var offerUrl;
+        var offerUrl,offerPrifix,finalCode;
         if(newOffer != '' && oldOffer != '')
         {
             bootbox.alert('Enter Only 1 Code!');
@@ -65,44 +65,54 @@
         }
         if(newOffer != '')
         {
+            finalCode = newOffer;
             offerUrl = base_url+'offers/offerCheck/'+newOffer;
+            offerPrifix = 'DO';
         }
         else if(oldOffer != '')
         {
+            finalCode = oldOffer;
             offerUrl = base_url+'offers/oldOfferCheck/'+oldOffer;
+            offerPrifix = 'TW';
         }
-        showCustomLoader();
-        //send ajax request to check mobile number
-        $.ajax({
-            type:"GET",
-            dataType:"json",
-            url:offerUrl,
-            success: function(data)
+        bootbox.confirm("Sure you want to Redeem "+offerPrifix+"-"+finalCode+" ?", function(result) {
+            if(result === true)
             {
-                hideCustomLoader();
-                if(data.status === true)
-                {
-                    if(data.offerType == 'Beer')
+                showCustomLoader();
+                //send ajax request to check mobile number
+                $.ajax({
+                    type:"GET",
+                    dataType:"json",
+                    url:offerUrl,
+                    success: function(data)
                     {
-                        bootbox.alert('<label class="my-success-text">Congrats, you get a 330ml Beer! Mug Club members get 500ml</label>');
-                    }
-                    else if(data.offerType == 'Breakfast')
-                    {
-                        bootbox.alert('<label class="my-success-text">Congrats, you get a Breakfast. This includes one pint. </label>');
-                    }
+                        hideCustomLoader();
+                        if(data.status === true)
+                        {
+                            if(data.offerType == 'Beer')
+                            {
+                                bootbox.alert('<label class="my-success-text">Congrats, you get a 330ml Beer! Mug Club members get 500ml</label>');
+                            }
+                            else if(data.offerType == 'Breakfast')
+                            {
+                                bootbox.alert('<label class="my-success-text">Congrats, you get a Breakfast. This includes one pint. </label>');
+                            }
 
-                }
-                else
-                {
-                    bootbox.alert('<label class="my-danger-text">'+data.errorMsg+'</label>');
-                }
-            },
-            error: function()
-            {
-                hideCustomLoader();
-                bootbox.alert('Unable To Connect To Server!');
+                        }
+                        else
+                        {
+                            bootbox.alert('<label class="my-danger-text">'+data.errorMsg+'</label>');
+                        }
+                    },
+                    error: function()
+                    {
+                        hideCustomLoader();
+                        bootbox.alert('Unable To Connect To Server!');
+                    }
+                });
             }
         });
+
     });
 
     $(document).on('keypress','#offerCode,#oldOfferCode', function(event){

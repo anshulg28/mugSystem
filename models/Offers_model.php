@@ -65,11 +65,31 @@ class Offers_Model extends CI_Model
         return $data;
     }
 
-    public function getOfferStats()
+    public function getOfferCodes()
     {
         $query = "SELECT o.id, offerCode, offerType, isRedeemed, createDateTime, useDateTime ,l.locName"
                 ." FROM offersmaster o "
                 ."LEFT JOIN locationmaster l ON l.id = offerLoc";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['codes'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+    public function getOldOfferCodes()
+    {
+        $query = "SELECT o.id, offerCode, offerType, isRedeemed, createDateTime, useDateTime ,l.locName"
+            ." FROM oldoffersmaster o "
+            ."LEFT JOIN locationmaster l ON l.id = offerLoc";
 
         $result = $this->db->query($query)->result_array();
 
@@ -90,6 +110,12 @@ class Offers_Model extends CI_Model
     {
         $this->db->where('id', $offerId);
         $this->db->delete('offersmaster');
+        return true;
+    }
+    public function deleteOldOfferRecord($offerId)
+    {
+        $this->db->where('id', $offerId);
+        $this->db->delete('oldoffersmaster');
         return true;
     }
 
@@ -147,5 +173,52 @@ class Offers_Model extends CI_Model
         $this->db->where('offerCode', $offerData['offerCode']);
         $this->db->update('offersmaster', $offerData);
         return true;
+    }
+
+    public function getOffersStats()
+    {
+        $query= "SELECT DISTINCT (SELECT count(*) FROM offersmaster where isRedeemed = 1 AND offerType= 'Beer') AS 'TBeer',
+                (SELECT count(*) FROM offersmaster where isRedeemed = 1 AND offerType='Beer' AND date(useDateTime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AS 'MBeer',
+                (SELECT count(*) FROM offersmaster where isRedeemed = 1 AND offerType= 'Breakfast') AS 'TBreakfast',
+                (SELECT count(*) FROM offersmaster where isRedeemed = 1 AND offerType='Breakfast' AND date(useDateTime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AS 'MBreakfast'
+                FROM `offersmaster`";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data['offerStat'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
+    public function getOldOffersStats()
+    {
+        $query= "SELECT DISTINCT (SELECT count(*) FROM oldoffersmaster where isRedeemed = 1 AND offerType= 'Beer') AS 'TBeer',
+                (SELECT count(*) FROM oldoffersmaster where isRedeemed = 1 AND offerType='Beer' AND date(useDateTime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AS 'MBeer',
+                (SELECT (count(*)+59) FROM oldoffersmaster where isRedeemed = 1 AND offerType= 'Breakfast') AS 'TBreakfast',
+                (SELECT count(*) FROM oldoffersmaster where isRedeemed = 1 AND offerType='Breakfast' AND date(useDateTime) >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AS 'MBreakfast'
+                FROM `oldoffersmaster`";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data['offerStat'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+
     }
 }

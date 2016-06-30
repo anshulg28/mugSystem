@@ -49,7 +49,7 @@ class Offers extends MY_Controller {
 
         $this->load->view('OfferCheckView', $data);
     }
-    
+
 
     public function generate()
     {
@@ -191,7 +191,12 @@ class Offers extends MY_Controller {
     public function stats()
     {
         $data = array();
-        $data['offerCodes'] = $this->offers_model->getOfferStats();
+        $data['offerCodes'] = $this->offers_model->getOfferCodes();
+        $data['oldOffersCodes'] = $this->offers_model->getOldOfferCodes();
+
+        //Getting All Offers Stats
+        $data['newOfferStats'] = $this->offers_model->getOffersStats();
+        $data['oldOfferStats'] = $this->offers_model->getOldOffersStats();
 
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
@@ -200,11 +205,18 @@ class Offers extends MY_Controller {
 
         $this->load->view('OfferStatsView', $data);
     }
-    public function delete($offerId)
+    public function delete($offerId, $offerAge)
     {
         if(isset($offerId))
         {
-            $this->offers_model->deleteOfferRecord($offerId);
+            if($offerAge == 'old')
+            {
+                $this->offers_model->deleteOldOfferRecord($offerId);
+            }
+            else
+            {
+                $this->offers_model->deleteOfferRecord($offerId);
+            }
         }
         redirect(base_url().'offers/stats');
     }
@@ -257,7 +269,7 @@ class Offers extends MY_Controller {
         }
         else
         {
-            if($offerStatus['codeCheck']['isRedeemed'] == 1)
+            if($offerStatus['codeCheck']['isRedeemed'] == "1")
             {
                 $data['status'] = false;
                 $data['errorMsg'] = 'Sorry, this code has been redeemed before.';
