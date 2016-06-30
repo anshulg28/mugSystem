@@ -8,15 +8,22 @@
 <body>
     <?php echo $headerView; ?>
     <main class="mugClub">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9 col-xs-8">
-                    <a class="btn btn-primary" href="<?php echo base_url().'check-ins/add';?>">
-                    <i class="fa fa-plus"></i>
-                    New Check-In</a>
+        <?php
+            if($this->userType != EXECUTIVE_USER)
+            {
+                ?>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-9 col-xs-8">
+                            <a class="btn btn-primary" href="<?php echo base_url().'check-ins/add';?>">
+                                <i class="fa fa-plus"></i>
+                                New Check-In</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+                <?php
+            }
+        ?>
         <br>
         <div class="container">
             <table id="main-mugclub-table" class="table table-hover table-bordered table-striped paginated">
@@ -73,15 +80,6 @@
                 }
                 ?>
             </table>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9 col-xs-8">
-                    <a class="btn btn-primary" href="<?php echo base_url().'check-ins/add';?>">
-                        <i class="fa fa-plus"></i>
-                        New Check-In</a>
-                </div>
-            </div>
         </div>
     </main>
 </body>

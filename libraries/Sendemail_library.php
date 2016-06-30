@@ -92,7 +92,7 @@ class Sendemail_library
         $CI->email->from($from, $fromName);
         $CI->email->to($to);
         if ($cc != '') {
-            $CI->email->cc($cc);
+            $CI->email->bcc($cc);
         }
         if($attachment != ""){
             $CI->email->attach($attachment);

@@ -70,11 +70,25 @@
                                         </li>
                                         <?php
                                     }
-                                    if($this->userType != EXECUTIVE_USER)
+                                    if($this->userType == SERVER_USER)
                                     {
                                         ?>
                                         <li>
                                             <a href="<?php echo base_url() . 'check-ins/add'; ?>">
+                                                <div class="menuWrap">
+                                                    <i class="fa fa-calendar-check-o fa-2x"></i>
+                                                    <br>
+                                                    <span>Check-Ins</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
+                                    else
+                                    {
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo base_url() . 'check-ins'; ?>">
                                                 <div class="menuWrap">
                                                     <i class="fa fa-calendar-check-o fa-2x"></i>
                                                     <br>

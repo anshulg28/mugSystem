@@ -28,12 +28,9 @@
                         <li><a href="<?php echo base_url();?>offers"><i class="fa fa-trophy"></i> Offers</a>
                         <?php
                     }
-                    if($this->userType != EXECUTIVE_USER)
-                    {
-                        ?>
-                        <li><a href="<?php echo base_url();?>check-ins"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
-                        <?php
-                    }
+                    ?>
+                    <li><a href="<?php echo base_url();?>check-ins"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
+                    <?php
                     if($this->userType == SERVER_USER)
                     {
                         ?>
