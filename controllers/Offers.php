@@ -292,4 +292,17 @@ class Offers extends MY_Controller {
 
         echo json_encode($data);
     }
+    
+    public function offerUnused($id)
+    {
+        $this->offers_model->setOfferUnused($id);
+
+        redirect($this->pageUrl);
+    }
+    public function oldOfferUnused($id)
+    {
+        $this->offers_model->setoldOfferUnused($id);
+
+        redirect($this->pageUrl);
+    }
 }

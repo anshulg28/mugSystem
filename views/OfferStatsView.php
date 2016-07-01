@@ -102,6 +102,15 @@
                                             <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-offerId="<?php echo $row['id'];?>"
                                                data-offerCode= "<?php echo $row['offerCode'];?>">
                                                 <i class="fa fa-trash-o"></i></a>&nbsp;
+                                            <?php
+                                            if($row['isRedeemed'] == 1)
+                                            {
+                                                ?>
+                                                <a data-toggle="tooltip" title="Renew" href="<?php echo base_url().'offers/offerUnused/'.$row['id'];?>">
+                                                    <i class="fa fa-repeat"></i></a>
+                                                <?php
+                                            }
+                                            ?>
                                         </td>
                                     </tr>
                                     <?php
@@ -192,6 +201,15 @@
                                             <a data-toggle="tooltip" class="oldmugDelete-icon" title="Delete" data-offerId="<?php echo $row['id'];?>"
                                                data-offerCode= "<?php echo $row['offerCode'];?>">
                                                 <i class="fa fa-trash-o"></i></a>&nbsp;
+                                            <?php
+                                                if($row['isRedeemed'] == 1)
+                                                {
+                                                    ?>
+                                                    <a data-toggle="tooltip" title="Renew" href="<?php echo base_url().'offers/oldOfferUnused/'.$row['id'];?>">
+                                                        <i class="fa fa-repeat"></i></a>
+                                                    <?php
+                                                }
+                                            ?>
                                         </td>
                                     </tr>
                                     <?php

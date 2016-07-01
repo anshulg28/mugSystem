@@ -167,11 +167,29 @@ class Offers_Model extends CI_Model
         $this->db->update('oldoffersmaster', $offerData);
         return true;
     }
+    public function setoldOfferUnused($id)
+    {
+        $data['isRedeemed'] = 0;
+        $data['offerLoc'] = null;
+        $data['useDateTime'] = null;
+        $this->db->where('id', $id);
+        $this->db->update('oldoffersmaster', $data);
+        return true;
+    }
 
     public function setOfferUsed($offerData)
     {
         $this->db->where('offerCode', $offerData['offerCode']);
         $this->db->update('offersmaster', $offerData);
+        return true;
+    }
+    public function setOfferUnused($id)
+    {
+        $data['isRedeemed'] = 0;
+        $data['offerLoc'] = null;
+        $data['useDateTime'] = null;
+        $this->db->where('id', $id);
+        $this->db->update('offersmaster', $data);
         return true;
     }
 
