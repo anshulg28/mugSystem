@@ -377,7 +377,7 @@ class Mugclub_Model extends CI_Model
         $query = "SELECT mugId, firstName, emailId "
             ." FROM mugmaster "
             ."WHERE birthDate IS NOT NULL AND birthDate != '0000-00-00' "
-            ."AND birthDate = CURRENT_DATE() AND mailStatus = 0";
+            ."AND DATE_FORMAT(birthDate,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d') AND mailStatus = 0";
 
         $result = $this->db->query($query)->result_array();
 
