@@ -41,7 +41,7 @@ class Sendemail_library
 
     public function generateBreakfastCode()
     {
-        $allCodes = $this->offers_model->getAllCodes();
+        $allCodes = $this->CI->offers_model->getAllCodes();
         $usedCodes = array();
         $toBeInserted = array();
         if($allCodes['status'] === true)
@@ -79,7 +79,7 @@ class Sendemail_library
             );
         }
 
-        $this->offers_model->setSingleCode($toBeInserted);
+        $this->CI->offers_model->setSingleCode($toBeInserted);
         return 'DO-'.$newCode;
     }
 

@@ -756,5 +756,14 @@
             }
         });
     });
+    $(document).on('keypress','#mugNum', function(event){
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+
+        if(keycode == 13)
+        {
+            $('.verify-checkin-btn').trigger('click');
+        }
+    });
 </script>
 </html>
