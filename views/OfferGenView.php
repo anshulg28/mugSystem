@@ -30,6 +30,25 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <label for="is_custom">
+                                <input type="checkbox" onchange="toggleEmailField(this)" id="is_custom" name="customCode" value="1">
+                                Custom Codes
+                            </label>
+                            <ul class="list-inline custom-input-list hide">
+                                <li>
+                                    <input type="number" name="customNums" class="form-control"
+                                           id="customNums" placeholder="Eg. 50"/>
+                                </li>
+                                <li>
+                                    <input type="text" name="customName" class="form-control"
+                                           id="customName" placeholder="Eg. Beer"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-primary">Generate</button>
                             <p class="my-display-inline">Today's Generated Codes:
@@ -161,6 +180,14 @@
 <script>
     $(document).on('submit','#offerGen-form', function(e){
        e.preventDefault();
+        if($('input[name="customCode"]').is(':checked'))
+        {
+            if($('input[name="customName"]').val() == '')
+            {
+                $('input[name="customName"]').focus();
+                return false;
+            }
+        }
         showCustomLoader();
         $.ajax({
             type:'POST',
@@ -222,6 +249,18 @@
     $(document).ready(function(){
         $('#main-mugclub-table').DataTable();
     });
+
+    function toggleEmailField(ele)
+    {
+        if($(ele).is(':checked'))
+        {
+            $('.custom-input-list').removeClass('hide');
+        }
+        else
+        {
+            $('.custom-input-list').addClass('hide');
+        }
+    }
 
 </script>
 </html>

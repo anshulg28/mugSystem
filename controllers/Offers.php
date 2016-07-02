@@ -77,7 +77,7 @@ class Offers extends MY_Controller {
                 $usedCodes[] = $row['offerCode'];
             }
 
-            if($post['beerNums'] != 0)
+            if(isset($post['beerNums']) && $post['beerNums'] != 0)
             {
                 for($i=0;$i<$post['beerNums'];$i++)
                 {
@@ -103,7 +103,7 @@ class Offers extends MY_Controller {
 
                 }
             }
-            if($post['breakNums'] != 0)
+            if(isset($post['breakNums']) && $post['breakNums'] != 0)
             {
                 for($i=0;$i<$post['breakNums'];$i++)
                 {
@@ -119,6 +119,31 @@ class Offers extends MY_Controller {
                     $toBeInserted[] = array(
                         'offerCode' => $newCode,
                         'offerType' => 'Breakfast',
+                        'offerLoc' => null,
+                        'isRedeemed' => 0,
+                        'ifActive' => 1,
+                        'createDateTime' => date('Y-m-d H:i:s'),
+                        'useDateTime' => null
+                    );
+
+                }
+            }
+            if(isset($post['customCode']) && $post['customNums'] != 0)
+            {
+                for($i=0;$i<$post['customNums'];$i++)
+                {
+                    $newCode = mt_rand(1000,99999);
+                    while(myInArray($newCode,$usedCodes))
+                    {
+                        $newCode = mt_rand(1000,99999);
+                    }
+                    $unUsedCodes[] = array(
+                        'code' => $newCode,
+                        'type' => $post['customName']
+                    );
+                    $toBeInserted[] = array(
+                        'offerCode' => $newCode,
+                        'offerType' => $post['customName'],
                         'offerLoc' => null,
                         'isRedeemed' => 0,
                         'ifActive' => 1,
@@ -131,7 +156,7 @@ class Offers extends MY_Controller {
         }
         else
         {
-            if($post['beerNums'] != 0)
+            if(isset($post['beerNums']) && $post['beerNums'] != 0)
             {
                 for($i=0;$i<$post['beerNums'];$i++)
                 {
@@ -153,7 +178,7 @@ class Offers extends MY_Controller {
 
                 }
             }
-            if($post['breakNums'] != 0)
+            if(isset($post['breakNums']) && $post['breakNums'] != 0)
             {
                 for($i=0;$i<$post['breakNums'];$i++)
                 {
@@ -166,6 +191,28 @@ class Offers extends MY_Controller {
                     $toBeInserted[] = array(
                         'offerCode' => $newCode,
                         'offerType' => 'Breakfast',
+                        'offerLoc' => null,
+                        'isRedeemed' => 0,
+                        'ifActive' => 1,
+                        'createDateTime' => date('Y-m-d H:i:s'),
+                        'useDateTime' => null
+                    );
+
+                }
+            }
+            if(isset($post['customCode']) && $post['customNums'] != 0)
+            {
+                for($i=0;$i<$post['customNums'];$i++)
+                {
+                    $newCode = mt_rand(1000,99999);
+
+                    $unUsedCodes[] = array(
+                        'code' => $newCode,
+                        'type' => $post['customName']
+                    );
+                    $toBeInserted[] = array(
+                        'offerCode' => $newCode,
+                        'offerType' => $post['customName'],
                         'offerLoc' => null,
                         'isRedeemed' => 0,
                         'ifActive' => 1,
