@@ -142,7 +142,7 @@
                                                     <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-mugId = "<?php echo $row['mugId'];?>">
                                                         <i class="fa fa-trash-o"></i></a>&nbsp;
                                                     <?php
-                                                    if(isset($row['membershipEnd']) && $row['membershipEnd'] <= date('Y-m-d'))
+                                                    if(isset($row['membershipEnd']) && $row['membershipEnd'] <= date('Y-m-d', strtotime('+1 month')))
                                                     {
                                                         ?>
                                                         <a data-toggle="tooltip" class="mugRenew-icon my-pointer-item my-noUnderline" title="Renew" data-mugId = "<?php echo $row['mugId'];?>">

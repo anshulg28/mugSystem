@@ -15,11 +15,18 @@
                 <br>
                 <form action="<?php echo base_url();?>mugclub/mugRenew" method="post" class="form-horizontal" role="form">
                     <input type="hidden" value="<?php echo $mugId;?>" name="mugId"/>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label class="control-label col-sm-2" for="memEnd">Membership End Date :</label>
                         <div class="col-sm-10">
                             <input type="date" name="membershipEnd" class="form-control"
-                                    id="memEnd" value="<?php echo $mugInfo['mugList'][0]['membershipEnd'];?>"/>
+                                    id="memEnd" value="<?php /*echo $mugInfo['mugList'][0]['membershipEnd'];*/?>"/>
+                        </div>
+                    </div>-->
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="invoNum">Invoice Number :</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="invoiceNo" class="form-control"
+                                   id="invoNum" placeholder="Eg: 0000"/>
                         </div>
                     </div>
                     <div class="form-group">
