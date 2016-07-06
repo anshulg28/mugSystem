@@ -35,6 +35,26 @@ class Login_Model extends CI_Model
 
         return $data;
     }
+    public function checkUserByPin($loginPin)
+    {
+        $query = "SELECT userId,ifActive "
+            ."FROM doolally_usersmaster "
+            ."where LoginPin = '".$loginPin."' ";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
 
     public function setLastLogin($userId)
     {

@@ -113,6 +113,27 @@ class Mugclub extends MY_Controller {
     {
         $post = $this->input->post();
 
+        if(!isset($post['invoiceNo']))
+        {
+            $post['invoiceNo'] = '0000';
+        }
+        $mugDetails = $this->mugclub_model->getMugIdForRenew($post['mugId']);
+        $mugDetails['mugId'] = $post['mugId'];
+        $this->mugclub_model->saveRenewRecord($mugDetails);
+
+        $post['membershipStart'] = date('Y-m-d');
+
+        if(date('Y-m-d') <= $mugDetails['membershipEnd'])
+        {
+            $post['membershipEnd'] = date('Y-m-d', strtotime($mugDetails['membershipEnd'].' +12 month'));
+        }
+        else
+        {
+            $post['membershipEnd'] = date('Y-m-d', strtotime($post['membershipStart'].' +12 month'));
+        }
+        $post['invoiceDate'] = date('Y-m-d');
+        $post['mailStatus'] = 0;
+
         $this->mugclub_model->setMugRenew($post);
 
         redirect(base_url().'mugclub');

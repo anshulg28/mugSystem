@@ -34,9 +34,35 @@ class Login extends MY_Controller {
     public function checkUser($responseType = RESPONSE_RETURN)
     {
         $post = $this->input->post();
+        $userResult='';
 
-        $userResult = $this->login_model->checkUser($post['userName'],md5($post['password']));
+        if(isset($post['userName']) && $post['userName'] != '' && isset($post['password']) && $post['password'] != '')
+        {
+            $userResult = $this->login_model->checkUser($post['userName'],md5($post['password']));
+        }
+        else
+        {
+            $loginPin = '';
 
+            if(!isset($post['loginPin1']))
+            {
+                $post['loginPin1'] = '0';
+            }
+            if(!isset($post['loginPin2']))
+            {
+                $post['loginPin2'] = '0';
+            }
+            if(!isset($post['loginPin3']))
+            {
+                $post['loginPin3'] = '0';
+            }
+            if(!isset($post['loginPin4']))
+            {
+                $post['loginPin4'] = '0';
+            }
+            $loginPin .= $post['loginPin1'] . $post['loginPin2'] . $post['loginPin3'] . $post['loginPin4'];
+            $userResult = $this->login_model->checkUserByPin(md5($loginPin));
+        }
         if($userResult['status'] === true && $userResult['userId'] != 0)
         {
             if($userResult['ifActive'] == NOT_ACTIVE)
