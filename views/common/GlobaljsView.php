@@ -10,7 +10,14 @@
 
 <!-- constants -->
 <script>
-    window.currentLocation = <?php echo $this->currentLocation; ?>;
+    <?php
+        if(isset($this->currentLocation) && isSessionVariableSet($this->currentLocation) === true)
+        {
+            ?>
+                window.currentLocation = <?php echo $this->currentLocation; ?>;
+            <?php
+        }
+    ?>
     window.base_url = '<?php echo base_url(); ?>';
 </script>
 
