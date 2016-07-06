@@ -50,6 +50,7 @@ class Offers extends MY_Controller {
         $this->load->view('OfferCheckView', $data);
     }
 
+
     public function generate()
     {
         $data = array();
@@ -76,7 +77,7 @@ class Offers extends MY_Controller {
                 $usedCodes[] = $row['offerCode'];
             }
 
-            if($post['beerNums'] != 0)
+            if(isset($post['beerNums']) && $post['beerNums'] != 0)
             {
                 for($i=0;$i<$post['beerNums'];$i++)
                 {
@@ -102,7 +103,7 @@ class Offers extends MY_Controller {
 
                 }
             }
-            if($post['breakNums'] != 0)
+            if(isset($post['breakNums']) && $post['breakNums'] != 0)
             {
                 for($i=0;$i<$post['breakNums'];$i++)
                 {
@@ -118,6 +119,31 @@ class Offers extends MY_Controller {
                     $toBeInserted[] = array(
                         'offerCode' => $newCode,
                         'offerType' => 'Breakfast',
+                        'offerLoc' => null,
+                        'isRedeemed' => 0,
+                        'ifActive' => 1,
+                        'createDateTime' => date('Y-m-d H:i:s'),
+                        'useDateTime' => null
+                    );
+
+                }
+            }
+            if(isset($post['customCode']) && $post['customNums'] != 0)
+            {
+                for($i=0;$i<$post['customNums'];$i++)
+                {
+                    $newCode = mt_rand(1000,99999);
+                    while(myInArray($newCode,$usedCodes))
+                    {
+                        $newCode = mt_rand(1000,99999);
+                    }
+                    $unUsedCodes[] = array(
+                        'code' => $newCode,
+                        'type' => $post['customName']
+                    );
+                    $toBeInserted[] = array(
+                        'offerCode' => $newCode,
+                        'offerType' => $post['customName'],
                         'offerLoc' => null,
                         'isRedeemed' => 0,
                         'ifActive' => 1,
@@ -130,7 +156,7 @@ class Offers extends MY_Controller {
         }
         else
         {
-            if($post['beerNums'] != 0)
+            if(isset($post['beerNums']) && $post['beerNums'] != 0)
             {
                 for($i=0;$i<$post['beerNums'];$i++)
                 {
@@ -152,7 +178,7 @@ class Offers extends MY_Controller {
 
                 }
             }
-            if($post['breakNums'] != 0)
+            if(isset($post['breakNums']) && $post['breakNums'] != 0)
             {
                 for($i=0;$i<$post['breakNums'];$i++)
                 {
@@ -165,6 +191,28 @@ class Offers extends MY_Controller {
                     $toBeInserted[] = array(
                         'offerCode' => $newCode,
                         'offerType' => 'Breakfast',
+                        'offerLoc' => null,
+                        'isRedeemed' => 0,
+                        'ifActive' => 1,
+                        'createDateTime' => date('Y-m-d H:i:s'),
+                        'useDateTime' => null
+                    );
+
+                }
+            }
+            if(isset($post['customCode']) && $post['customNums'] != 0)
+            {
+                for($i=0;$i<$post['customNums'];$i++)
+                {
+                    $newCode = mt_rand(1000,99999);
+
+                    $unUsedCodes[] = array(
+                        'code' => $newCode,
+                        'type' => $post['customName']
+                    );
+                    $toBeInserted[] = array(
+                        'offerCode' => $newCode,
+                        'offerType' => $post['customName'],
                         'offerLoc' => null,
                         'isRedeemed' => 0,
                         'ifActive' => 1,
@@ -190,7 +238,12 @@ class Offers extends MY_Controller {
     public function stats()
     {
         $data = array();
-        $data['offerCodes'] = $this->offers_model->getOfferStats();
+        $data['offerCodes'] = $this->offers_model->getOfferCodes();
+        $data['oldOffersCodes'] = $this->offers_model->getOldOfferCodes();
+
+        //Getting All Offers Stats
+        $data['newOfferStats'] = $this->offers_model->getOffersStats();
+        $data['oldOfferStats'] = $this->offers_model->getOldOffersStats();
 
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
@@ -199,11 +252,18 @@ class Offers extends MY_Controller {
 
         $this->load->view('OfferStatsView', $data);
     }
-    public function delete($offerId)
+    public function delete($offerId, $offerAge)
     {
         if(isset($offerId))
         {
-            $this->offers_model->deleteOfferRecord($offerId);
+            if($offerAge == 'old')
+            {
+                $this->offers_model->deleteOldOfferRecord($offerId);
+            }
+            else
+            {
+                $this->offers_model->deleteOfferRecord($offerId);
+            }
         }
         redirect(base_url().'offers/stats');
     }
@@ -223,7 +283,7 @@ class Offers extends MY_Controller {
             if($offerStatus['codeCheck']['isRedeemed'] == 1)
             {
                 $data['status'] = false;
-                $data['errorMsg'] = 'Offer Code Already Used';
+                $data['errorMsg'] = 'Sorry, this code has been redeemed before.';
             }
             else
             {
@@ -242,5 +302,54 @@ class Offers extends MY_Controller {
         }
 
         echo json_encode($data);
+    }
+
+    public function oldOfferCheck($offerCode)
+    {
+        $data = array();
+        $offerStatus = $this->offers_model->checkOldOfferCode($offerCode);
+
+        if($offerStatus['status'] === false)
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Invalid Code!';
+        }
+        else
+        {
+            if($offerStatus['codeCheck']['isRedeemed'] == "1")
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Sorry, this code has been redeemed before.';
+            }
+            else
+            {
+                $offerData = array();
+                $offerData['offerCode'] = $offerCode;
+                if(isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === true)
+                {
+                    $offerData['offerLoc'] = $this->currentLocation;
+                }
+                $offerData['isRedeemed'] = 1;
+                $offerData['useDateTime'] = date('Y-m-d H:i:s');
+                $this->offers_model->setoldOfferUsed($offerData);
+                $data['status'] = true;
+                $data['offerType'] = $offerStatus['codeCheck']['offerType'];
+            }
+        }
+
+        echo json_encode($data);
+    }
+    
+    public function offerUnused($id)
+    {
+        $this->offers_model->setOfferUnused($id);
+
+        redirect($this->pageUrl);
+    }
+    public function oldOfferUnused($id)
+    {
+        $this->offers_model->setoldOfferUnused($id);
+
+        redirect($this->pageUrl);
     }
 }

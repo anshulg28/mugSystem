@@ -77,6 +77,18 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
+    public function getMugIdForRenew($mugId)
+    {
+        $query = "SELECT invoiceDate, invoiceNo, membershipStart, membershipEnd "
+            ."FROM mugmaster "
+            ."where mugId = ".$mugId;
+
+        $result = $this->db->query($query)->row_array();
+        $data = $result;
+
+        return $data;
+    }
+
     public function getMugEndDateById($mugId)
     {
         $query = "SELECT membershipEnd "
@@ -99,10 +111,6 @@ class Mugclub_Model extends CI_Model
     }
     public function setMugRenew($post)
     {
-        if(isset($post['mugId']))
-        {
-            $post['mailStatus'] = 0;
-        }
         $this->db->where('mugId', $post['mugId']);
         $this->db->update('mugmaster', $post);
         return true;
@@ -377,7 +385,7 @@ class Mugclub_Model extends CI_Model
         $query = "SELECT mugId, firstName, emailId "
             ." FROM mugmaster "
             ."WHERE birthDate IS NOT NULL AND birthDate != '0000-00-00' "
-            ."AND birthDate = CURRENT_DATE() AND mailStatus = 0";
+            ."AND DATE_FORMAT(birthDate,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')";
 
         $result = $this->db->query($query)->result_array();
 
@@ -392,7 +400,12 @@ class Mugclub_Model extends CI_Model
         }
 
         return $data;
+    }
 
+    public function saveRenewRecord($post)
+    {
+        $this->db->insert('mugrenewmaster', $post);
+        return true;
     }
 
 }

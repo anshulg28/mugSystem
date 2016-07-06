@@ -22,12 +22,18 @@
                                 <input type="number" name="offerCode" id="offerCode"
                                        class="form-control" placeholder="11111">
                             </div>
+                            <h4 class="text-center">OR</h4>
+                            <div class="input-group">
+                                <span class="input-group-addon">TW-</span>
+                                <input type="number" name="oldOfferCode" id="oldOfferCode"
+                                       class="form-control" placeholder="11111">
+                            </div>
                         </div>
                         <div class="col-sm-1 col-xs-0"></div>
                     </div>
                     <br><br>
                     <div class="form-group my-marginLR-zero">
-                        <div class="col-sm-12 col-xs-12 text-center">
+                        <div class="col-sm-12 col-xs-12 text-center my-marginUp">
                             <button type="button" class="btn btn-primary offerCheck-btn">Verify</button>
                         </div>
                     </div>
@@ -44,41 +50,72 @@
 
     $(document).on('click','.offerCheck-btn',function(){
 
-        var mugNum = $('#offerCode').val();
-        if(mugNum != '')
+        var newOffer = $('#offerCode').val();
+        var oldOffer = $('#oldOfferCode').val();
+        var offerUrl,offerPrifix,finalCode;
+        if(newOffer != '' && oldOffer != '')
         {
-            showCustomLoader();
-            //send ajax request to check mobile number
-            $.ajax({
-                type:"GET",
-                dataType:"json",
-                url:base_url+'offers/offerCheck/'+mugNum,
-                success: function(data)
-                {
-                    hideCustomLoader();
-                    if(data.status === true)
-                    {
-                        bootbox.alert('Code is valid for <label class="my-success-text">'+data.offerType+'</label>');
-                    }
-                    else
-                    {
-                        bootbox.alert('<label class="my-danger-text">'+data.errorMsg+'</label>');
-                    }
-                },
-                error: function()
-                {
-                    hideCustomLoader();
-                    bootbox.alert('Unable To Connect To Server!');
-                }
-            });
+            bootbox.alert('Enter Only 1 Code!');
+            return false;
         }
-        else
+        if(newOffer == '' && oldOffer == '')
         {
             bootbox.alert('Please Provide Offer Code!');
+            return false;
         }
+        if(newOffer != '')
+        {
+            finalCode = newOffer;
+            offerUrl = base_url+'offers/offerCheck/'+newOffer;
+            offerPrifix = 'DO';
+        }
+        else if(oldOffer != '')
+        {
+            finalCode = oldOffer;
+            offerUrl = base_url+'offers/oldOfferCheck/'+oldOffer;
+            offerPrifix = 'TW';
+        }
+        bootbox.confirm("Sure you want to Redeem "+offerPrifix+"-"+finalCode+" ?", function(result) {
+            if(result === true)
+            {
+                showCustomLoader();
+                //send ajax request to check mobile number
+                $.ajax({
+                    type:"GET",
+                    dataType:"json",
+                    url:offerUrl,
+                    success: function(data)
+                    {
+                        hideCustomLoader();
+                        if(data.status === true)
+                        {
+                            if(data.offerType == 'Beer')
+                            {
+                                bootbox.alert('<label class="my-success-text">Congrats, you get a 330ml Beer! Mug Club members get 500ml</label>');
+                            }
+                            else if(data.offerType == 'Breakfast')
+                            {
+                                bootbox.alert('<label class="my-success-text">Congrats, you get a Breakfast. This includes one pint. </label>');
+                            }
+
+                        }
+                        else
+                        {
+                            bootbox.alert('<label class="my-danger-text">'+data.errorMsg+'</label>');
+                        }
+                    },
+                    error: function()
+                    {
+                        hideCustomLoader();
+                        bootbox.alert('Unable To Connect To Server!');
+                    }
+                });
+            }
+        });
+
     });
 
-    $(document).on('keypress','#offerCode', function(event){
+    $(document).on('keypress','#offerCode,#oldOfferCode', function(event){
 
         var keycode = (event.keyCode ? event.keyCode : event.which);
 

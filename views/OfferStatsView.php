@@ -17,61 +17,212 @@
         </div>
         <br>
         <div class="container">
-            <table id="main-mugclub-table" class="table table-hover table-bordered table-striped paginated">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Offer Code</th>
-                    <th>Offer Type</th>
-                    <th>Location</th>
-                    <th>Created Date</th>
-                    <th>Used Date</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <?php
-                if(isset($offerCodes) && myIsArray($offerCodes))
-                {
-                    if($offerCodes['status'] === false)
-                    {
-                        ?>
-                        <tbody>
-                            <tr class="my-danger-text text-center">
-                                <td colspan="6">No Data Found!</td>
-                            </tr>
-                        </tbody>
+            <h2>Offer Stats</h2>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#new">New Offers</a></li>
+                <li><a data-toggle="tab" href="#old">Old Offers</a></li>
+            </ul>
+            <br>
+            <div class="tab-content">
+                <div id="new" class="tab-pane fade in active">
+                    <?php
+                        if(isset($newOfferStats) && myIsArray($newOfferStats))
+                        {
+                            ?>
+                                <ul class="list-inline text-center">
+                                    <li>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">Total Beer Redeemed</div>
+                                            <div class="panel-body stats-nums"><?php echo $newOfferStats['offerStat']['TBeer'];?></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">Monthly Beer Redeemed</div>
+                                            <div class="panel-body stats-nums"><?php echo $newOfferStats['offerStat']['MBeer'];?></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">Total Breakfast Redeemed</div>
+                                            <div class="panel-body stats-nums"><?php echo $newOfferStats['offerStat']['TBreakfast'];?></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">Monthly Breakfast Redeemed</div>
+                                            <div class="panel-body stats-nums"><?php echo $newOfferStats['offerStat']['MBreakfast'];?></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            <?php
+                        }
+                    ?>
+                    <table id="new-offers-table" class="table table-hover table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Offer Code</th>
+                            <th>Offer Type</th>
+                            <th>Location</th>
+                            <th>Created Date</th>
+                            <th>Used Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
                         <?php
-                    }
-                    else
-                    {
-                        ?>
-                        <tbody>
-                        <?php
-                            foreach($offerCodes['codes'] as $key => $row)
+                        if(isset($offerCodes) && myIsArray($offerCodes))
+                        {
+                            if($offerCodes['status'] === false)
                             {
                                 ?>
-                                <tr class="<?php if($row['isRedeemed'] == 1) {echo 'danger';};?>">
-                                    <th scope="row"><?php echo $row['id'];?></th>
-                                    <td><?php echo 'DO-'.$row['offerCode'];?></td>
-                                    <td><?php echo $row['offerType'];?></td>
-                                    <td><?php echo $row['locName'];?></td>
-                                    <td><?php echo $row['createDateTime'];?></td>
-                                    <td><?php echo $row['useDateTime'];?></td>
-                                    <td>
-                                        <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-offerId="<?php echo $row['id'];?>"
-                                           data-offerCode= "<?php echo $row['offerCode'];?>">
-                                            <i class="fa fa-trash-o"></i></a>&nbsp;
-                                    </td>
+                                <tbody>
+                                <tr class="my-danger-text text-center">
+                                    <td colspan="6">No Data Found!</td>
                                 </tr>
+                                </tbody>
                                 <?php
                             }
+                            else
+                            {
+                                ?>
+                                <tbody>
+                                <?php
+                                foreach($offerCodes['codes'] as $key => $row)
+                                {
+                                    ?>
+                                    <tr class="<?php if($row['isRedeemed'] == 1) {echo 'danger';};?>">
+                                        <th scope="row"><?php echo $row['id'];?></th>
+                                        <td><?php echo 'DO-'.$row['offerCode'];?></td>
+                                        <td><?php echo $row['offerType'];?></td>
+                                        <td><?php echo $row['locName'];?></td>
+                                        <td><?php echo $row['createDateTime'];?></td>
+                                        <td><?php echo $row['useDateTime'];?></td>
+                                        <td>
+                                            <a data-toggle="tooltip" class="mugDelete-icon" title="Delete" data-offerId="<?php echo $row['id'];?>"
+                                               data-offerCode= "<?php echo $row['offerCode'];?>">
+                                                <i class="fa fa-trash-o"></i></a>&nbsp;
+                                            <?php
+                                            if($row['isRedeemed'] == 1)
+                                            {
+                                                ?>
+                                                <a data-toggle="tooltip" title="Renew" href="<?php echo base_url().'offers/offerUnused/'.$row['id'];?>">
+                                                    <i class="fa fa-repeat"></i></a>
+                                                <?php
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                </tbody>
+                                <?php
+                            }
+                        }
                         ?>
-                        </tbody>
+                    </table>
+                </div>
+                <div id="old" class="tab-pane fade">
+                    <?php
+                    if(isset($oldOfferStats) && myIsArray($oldOfferStats))
+                    {
+                        ?>
+                        <ul class="list-inline text-center">
+                            <li>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Total Beer Redeemed</div>
+                                    <div class="panel-body stats-nums"><?php echo $oldOfferStats['offerStat']['TBeer'];?></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Monthly Beer Redeemed</div>
+                                    <div class="panel-body stats-nums"><?php echo $oldOfferStats['offerStat']['MBeer'];?></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Total Breakfast Redeemed</div>
+                                    <div class="panel-body stats-nums"><?php echo $oldOfferStats['offerStat']['TBreakfast'];?></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Monthly Breakfast Redeemed</div>
+                                    <div class="panel-body stats-nums"><?php echo $oldOfferStats['offerStat']['MBreakfast'];?></div>
+                                </div>
+                            </li>
+                        </ul>
                         <?php
                     }
-                }
-                ?>
-            </table>
+                    ?>
+                    <table id="old-offers-table" class="table table-hover table-bordered table-striped paginated">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Offer Code</th>
+                            <th>Offer Type</th>
+                            <th>Location</th>
+                            <th>Created Date</th>
+                            <th>Used Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <?php
+                        if(isset($oldOffersCodes) && myIsArray($oldOffersCodes))
+                        {
+                            if($oldOffersCodes['status'] === false)
+                            {
+                                ?>
+                                <tbody>
+                                <tr class="my-danger-text text-center">
+                                    <td colspan="6">No Data Found!</td>
+                                </tr>
+                                </tbody>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <tbody>
+                                <?php
+                                foreach($oldOffersCodes['codes'] as $key => $row)
+                                {
+                                    ?>
+                                    <tr class="<?php if($row['isRedeemed'] == 1) {echo 'danger';};?>">
+                                        <th scope="row"><?php echo $row['id'];?></th>
+                                        <td><?php echo 'TW-'.$row['offerCode'];?></td>
+                                        <td><?php echo $row['offerType'];?></td>
+                                        <td><?php echo $row['locName'];?></td>
+                                        <td><?php echo $row['createDateTime'];?></td>
+                                        <td><?php echo $row['useDateTime'];?></td>
+                                        <td>
+                                            <a data-toggle="tooltip" class="oldmugDelete-icon" title="Delete" data-offerId="<?php echo $row['id'];?>"
+                                               data-offerCode= "<?php echo $row['offerCode'];?>">
+                                                <i class="fa fa-trash-o"></i></a>&nbsp;
+                                            <?php
+                                                if($row['isRedeemed'] == 1)
+                                                {
+                                                    ?>
+                                                    <a data-toggle="tooltip" title="Renew" href="<?php echo base_url().'offers/oldOfferUnused/'.$row['id'];?>">
+                                                        <i class="fa fa-repeat"></i></a>
+                                                    <?php
+                                                }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                </tbody>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </table>
+                </div>
+            </div>
         </div>
     </main>
 </body>
@@ -87,11 +238,23 @@
         bootbox.confirm("Are you sure you want to delete Offer Code "+locName+" ?", function(result) {
             if(result === true)
             {
-                window.location.href='<?php echo base_url();?>offers/delete/'+locId;
+                window.location.href='<?php echo base_url();?>offers/delete/'+locId+'/new';
+            }
+        });
+    });
+    $(document).on('click','.oldmugDelete-icon',function(){
+        var locName = $(this).attr('data-offerCode');
+        var locId = $(this).attr('data-offerId');
+        bootbox.confirm("Are you sure you want to delete Offer Code "+locName+" ?", function(result) {
+            if(result === true)
+            {
+                window.location.href='<?php echo base_url();?>offers/delete/'+locId+'/old';
             }
         });
     });
 
-    $('#main-mugclub-table').DataTable();
+    $('#new-offers-table, #old-offers-table').DataTable({
+        ordering: false
+    });
 </script>
 </html>

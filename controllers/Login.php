@@ -75,6 +75,8 @@ class Login extends MY_Controller {
         $this->session->unset_userdata('user_id');
         $this->session->unset_userdata('user_type');
         $this->session->unset_userdata('user_name');
+        $this->session->unset_userdata('user_email');
+        $this->session->unset_userdata('user_firstname');
 
         redirect(base_url());
     }
@@ -116,9 +118,9 @@ class Login extends MY_Controller {
     {
         $userData = array(
             'mugId' => '10',
-            'emailId' => 'anshul@doolally.in',
-            'firstName' => 'Priyanka'
+            'emailId' => 'anshulgupta@rocketmail.com',
+            'firstName' => 'Anshul'
         );
-        $this->sendemail_library->signUpWelcomeSendMail($userData);
+        $this->sendemail_library->sendEmail($userData['emailId'],'','anshul@doolally.in',$userData['firstName'],'hi','hi');
     }
 }

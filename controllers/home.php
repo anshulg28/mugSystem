@@ -17,7 +17,10 @@ class Home extends MY_Controller {
 	{
         if(!isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === false)
         {
-            redirect(base_url().'location-select');
+            if($this->userType != GUEST_USER)
+            {
+                redirect(base_url().'location-select');
+            }
         }
 
 		$data = array();

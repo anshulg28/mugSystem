@@ -23,6 +23,10 @@ class Checkin extends MY_Controller {
         {
             redirect(base_url());
         }
+        if($this->userType == GUEST_USER)
+        {
+            redirect(base_url());
+        }
 
         //Getting All Mug Check-Ins List
         if($this->userType == SERVER_USER)

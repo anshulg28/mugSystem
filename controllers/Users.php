@@ -20,6 +20,10 @@ class Users extends MY_Controller {
         {
             redirect(base_url());
         }
+        if($this->userType == GUEST_USER)
+        {
+            redirect(base_url());
+        }
 
         $data['userData'] = $this->users_model->getAllUsers();
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);

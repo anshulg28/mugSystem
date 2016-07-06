@@ -14,37 +14,43 @@
                 <?php
                 if(isSessionVariableSet($this->isUserSession) === true)
                 {
-                    ?>
-                    <li><a href="<?php echo base_url();?>"><i class="fa fa-home"></i> Home</a></li>
-                    <li><a href="<?php echo base_url();?>mugclub"><i class="fa fa-beer"></i> Mug Club</a></li>
-                    <?php
-                    if($this->userType != SERVER_USER)
+                    if($this->userType != GUEST_USER)
                     {
                         ?>
-                        <li><a href="<?php echo base_url();?>users"><i class="fa fa-user"></i> Users List</a></li>
-                        <li><a href="<?php echo base_url();?>locations"><i class="fa fa-globe"></i> Locations</a></li>
-                        <li><a href="<?php echo base_url();?>mailers"><i class="fa fa-envelope"></i> Mailers</a>
-                            <div class="notification-indicator"></div></li>
-                        <li><a href="<?php echo base_url();?>offers"><i class="fa fa-trophy"></i> Offers</a>
+                        <li><a href="<?php echo base_url();?>"><i class="fa fa-home"></i> Home</a></li>
+                        <li><a href="<?php echo base_url();?>mugclub"><i class="fa fa-beer"></i> Mug Club</a></li>
                         <?php
-                    }
-                    if($this->userType != EXECUTIVE_USER)
-                    {
+                        if($this->userType != SERVER_USER)
+                        {
+                            ?>
+                            <li><a href="<?php echo base_url();?>users"><i class="fa fa-user"></i> Users List</a></li>
+                            <li><a href="<?php echo base_url();?>locations"><i class="fa fa-globe"></i> Locations</a></li>
+                            <li><a href="<?php echo base_url();?>mailers"><i class="fa fa-envelope"></i> Mailers</a>
+                                <div class="notification-indicator"></div></li>
+                            <li><a href="<?php echo base_url();?>offers"><i class="fa fa-trophy"></i> Offers</a></li>
+                            <?php
+                        }
                         ?>
                         <li><a href="<?php echo base_url();?>check-ins"><i class="fa fa-calendar-check-o"></i> Check-Ins</a></li>
                         <?php
-                    }
-                    if($this->userType == SERVER_USER)
-                    {
+                        if($this->userType == SERVER_USER)
+                        {
+                            ?>
+                            <li><a href="<?php echo base_url();?>offers/check"><i class="fa fa-trophy"></i> Offers Check</a>
+                            <?php
+                        }
                         ?>
-                        <li><a href="<?php echo base_url();?>offers/check"><i class="fa fa-trophy"></i> Offers Check</a>
+                        <li><a href="<?php echo base_url().'location-select';?>">
+                                <i class="glyphicon glyphicon-map-marker"></i> Change Location</a>
+                        </li>
                         <?php
                     }
-                    ?>
-                    <li><a href="<?php echo base_url().'location-select';?>">
-                            <i class="glyphicon glyphicon-map-marker"></i> Change Location</a>
-                    </li>
-                    <?php
+                    else
+                    {
+                        ?>
+                        <li><a href="<?php echo base_url();?>offers"><i class="fa fa-trophy"></i> Offers</a></li>
+                        <?php
+                    }
                 }
                 ?>
             </ul>

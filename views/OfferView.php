@@ -27,15 +27,22 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="<?php echo base_url().'offers/stats'; ?>">
-                                        <div class="menuWrap">
-                                            <i class="glyphicon glyphicon-stats fa-2x"></i>
-                                            <br>
-                                            <span>View Stats</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                <?php
+                                    if($this->userType != GUEST_USER)
+                                    {
+                                        ?>
+                                        <li>
+                                            <a href="<?php echo base_url().'offers/stats'; ?>">
+                                                <div class="menuWrap">
+                                                    <i class="glyphicon glyphicon-stats fa-2x"></i>
+                                                    <br>
+                                                    <span>View Stats</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
+                                ?>
                             </ul>
                         </div>
                     </div>

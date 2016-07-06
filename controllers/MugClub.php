@@ -20,6 +20,10 @@ class Mugclub extends MY_Controller {
 		{
 			redirect(base_url());
 		}
+        if(isset($this->userType) && $this->userType == GUEST_USER)
+        {
+            redirect(base_url());
+        }
 
         //Getting All Mug List
         $mugData = $this->mugclub_model->getAllMugClubList();

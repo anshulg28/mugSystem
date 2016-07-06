@@ -103,6 +103,7 @@ defined('CUSTOM_MAIL') OR define('CUSTOM_MAIL',0);
 defined('ADMIN_USER') OR define('ADMIN_USER',1);
 defined('EXECUTIVE_USER') OR define('EXECUTIVE_USER',2);
 defined('SERVER_USER') OR define('SERVER_USER',3);
+defined('GUEST_USER') OR define('GUEST_USER',4);
 
 /*Active or not*/
 defined('ACTIVE')   OR define('ACTIVE', 1);
