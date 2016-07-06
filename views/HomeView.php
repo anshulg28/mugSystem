@@ -20,61 +20,42 @@
                             <br>
                             <div class="col-sm-12 text-center">
                                 <ul class="list-inline my-mainMenuList">
-                                    <li>
-                                        <a href="<?php echo base_url().'mugclub';?>">
-                                            <div class="menuWrap">
-                                                <i class="fa fa-beer fa-2x"></i>
-                                                <br>
-                                                <span>Mug Club</span>
-                                            </div>
-                                        </a>
-                                    </li>
                                     <?php
                                     if($this->userType != SERVER_USER)
                                     {
                                         ?>
                                         <li>
-                                            <div class="notification-indicator-big"></div>
-                                            <a href="<?php echo base_url().'mailers';?>">
+                                            <a href="<?php echo base_url().'main';?>">
                                                 <div class="menuWrap">
-                                                    <i class="fa fa-envelope fa-2x"></i>
+                                                    <i class="fa fa-beer fa-2x"></i>
                                                     <br>
-                                                    <span>Mail View</span>
+                                                    <span>Mug Portal</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="<?php echo base_url().'users';?>">
+                                            <a href="<?php echo base_url().'dashboard';?>">
                                                 <div class="menuWrap">
-                                                    <i class="fa fa-user fa-2x"></i>
+                                                    <i class="glyphicon glyphicon-dashboard fa-2x"></i>
                                                     <br>
-                                                    <span>Users List</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo base_url().'locations'; ?>">
-                                                <div class="menuWrap">
-                                                    <i class="fa fa-globe fa-2x"></i>
-                                                    <br>
-                                                    <span>Locations</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo base_url() . 'offers'; ?>">
-                                                <div class="menuWrap">
-                                                    <i class="fa fa-trophy fa-2x"></i>
-                                                    <br>
-                                                    <span>Offers Page</span>
+                                                    <span>Dashboard</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <?php
                                     }
-                                    if($this->userType == SERVER_USER)
+                                    else
                                     {
                                         ?>
+                                        <li>
+                                            <a href="<?php echo base_url().'mugclub';?>">
+                                                <div class="menuWrap">
+                                                    <i class="fa fa-beer fa-2x"></i>
+                                                    <br>
+                                                    <span>Mug Club</span>
+                                                </div>
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="<?php echo base_url() . 'check-ins/add'; ?>">
                                                 <div class="menuWrap">
@@ -90,20 +71,6 @@
                                                     <i class="fa fa-trophy fa-2x"></i>
                                                     <br>
                                                     <span>Offers Check</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <?php
-                                    }
-                                    else
-                                    {
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo base_url() . 'check-ins'; ?>">
-                                                <div class="menuWrap">
-                                                    <i class="fa fa-calendar-check-o fa-2x"></i>
-                                                    <br>
-                                                    <span>Check-Ins</span>
                                                 </div>
                                             </a>
                                         </li>
