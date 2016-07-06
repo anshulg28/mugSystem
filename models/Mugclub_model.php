@@ -56,6 +56,16 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
+    public function getAllMugsCount()
+    {
+        $query = "SELECT count(*) as mugCount "
+                ."FROM mugmaster";
+        $result = $this->db->query($query)->row_array();
+
+        $data = $result;
+        return $data;
+
+    }
     public function getMugDataById($mugId)
     {
         $query = "SELECT * "
