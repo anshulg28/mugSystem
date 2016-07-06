@@ -77,6 +77,29 @@ class Checkin_Model extends CI_Model
 
         return $data;
     }
+
+    public function checkMugAlreadyCheckedIn($Id)
+    {
+        $query = "SELECT * "
+            ."FROM mugcheckinmaster "
+            ."where mugId = ".$Id
+            ." AND checkinDateTime >= ( NOW() - INTERVAL 3 HOUR )";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['checkInList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
     public function filterCheckInParameters($post)
     {
         if(myIsArray($post))

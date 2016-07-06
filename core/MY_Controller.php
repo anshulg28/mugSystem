@@ -52,6 +52,7 @@ class MY_Controller extends CI_Controller
 			$this->isUserSession = ACTIVE;
 			$this->userType = $this->session->user_type;
 			$this->userName = $this->session->user_name;
+			$this->userId = $this->session->user_id;
 			if(isset($this->session->user_email))
 			{
 				$this->userEmail = $this->session->user_email;

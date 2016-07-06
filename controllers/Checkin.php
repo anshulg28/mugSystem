@@ -105,6 +105,7 @@ class Checkin extends MY_Controller {
     public function saveOrUpdateCheckIn($responseType = RESPONSE_RETURN)
     {
         $post = $this->input->post();
+        $ifFailed = 0;
 
         if(!isset($post['baseLocation']))
         {
@@ -118,7 +119,15 @@ class Checkin extends MY_Controller {
         }
         else
         {
-            $this->checkin_model->saveCheckInRecord($params);
+            $mugResult = $this->checkin_model->checkMugAlreadyCheckedIn($params['mugId']);
+            if($mugResult['status'] === true)
+            {
+                $ifFailed = 1;
+            }
+            else
+            {
+                $this->checkin_model->saveCheckInRecord($params);
+            }
         }
 
         if($responseType == RESPONSE_RETURN)
@@ -127,9 +136,18 @@ class Checkin extends MY_Controller {
         }
         else
         {
-            $data['status'] = true;
-            $data['pageUrl'] = base_url().'check-ins';
-            echo json_encode($data);
+            if($ifFailed == 0)
+            {
+                $data['status'] = true;
+                $data['pageUrl'] = base_url().'check-ins';
+                echo json_encode($data);
+            }
+            else
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = "Member Already Checked In";
+                echo json_encode($data);
+            }
         }
 
     }

@@ -37,7 +37,7 @@ class Login_Model extends CI_Model
     }
     public function checkUserByPin($loginPin)
     {
-        $query = "SELECT userId,ifActive "
+        $query = "SELECT userId, isPinChanged, ifActive "
             ."FROM doolally_usersmaster "
             ."where LoginPin = '".$loginPin."' ";
 
@@ -72,6 +72,17 @@ class Login_Model extends CI_Model
         $post['updateDate'] = date('Y-m-d H:i:s');
         $post['updatedBy'] = $this->userName;
         $post['password'] = md5($post['password']);
+
+        $this->db->where('userId', $post['userId']);
+        $this->db->update('doolally_usersmaster', $post);
+        return true;
+    }
+    public function updateUserPin($post)
+    {
+        $post['updateDate'] = date('Y-m-d H:i:s');
+        $post['updatedBy'] = $this->userName;
+        $post['LoginPin'] = md5($post['LoginPin']);
+
 
         $this->db->where('userId', $post['userId']);
         $this->db->update('doolally_usersmaster', $post);
