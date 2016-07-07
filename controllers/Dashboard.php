@@ -29,6 +29,8 @@ class Dashboard extends MY_Controller {
         //Dashboard Data
         $data['totalMugs'] = $this->mugclub_model->getAllMugsCount();
         $data['avgChecks'] = $this->dashboard_model->getAvgCheckins();
+        $data['Regulars'] = $this->dashboard_model->getRegulars();
+        $data['Irregulars'] = $this->dashboard_model->getIrregulars();
         
 
 		$data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
