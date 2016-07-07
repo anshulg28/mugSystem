@@ -112,6 +112,20 @@ class Checkin extends MY_Controller {
     }
     public function saveOrUpdateCheckIn($responseType = RESPONSE_RETURN)
     {
+        if(isSessionVariableSet($this->isUserSession) === false)
+        {
+            if($responseType == RESPONSE_RETURN)
+            {
+                redirect(base_url());
+            }
+            else
+            {
+                $data['status'] = false;
+                $data['pageUrl'] = base_url();
+                echo json_encode($data);
+            }
+            return false;
+        }
         $post = $this->input->post();
         $ifFailed = 0;
 

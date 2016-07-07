@@ -644,6 +644,10 @@
                     }
                     else
                     {
+                        if(typeof data.pageUrl != 'undefined')
+                        {
+                            window.location.href = data.pageUrl;
+                        }
                         $('.verify-checkin-btn').css('margin-top','25px');
                         $('.mug-already-error').css('margin-bottom','5px').html(data.errorMsg);
                         bootbox.alert(data.errorMsg);
