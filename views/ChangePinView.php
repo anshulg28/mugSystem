@@ -15,7 +15,7 @@
                 if(isSessionVariableSet($this->isUserSession) === true)
                 {
                    ?>
-                    <form action="<?php echo base_url();?>login/changePin" method="post" class="form-horizontal" role="form">
+                    <form action="<?php echo base_url();?>login/changePin/json" id="pinForm" method="post" class="form-horizontal" role="form">
                         <input type="hidden" name="userId" value="<?php echo $userId;?>"/>
                         <div class="form-group">
                             <div class="col-sm-2"></div>
@@ -78,6 +78,7 @@
 
         </div>
     </main>
+    <?php echo $footerView; ?>
 </body>
 <?php echo $globalJs; ?>
 <script>
@@ -170,6 +171,32 @@
                 $('form button[type="submit"]').removeAttr('disabled');
             }
         }
+    });
+
+    $(document).on('submit','#pinForm',function(e){
+        e.preventDefault();
+        showCustomLoader();
+        $.ajax({
+            type:"POST",
+            url:$(this).attr('action'),
+            dataType:"json",
+            data:$(this).serialize(),
+            success: function(data){
+                hideCustomLoader();
+                if(data.status === true)
+                {
+                    window.location.href= data.pageUrl;
+                }
+                else
+                {
+                    $('.password-status').removeClass('my-success-text').addClass('my-danger-text').html(data.errorMsg);
+                }
+            },
+            error: function(){
+                hideCustomLoader();
+                $('.password-status').removeClass('my-success-text').addClass('my-danger-text').html('Some Error Occurred, Try Later');
+            }
+        });
     });
 </script>
 </html>

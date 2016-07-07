@@ -155,25 +155,46 @@ class Login extends MY_Controller {
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
         $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
 
         $data['userId'] = $userId;
 
         $this->load->view('ChangePinView', $data);
     }
 
-    public function changePin()
+    public function changePin($responseType = RESPONSE_JSON)
     {
         $post = $this->input->post();
 
         if(isset($post['userId']))
         {
-            $post['isPinChanged'] = '1';
-            $this->login_model->updateUserPin($post);
-            redirect(base_url());
+            $pinResult = $this->login_model->checkUserByPin(md5($post['LoginPin']));
+            if($pinResult['status'] === true)
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Pin Already Used!';
+            }
+            else
+            {
+                $post['isPinChanged'] = '1';
+                $this->login_model->updateUserPin($post);
+                $data['status'] = true;
+                $data['pageUrl'] = base_url();
+            }
         }
         else
         {
-            redirect(base_url().'home');
+            $data['status'] = true;
+            $data['pageUrl'] = base_url();
+        }
+
+        if($responseType == RESPONSE_JSON)
+        {
+            echo json_encode($data);
+        }
+        else
+        {
+            return $data;
         }
     }
 

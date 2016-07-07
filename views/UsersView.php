@@ -73,6 +73,9 @@
                                                     case SERVER_USER:
                                                         echo 'Server';
                                                         break;
+                                                    case GUEST_USER:
+                                                        echo 'Guest';
+                                                        break;
                                                 }
                                             ?>
                                         </td>
