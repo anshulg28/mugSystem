@@ -315,6 +315,12 @@ class Mugclub_Model extends CI_Model
         $this->db->delete('mugmaster');
         return true;
     }
+    public function extendMemberShip($mugId, $newDate)
+    {
+        $this->db->where('mugId', $mugId);
+        $this->db->update('mugmaster',$newDate);
+        return true;
+    }
 
     public function getExpiringMugsList($intervalNum, $intervalSpan)
     {
@@ -385,7 +391,7 @@ class Mugclub_Model extends CI_Model
         $query = "SELECT mugId, firstName, emailId "
             ." FROM mugmaster "
             ."WHERE birthDate IS NOT NULL AND birthDate != '0000-00-00' "
-            ."AND DATE_FORMAT(birthDate,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')";
+            ."AND DATE_FORMAT(birthDate,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d') AND birthdayMailStatus = 0";
 
         $result = $this->db->query($query)->result_array();
 
