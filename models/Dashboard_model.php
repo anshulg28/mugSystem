@@ -232,4 +232,30 @@ class Dashboard_Model extends CI_Model
 
         return $data;
     }
+
+    public function saveInstaMojoRecord($details)
+    {
+        $this->db->insert('instamojomaster', $details);
+        return true;
+    }
+
+    public function getAllInstamojoRecord()
+    {
+        $query = "SELECT * "
+            ." FROM instamojomaster"
+            ." WHERE status = 1 AND isApproved = 0";
+
+        $result = $this->db->query($query)->result_array();
+        $data['instaRecords'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
 }

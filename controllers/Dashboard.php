@@ -65,6 +65,9 @@ class Dashboard extends MY_Controller {
             }
         }
 
+        //Instamojo Records
+        $data['instamojo'] = $this->dashboard_model->getAllInstamojoRecord();
+
 		$data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
 		$data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
 		$data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
@@ -109,8 +112,75 @@ class Dashboard extends MY_Controller {
     public function instaMojoRecord()
     {
         $post = $this->input->post();
-        echo '<pre>';
-        var_dump($post);
+        // Get the MAC from the POST data
+        if(isset($post['mac']))
+        {
+            $mac_provided = $post['mac'];
+            unset($post['mac']);
+            $ver = explode('.', phpversion());
+            $major = (int) $ver[0];
+            $minor = (int) $ver[1];
+            if($major >= 5 and $minor >= 4){
+                ksort($post, SORT_STRING | SORT_FLAG_CASE);
+            }
+            else{
+                uksort($post, 'strcasecmp');
+            }
+
+            $mac_calculated = hash_hmac("sha1", implode("|", $post), "34e1f545c8f7745c624752d319ae9b26");
+            if($mac_provided == $mac_calculated){
+                if($post['status'] == "Credit"){
+
+                    $mugNum = '';
+                    $custom_array = json_decode($post['custom_fields'],true);
+                    foreach($custom_array as $key => $row)
+                    {
+                        $mugNum = $row['value'];
+                    }
+
+                    $details = array(
+                        "mugId" => $mugNum,
+                        "buyerName" => $post['buyer_name'],
+                        "buyerEmail" => $post['buyer'],
+                        "price" => $post['amount'],
+                        "paymentId" => $post['payment_id'],
+                        "status" => 1,
+                        "isApproved" => 0,
+                        "insertedDT" => date('Y-m-d H:i:s')
+                    );
+                    $this->dashboard_model->saveInstaMojoRecord($details);
+                    echo 'Saved with success';
+                }
+                else{
+                    $mugNum = '';
+                    $custom_array = json_decode($post['custom_fields'],true);
+                    foreach($custom_array as $key => $row)
+                    {
+                        $mugNum = $row['value'];
+                    }
+
+                    $details = array(
+                        "mugId" => $mugNum,
+                        "buyerName" => $post['buyer_name'],
+                        "buyerEmail" => $post['buyer'],
+                        "price" => $post['amount'],
+                        "paymentId" => $post['payment_id'],
+                        "status" => 1,
+                        "isApproved" => 0,
+                        "insertedDT" => date('Y-m-d H:i:s')
+                    );
+                    $this->dashboard_model->saveInstaMojoRecord($details);
+                    echo 'Saved with failed';
+                }
+            }
+            else{
+                echo "MAC mismatch";
+            }
+        }
+        else
+        {
+            echo "MAC Not Found!";
+        }
     }
 
 }

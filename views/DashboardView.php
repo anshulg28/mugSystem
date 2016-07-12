@@ -11,26 +11,33 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Dashboard</span>
-            <nav class="mdl-navigation">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a data-toggle="pill" class="my-noBorderRadius" href="#mugclub">Mug Club</a></li>
+                <li><a class="my-noBorderRadius" data-toggle="pill" href="#instamojo">Instamojo</a></li>
+            </ul>
+            <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+                <a href="#mugclub" class="mdl-layout__tab">Mug Club</a><br>
+                <a href="#instamojo" class="mdl-layout__tab is-active">Instamojo</a>
                 <a class="mdl-navigation__link" href="#">Mug Club</a>
-            </nav>
+            </div>-->
         </div>
-        <main class="mdl-layout__content">
-            <div class="page-content">
-                <div class="mdl-grid">
-                    <div class="mdl-cell mdl-cell--1-col"></div>
-                    <div class="mdl-cell mdl-cell--10-col text-center">
-                        <form action="<?php echo base_url();?>dashboard/custom" method="post" id="customDateForm">
-                        <ul class="list-inline">
-                            <li>
-                                <label for="location">Location</label>
-                                <?php
-                                    if($this->userType == ADMIN_USER)
-                                    {
-                                        ?>
-                                        <select id="location" onchange="refreshBars(this)" class="form-control">
-                                            <option value="0">Overall</option>
-                                            <?php
+        <main class="mdl-layout__content tab-content">
+            <section class="tab-pane fade in active" id="mugclub">
+                <div class="page-content">
+                    <div class="mdl-grid">
+                        <div class="mdl-cell mdl-cell--1-col"></div>
+                        <div class="mdl-cell mdl-cell--10-col text-center">
+                            <form action="<?php echo base_url();?>dashboard/custom" method="post" id="customDateForm">
+                                <ul class="list-inline">
+                                    <li>
+                                        <label for="location">Location</label>
+                                        <?php
+                                        if($this->userType == ADMIN_USER)
+                                        {
+                                            ?>
+                                            <select id="location" onchange="refreshBars(this)" class="form-control">
+                                                <option value="0">Overall</option>
+                                                <?php
                                                 if(isset($locations))
                                                 {
                                                     foreach($locations as $key => $row)
@@ -43,17 +50,17 @@
                                                         }
                                                     }
                                                 }
-                                            ?>
-                                        </select>
-                                        <?php
-                                    }
-                                    elseif($this->userType == EXECUTIVE_USER)
-                                    {
-                                        if(isset($userInfo))
+                                                ?>
+                                            </select>
+                                            <?php
+                                        }
+                                        elseif($this->userType == EXECUTIVE_USER)
                                         {
-                                            ?>
-                                            <select id="location" onchange="refreshBars(this)" class="form-control">
-                                                <?php
+                                            if(isset($userInfo))
+                                            {
+                                                ?>
+                                                <select id="location" onchange="refreshBars(this)" class="form-control">
+                                                    <?php
                                                     foreach($userInfo as $key => $row)
                                                     {
                                                         ?>
@@ -62,212 +69,279 @@
                                                         </option>
                                                         <?php
                                                     }
-                                                ?>
-                                            </select>
+                                                    ?>
+                                                </select>
+                                                <?php
+                                            }
+                                            ?>
+
                                             <?php
                                         }
                                         ?>
 
-                                        <?php
-                                    }
-                                ?>
+                                    </li>
+                                    <li>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label custom-filter">
+                                            <input class="mdl-textfield__input" type="date" name="startDate" id="startDate" placeholder="">
+                                            <label class="mdl-textfield__label" for="startDate">Start Date</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label custom-filter">
+                                            <input class="mdl-textfield__input" type="date" name="endDate" id="endDate" placeholder="">
+                                            <label class="mdl-textfield__label" for="endDate">End Date</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                            Apply
+                                        </button>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                        <div class="mdl-cell mdl-cell--1-col">
 
-                            </li>
-                            <li>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label custom-filter">
-                                    <input class="mdl-textfield__input" type="date" name="startDate" id="startDate" placeholder="">
-                                    <label class="mdl-textfield__label" for="startDate">Start Date</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label custom-filter">
-                                    <input class="mdl-textfield__input" type="date" name="endDate" id="endDate" placeholder="">
-                                    <label class="mdl-textfield__label" for="endDate">End Date</label>
-                                </div>
-                            </li>
-                            <li>
-                                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                                    Apply
-                                </button>
-                            </li>
-                        </ul>
-                    </form>
+                        </div>
                     </div>
-                    <div class="mdl-cell mdl-cell--1-col">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                            <div id="avgCheckins-container" class="barContainers">
+                                <h6 class="text-primary text-center my-marginTopBottom">Avg Check-Ins</h6>
+                            </div>
+                            <div id="regulars-container" class="barContainers">
+                                <h6 class="text-primary text-center my-marginTopBottom">Regulars</h6>
+                            </div>
+                            <div id="irregulars-container" class="barContainers">
+                                <h6 class="text-primary text-center my-marginTopBottom">Irregulars</h6>
+                            </div>
+                            <div id="lapsers-container" class="barContainers">
+                                <h6 class="text-primary text-center my-marginTopBottom">Lapsers</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-color--white mdl-shadow--2dp">
+                        <div class="col-sm-8 col-xs-12">
+                            <ul class="list-inline">
+                                <li>
+                                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="avg-radio">
+                                        <input type="radio" id="avg-radio" class="mdl-radio__button" name="dashboardStats" value="1" checked>
+                                        <span class="mdl-radio__label">Avg Check-Ins</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="regular-radio">
+                                        <input type="radio" id="regular-radio" class="mdl-radio__button" name="dashboardStats" value="2">
+                                        <span class="mdl-radio__label">Regulars</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="irregulars-radio">
+                                        <input type="radio" id="irregulars-radio" class="mdl-radio__button" name="dashboardStats" value="3">
+                                        <span class="mdl-radio__label">Irregulars</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="lapsers-radio">
+                                        <input type="radio" id="lapsers-radio" class="mdl-radio__button" name="dashboardStats" value="4">
+                                        <span class="mdl-radio__label">Lapsers</span>
+                                    </label>
+                                </li>
+                            </ul>
+                            <canvas id="avgChecks-canvas" class="mygraphs"></canvas>
+                            <canvas id="regulars-canvas" class="mygraphs"></canvas>
+                            <canvas id="irregulars-canvas" class="mygraphs"></canvas>
+                            <canvas id="lapsers-canvas" class="mygraphs"></canvas>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <table class="mdl-data-table mdl-js-data-table">
+                                <thead>
+                                <tr>
+                                    <th class="mdl-data-table__cell--non-numeric">Legend</th>
+                                    <th class="mdl-data-table__cell--non-numeric overall-th">OverAll</th>
+                                    <th class="mdl-data-table__cell--non-numeric andheri-th">Andheri</th>
+                                    <th class="mdl-data-table__cell--non-numeric bandra-th">Bandra</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                if(isset($avgChecks))
+                                {
+                                    ?>
+                                    <tr>
+                                        <td>Avg Check-ins</td>
+                                        <td class="overall-td">
+                                            <?php
+                                            $allStores = ((int)$avgChecks['checkInList']['overall']/$totalMugs['overall']);
+                                            echo round($allStores,2);
+                                            ?>
+                                        </td>
+                                        <td class="andheri-td">
+                                            <?php
+                                            $andheriStore = ((int)$avgChecks['checkInList']['andheri']/$totalMugs['andheri']);
+                                            echo round($andheriStore,2);
+                                            ?>
+                                        </td>
+                                        <td class="bandra-td">
+                                            <?php
+                                            $bandraStore = ((int)$avgChecks['checkInList']['bandra']/$totalMugs['bandra']);
+                                            echo round($bandraStore,2);
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                if(isset($Regulars))
+                                {
+                                    ?>
+                                    <tr>
+                                        <td>Regulars</td>
+                                        <td class="overall-td">
+                                            <?php
+                                            $allStores = ((int)$Regulars['regularCheckins']['overall']/$totalMugs['overall'])*100;
+                                            echo round($allStores,1);
+                                            ?>
+                                        </td>
+                                        <td class="andheri-td">
+                                            <?php
+                                            $andheriStore = ((int)$Regulars['regularCheckins']['andheri']/$totalMugs['andheri'])*100;
+                                            echo round($andheriStore,1);
+                                            ?>
+                                        </td>
+                                        <td class="bandra-td">
+                                            <?php
+                                            $bandraStore = ((int)$Regulars['regularCheckins']['bandra']/$totalMugs['bandra'])*100;
+                                            echo round($bandraStore,1);
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                if(isset($Irregulars))
+                                {
+                                    ?>
+                                    <tr>
+                                        <td>IrRegulars</td>
+                                        <td class="overall-td">
+                                            <?php
+                                            $allStores = ((int)$Irregulars['irregularCheckins']['overall']/$totalMugs['overall'])*100;
+                                            echo round($allStores,1);
+                                            ?>
+                                        </td>
+                                        <td class="andheri-td">
+                                            <?php
+                                            $andheriStore = ((int)$Irregulars['irregularCheckins']['andheri']/$totalMugs['andheri'])*100;
+                                            echo round($andheriStore,1);
+                                            ?>
+                                        </td>
+                                        <td class="bandra-td">
+                                            <?php
+                                            $bandraStore = ((int)$Irregulars['irregularCheckins']['bandra']/$totalMugs['bandra'])*100;
+                                            echo round($bandraStore,1);
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                if(isset($lapsers))
+                                {
+                                    ?>
+                                    <tr>
+                                        <td>Lapsers</td>
+                                        <td class="overall-td">
+                                            <?php
+                                            $allStores = ((int)$lapsers['lapsers']['overall']/$totalMugs['overall'])*100;
+                                            echo round($allStores,1);
+                                            ?>
+                                        </td>
+                                        <td class="andheri-td">
+                                            <?php
+                                            $andheriStore = ((int)$lapsers['lapsers']['andheri']/$totalMugs['andheri'])*100;
+                                            echo round($andheriStore,1);
+                                            ?>
+                                        </td>
+                                        <td class="bandra-td">
+                                            <?php
+                                            $bandraStore = ((int)$lapsers['lapsers']['bandra']/$totalMugs['bandra'])*100;
+                                            echo round($bandraStore,1);
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="tab-pane fade" id="instamojo">
+                <div class="mdl-grid">
+                    <?php
+                        if(isset($instamojo))
+                        {
+                            if($instamojo['status'] === true)
+                            {
+                                foreach($instamojo['instaRecords'] as $key => $row)
+                                {
+                                    ?>
+                                    <div class="mdl-cell mdl-cell--4-col my-instaCard" data-id="<?php echo $row['id'];?>">
+                                        <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                                            <div class="mdl-card__title mdl-card--expand">
+                                                <h2 class="mdl-card__title-text">
+                                                    <i class="fa fa-beer fa-2x"></i>
+                                                    <span class="mugTitle">Mug #<?php echo $row['mugId'];?></span>
+                                                </h2>
+                                            </div>
+                                            <div class="mdl-card__supporting-text">
+                                                <h4 class="my-NoMargin"><?php echo $row['buyerName'];?></h4>
+                                                <?php echo $row['buyerEmail'];?><br>
+                                                Rs. <?php echo $row['price'];?>
+                                            </div>
+                                            <div class="mdl-card__actions mdl-card--border">
+                                                <a class="confirm-btn mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect my-noUnderline"
+                                                onclick="changeCurrent(this)" data-id="<?php echo $row['id'];?>"
+                                                data-paymentId="<?php echo $row['paymentId'];?>"
+                                                data-email="<?php echo $row['buyerEmail'];?>"
+                                                data-mugId="<?php echo $row['mugId'];?>">
+                                                    Confirm
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            else
+                            {
+                                ?>
+                                    <div class="mdl-cell mdl-cell--12-col">
+                                        No Purchases Found!
+                                    </div>
+                                <?php
+                            }
+                        }
+                    ?>
+                </div>
+                <dialog class="mdl-dialog">
+                    <input type="hidden" id="selectedMug"/>
+                    <input type="hidden" id="mugPaymentId"/>
+                    <input type="hidden" id="mugNum"/>
+                    <input type="hidden" id="mugEmail"/>
+                    <h4 class="mdl-dialog__title">Confirm Upgrade?</h4>
+                    <div class="mdl-dialog__content">
+                        <p>
+                            Extending Membership by 12 months
+                        </p>
+                    </div>
+                    <div class="mdl-dialog__actions">
+                        <button type="button" class="mdl-button agree_btn">Agree</button>
+                        <button type="button" class="mdl-button close">Cancel</button>
+                    </div>
+                </dialog>
+            </section>
 
-                    </div>
-                </div>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-                        <div id="avgCheckins-container" class="barContainers">
-                            <h6 class="text-primary text-center my-marginTopBottom">Avg Check-Ins</h6>
-                        </div>
-                        <div id="regulars-container" class="barContainers">
-                            <h6 class="text-primary text-center my-marginTopBottom">Regulars</h6>
-                        </div>
-                        <div id="irregulars-container" class="barContainers">
-                            <h6 class="text-primary text-center my-marginTopBottom">Irregulars</h6>
-                        </div>
-                        <div id="lapsers-container" class="barContainers">
-                            <h6 class="text-primary text-center my-marginTopBottom">Lapsers</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="mdl-color--white mdl-shadow--2dp">
-                    <div class="col-sm-8 col-xs-12">
-                        <ul class="list-inline">
-                            <li>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="avg-radio">
-                                    <input type="radio" id="avg-radio" class="mdl-radio__button" name="dashboardStats" value="1" checked>
-                                    <span class="mdl-radio__label">Avg Check-Ins</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="regular-radio">
-                                    <input type="radio" id="regular-radio" class="mdl-radio__button" name="dashboardStats" value="2">
-                                    <span class="mdl-radio__label">Regulars</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="irregulars-radio">
-                                    <input type="radio" id="irregulars-radio" class="mdl-radio__button" name="dashboardStats" value="3">
-                                    <span class="mdl-radio__label">Irregulars</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="lapsers-radio">
-                                    <input type="radio" id="lapsers-radio" class="mdl-radio__button" name="dashboardStats" value="4">
-                                    <span class="mdl-radio__label">Lapsers</span>
-                                </label>
-                            </li>
-                        </ul>
-                        <canvas id="avgChecks-canvas" class="mygraphs"></canvas>
-                        <canvas id="regulars-canvas" class="mygraphs"></canvas>
-                        <canvas id="irregulars-canvas" class="mygraphs"></canvas>
-                        <canvas id="lapsers-canvas" class="mygraphs"></canvas>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <table class="mdl-data-table mdl-js-data-table">
-                            <thead>
-                            <tr>
-                                <th class="mdl-data-table__cell--non-numeric">Legend</th>
-                                <th class="mdl-data-table__cell--non-numeric overall-th">OverAll</th>
-                                <th class="mdl-data-table__cell--non-numeric andheri-th">Andheri</th>
-                                <th class="mdl-data-table__cell--non-numeric bandra-th">Bandra</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            if(isset($avgChecks))
-                            {
-                                ?>
-                                <tr>
-                                    <td>Avg Check-ins</td>
-                                    <td class="overall-td">
-                                        <?php
-                                        $allStores = ((int)$avgChecks['checkInList']['overall']/$totalMugs['overall']);
-                                        echo round($allStores,2);
-                                        ?>
-                                    </td>
-                                    <td class="andheri-td">
-                                        <?php
-                                        $andheriStore = ((int)$avgChecks['checkInList']['andheri']/$totalMugs['andheri']);
-                                        echo round($andheriStore,2);
-                                        ?>
-                                    </td>
-                                    <td class="bandra-td">
-                                        <?php
-                                        $bandraStore = ((int)$avgChecks['checkInList']['bandra']/$totalMugs['bandra']);
-                                        echo round($bandraStore,2);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                            if(isset($Regulars))
-                            {
-                                ?>
-                                <tr>
-                                    <td>Regulars</td>
-                                    <td class="overall-td">
-                                        <?php
-                                        $allStores = ((int)$Regulars['regularCheckins']['overall']/$totalMugs['overall'])*100;
-                                        echo round($allStores,1);
-                                        ?>
-                                    </td>
-                                    <td class="andheri-td">
-                                        <?php
-                                        $andheriStore = ((int)$Regulars['regularCheckins']['andheri']/$totalMugs['andheri'])*100;
-                                        echo round($andheriStore,1);
-                                        ?>
-                                    </td>
-                                    <td class="bandra-td">
-                                        <?php
-                                        $bandraStore = ((int)$Regulars['regularCheckins']['bandra']/$totalMugs['bandra'])*100;
-                                        echo round($bandraStore,1);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                            if(isset($Irregulars))
-                            {
-                                ?>
-                                <tr>
-                                    <td>IrRegulars</td>
-                                    <td class="overall-td">
-                                        <?php
-                                        $allStores = ((int)$Irregulars['irregularCheckins']['overall']/$totalMugs['overall'])*100;
-                                        echo round($allStores,1);
-                                        ?>
-                                    </td>
-                                    <td class="andheri-td">
-                                        <?php
-                                        $andheriStore = ((int)$Irregulars['irregularCheckins']['andheri']/$totalMugs['andheri'])*100;
-                                        echo round($andheriStore,1);
-                                        ?>
-                                    </td>
-                                    <td class="bandra-td">
-                                        <?php
-                                        $bandraStore = ((int)$Irregulars['irregularCheckins']['bandra']/$totalMugs['bandra'])*100;
-                                        echo round($bandraStore,1);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                            if(isset($lapsers))
-                            {
-                                ?>
-                                <tr>
-                                    <td>Lapsers</td>
-                                    <td class="overall-td">
-                                        <?php
-                                        $allStores = ((int)$lapsers['lapsers']['overall']/$totalMugs['overall'])*100;
-                                        echo round($allStores,1);
-                                        ?>
-                                    </td>
-                                    <td class="andheri-td">
-                                        <?php
-                                        $andheriStore = ((int)$lapsers['lapsers']['andheri']/$totalMugs['andheri'])*100;
-                                        echo round($andheriStore,1);
-                                        ?>
-                                    </td>
-                                    <td class="bandra-td">
-                                        <?php
-                                        $bandraStore = ((int)$lapsers['lapsers']['bandra']/$totalMugs['bandra'])*100;
-                                        echo round($bandraStore,1);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </main>
     </div>
 
@@ -785,5 +859,72 @@
         }
     }
     toggleGraphs('input[name="dashboardStats"]');
+</script>
+
+<!-- Instamojo scripts -->
+<script>
+    var dialog = document.querySelector('dialog');
+    if (! dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+    }
+    $(document).on('click','.confirm-btn', function(){
+        dialog.showModal();
+    });
+    dialog.querySelector('.close').addEventListener('click', function() {
+        dialog.close();
+    });
+
+    function changeCurrent(ele)
+    {
+        $('#selectedMug').val($(ele).attr('data-id'));
+        $('#mugPaymentId').val($(ele).attr('data-paymentId'));
+        $('#mugEmail').val($(ele).attr('data-email'));
+        $('#mugNum').val($(ele).attr('data-mugId'));
+    }
+
+    $(document).on('click','.agree_btn',function () {
+        var selectedCard = $('#selectedMug').val();
+        var paymentId = $('#mugPaymentId').val();
+        var mugEmail = $('#mugEmail').val();
+        var mugNum = $('#mugNum').val();
+
+        var postData = {
+            "mugId": mugNum,
+            "invoiceNo": paymentId,
+            "mugEmail":mugEmail
+        };
+
+        $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"<?php echo base_url();?>mugclub/mugRenew/json",
+            data:postData,
+            success: function(data)
+            {
+                if(data.status === true)
+                {
+                    $('.my-instaCard').each(function(i,val){
+                        if($(val).attr('data-id') == selectedCard)
+                        {
+                            dialog.close();
+                            $(this).fadeOut("fast");
+                            return false;
+                        }
+                    });
+                }
+                else
+                {
+                    bootbox.alert('Try again later!');
+                }
+            },
+            error: function()
+            {
+                bootbox.alert('Some Error Occurred!');
+            }
+        });
+
+    });
+
+
 </script>
 </html>

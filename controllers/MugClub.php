@@ -109,7 +109,7 @@ class Mugclub extends MY_Controller {
         $this->load->view('MugRenewView', $data);
     }
 
-    public function mugRenew()
+    public function mugRenew($responseType = RESPONSE_RETURN)
     {
         $post = $this->input->post();
 
@@ -118,6 +118,8 @@ class Mugclub extends MY_Controller {
             $post['invoiceNo'] = '0000';
         }
         $mugDetails = $this->mugclub_model->getMugIdForRenew($post['mugId']);
+        $userFirstName = $mugDetails['firstName'];
+        unset($mugDetails['firstName']);
         $mugDetails['mugId'] = $post['mugId'];
         $this->mugclub_model->saveRenewRecord($mugDetails);
 
@@ -136,7 +138,26 @@ class Mugclub extends MY_Controller {
 
         $this->mugclub_model->setMugRenew($post);
 
-        redirect(base_url().'mugclub');
+        if(isset($post['mugEmail']))
+        {
+            $mailData = array(
+                "mugId" => $post['mugId'],
+                "firstName" => $userFirstName,
+                "newEndDate" => $post['membershipEnd']
+            );
+            $this->sendemail_library->membershipRenewSendMail($mailData);
+        }
+
+        if($responseType == RESPONSE_RETURN)
+        {
+            redirect(base_url().'mugclub');
+        }
+        else
+        {
+            $data['status'] = true;
+            echo json_encode($data);
+        }
+
     }
     public function saveOrUpdateMug()
     {

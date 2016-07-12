@@ -38,6 +38,29 @@ class Sendemail_library
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
     }
 
+    public function membershipRenewSendMail($userData)
+    {
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/membershipRenewMailView', $data, true);
+
+        $fromEmail = 'priyanka@doolally.in';
+
+        if(isset($this->CI->userEmail))
+        {
+            $fromEmail = $this->CI->userEmail;
+        }
+        $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
+        $fromName  = 'Doolally';
+        if(isset($this->CI->userFirstName))
+        {
+            $fromName = ucfirst($this->CI->userFirstName);
+        }
+        $subject = 'Renewal Mug Mail';
+        $toEmail = $userData['emailId'];
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+    }
 
     public function generateBreakfastCode()
     {

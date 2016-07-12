@@ -13,7 +13,7 @@
                 <h2><i class="fa fa-beer"></i> Renew Mug #<?php echo $mugId; ?></h2>
                 <hr>
                 <br>
-                <form action="<?php echo base_url();?>mugclub/mugRenew" method="post" class="form-horizontal" role="form">
+                <form action="<?php echo base_url();?>mugclub/mugRenew/return" method="post" class="form-horizontal" role="form">
                     <input type="hidden" value="<?php echo $mugId;?>" name="mugId"/>
                     <!--<div class="form-group">
                         <label class="control-label col-sm-2" for="memEnd">Membership End Date :</label>
