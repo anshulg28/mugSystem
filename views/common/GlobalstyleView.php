@@ -4,4 +4,7 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/getmdl-select.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material-icon.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/general_style.css">

@@ -4,6 +4,10 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/bootbox.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/material.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/getmdl-select.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/Chart.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/progressbar.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/doolally-local-session.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/dataTables.bootstrap.min.js"></script>

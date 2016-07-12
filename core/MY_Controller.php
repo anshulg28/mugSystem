@@ -57,6 +57,7 @@ class MY_Controller extends CI_Controller
 				$this->userEmail = $this->session->user_email;
 			}
             $this->userFirstName = $this->session->user_firstname;
+			$this->userId = $this->session->user_id;
 		}
 
 		//get location from session
