@@ -15,13 +15,13 @@ class Home extends MY_Controller {
 
     public function index()
 	{
-        if(!isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === false)
+/*        if(!isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === false)
         {
             if($this->userType != GUEST_USER)
             {
                 redirect(base_url().'location-select');
             }
-        }
+        }*/
 
 		$data = array();
 		$data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);

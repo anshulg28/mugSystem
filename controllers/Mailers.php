@@ -116,6 +116,12 @@ class Mailers extends MY_Controller {
         foreach($mugNums as $key)
         {
             $mugInfo = $this->mugclub_model->getMugDataForMailById($key);
+            if($post['mailType'] == BIRTHDAY_MAIL)
+            {
+                $newDate =array("membershipEnd"=> date('Y-m-d', strtotime($mugInfo['mugList'][0]['membershipEnd'].' +3 month')));
+                $this->mugclub_model->extendMemberShip($key,$newDate);
+                $mugInfo['mugList'][0]['membershipEnd'] = $newDate['membershipEnd'];
+            }
             $newSubject = $this->replaceMugTags($post['mailSubject'],$mugInfo);
             $newBody = $this->replaceMugTags($post['mailBody'],$mugInfo);
             $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
@@ -132,7 +138,7 @@ class Mailers extends MY_Controller {
             }
 
             $this->sendemail_library->sendEmail($mugInfo['mugList'][0]['emailId'],$cc,$fromEmail,$fromName,$newSubject,$newBody);
-            $this->mailers_model->setMailSend($key);
+            $this->mailers_model->setMailSend($key,$post['mailType']);
         }
 
         if($responseType == RESPONSE_JSON)

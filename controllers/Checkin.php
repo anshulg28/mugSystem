@@ -56,6 +56,14 @@ class Checkin extends MY_Controller {
             redirect(base_url());
         }
 
+        if(!isset($this->currentLocation) || isSessionVariableSet($this->currentLocation) === false)
+        {
+            $this->session->set_userdata('page_url', base_url(uri_string()));
+            if($this->userType != GUEST_USER)
+            {
+                redirect(base_url().'location-select');
+            }
+        }
         //Getting All Mug List
         $mugData = $this->mugclub_model->getCheckInMugClubList();
 
@@ -104,7 +112,22 @@ class Checkin extends MY_Controller {
     }
     public function saveOrUpdateCheckIn($responseType = RESPONSE_RETURN)
     {
+        if(isSessionVariableSet($this->isUserSession) === false)
+        {
+            if($responseType == RESPONSE_RETURN)
+            {
+                redirect(base_url());
+            }
+            else
+            {
+                $data['status'] = false;
+                $data['pageUrl'] = base_url();
+                echo json_encode($data);
+            }
+            return false;
+        }
         $post = $this->input->post();
+        $ifFailed = 0;
 
         if(!isset($post['baseLocation']))
         {
@@ -118,7 +141,15 @@ class Checkin extends MY_Controller {
         }
         else
         {
-            $this->checkin_model->saveCheckInRecord($params);
+            $mugResult = $this->checkin_model->checkMugAlreadyCheckedIn($params['mugId']);
+            if($mugResult['status'] === true)
+            {
+                $ifFailed = 1;
+            }
+            else
+            {
+                $this->checkin_model->saveCheckInRecord($params);
+            }
         }
 
         if($responseType == RESPONSE_RETURN)
@@ -127,9 +158,18 @@ class Checkin extends MY_Controller {
         }
         else
         {
-            $data['status'] = true;
-            $data['pageUrl'] = base_url().'check-ins';
-            echo json_encode($data);
+            if($ifFailed == 0)
+            {
+                $data['status'] = true;
+                $data['pageUrl'] = base_url().'check-ins';
+                echo json_encode($data);
+            }
+            else
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = "Member Already Checked In";
+                echo json_encode($data);
+            }
         }
 
     }

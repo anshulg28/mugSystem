@@ -34,9 +34,37 @@ class Login extends MY_Controller {
     public function checkUser($responseType = RESPONSE_RETURN)
     {
         $post = $this->input->post();
+        $userResult='';
+        $isPinUsed = 0;
 
-        $userResult = $this->login_model->checkUser($post['userName'],md5($post['password']));
+        if(isset($post['userName']) && $post['userName'] != '' && isset($post['password']) && $post['password'] != '')
+        {
+            $userResult = $this->login_model->checkUser($post['userName'],md5($post['password']));
+        }
+        else
+        {
+            $loginPin = '';
 
+            if(!isset($post['loginPin1']))
+            {
+                $post['loginPin1'] = '0';
+            }
+            if(!isset($post['loginPin2']))
+            {
+                $post['loginPin2'] = '0';
+            }
+            if(!isset($post['loginPin3']))
+            {
+                $post['loginPin3'] = '0';
+            }
+            if(!isset($post['loginPin4']))
+            {
+                $post['loginPin4'] = '0';
+            }
+            $loginPin .= $post['loginPin1'] . $post['loginPin2'] . $post['loginPin3'] . $post['loginPin4'];
+            $isPinUsed = 1;
+            $userResult = $this->login_model->checkUserByPin(md5($loginPin));
+        }
         if($userResult['status'] === true && $userResult['userId'] != 0)
         {
             if($userResult['ifActive'] == NOT_ACTIVE)
@@ -55,18 +83,40 @@ class Login extends MY_Controller {
         }
         else
         {
-            $data['status'] = false;
-            $data['errorMsg'] = 'Username and password does not match.';
+            if($isPinUsed == 1)
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Login Pin Not Found!';
+            }
+            else
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Username and password does not match.';
+            }
         }
 
         if($responseType == RESPONSE_JSON)
         {
-            $data['pageUrl'] = $this->pageUrl;
+            if($userResult['status'] === true && $isPinUsed == 1 && $userResult['isPinChanged'] == '0')
+            {
+                $data['pageUrl'] = base_url().'login/pinChange/'.$userResult['userId'];
+            }
+            else
+            {
+                $data['pageUrl'] = $this->pageUrl;
+            }
             echo json_encode($data);
         }
         else
         {
-            redirect($this->pageUrl);
+            if($userResult['status'] === true && $isPinUsed == 1 && $userResult['isPinChanged'] == '0')
+            {
+                redirect(base_url().'login/pinChange/'.$userResult['userId']);
+            }
+            else
+            {
+                redirect($this->pageUrl);
+            }
         }
 
     }
@@ -96,6 +146,55 @@ class Login extends MY_Controller {
         else
         {
             $this->load->view('ChangePasswordView', $data);
+        }
+    }
+
+    public function pinChange($userId)
+    {
+        $data = array();
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
+
+        $data['userId'] = $userId;
+
+        $this->load->view('ChangePinView', $data);
+    }
+
+    public function changePin($responseType = RESPONSE_JSON)
+    {
+        $post = $this->input->post();
+
+        if(isset($post['userId']))
+        {
+            $pinResult = $this->login_model->checkUserByPin(md5($post['LoginPin']));
+            if($pinResult['status'] === true)
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Pin Already Used!';
+            }
+            else
+            {
+                $post['isPinChanged'] = '1';
+                $this->login_model->updateUserPin($post);
+                $data['status'] = true;
+                $data['pageUrl'] = base_url();
+            }
+        }
+        else
+        {
+            $data['status'] = true;
+            $data['pageUrl'] = base_url();
+        }
+
+        if($responseType == RESPONSE_JSON)
+        {
+            echo json_encode($data);
+        }
+        else
+        {
+            return $data;
         }
     }
 

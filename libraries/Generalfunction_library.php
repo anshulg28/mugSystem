@@ -14,7 +14,7 @@ class Generalfunction_library
     public function setUserSession($id)
     {
         $data = $this->CI->mydatafetch_library->getUserDetailsByUserId($id);
-
+        
         $this->CI->session->set_userdata('user_id', $data['userId']);
         $this->CI->userId = $data['userId'];
         $this->CI->session->set_userdata('user_type', $data['userType']);

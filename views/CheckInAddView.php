@@ -58,6 +58,7 @@
                         <div class="form-group mugInput">
                             <div class="col-sm-1 col-xs-1 form-adjust-insmall"></div>
                             <div class="col-sm-8 col-xs-8">
+                                <div class="mug-already-error my-danger-text text-center"></div>
                                 <input type="number" name="mugNum" maxlength="4" oninput="maxLengthCheck(this)" class="form-control" id="mugNum" placeholder="Mug #">
                             </div>
                             <div class="col-sm-2 col-xs-2">
@@ -300,6 +301,8 @@
 
     $(document).on('click','.verify-checkin-btn',function(){
         showCustomLoader();
+        $('.mug-already-error').css('margin-bottom','0').empty();
+        $(this).css('margin-top','0');
         var selectedInputVal = $('input[name="checkInInput"]:checked').val();
         if(selectedInputVal == '1')
         {
@@ -638,6 +641,16 @@
                         bootbox.alert('Successfully Checked In!',function(){
                             window.location.reload();
                         });
+                    }
+                    else
+                    {
+                        if(typeof data.pageUrl != 'undefined')
+                        {
+                            window.location.href = data.pageUrl;
+                        }
+                        $('.verify-checkin-btn').css('margin-top','25px');
+                        $('.mug-already-error').css('margin-bottom','5px').html(data.errorMsg);
+                        bootbox.alert(data.errorMsg);
                     }
                 },
                 error: function()

@@ -35,9 +35,16 @@ class Mailers_Model extends CI_Model
         return $data;
     }
 
-    public function setMailSend($mugId)
+    public function setMailSend($mugId,$mailType)
     {
-        $details['mailStatus'] = 1;
+        if($mailType == BIRTHDAY_MAIL)
+        {
+            $details['birthdayMailStatus'] = 1;
+        }
+        else
+        {
+            $details['mailStatus'] = 1;
+        }
         $details['mailDate'] = date('Y-m-d');
 
         $this->db->where('mugId', $mugId);
