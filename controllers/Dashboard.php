@@ -23,7 +23,7 @@ class Dashboard extends MY_Controller {
 
     public function index()
 	{
-        if(isSessionVariableSet($this->isUserSession) === false)
+        if(isSessionVariableSet($this->isUserSession) === false || $this->userType == SERVER_USER)
         {
             redirect(base_url());
         }
