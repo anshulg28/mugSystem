@@ -113,8 +113,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="mdl-color--white mdl-shadow--2dp mdl-grid">
-                    <div class="mdl-cell mdl-cell--8-col">
+                <div class="mdl-color--white mdl-shadow--2dp">
+                    <div class="col-sm-8 col-xs-12">
                         <ul class="list-inline">
                             <li>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="avg-radio">
@@ -146,7 +146,7 @@
                         <canvas id="irregulars-canvas" class="mygraphs"></canvas>
                         <canvas id="lapsers-canvas" class="mygraphs"></canvas>
                     </div>
-                    <div class="mdl-cell mdl-cell--4-col">
+                    <div class="col-sm-4 col-xs-12">
                         <table class="mdl-data-table mdl-js-data-table">
                             <thead>
                             <tr>
