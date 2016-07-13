@@ -78,6 +78,7 @@
                         <label class="control-label col-sm-2" for="bdate">BirthDate:</label>
                         <div class="col-sm-10">
                             <input type="date" name="birthdate" class="form-control" id="bdate" placeholder="Eg. 12 June 1990">
+                            <div class="birthday-verification-holder"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -145,6 +146,7 @@
 <script>
     var mugVerified = 0;
     var mobileVerified = 0;
+    var birthVerified = 0;
     $(document).on('focusout','#mugNum', function(){
         if($(this).val() != '')
         {
@@ -162,7 +164,10 @@
                         mugVerified = 1;
                         if(mobileVerified == 1)
                         {
-                            $('form button[type="submit"]').removeAttr('disabled');
+                            if(birthVerified == 1)
+                            {
+                                $('form button[type="submit"]').removeAttr('disabled');
+                            }
                         }
                     }
                     else
@@ -200,7 +205,10 @@
                         mobileVerified = 1;
                         if(mugVerified == 1)
                         {
-                            $('form button[type="submit"]').removeAttr('disabled');
+                            if(birthVerified == 1)
+                            {
+                                $('form button[type="submit"]').removeAttr('disabled');
+                            }
                         }
                     }
                     else
@@ -224,6 +232,40 @@
     $(document).ready(function(){
         $('form button[type="submit"]').attr('disabled','true');
     });
-    
+
+    $(document).on('focusout','input[name="birthdate"]', function(){
+        if($(this).val() != '')
+        {
+            if(getAge($(this).val()) < 21)
+            {
+                birthVerified = 0;
+                $('.birthday-verification-holder').css('color','red').html('This Member is Under Age (below 21)');
+            }
+            else
+            {
+                $('.birthday-verification-holder').empty();
+                birthVerified = 1;
+                if(mugVerified == 1)
+                {
+                    if(mobileVerified == 1)
+                    {
+                        $('form button[type="submit"]').removeAttr('disabled');
+                    }
+                }
+            }
+        }
+    });
+    function getAge(dateString)
+    {
+        var today = new Date();
+        var birthDate = new Date(dateString);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+        {
+            age--;
+        }
+        return age;
+    }
 </script>
 </html>
