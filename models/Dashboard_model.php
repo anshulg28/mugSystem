@@ -217,10 +217,10 @@ class Dashboard_Model extends CI_Model
     public function getAllDashboardRecord()
     {
         $query = "SELECT * "
-            ." FROM dashboardmaster";
+            ." FROM dashboardmaster ORDER BY insertedDate DESC LIMIT 30";
 
         $result = $this->db->query($query)->result_array();
-        $data['dashboardPoints'] = $result;
+        $data['dashboardPoints'] = array_reverse($result);
         if(myIsArray($result))
         {
             $data['status'] = true;
@@ -236,6 +236,12 @@ class Dashboard_Model extends CI_Model
     public function saveInstaMojoRecord($details)
     {
         $this->db->insert('instamojomaster', $details);
+        return true;
+    }
+    public function updateInstaMojoRecord($id,$details)
+    {
+        $this->db->where('id', $id);
+        $this->db->update('instamojomaster', $details);
         return true;
     }
 

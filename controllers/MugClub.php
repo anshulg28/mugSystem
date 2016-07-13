@@ -117,6 +117,11 @@ class Mugclub extends MY_Controller {
         {
             $post['invoiceNo'] = '0000';
         }
+        if(isset($post['mugEmail']))
+        {
+            $userEmail = $post['mugEmail'];
+            unset($post['mugEmail']);
+        }
         $mugDetails = $this->mugclub_model->getMugIdForRenew($post['mugId']);
         $userFirstName = $mugDetails['firstName'];
         unset($mugDetails['firstName']);
@@ -138,12 +143,13 @@ class Mugclub extends MY_Controller {
 
         $this->mugclub_model->setMugRenew($post);
 
-        if(isset($post['mugEmail']))
+        if(isset($userEmail) && $userEmail != '')
         {
             $mailData = array(
                 "mugId" => $post['mugId'],
                 "firstName" => $userFirstName,
-                "newEndDate" => $post['membershipEnd']
+                "newEndDate" => $post['membershipEnd'],
+                "emailId" => $userEmail
             );
             $this->sendemail_library->membershipRenewSendMail($mailData);
         }

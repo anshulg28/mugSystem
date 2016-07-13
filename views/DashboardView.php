@@ -903,6 +903,24 @@
             {
                 if(data.status === true)
                 {
+                    $.ajax({
+                        type:"POST",
+                        dataType: "json",
+                        url:"<?php echo base_url();?>dashboard/instadone/json/"+selectedCard,
+                        success: function(data) {
+                            if(data.status === true)
+                            {
+
+                            }
+                            else
+                            {
+                                bootbox.alert('Try again later!');
+                            }
+                        },
+                        error: function(){
+                            bootbox.alert('Some Error Occurred!');
+                        }
+                    });
                     $('.my-instaCard').each(function(i,val){
                         if($(val).attr('data-id') == selectedCard)
                         {

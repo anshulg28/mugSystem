@@ -183,4 +183,20 @@ class Dashboard extends MY_Controller {
         }
     }
 
+    public function setInstamojoDone($responseType = RESPONSE_JSON,$id)
+    {
+        $details = array("isApproved"=>1);
+        $this->dashboard_model->updateInstaMojoRecord($id,$details);
+
+        $data['status'] = true;
+        if($responseType == RESPONSE_JSON)
+        {
+            echo json_encode($data);
+        }
+        else
+        {
+            return $data;
+        }
+    }
+
 }

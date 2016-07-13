@@ -80,4 +80,5 @@ $route['mugclub/renew/(:any)'] = 'mugclub/renewExistingMug/$1';
 $route['dashboard/custom'] = 'dashboard/getCustomStats';
 $route['dashboard/save'] = 'dashboard/saveRecord';
 $route['dashboard/instamojo'] = 'dashboard/instaMojoRecord';
+$route['dashboard/instadone/(:any)/(:any)'] = 'dashboard/setInstamojoDone/$1/$2';
 $route['main'] = 'home/main';
