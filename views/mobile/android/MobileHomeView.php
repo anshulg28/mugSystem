@@ -20,7 +20,7 @@
 <!-- Views -->
 <div class="views tabs toolbar-through">
     <!-- Your main view, should have "view-main" class -->
-    <div id="tab1" class="view view-main tab">
+    <div id="tab1" class="view view-commingUp tab">
         <!-- Top Navbar-->
         <div class="navbar">
             <div class="navbar-inner">
@@ -34,7 +34,7 @@
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
         <div class="pages navbar-fixed">
             <!-- Page, "data-page" contains page name -->
-            <div data-page="index" class="page">
+            <div data-page="comming-up" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content">
                     <p>Page content goes here</p>
@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div id="tab2" class="view tab active">
+    <div id="tab2" class="view view-main tab active">
         <!-- Top Navbar-->
         <div class="navbar">
             <div class="navbar-inner">
@@ -57,7 +57,7 @@
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
         <div class="pages navbar-fixed">
             <!-- Page, "data-page" contains page name -->
-            <div data-page="index" class="page">
+            <div data-page="main-feeds" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content">
                     <p>Tab 2</p>
@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div id="tab3" class="view tab">
+    <div id="tab3" class="view view-menus tab">
         <!-- Top Navbar-->
         <div class="navbar">
             <div class="navbar-inner">
@@ -78,7 +78,7 @@
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
         <div class="pages navbar-fixed">
             <!-- Page, "data-page" contains page name -->
-            <div data-page="index" class="page">
+            <div data-page="menusPage" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content">
                     <p>Tab 3</p>

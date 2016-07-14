@@ -2,3 +2,4 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/welcomescreen.css">
