@@ -5,6 +5,7 @@
  * @property Generalfunction_library $generalfunction_library
  * @property Dataformatinghtml_library $dataformatinghtml_library
  * @property Sendemail_library $sendemail_library
+ * @property Mobile_Detect $mobile_detect
  * @property CI_User_agent $agent
  * @property CI_Session $session
  * @property CI_Config $config
@@ -35,6 +36,7 @@ class MY_Controller extends CI_Controller
 		$this->load->library('dataformatinghtml_library');
         $this->load->library('user_agent');
 		$this->load->library('sendemail_library');
+		$this->load->library('Mobile_Detect');
 
 		//
 		if($this->agent->is_referral() == false)

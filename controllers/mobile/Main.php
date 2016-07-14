@@ -17,8 +17,9 @@ class Main extends MY_Controller {
         $data['mobileStyle'] = $this->dataformatinghtml_library->getMobileStyleHtml($data);
         $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
 
-        if($this->agent->is_mobile('android'))
-        {
+
+        if ($this->mobile_detect->isAndroidOS()) {
+
             $data['androidStyle'] = $this->dataformatinghtml_library->getAndroidStyleHtml($data);
             $data['androidJs'] = $this->dataformatinghtml_library->getAndroidJsHtml($data);
             $this->load->view('mobile/android/MobileHomeView', $data);
@@ -29,6 +30,18 @@ class Main extends MY_Controller {
             $data['iosJs'] = $this->dataformatinghtml_library->getIosJsHtml($data);
             $this->load->view('mobile/ios/MobileHomeView', $data);
         }
+        /*if($this->agent->is_mobile('android'))
+        {
+            $data['iosStyle'] = $this->dataformatinghtml_library->getIosStyleHtml($data);
+            $data['iosJs'] = $this->dataformatinghtml_library->getIosJsHtml($data);
+            $this->load->view('mobile/ios/MobileHomeView', $data);
+        }
+        else
+        {
+            $data['androidStyle'] = $this->dataformatinghtml_library->getAndroidStyleHtml($data);
+            $data['androidJs'] = $this->dataformatinghtml_library->getAndroidJsHtml($data);
+            $this->load->view('mobile/android/MobileHomeView', $data);
+        }*/
 	}
 
     public function about()

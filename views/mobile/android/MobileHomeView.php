@@ -6,7 +6,7 @@
 	<?php echo $mobileStyle; ?>
     <?php echo $androidStyle; ?>
 </head>
-<body>
+<body class="androidHome">
 <!-- Status bar overlay for full screen mode (PhoneGap) -->
 <div class="statusbar-overlay"></div>
 <!-- Panels overlay-->
@@ -32,7 +32,7 @@
         </div>
 
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-fixed toolbar-fixed">
+        <div class="pages navbar-fixed">
             <!-- Page, "data-page" contains page name -->
             <div data-page="index" class="page">
                 <!-- Scrollable page content -->
@@ -55,7 +55,7 @@
             </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-fixed toolbar-fixed">
+        <div class="pages navbar-fixed">
             <!-- Page, "data-page" contains page name -->
             <div data-page="index" class="page">
                 <!-- Scrollable page content -->
@@ -76,7 +76,7 @@
             </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-fixed toolbar-fixed">
+        <div class="pages navbar-fixed">
             <!-- Page, "data-page" contains page name -->
             <div data-page="index" class="page">
                 <!-- Scrollable page content -->
