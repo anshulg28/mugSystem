@@ -82,3 +82,7 @@ $route['dashboard/save'] = 'dashboard/saveRecord';
 $route['dashboard/instamojo'] = 'dashboard/instaMojoRecord';
 $route['dashboard/instadone/(:any)/(:any)'] = 'dashboard/setInstamojoDone/$1/$2';
 $route['main'] = 'home/main';
+
+/* Mobile Routes */
+$route['mobile'] = 'mobile/main';
+$route['mobile/about'] = 'mobile/main/about';

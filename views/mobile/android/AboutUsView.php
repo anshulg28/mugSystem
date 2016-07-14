@@ -11,11 +11,12 @@
                 <i class="icon icon-back"></i>
                 <span>Back</span>
             </a>
-        </div>
-        <div class="center sliding">About</div>
-        <div class="right">
             <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
         </div>
+        <div class="center sliding">About</div>
+        <!--<div class="right">
+
+        </div>-->
     </div>
 </div>
 <div class="pages">

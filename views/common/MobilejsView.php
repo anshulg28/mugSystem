@@ -16,29 +16,15 @@
     var $$ = Dom7;
 
     if (isAndroid) {
-        // Change class
-        $$('.view.navbar-through').removeClass('navbar-through').addClass('navbar-fixed');
-        // And move Navbar into Page
-        $$('.view .navbar').prependTo('.view .page');
+        <?php
+            $this->session->set_userdata('osType', "android");
+        ?>
+    }
+    else
+    {
+        <?php
+            $this->session->set_userdata('osType', "other");
+        ?>
     }
 
-    // Init App
-    var myApp = new Framework7({
-        // Enable Material theme for Android device only
-        material: isAndroid ? true : false,
-        // Enable Template7 pages
-        template7Pages: true
-    });
-
-    // Init View
-    var mainView = myApp.addView('.view-main', {
-        // Material doesn't support it but don't worry about it
-        // F7 will ignore it for Material theme
-        dynamicNavbar: true
-    });
-    
-    myApp.onPageInit('about', function (page) {
-        // Do something here for "about" page
-
-    })
 </script>
