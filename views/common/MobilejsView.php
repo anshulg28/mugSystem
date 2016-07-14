@@ -23,7 +23,7 @@
     else
     {
         <?php
-            $this->session->set_userdata('osType', "other");
+            $this->session->set_userdata('osType', "ios");
         ?>
     }
 
