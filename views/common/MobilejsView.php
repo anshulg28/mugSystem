@@ -15,16 +15,4 @@
     // Export selectors engine
     var $$ = Dom7;
 
-    if (isAndroid) {
-        <?php
-            $this->session->set_userdata('osType', "android");
-        ?>
-    }
-    else
-    {
-        <?php
-            $this->session->set_userdata('osType', "ios");
-        ?>
-    }
-
 </script>

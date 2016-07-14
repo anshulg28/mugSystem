@@ -17,7 +17,7 @@ class Main extends MY_Controller {
         $data['mobileStyle'] = $this->dataformatinghtml_library->getMobileStyleHtml($data);
         $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
 
-        if($this->session->userdata('osType') == 'android')
+        if($this->agent->is_mobile('android'))
         {
             $data['androidStyle'] = $this->dataformatinghtml_library->getAndroidStyleHtml($data);
             $data['androidJs'] = $this->dataformatinghtml_library->getAndroidJsHtml($data);
