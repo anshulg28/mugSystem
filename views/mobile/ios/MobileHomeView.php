@@ -38,8 +38,6 @@
                 <!-- Scrollable page content -->
                 <div class="page-content">
                     <p>Page content goes here</p>
-                    <!-- Link to another page -->
-                    <a href="<?php echo base_url();?>mobile/about" onclick="myApp.showIndicator()">About app</a>
                 </div>
             </div>
         </div>
@@ -60,7 +58,8 @@
             <div data-page="main-feeds" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content">
-                    <p>Tab 2</p>
+                    <br>
+                    <a href="<?php echo base_url();?>mobile/about" onclick="myApp.showIndicator()">About app</a>
                 </div>
             </div>
         </div>
