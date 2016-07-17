@@ -20,7 +20,7 @@
     var welcomescreen_slides = [
         {
             id: 'slide0',
-            picture: '<div class="tutorialicon"><i class="fa fa-beer"></i><div class="windows8">'+
+            picture: '<div class="tutorialicon"><img src="<?php echo base_url();?>asset/images/mainImg.jpg"/><div class="windows8">'+
                         '<div class="wBall" id="wBall_1">'+
                                 '<div class="wInnerBall"></div>'+
                              '</div>'+
@@ -36,13 +36,12 @@
                         '<div class="wBall" id="wBall_5">'+
                             '<div class="wInnerBall"></div>'+
                         '</div>'+
-                        '</div></div>',
-            text: 'Doolally'
+                        '</div></div>'
         }
     ];
     var options = {
-        'bgcolor': '#0da6ec',
-        'fontcolor': '#fff',
+        'bgcolor': '#fff',
+        'fontcolor': '#000',
         closeButton:false,
         pagination:false
     };

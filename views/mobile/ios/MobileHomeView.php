@@ -18,8 +18,8 @@
     </div>
 </div>
 <!-- Views -->
-<div class="views tabs-animated-wrap toolbar-through">
-    <div class="tabs">
+<div class="views tabs toolbar-through">
+    <!--<div class="tabs">-->
     <!-- Your main view, should have "view-main" class -->
     <div id="tab1" class="view view-commingUp tab">
         <!-- Top Navbar-->
@@ -100,7 +100,7 @@
         </div>
     </div>
     <!-- Bottom Toolbar-->
-    </div>
+    <!--</div>-->
     <div class="toolbar tabbar tabbar-labels">
         <div class="toolbar-inner">
             <a href="#tab1" class="tab-link">
