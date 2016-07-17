@@ -23,12 +23,12 @@
     <!-- Your main view, should have "view-main" class -->
     <div id="tab1" class="view view-commingUp tab">
         <!-- Top Navbar-->
-        <div class="navbar">
+        <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
                     <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
                 </div>
-                <div class="center sliding">Awesome App</div>
+                <!--<div class="center sliding">Awesome App</div>-->
             </div>
         </div>
 
@@ -45,12 +45,12 @@
     </div>
     <div id="tab2" class="view view-main tab">
         <!-- Top Navbar-->
-        <div class="navbar">
+        <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
                     <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
                 </div>
-                <div class="center sliding">Awesome App</div>
+                <!--<div class="center sliding">Awesome App</div>-->
             </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -59,20 +59,67 @@
             <div data-page="main-feeds" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content" id="my-page2">
-                    <br>
-                    <a href="<?php echo base_url();?>mobile/about" onclick="myApp.showIndicator()">About app</a>
-                    <div class="list-block">
-                        <ul>
-                            <li class="swipeout">
-                                <div class="swipeout-content item-content">
-                                    <div class="item-media">...</div>
-                                    <div class="item-inner">...</div>
+                    <div class="content-block accordion-list custom-accordion">
+                        <div class="accordion-item">
+                            <div class="card demo-card-header-pic">
+                                <div class="accordion-item-content">
+                                    <img class="mainFeed-img" src="<?php echo base_url();?>asset/images/mainImg.jpg"/>
                                 </div>
-                                <div class="swipeout-actions-right">
-                                    <a href="#" class="action1">Action 1</a>
+                                <div class="accordion-item-toggle">
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <div class="list-block media-list">
+                                                <ul>
+                                                    <li>
+                                                        <div class="item-content">
+                                                            <div class="item-media"><img class="myAvtar-list" src="<?php echo base_url();?>asset/images/Avatar_Cat.jpg" width="44"></div>
+                                                            <div class="item-inner">
+                                                                <div class="item-title-row">
+                                                                    <div class="item-title">Doolally</div>
+                                                                    <i class="fa fa-instagram"></i>
+                                                                </div>
+                                                                <div class="item-subtitle">@godoolally</div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <p>Giant Jenga, is clearly Jenga on Steroids. Audience game at #doolally #beerolympics2016</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="card demo-card-header-pic">
+                                <div class="accordion-item-content">
+                                    <img class="mainFeed-img" src="<?php echo base_url();?>asset/images/mainImg.jpg"/>
+                                </div>
+                                <div class="accordion-item-toggle">
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <div class="list-block media-list">
+                                                <ul>
+                                                    <li>
+                                                        <div class="item-content">
+                                                            <div class="item-media"><img class="myAvtar-list" src="<?php echo base_url();?>asset/images/Avatar_Dog.png" width="44"></div>
+                                                            <div class="item-inner">
+                                                                <div class="item-title-row">
+                                                                    <div class="item-title">Gob Bluth</div>
+                                                                    <i class="fa fa-twitter"></i>
+                                                                </div>
+                                                                <div class="item-subtitle">@IllusionistNotAMagician</div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <p>Giant Jenga, is clearly Jenga on Steroids. Audience game at #doolally #beerolympics2016</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,12 +127,12 @@
     </div>
     <div id="tab3" class="view view-menus tab">
         <!-- Top Navbar-->
-        <div class="navbar">
+        <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
                     <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
                 </div>
-                <div class="center sliding">Awesome App</div>
+                <!--<div class="center sliding">Awesome App</div>-->
             </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -101,20 +148,19 @@
     </div>
     <!-- Bottom Toolbar-->
     <!--</div>-->
-    <div class="toolbar tabbar tabbar-labels">
+    <div class="toolbar tabbar tabbar-labels myMainBottomBar">
         <div class="toolbar-inner">
             <a href="#tab1" class="tab-link">
-                <i class="fa fa-calendar fa-2x"></i>
+                <i class="fa fa-calendar"></i>
                 <span class="tabbar-label">Coming Up</span>
             </a>
             <a href="#tab2" class="tab-link active">
-                <i class="icon fa fa-beer fa-2x">
-                    <span class="badge bg-red">5</span>
+                <i class="icon fa fa-beer">
                 </i>
                 <span class="tabbar-label">#Doolally</span>
             </a>
             <a href="#tab3" class="tab-link">
-                <i class="fa fa-spoon fa-2x"></i>
+                <i class="fa fa-spoon"></i>
                 <span class="tabbar-label">Menus</span>
             </a>
         </div>
