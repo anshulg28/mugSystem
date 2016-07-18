@@ -106,6 +106,9 @@
                     </div>
                     <div class="col-sm-12 col-xs-12">
                         <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                            <div id="totalCheckins-container" class="barContainers">
+                                <h6 class="text-primary text-center my-marginTopBottom">Total Check-Ins</h6>
+                            </div>
                             <div id="avgCheckins-container" class="barContainers">
                                 <h6 class="text-primary text-center my-marginTopBottom">Avg Check-Ins</h6>
                             </div>
@@ -349,6 +352,7 @@
 </body>
 <?php echo $globalJs; ?>
 <script>
+    var totalCheckins = {};
     var avgCheckins = {};
     var regulars = {};
     var irregulars = {};
@@ -359,7 +363,7 @@
     var graph_lapsers = {};
     var graph_labels = [];
 
-    var avgChecksBar, regularsBar, irregularsBar,lapsersBar;
+    var totalChecksBar, avgChecksBar, regularsBar, irregularsBar,lapsersBar;
     //setting all values
     <?php
         if(isset($avgChecks))
@@ -370,6 +374,7 @@
                 $checkinKeys = array_keys($avgChecks['checkInList']);
                 $allStores = ((int)$avgChecks['checkInList'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
                 ?>
+                    totalCheckins[<?php echo $i;?>] = <?php echo (int)$avgChecks['checkInList'][$checkinKeys[$i]];?>;
                     avgCheckins[<?php echo $i;?>] = <?php echo round($allStores,2);?>;
                 <?php
             }
@@ -494,6 +499,26 @@
 
     $(window).load(function(){
         var selectedLoc = Number($('#location').val());
+
+        //Total Checkins
+        totalChecksBar = new ProgressBar.Circle('#totalCheckins-container', {
+            strokeWidth: 6,
+            easing: 'easeInOut',
+            duration: 1000,
+            color: '#ACEC00',
+            trailWidth: 6,
+            step: function(state, circle) {
+                var value = circle.value().toFixed(2);
+                if (value === 0) {
+                    circle.setText('');
+                } else {
+                    circle.setText(value);
+                }
+
+            }
+        });
+        totalChecksBar.text.style.fontSize = '2em';
+        totalChecksBar.animate(totalCheckins[selectedLoc]);
 
         //Average Checkins
         avgChecksBar = new ProgressBar.Circle('#avgCheckins-container', {
@@ -620,6 +645,7 @@
     function refreshBars(ele)
     {
         var selectedLoc = Number($(ele).val());
+        totalChecksBar.animate(totalCheckins[selectedLoc]);
         avgChecksBar.animate(avgCheckins[selectedLoc]);
         regularsBar.animate(regulars[selectedLoc]);
         irregularsBar.animate(irregulars[selectedLoc]);
@@ -672,6 +698,7 @@
                     for(i=0;i<Object.keys(data.avgChecks.checkInList).length;i++)
                     {
                         calcValue = Number(data.avgChecks.checkInList[checkinKeys[i]])/data.totalMugs[mugKeys[i]];
+                        totalCheckins[i] = Number(data.avgChecks.checkInList[checkinKeys[i]]);
                         avgCheckins[i] = Number(calcValue.toFixed(2));
                     }
                 }
