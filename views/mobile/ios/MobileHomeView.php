@@ -26,7 +26,7 @@
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
-                    <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                    <a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>
                 </div>
                 <!--<div class="center sliding">Awesome App</div>-->
             </div>
@@ -39,6 +39,9 @@
                 <!-- Scrollable page content -->
                 <div class="page-content" id="my-page1">
                     <p>Page content goes here</p>
+                    <a href="#" class="floating-button color-white">
+                        <i class="icon fa-4x">+</i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -48,7 +51,7 @@
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
-                    <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                    <a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>
                 </div>
                 <!--<div class="center sliding">Awesome App</div>-->
             </div>
@@ -60,7 +63,7 @@
                 <!-- Scrollable page content -->
                 <div class="page-content" id="my-page2">
                     <div class="content-block accordion-list custom-accordion">
-                        <div class="accordion-item">
+                        <div class="accordion-item" id="mainItem">
                             <div class="card demo-card-header-pic">
                                 <div class="accordion-item-content">
                                     <img class="mainFeed-img" src="<?php echo base_url();?>asset/images/mainImg.jpg"/>
@@ -130,7 +133,7 @@
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
-                    <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                    <a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>
                 </div>
                 <!--<div class="center sliding">Awesome App</div>-->
             </div>

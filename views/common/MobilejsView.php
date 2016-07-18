@@ -9,10 +9,10 @@
     var isAndroid = Framework7.prototype.device.android === true;
     var isIos = Framework7.prototype.device.ios === true;
 
-    Template7.global = {
+    /*Template7.global = {
         android: isAndroid,
         ios: isIos
-    };
+    };*/
 
     // Export selectors engine
     var $$ = Dom7;
