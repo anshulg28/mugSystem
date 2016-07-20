@@ -37,7 +37,11 @@
             <!-- Page, "data-page" contains page name -->
             <div class="page" data-page="comming-up">
                 <!-- Scrollable page content -->
-                <div class="page-content" id="my-page1">
+                <div class="page-content pull-to-refresh-content" data-ptr-distance="55" id="my-page1">
+                    <div class="pull-to-refresh-layer">
+                        <div class="preloader"></div>
+                        <div class="pull-to-refresh-arrow"></div>
+                    </div>
                     <p>Page content goes here</p>
                     <a href="#" class="floating-button color-white">
                         <i class="icon fa-4x">+</i>
