@@ -61,68 +61,76 @@
             <!-- Page, "data-page" contains page name -->
             <div data-page="main-feeds" class="page">
                 <!-- Scrollable page content -->
-                <div class="page-content" id="my-page2">
+                <div class="page-content infinite-scroll" id="my-page2">
                     <div class="content-block accordion-list custom-accordion">
-                        <div class="accordion-item" id="mainItem">
-                            <div class="card demo-card-header-pic">
-                                <div class="accordion-item-content">
-                                    <img class="mainFeed-img" src="<?php echo base_url();?>asset/images/mainImg.jpg"/>
-                                </div>
-                                <div class="accordion-item-toggle">
-                                    <div class="card-content">
-                                        <div class="card-content-inner">
-                                            <div class="list-block media-list">
-                                                <ul>
-                                                    <li>
-                                                        <div class="item-content">
-                                                            <div class="item-media"><img class="myAvtar-list" src="<?php echo base_url();?>asset/images/Avatar_Cat.jpg" width="44"></div>
-                                                            <div class="item-inner">
-                                                                <div class="item-title-row">
-                                                                    <div class="item-title">Doolally</div>
-                                                                    <i class="fa fa-instagram"></i>
+                        <?php
+                            if(isset($twitterPosts))
+                            {
+                                $postlimit = 0;
+                                foreach($twitterPosts as $key => $row)
+                                {
+                                  ?>
+                                    <div class="accordion-item <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                        <div class="card demo-card-header-pic">
+                                            <?php
+                                                if(isset($row['extended_entities']))
+                                                {
+                                                    ?>
+                                                    <div class="accordion-item-content">
+                                                        <div class="row no-gutter">
+                                                            <?php
+                                                            $imageLimit = 0;
+                                                            foreach($row['extended_entities']['media'] as $mediaKey => $mediaRow)
+                                                            {
+                                                                if($imageLimit >= 3)
+                                                                {
+                                                                    break;
+                                                                }
+                                                                $imageLimit++;
+                                                                ?>
+                                                                <div class="col-auto">
+                                                                    <img alt="image" data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img lazy"/>
                                                                 </div>
-                                                                <div class="item-subtitle">@godoolally</div>
-                                                            </div>
+                                                                <?php
+                                                            }
+                                                            ?>
                                                         </div>
-                                                    </li>
-                                                </ul>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            ?>
+                                            <div class="accordion-item-toggle">
+                                                <div class="card-content">
+                                                    <div class="card-content-inner">
+                                                        <div class="list-block media-list">
+                                                            <ul>
+                                                                <li>
+                                                                    <div class="item-content">
+                                                                        <div class="item-media"><img class="myAvtar-list lazy" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"></div>
+                                                                        <div class="item-inner">
+                                                                            <div class="item-title-row">
+                                                                                <div class="item-title"><?php echo ucfirst($row['user']['name']);?></div>
+                                                                                <i class="fa fa-twitter"></i>
+                                                                            </div>
+                                                                            <div class="item-subtitle">@<?php echo $row['user']['screen_name'];?></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <p><?php echo $row['text'];?></p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <p>Giant Jenga, is clearly Jenga on Steroids. Audience game at #doolally #beerolympics2016</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <div class="card demo-card-header-pic">
-                                <div class="accordion-item-content">
-                                    <img class="mainFeed-img" src="<?php echo base_url();?>asset/images/mainImg.jpg"/>
-                                </div>
-                                <div class="accordion-item-toggle">
-                                    <div class="card-content">
-                                        <div class="card-content-inner">
-                                            <div class="list-block media-list">
-                                                <ul>
-                                                    <li>
-                                                        <div class="item-content">
-                                                            <div class="item-media"><img class="myAvtar-list" src="<?php echo base_url();?>asset/images/Avatar_Dog.png" width="44"></div>
-                                                            <div class="item-inner">
-                                                                <div class="item-title-row">
-                                                                    <div class="item-title">Gob Bluth</div>
-                                                                    <i class="fa fa-twitter"></i>
-                                                                </div>
-                                                                <div class="item-subtitle">@IllusionistNotAMagician</div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <p>Giant Jenga, is clearly Jenga on Steroids. Audience game at #doolally #beerolympics2016</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                  <?php
+                                }
+                            }
+                        ?>
+                    </div>
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader"></div>
                     </div>
                 </div>
             </div>
@@ -172,4 +180,5 @@
 </body>
 <?php echo $mobileJs; ?>
 <?php echo $iosJs; ?>
+
 </html>

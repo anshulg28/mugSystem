@@ -109,3 +109,11 @@ defined('GUEST_USER') OR define('GUEST_USER',4);
 /*Active or not*/
 defined('ACTIVE')   OR define('ACTIVE', 1);
 defined('NOT_ACTIVE')   OR define('NOT_ACTIVE', 0);
+
+/* API Feeds */
+defined('TWITTER_API') OR define('TWITTER_API','https://api.twitter.com/1.1/');
+defined('CONSUMER_KEY') OR define('CONSUMER_KEY','vsi8yrEMdAaFfjz1vTLMOHnNe');
+defined('CONSUMER_SECRET') OR define('CONSUMER_SECRET','T5nSoTaf8rgpXYbWqiLMGSFsdajfHnZ8uXhqz5xyzXgnUaQqbi');
+defined('ACCESS_TOKEN') OR define('ACCESS_TOKEN','15804491-nkhDglNJ5uNSBGixul3kwrnQJWCkZA9tYLuUM3yQk');
+defined('ACCESS_SECRET') OR define('ACCESS_SECRET','eRdLrS6eAwj07Ul5264YUZLf0AXCP9rbicAlXsLFLDjMB');
+defined('BEARER_TOKEN') OR define('BEARER_TOKEN','AAAAAAAAAAAAAAAAAAAAAFhQegAAAAAAePdzbMWF5F%2FfVU5Ph09OIb22dnE%3D7qKzt9ZZQ6IwfUErgznCPq6AcEmIZqYTnKAamzks6ojV72Nobn');
