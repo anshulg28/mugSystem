@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Mailers
  * @property Mailers_Model $mailers_model
  * @property Mugclub_Model $mugclub_model
+ * @property users_model $users_model
 */
 
 class Mailers extends MY_Controller {
@@ -14,6 +15,7 @@ class Mailers extends MY_Controller {
 		parent::__construct();
 		$this->load->model('mailers_model');
         $this->load->model('mugclub_model');
+        $this->load->model('users_model');
 	}
 	public function index()
 	{
@@ -27,9 +29,20 @@ class Mailers extends MY_Controller {
             redirect(base_url());
         }
 
-        $data['expiredMugs'] = $this->mugclub_model->getExpiredMugsList();
-        $data['expiringMugs'] = $this->mugclub_model->getExpiringMugsList(1,'week');
-        $data['birthdayMugs'] = $this->mugclub_model->getBirthdayMugsList();
+        if($this->userType == EXECUTIVE_USER)
+        {
+            $userInfo = $this->users_model->getUserDetailsById($this->userId);
+            $data['expiredMugs'] = $this->mugclub_model->getExpiredMugsList(true,$userInfo['userData'][0]['assignedLoc']);
+            $data['expiringMugs'] = $this->mugclub_model->getExpiringMugsList(1,'week',true,$userInfo['userData'][0]['assignedLoc']);
+            $data['birthdayMugs'] = $this->mugclub_model->getBirthdayMugsList(true,$userInfo['userData'][0]['assignedLoc']);
+        }
+        else
+        {
+            $data['expiredMugs'] = $this->mugclub_model->getExpiredMugsList();
+            $data['expiringMugs'] = $this->mugclub_model->getExpiringMugsList(1,'week');
+            $data['birthdayMugs'] = $this->mugclub_model->getBirthdayMugsList();
+        }
+
         
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
@@ -80,17 +93,42 @@ class Mailers extends MY_Controller {
         //check What type of mail it is
         if($mailType == EXPIRED_MAIL)
         {
-            $expiredMails = $this->mugclub_model->getExpiredMugsList();
+            if($this->userType == EXECUTIVE_USER)
+            {
+                $userInfo = $this->users_model->getUserDetailsById($this->userId);
+                $expiredMails = $this->mugclub_model->getExpiredMugsList(true,$userInfo['userData'][0]['assignedLoc']);
+            }
+            else
+            {
+                $expiredMails = $this->mugclub_model->getExpiredMugsList();
+            }
             $data['mailMugs'] = $expiredMails;
         }
         elseif($mailType == EXPIRING_MAIL)
         {
-            $expiringMails = $this->mugclub_model->getExpiringMugsList(1,'week');
+            if($this->userType == EXECUTIVE_USER)
+            {
+                $userInfo = $this->users_model->getUserDetailsById($this->userId);
+                $expiringMails = $this->mugclub_model->getExpiringMugsList(1,'week',true,$userInfo['userData'][0]['assignedLoc']);
+            }
+            else
+            {
+                $expiringMails = $this->mugclub_model->getExpiringMugsList(1,'week');
+            }
             $data['mailMugs'] = $expiringMails;
         }
         elseif($mailType == BIRTHDAY_MAIL)
         {
-            $expiringMails = $this->mugclub_model->getBirthdayMugsList();
+            if($this->userType == EXECUTIVE_USER)
+            {
+                $userInfo = $this->users_model->getUserDetailsById($this->userId);
+                $expiringMails = $this->mugclub_model->getBirthdayMugsList(true,$userInfo['userData'][0]['assignedLoc']);
+            }
+            else
+            {
+                $expiringMails = $this->mugclub_model->getBirthdayMugsList();
+            }
+
             $data['mailMugs'] = $expiringMails;
         }
 

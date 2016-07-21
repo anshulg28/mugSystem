@@ -341,7 +341,7 @@ class Mugclub_Model extends CI_Model
         return true;
     }
 
-    public function getExpiringMugsList($intervalNum, $intervalSpan)
+    public function getExpiringMugsList($intervalNum, $intervalSpan,$locSort = false, $locArray = '')
     {
 
         $timeInterval = 'DAY';
@@ -367,6 +367,11 @@ class Mugclub_Model extends CI_Model
                 ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' AND mailStatus = 0 "
                 ."AND membershipEnd = (CURRENT_DATE() + INTERVAL ".$intervalNum." ".$timeInterval.")";
 
+        if($locSort === true)
+        {
+            $query .= ' AND homeBase IN('.$locArray.')';
+        }
+
         $result = $this->db->query($query)->result_array();
 
         $data['expiryMugList'] = $result;
@@ -382,13 +387,18 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
-    public function getExpiredMugsList()
+    public function getExpiredMugsList($locSort = false, $locArray = '')
     {
         $query = "SELECT mugId, firstName, emailId"
             ." FROM mugmaster "
             ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' "
             ."AND membershipEnd <= CURRENT_DATE() AND mailStatus = 0";
 
+        if($locSort === true)
+        {
+            $query .= ' AND homeBase IN('.$locArray.')';
+        }
+
         $result = $this->db->query($query)->result_array();
 
         $data['expiryMugList'] = $result;
@@ -405,12 +415,17 @@ class Mugclub_Model extends CI_Model
 
     }
 
-    public function getBirthdayMugsList()
+    public function getBirthdayMugsList($locSort = false, $locArray = '')
     {
         $query = "SELECT mugId, firstName, emailId "
             ." FROM mugmaster "
             ."WHERE birthDate IS NOT NULL AND birthDate != '0000-00-00' "
             ."AND DATE_FORMAT(birthDate,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d') AND birthdayMailStatus = 0";
+
+        if($locSort === true)
+        {
+            $query .= ' AND homeBase IN('.$locArray.')';
+        }
 
         $result = $this->db->query($query)->result_array();
 
