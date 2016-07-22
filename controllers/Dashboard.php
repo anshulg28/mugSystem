@@ -199,4 +199,53 @@ class Dashboard extends MY_Controller {
         }
     }
 
+    public function saveFeedback($responseType = RESPONSE_RETURN)
+    {
+        $post = $this->input->post();
+
+        if(isSessionVariableSet($this->isUserSession) === false || $this->userType == SERVER_USER)
+        {
+            if($responseType == RESPONSE_JSON)
+            {
+                $data['status'] = false;
+                $data['pageUrl'] = base_url();
+            }
+            else
+            {
+                redirect(base_url());
+            }
+
+        }
+        $post['overallRating'] = array_values($post['overallRating']);
+        $post['userGender'] = array_values($post['userGender']);
+        $post['userAge'] = array_values($post['userAge']);
+        $post['feedbackLoc'] = array_values($post['feedbackLoc']);
+
+        $insert_values = array();
+        for($i=0;$i<count($post['overallRating']);$i++)
+        {
+            if($post['overallRating'][$i] != '')
+            {
+                $insert_values[] = array(
+                    'overallRating' => $post['overallRating'][$i],
+                    'userGender' => $post['userGender'][$i],
+                    'userAge' => $post['userAge'][$i],
+                    'feedbackLoc' => $post['feedbackLoc'][$i],
+                    'insertedDateTime' => date('Y-m-d H:i:s')
+                );
+            }
+        }
+        $this->dashboard_model->insertFeedBack($insert_values);
+
+        if($responseType == RESPONSE_JSON)
+        {
+            $data['status'] = true;
+            echo json_encode($data);
+        }
+        else
+        {
+            redirect(base_url().'dashboard');
+        }
+
+    }
 }

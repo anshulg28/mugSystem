@@ -264,4 +264,10 @@ class Dashboard_Model extends CI_Model
 
         return $data;
     }
+
+    public function insertFeedBack($details)
+    {
+        $this->db->insert_batch('usersfeedbackmaster', $details);
+        return true;
+    }
 }

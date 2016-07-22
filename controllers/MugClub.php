@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Class Mugclub
  * @property mugclub_model $mugclub_model
+ * @property users_model $users_model
  */
 
 class Mugclub extends MY_Controller {
@@ -12,6 +13,7 @@ class Mugclub extends MY_Controller {
     {
         parent::__construct();
         $this->load->model('mugclub_model');
+        $this->load->model('users_model');
     }
 	public function index()
 	{
@@ -388,7 +390,15 @@ class Mugclub extends MY_Controller {
     public function getAllExpiringMugs($responseType = RESPONSE_RETURN, $intervalNum, $intervalSpan)
     {
         $data = array();
-        $mugData = $this->mugclub_model->getExpiringMugsList($intervalNum, $intervalSpan);
+        if($this->userType == EXECUTIVE_USER)
+        {
+            $userInfo = $this->users_model->getUserDetailsById($this->userId);
+            $mugData = $this->mugclub_model->getExpiringMugsList($intervalNum, $intervalSpan,true,$userInfo['userData'][0]['assignedLoc']);
+        }
+        else
+        {
+            $mugData = $this->mugclub_model->getExpiringMugsList($intervalNum, $intervalSpan);
+        }
 
         if($mugData['status'] === false)
         {
@@ -414,7 +424,15 @@ class Mugclub extends MY_Controller {
     public function getAllExpiredMugs($responseType = RESPONSE_RETURN)
     {
         $data = array();
-        $mugData = $this->mugclub_model->getExpiredMugsList();
+        if($this->userType == EXECUTIVE_USER)
+        {
+            $userInfo = $this->users_model->getUserDetailsById($this->userId);
+            $mugData = $this->mugclub_model->getExpiredMugsList(true,$userInfo['userData'][0]['assignedLoc']);
+        }
+        else
+        {
+            $mugData = $this->mugclub_model->getExpiredMugsList();
+        }
 
         if($mugData['status'] === false)
         {
@@ -440,7 +458,15 @@ class Mugclub extends MY_Controller {
     public function getAllBirthdayMugs($responseType = RESPONSE_RETURN)
     {
         $data = array();
-        $mugData = $this->mugclub_model->getBirthdayMugsList();
+        if($this->userType == EXECUTIVE_USER)
+        {
+            $userInfo = $this->users_model->getUserDetailsById($this->userId);
+            $mugData = $this->mugclub_model->getBirthdayMugsList(true,$userInfo['userData'][0]['assignedLoc']);
+        }
+        else
+        {
+            $mugData = $this->mugclub_model->getBirthdayMugsList();
+        }
 
         if($mugData['status'] === false)
         {

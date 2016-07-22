@@ -14,6 +14,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a data-toggle="pill" class="my-noBorderRadius" href="#mugclub">Mug Club</a></li>
                 <li><a class="my-noBorderRadius" data-toggle="pill" href="#instamojo">Instamojo</a></li>
+                <li><a class="my-noBorderRadius" data-toggle="pill" href="#feedback">Feedback</a></li>
             </ul>
             <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
                 <a href="#mugclub" class="mdl-layout__tab">Mug Club</a><br>
@@ -343,6 +344,84 @@
                         <button type="button" class="mdl-button close">Cancel</button>
                     </div>
                 </dialog>
+            </section>
+            <section class="tab-pane fade" id="feedback">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--1-col"></div>
+                    <div class="mdl-cell mdl-cell--10-col text-center">
+                        <ul class="list-inline">
+                            <li>
+                                <label for="feedbackLoc">Location</label>
+                                <?php
+                                if($this->userType == ADMIN_USER)
+                                {
+                                    ?>
+                                    <select id="feedbackLoc" class="form-control">
+                                        <?php
+                                        if(isset($locations))
+                                        {
+                                            foreach($locations as $key => $row)
+                                            {
+                                                if(isset($row['id']))
+                                                {
+                                                    ?>
+                                                    <option value="<?php echo $row['id'];?>"><?php echo $row['locName'];?></option>
+                                                    <?php
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                    <?php
+                                }
+                                elseif($this->userType == EXECUTIVE_USER)
+                                {
+                                    if(isset($userInfo))
+                                    {
+                                        ?>
+                                        <select id="feedbackLoc" class="form-control">
+                                            <?php
+                                            foreach($userInfo as $key => $row)
+                                            {
+                                                ?>
+                                                <option value="<?php echo $row['locData'][0]['id'];?>">
+                                                    <?php echo $row['locData'][0]['locName'];?>
+                                                </option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                        <?php
+                                    }
+                                    ?>
+
+                                    <?php
+                                }
+                                ?>
+
+                            </li>
+                            <li>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="number" id="feedbackNum">
+                                    <label class="mdl-textfield__label" for="feedbackNum">Number (max:50)</label>
+                                </div>
+                            </li>
+                            <li>
+                                <button type="button" id="genBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Generate
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mdl-cell mdl-cell--1-col"></div>
+                    <!-- Dynamic Form -->
+                    <div class="mdl-cell mdl-cell--12-col dynamic-form-wrapper">
+                        <form action="<?php echo base_url().'dashboard/saveFeedback/json';?>" id="feedback-form" method="post">
+                            <div class="form-super-container"></div>
+                            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent hide">Submit</button>
+                        </form>
+                    </div>
+                </div>
             </section>
 
         </main>
@@ -970,6 +1049,116 @@
 
     });
 
+
+</script>
+
+<!-- Feedback javascript-->
+<script>
+    var lastFormNumber = 0;
+    $(document).on('submit','#feedback-form', function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            dataType:'json',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(data)
+            {
+                if(data.status == true)
+                {
+                    bootbox.alert('Feedback Saved', function(){
+                        window.location.reload();
+                    });
+                }
+                else
+                {
+                    window.location.href=data.pageUrl;
+                }
+            },
+            error: function(){
+                bootbox.alert('Some Error Occurred!');
+            }
+        });
+    });
+    $(document).ready(function(){
+        $('#genBtn').attr('disabled', true);
+    });
+
+    $(document).on('keyup','#feedbackNum', function(){
+        if($(this).val() != '' && $(this).val() != 0 && $(this).val() > 0 && $(this).val() < 51)
+        {
+            $('#genBtn').removeAttr('disabled');
+        }
+        else
+        {
+            $('#genBtn').attr('disabled', true);
+        }
+    });
+
+    $(document).on('click','#genBtn',function(){
+        genFeedForm($('#feedbackNum').val());
+        $('#feedbackNum').val('');
+        $(this).html('Add More');
+    });
+    function genFeedForm(formLength)
+    {
+        for(var i = 0; i<formLength;i++)
+        {
+            var formHtml = '<div class="mdl-grid myFormWrapper">';
+            //formHtml += '<ul class="list-inline">';
+            formHtml += '<div class="mdl-cell mdl-cell--6-col"><div class="btn-group btn-group-sm">';
+            for(var j=1;j<=10;j++)
+            {
+                if(j==10)
+                {
+                    formHtml += '<label class="btn btn-default mdl-radio mdl-js-radio mdl-js-ripple-effect">'+
+                        '<input type="radio" class="mdl-radio__button" name="overallRating['+lastFormNumber+']" value="'+j+'" checked/>'+
+                        '<span class="mdl-radio__label">'+j+'</span>'+
+                        '</label>';
+                }
+                else
+                {
+                    formHtml += '<label class="btn btn-default mdl-radio mdl-js-radio mdl-js-ripple-effect">'+
+                        '<input type="radio" class="mdl-radio__button" name="overallRating['+lastFormNumber+']" value="'+j+'"/>'+
+                        '<span class="mdl-radio__label">'+j+'</span>'+
+                        '</label>';
+                }
+
+            }
+            formHtml += '</div></div>';
+            formHtml += '<div class="mdl-cell mdl-cell--3-col">';
+            formHtml += '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">'+
+                            '<input type="radio" class="mdl-radio__button" name="userGender['+lastFormNumber+']" value="M" checked/>'+
+                            '<span class="mdl-radio__label">Male</span>'+
+                        '</label>';
+            formHtml += '<label class=" mdl-radio mdl-js-radio mdl-js-ripple-effect">'+
+                            '<input type="radio" class="mdl-radio__button" name="userGender['+lastFormNumber+']" value="F"/>'+
+                            '<span class="mdl-radio__label">Female</span>'+
+                        '</label></div>';
+            formHtml += '<div class="mdl-cell mdl-cell--3-col"><div class="mdl-textfield mdl-js-textfield">'+
+                        '<input class="mdl-textfield__input" name="userAge['+lastFormNumber+']" type="number" min="25" id="age" required>'+
+                        '<label class="mdl-textfield__label" for="age">Age</label>'+
+                        '</div></div>';
+            formHtml += '<input type="hidden" name="feedbackLoc['+lastFormNumber+']" value="'+$('#feedbackLoc').val().trim()+'"/>';
+            formHtml += '<button type="button" onclick="removeThis(this)" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">Remove</button></div>';
+
+            $('#feedback-form .form-super-container').append(formHtml);
+            lastFormNumber++;
+        }
+        if($('#feedback-form button[type="submit"]').hasClass('hide'))
+        {
+            $('#feedback-form button[type="submit"]').removeClass('hide');
+        }
+    }
+
+    function removeThis(ele)
+    {
+        $(ele).parent().animate({
+            opacity:0
+        },300, function(){
+            $(ele).parent().remove();
+        });
+    }
 
 </script>
 </html>
