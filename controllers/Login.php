@@ -213,13 +213,25 @@ class Login extends MY_Controller {
         }
     }
 
+    public function mailPrank()
+    {
+        $data = array();
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+
+        $this->load->view('SampleMailView', $data);
+    }
     public function sendSample()
     {
-        $userData = array(
-            'mugId' => '10',
-            'emailId' => 'anshulgupta@rocketmail.com',
-            'firstName' => 'Anshul'
-        );
-        $this->sendemail_library->sendEmail($userData['emailId'],'','anshul@doolally.in',$userData['firstName'],'hi','hi');
+        $post = $this->input->post();
+        $mainBody = '<html><body>';
+        $body = $post['bodyEmail'];
+        $body = wordwrap($body, 70);
+        $body = nl2br($body);
+        $body = stripslashes($body);
+        $mainBody .= $body .'</body></html>';
+
+
+        $this->sendemail_library->sendEmail($post['toEmail'],'',$post['fromEmail'],$post['fromName'],$post['subEmail'],$mainBody);
     }
 }

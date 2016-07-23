@@ -97,6 +97,14 @@
                                                            }
                                                        ?>
                                                        />
+                                                <?php
+                                                    if($mailList['status'] === false)
+                                                    {
+                                                        ?>
+                                                        <input type="hidden" name="isSimpleMail" value="1"/>
+                                                        <?php
+                                                    }
+                                                ?>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -153,6 +161,7 @@
                                 <div class="col-sm-10 col-xs-12">
                                     <form action="<?php echo base_url();?>mailers/sendAllMails/json" id="mainMailerForm" method="post" class="form-horizontal" role="form">
                                         <input type="hidden" name="mailType" value="<?php echo $mailType;?>"/>
+                                        <input type="hidden" name="isSimpleMail" value="1"/>
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" for="toList">To:</label>
                                             <div class="col-sm-10">
@@ -409,6 +418,7 @@
         }
         else
         {
+            $('input[name="isSimpleMail"]').val('0');
             $('.mailPage #mailBody').html(content);
             $('#bodyModal').modal('hide');
         }

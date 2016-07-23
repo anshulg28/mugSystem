@@ -1057,6 +1057,7 @@
     var lastFormNumber = 0;
     $(document).on('submit','#feedback-form', function(e){
         e.preventDefault();
+        showCustomLoader();
         $.ajax({
             type:'POST',
             dataType:'json',
@@ -1064,6 +1065,7 @@
             data: $(this).serialize(),
             success: function(data)
             {
+                hideCustomLoader();
                 if(data.status == true)
                 {
                     bootbox.alert('Feedback Saved', function(){
@@ -1076,6 +1078,7 @@
                 }
             },
             error: function(){
+                hideCustomLoader();
                 bootbox.alert('Some Error Occurred!');
             }
         });

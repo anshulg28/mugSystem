@@ -162,6 +162,16 @@ class Mailers extends MY_Controller {
             }
             $newSubject = $this->replaceMugTags($post['mailSubject'],$mugInfo);
             $newBody = $this->replaceMugTags($post['mailBody'],$mugInfo);
+            if($post['isSimpleMail'] == '1')
+            {
+                $mainBody = '<html><body>';
+                $body = $newBody;
+                $body = wordwrap($body, 70);
+                $body = nl2br($body);
+                $body = stripslashes($body);
+                $mainBody .= $body .'</body></html>';
+                $newBody = $mainBody;
+            }
             $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
             $fromName  = 'Doolally';
             if(isset($this->userFirstName))
@@ -220,5 +230,65 @@ class Mailers extends MY_Controller {
             }
         }
         return $tagStr;
+    }
+
+    public function pressSend()
+    {
+        $data = array();
+
+        $mailResult = $this->mailers_model->getAllPressEmails();
+        if($mailResult['status'] === true)
+        {
+            $data['pressMails'] = $mailResult['mailData'];
+        }
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
+
+        $this->load->view('PressMailSendView',$data);
+    }
+
+    public function sendPressMails($responseType = RESPONSE_RETURN)
+    {
+        $post = $this->input->post();
+
+        $pressEmails = explode(',',$post['pressEmails']);
+
+        $pressSub = $post['mailSubject'];
+        $pressBody = $post['mailBody'];
+        $mainBody = '<html><body>';
+        $body = $pressBody;
+        $body = wordwrap($body, 70);
+        $body = nl2br($body);
+        $body = stripslashes($body);
+        $mainBody .= $body .'</body></html>';
+
+        foreach($pressEmails as $key)
+        {
+            $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
+            $fromName  = 'Doolally';
+            if(isset($this->userFirstName))
+            {
+                $fromName = trim(ucfirst($this->userFirstName));
+            }
+            $fromEmail = 'priyanka@doolally.in';
+
+            if(isset($this->userEmail))
+            {
+                $fromEmail = $this->userEmail;
+            }
+
+            $this->sendemail_library->sendEmail($key,$cc,$fromEmail,$fromName,$pressSub,$mainBody);
+        }
+        if($responseType == RESPONSE_JSON)
+        {
+            $data['status'] = true;
+            echo json_encode($data);
+        }
+        else
+        {
+            return true;
+        }
     }
 }
