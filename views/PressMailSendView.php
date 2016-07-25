@@ -16,6 +16,7 @@
                 <div class="col-sm-10 col-xs-12 mail-content text-center">
                     <div class="row">
                         <?php
+                        $mailTypes = array();
                             if(!isset($pressMails))
                             {
                                 echo 'No Press Mails Found!';
@@ -23,35 +24,83 @@
                             else
                             {
                                 ?>
-                                <nav class="col-sm-4 custom-mugs-list">
-                                    <ul class="nav nav-pills nav-stacked text-left">
+                                <nav class="col-sm-4">
+                                    <ul class="nav nav-pills nav-stacked text-left custom-mugs-list">
                                         <?php
                                             foreach($pressMails as $key => $row)
                                             {
+                                                switch ($row['pressMailType'])
+                                                {
+                                                    case 0:
+                                                        ?>
+                                                        <li>
+                                                            <label class="my-pointer-item" for="<?php echo $row['id'];?>_press">
+                                                                <input type="checkbox" id="<?php echo $row['id'];?>_press" class="mugCheckList"
+                                                                       data-pressEmail="<?php echo $row['pressEmail'];?>" />
+                                                                <?php
+                                                                if(isset($row['publication']) && $row['publication'] != '')
+                                                                {
+                                                                    echo $row['publication'].'-'.$row['pressEmail'];
+                                                                }
+                                                                elseif(isset($row['pressName']) && $row['pressName'] != '')
+                                                                {
+                                                                    echo $row['pressName'].'-'.$row['pressEmail'];
+                                                                }
+                                                                else
+                                                                {
+                                                                    echo $row['pressEmail'];
+                                                                }
+                                                                ?>
+                                                            </label>
+                                                        </li>
+                                                        <?php
+                                                        break;
+                                                    case 1:
+                                                        $mailTypes['food'][] = $row['pressEmail'];
+                                                        break;
+                                                    case 2:
+                                                        $mailTypes['games'][] = $row['pressEmail'];
+                                                        break;
+                                                    case 3:
+                                                        $mailTypes['craft'][] = $row['pressEmail'];
+                                                        break;
+                                                    case 4:
+                                                        $mailTypes['events'][] = $row['pressEmail'];
+                                                        break;
+                                                    case 5:
+                                                        $mailTypes['reviews'][] = $row['pressEmail'];
+                                                        break;
+                                                    case 6:
+                                                        $mailTypes['tech'][] = $row['pressEmail'];
+                                                        break;
+                                                    case 7:
+                                                        $mailTypes['workshops'][] = $row['pressEmail'];
+                                                        break;
+                                                }
+                                            }
+                                        ?>
+                                    </ul>
+                                    <br>
+                                    <ul class="nav nav-pills nav-stacked text-left custom-mugs-list">
+                                        <?php
+                                        foreach($mailTypes as $key => $row)
+                                        {
+                                            if(myIsArray($row))
+                                            {
+                                                $combinedEmails = implode(',',$row);
                                                 ?>
                                                 <li>
-                                                    <label class="my-pointer-item" for="<?php echo $row['id'];?>_press">
-                                                        <input type="checkbox" id="<?php echo $row['id'];?>_press" name="pressEmails[]"
-                                                               value="<?php echo $row['pressEmail'];?>" class="mugCheckList"
-                                                               data-pressEmail="<?php echo $row['pressEmail'];?>" />
+                                                    <label class="my-pointer-item" for="<?php echo $key;?>_press">
+                                                        <input type="checkbox" id="<?php echo $key;?>_press" class="mugCheckList"
+                                                               data-pressEmail="<?php echo $combinedEmails;?>" />
                                                         <?php
-                                                            if(isset($row['publication']) && $row['publication'] != '')
-                                                            {
-                                                                echo $row['publication'].'-'.$row['pressEmail'];
-                                                            }
-                                                            elseif(isset($row['pressName']) && $row['pressName'] != '')
-                                                            {
-                                                                echo $row['pressName'].'-'.$row['pressEmail'];
-                                                            }
-                                                            else
-                                                            {
-                                                                echo $row['pressEmail'];
-                                                            }
+                                                            echo ucfirst($key);
                                                         ?>
                                                     </label>
                                                 </li>
                                                 <?php
                                             }
+                                        }
                                         ?>
                                     </ul>
                                 </nav>
