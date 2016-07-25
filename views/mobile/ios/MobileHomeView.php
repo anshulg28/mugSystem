@@ -26,7 +26,12 @@
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
-                    <a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>
+                    <a href="#" class="link icon-only open-panel main-menu-icon">
+                        <span class="d-logo"></span>
+                        <span class="bottom-bar-line"></span>
+                        <!--<i class="fa fa-minus"></i>
+                        <i class="fa fa-minus"></i>-->
+                    </a>
                 </div>
                 <!--<div class="center sliding">Awesome App</div>-->
             </div>
@@ -55,7 +60,13 @@
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
-                    <a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>
+                    <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
+                    <a href="#" class="link icon-only open-panel main-menu-icon">
+                        <span class="d-logo"></span>
+                        <span class="bottom-bar-line"></span>
+                        <!--<i class="fa fa-minus"></i>
+                        <i class="fa fa-minus"></i>-->
+                    </a>
                 </div>
                 <!--<div class="center sliding">Awesome App</div>-->
             </div>
@@ -66,7 +77,7 @@
             <div data-page="main-feeds" class="page">
                 <!-- Scrollable page content -->
                 <div class="page-content infinite-scroll" id="my-page2">
-                    <div class="content-block accordion-list custom-accordion">
+                    <div class="content-block custom-accordion">
                         <?php
                             if(isset($twitterPosts))
                             {
@@ -74,19 +85,18 @@
                                 foreach($twitterPosts as $key => $row)
                                 {
                                   ?>
-                                    <div class="accordion-item <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                    <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
                                         <div class="card demo-card-header-pic">
                                             <?php
                                                 if(isset($row['extended_entities']))
                                                 {
                                                     ?>
-                                                    <div class="accordion-item-content">
                                                         <div class="row no-gutter">
                                                             <?php
                                                             $imageLimit = 0;
                                                             foreach($row['extended_entities']['media'] as $mediaKey => $mediaRow)
                                                             {
-                                                                if($imageLimit >= 3)
+                                                                if($imageLimit >= 1)
                                                                 {
                                                                     break;
                                                                 }
@@ -99,11 +109,9 @@
                                                             }
                                                             ?>
                                                         </div>
-                                                    </div>
                                                     <?php
                                                 }
                                             ?>
-                                            <div class="accordion-item-toggle">
                                                 <div class="card-content">
                                                     <div class="card-content-inner">
                                                         <div class="list-block media-list">
@@ -125,7 +133,6 @@
                                                         <p><?php echo $row['text'];?></p>
                                                     </div>
                                                 </div>
-                                            </div>
                                         </div>
                                     </div>
                                   <?php
@@ -145,7 +152,13 @@
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
                 <div class="left">
-                    <a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>
+                    <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
+                    <a href="#" class="link icon-only open-panel main-menu-icon">
+                        <span class="d-logo"></span>
+                        <span class="bottom-bar-line"></span>
+                        <!--<i class="fa fa-minus"></i>
+                        <i class="fa fa-minus"></i>-->
+                    </a>
                 </div>
                 <!--<div class="center sliding">Awesome App</div>-->
             </div>
