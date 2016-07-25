@@ -330,6 +330,12 @@ class Mugclub_Model extends CI_Model
     }
     public function deleteMugRecord($mugId)
     {
+        $query = "INSERT INTO deletedmugmaster "
+            ."SELECT * FROM mugmaster "
+            ."where mugId = ".$mugId;
+
+        $this->db->query($query);
+
         $this->db->where('mugId', $mugId);
         $this->db->delete('mugmaster');
         return true;

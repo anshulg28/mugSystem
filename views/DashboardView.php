@@ -1139,7 +1139,7 @@
                             '<span class="mdl-radio__label">Female</span>'+
                         '</label></div>';
             formHtml += '<div class="mdl-cell mdl-cell--3-col"><div class="mdl-textfield mdl-js-textfield">'+
-                        '<input class="mdl-textfield__input" name="userAge['+lastFormNumber+']" type="number" min="25" id="age" required>'+
+                        '<input class="mdl-textfield__input" name="userAge['+lastFormNumber+']" type="number" min="21" id="age">'+
                         '<label class="mdl-textfield__label" for="age">Age</label>'+
                         '</div></div>';
             formHtml += '<input type="hidden" name="feedbackLoc['+lastFormNumber+']" value="'+$('#feedbackLoc').val().trim()+'"/>';

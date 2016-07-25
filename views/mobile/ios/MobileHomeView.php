@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>IOS :: Doolally</title>
+	<title>Doolally</title>
 	<?php echo $mobileStyle; ?>
     <?php echo $iosStyle; ?>
 </head>
