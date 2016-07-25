@@ -353,8 +353,10 @@
                             <li>
                                 <label for="feedbackLoc">Location</label>
                                 <?php
+                                $commonLoc = array();
                                 if($this->userType == ADMIN_USER)
                                 {
+                                    $commonLoc[] = 'overall';
                                     ?>
                                     <select id="feedbackLoc" class="form-control">
                                         <?php
@@ -364,6 +366,7 @@
                                             {
                                                 if(isset($row['id']))
                                                 {
+                                                    $commonLoc[] = $row['locUniqueLink'];
                                                     ?>
                                                     <option value="<?php echo $row['id'];?>"><?php echo $row['locName'];?></option>
                                                     <?php
@@ -383,6 +386,7 @@
                                             <?php
                                             foreach($userInfo as $key => $row)
                                             {
+                                                $commonLoc[] = $row['locData'][0]['locUniqueLink'];
                                                 ?>
                                                 <option value="<?php echo $row['locData'][0]['id'];?>">
                                                     <?php echo $row['locData'][0]['locName'];?>
@@ -412,6 +416,34 @@
                                 </button>
                             </li>
                         </ul>
+                        <?php
+                            if(isset($feedbacks))
+                            {
+                                ?>
+                                <ul class="list-inline">
+                                    <?php
+                                        foreach($feedbacks['feedbacks'][0] as $key => $row)
+                                        {
+                                            if(myInArray($key,$commonLoc))
+                                            {
+                                                ?>
+                                                <li>
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading"><?php echo ucfirst($key);?> Average Rating</div>
+                                                        <div class="panel-body stats-nums">
+                                                            <?php if(isset($row)){ echo $row;} else{echo 'None';}?>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <?php
+                                            }
+                                        }
+                                    ?>
+                                </ul>
+                                <?php
+                            }
+                        ?>
+
                     </div>
                     <div class="mdl-cell mdl-cell--1-col"></div>
                     <!-- Dynamic Form -->
@@ -1055,6 +1087,7 @@
 <!-- Feedback javascript-->
 <script>
     var lastFormNumber = 0;
+    var feedbacks = {};
     $(document).on('submit','#feedback-form', function(e){
         e.preventDefault();
         showCustomLoader();

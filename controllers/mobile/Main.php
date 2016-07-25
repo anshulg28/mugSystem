@@ -42,9 +42,6 @@ class Main extends MY_Controller {
             $this->load->view('mobile/ios/MobileHomeView', $data);
         }*/
         $twitterFeeds = json_decode($twitterFeeds,true);
-        echo '<pre>';
-        var_dump($twitterFeeds);
-        die();
         if(isset($twitterFeeds) && myIsArray($twitterFeeds))
         {
             $data['twitterPosts'] = $twitterFeeds;

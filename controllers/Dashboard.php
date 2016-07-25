@@ -68,6 +68,8 @@ class Dashboard extends MY_Controller {
         //Instamojo Records
         $data['instamojo'] = $this->dashboard_model->getAllInstamojoRecord();
 
+        $data['feedbacks'] = $this->dashboard_model->getAllFeedbacks($locArray);
+
 		$data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
 		$data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
 		$data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);

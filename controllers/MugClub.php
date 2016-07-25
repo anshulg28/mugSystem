@@ -185,6 +185,10 @@ class Mugclub extends MY_Controller {
         }
         else
         {
+            if(isset($post['ifMail']) && $post['ifMail'] == '1')
+            {
+                $this->sendemail_library->signUpWelcomeSendMail($params);
+            }
             $this->mugclub_model->updateMugRecord($params);
         }
         redirect(base_url().'mugclub');

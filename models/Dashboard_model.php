@@ -264,6 +264,42 @@ class Dashboard_Model extends CI_Model
 
         return $data;
     }
+    public function getAllFeedbacks($locations)
+    {
+        $query = "SELECT DISTINCT (SELECT AVG(overallRating) FROM usersfeedbackmaster 
+                 WHERE feedbackLoc != 0) as overall";
+        if(isset($locations))
+        {
+            $length = count($locations)-1;
+            $counter = 0;
+            foreach($locations as $key => $row)
+            {
+                if(isset($row['id']))
+                {
+                    $counter++;
+                    if($counter <= $length)
+                    {
+                        $query .= ",";
+                    }
+                    $query .= "(SELECT AVG(overallRating) FROM usersfeedbackmaster 
+                              WHERE feedbackLoc = ".$row['id'].") as ".$row['locUniqueLink'];
+                }
+            }
+        }
+
+        $result = $this->db->query($query)->result_array();
+        $data['feedbacks'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
 
     public function insertFeedBack($details)
     {
