@@ -85,13 +85,16 @@
                                 foreach($twitterPosts as $key => $row)
                                 {
                                   ?>
-                                    <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                    <!--twitter://status?status_id=756765768470130689-->
+                                    <!--https://twitter.com/<?php echo $row['user']['screen_name'];?>/status/<?php echo $row['id_str'];?>-->
+                                    <a href="https://twitter.com/<?php echo $row['user']['screen_name'];?>/status/<?php echo $row['id_str'];?>" target="_blank" class="external">
+                                        <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
                                         <div class="card demo-card-header-pic">
                                             <?php
                                                 if(isset($row['extended_entities']))
                                                 {
                                                     ?>
-                                                        <div class="row no-gutter">
+                                                        <div class="row no-gutter feed-image-container">
                                                             <?php
                                                             $imageLimit = 0;
                                                             foreach($row['extended_entities']['media'] as $mediaKey => $mediaRow)
@@ -103,7 +106,7 @@
                                                                 $imageLimit++;
                                                                 ?>
                                                                 <div class="col-auto">
-                                                                    <img alt="image" data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img lazy"/>
+                                                                    <div data-background="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img lazy lazy-fadein"></div>
                                                                 </div>
                                                                 <?php
                                                             }
@@ -135,6 +138,7 @@
                                                 </div>
                                         </div>
                                     </div>
+                                    </a>
                                   <?php
                                 }
                             }
