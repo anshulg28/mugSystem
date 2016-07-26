@@ -53,6 +53,18 @@ class Mailers_Model extends CI_Model
 
         return $data;
     }
+    public function getPressInfoByMail($email)
+    {
+        $query = "SELECT pressName "
+            ."FROM pressmailmaster "
+            ."WHERE pressEmail = '".$email."'";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data = $result;
+
+        return $data;
+    }
 
     public function setMailSend($mugId,$mailType)
     {

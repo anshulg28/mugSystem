@@ -232,6 +232,24 @@ class Mailers extends MY_Controller {
         return $tagStr;
     }
 
+    function replacePressName($tagStr, $pressInfo)
+    {
+        foreach($pressInfo as $key => $row)
+        {
+            switch($key)
+            {
+                case 'pressName':
+                    $name = '';
+                    if($row != '')
+                    {
+                        $name = explode(' ',$row)[0];
+                    }
+                    $tagStr = str_replace('[name]',trim(ucfirst($name)),$tagStr);
+                    break;
+            }
+        }
+        return $tagStr;
+    }
     public function pressSend()
     {
         $data = array();
@@ -266,6 +284,8 @@ class Mailers extends MY_Controller {
 
         foreach($pressEmails as $key)
         {
+            $pressInfo = $this->mailers_model->getPressInfoByMail($key);
+            $newBody = $this->replacePressName($mainBody,$pressInfo);
             $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
             $fromName  = 'Doolally';
             if(isset($this->userFirstName))
@@ -279,7 +299,7 @@ class Mailers extends MY_Controller {
                 $fromEmail = $this->userEmail;
             }
 
-            $this->sendemail_library->sendEmail($key,$cc,$fromEmail,$fromName,$pressSub,$mainBody);
+            $this->sendemail_library->sendEmail($key,$cc,$fromEmail,$fromName,$pressSub,$newBody);
         }
         if($responseType == RESPONSE_JSON)
         {
