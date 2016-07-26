@@ -120,14 +120,14 @@
                                             <!--<button type="button" class="btn btn-danger col-sm-2 my-marginDown" data-toggle="modal" data-target="#subjectModal" >Select Subject</button>-->
                                             <div class="col-sm-2"></div>
                                             <div class="col-sm-10">
-                                                <input type="text" name="mailSubject" class="form-control" id="mailSubject" placeholder="Subject">
+                                                <input type="text" name="mailSubject" class="form-control" onfocus="whichHasFocus= 1" id="mailSubject" placeholder="Subject">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <!--<button type="button" class="btn btn-danger col-sm-2 my-marginDown" data-toggle="modal" data-target="#bodyModal" >Select Body</button>-->
                                             <div class="col-sm-2"></div>
                                             <div class="col-sm-10">
-                                                <textarea name="mailBody" rows="10" class="form-control" id="mailBody" placeholder="Body"></textarea>
+                                                <textarea name="mailBody" rows="10" class="form-control" onfocus="whichHasFocus= 2" id="mailBody" placeholder="Body"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -136,6 +136,14 @@
                                             </div>
                                         </div>
                                     </form>
+
+                                    <div>
+                                        <p>Available Tags:</p>
+                                        <div class="col-sm-2"></div>
+                                        <ul class="col-sm-10 list-inline mugtags-list">
+                                            <li class="my-pointer-item"><span class="label label-success">[name]</span></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <?php
                             }
@@ -152,7 +160,7 @@
 <?php echo $globalJs; ?>
 
 <script>
-
+    var whichHasFocus = 0;
     $(document).on('submit','#mainMailerForm',function(e){
         e.preventDefault();
         if($('textarea[name="pressEmails"]').val() == '')
@@ -212,6 +220,20 @@
             }
         });
         $('.mailPage #toList').empty().append(emails);
+    });
+
+    $(document).on('click','.mugtags-list li', function(){
+        var mugTag = $(this).find('span').html();
+
+        if(whichHasFocus == 1)
+        {
+            $('input[name="mailSubject"]').val($('input[name="mailSubject"]').val()+mugTag);
+        }
+        else if(whichHasFocus == 2)
+        {
+            $('textarea[name="mailBody"]').append(mugTag);
+        }
+
     });
 </script>
 
