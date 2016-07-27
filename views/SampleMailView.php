@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <h1 class="text-center">Send Mail</h1>
             <hr>
-            <form action="<?php echo base_url();?>login/sendSample" method="post" class="form-horizontal" role="form">
+            <form enctype="multipart/form-data" action="<?php echo base_url();?>login/sendSample" method="post" class="form-horizontal" role="form">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="usrName">From Name:</label>
                     <div class="col-sm-10">
@@ -39,6 +39,13 @@
                     <label class="control-label col-sm-2" for="bdy">Body:</label>
                     <div class="col-sm-10">
                         <textarea name="bodyEmail" class="form-control" id="bdy"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <!--<button type="button" class="btn btn-danger col-sm-2 my-marginDown" data-toggle="modal" data-target="#bodyModal" >Select Body</button>-->
+                    <label class="control-label col-sm-2" for="attchment">To:</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="attachment" class="form-control" id="attchment" />
                     </div>
                 </div>
                 <div class="form-group">

@@ -230,8 +230,8 @@ class Login extends MY_Controller {
         $body = nl2br($body);
         $body = stripslashes($body);
         $mainBody .= $body .'</body></html>';
+        $newname= $post['attachment'];
 
-
-        $this->sendemail_library->sendEmail($post['toEmail'],'',$post['fromEmail'],$post['fromName'],$post['subEmail'],$mainBody);
+        $this->sendemail_library->sendEmail($post['toEmail'],'',$post['fromEmail'],$post['fromName'],$post['subEmail'],$mainBody,$newname);
     }
 }

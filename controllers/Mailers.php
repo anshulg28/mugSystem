@@ -267,9 +267,42 @@ class Mailers extends MY_Controller {
         $this->load->view('PressMailSendView',$data);
     }
 
+    public function uploadFiles()
+    {
+        $attchmentArr = '';
+        $this->load->library('upload');
+        if(isset($_FILES))
+        {
+            if($_FILES['attachment']['error'] != 1)
+            {
+                $config = array();
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['max_size']      = '0';
+                $config['overwrite']     = TRUE;
+
+                $this->upload->initialize($config);
+                $this->upload->do_upload('attachment');
+                $upload_data = $this->upload->data();
+
+                $attchmentArr = $upload_data['full_path'];
+            }
+            echo $attchmentArr;
+        }
+    }
     public function sendPressMails($responseType = RESPONSE_RETURN)
     {
         $post = $this->input->post();
+        $attchmentArr = array();
+
+        if(isset($post['attachment']))
+        {
+            $attchmentArr = explode(',',$post['attachment']);
+        }
+        elseif(isset($post['attachmentUrls']))
+        {
+            $attchmentArr = explode(',',$post['attachmentUrls']);
+        }
 
         $pressEmails = explode(',',$post['pressEmails']);
 
@@ -299,7 +332,7 @@ class Mailers extends MY_Controller {
                 $fromEmail = $this->userEmail;
             }
 
-            $this->sendemail_library->sendEmail($key,$cc,$fromEmail,$fromName,$pressSub,$newBody);
+            $this->sendemail_library->sendEmail($key,$cc,$fromEmail,$fromName,$pressSub,$newBody,$attchmentArr);
         }
         if($responseType == RESPONSE_JSON)
         {
@@ -310,5 +343,6 @@ class Mailers extends MY_Controller {
         {
             return true;
         }
+
     }
 }

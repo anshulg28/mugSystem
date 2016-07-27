@@ -131,12 +131,27 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <!--<button type="button" class="btn btn-danger col-sm-2 my-marginDown" data-toggle="modal" data-target="#bodyModal" >Select Body</button>-->
+                                            <label class="control-label col-sm-2" for="attchment">Attachment:</label>
+                                            <div class="col-sm-10">
+                                                <label class="radio-inline"><input type="radio" name="attachmentType" value="1" checked>Upload</label>
+                                                <label class="radio-inline"><input type="radio" name="attachmentType" value="2">URL(Comma separated)</label>
+                                                <input type="file" name="attachment" multiple class="form-control" id="attchment" />
+                                                <textarea name="attachmentUrls" class="form-control hide" rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-10">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
                                         </div>
                                     </form>
 
+                                    <div class="progress hide">
+                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
                                     <div>
                                         <p>Available Tags:</p>
                                         <div class="col-sm-2"></div>
@@ -161,6 +176,73 @@
 
 <script>
     var whichHasFocus = 0;
+    $(document).on('change','input[name="attachmentType"]',function(){
+        if($(this).val() == '1')
+        {
+            $('input[name="attachment"]').removeClass('hide');
+            $('textarea[name="attachmentUrls"]').addClass('hide');
+        }
+        else
+        {
+            $('input[name="attachment"]').addClass('hide');
+            $('textarea[name="attachmentUrls"]').removeClass('hide');
+        }
+    });
+    //var xhr;
+    var filesArr = [];
+    $(document).on('change','input[name=attachment]', function(e){
+
+        var totalSize = 0;
+        var fileSizeExceed = false;
+        for(var f=0;f<this.files.length;f++)
+        {
+            totalSize += this.files[f].size;
+            if(this.files[f].size/(1000*1000) >= 10 )
+            {
+                fileSizeExceed = true;
+                bootbox.alert('<span class="my-danger-text">File: '+this.files[f].name+' size is more than 10mb!</span>');
+                return false;
+            }
+        }
+        if(fileSizeExceed === true)
+        {
+            return false;
+        }
+        else if((totalSize/(1000*1000)) >= 25)
+        {
+            bootbox.alert('<span class="my-danger-text">Upload Limit 25Mb Reached!</span>');
+            return false;
+        }
+
+
+        $('button[type="submit"]').attr('disabled','true');
+        $('.progress').removeClass('hide');
+        var xhr = [];
+        var totalFiles = this.files.length;
+        for(var i=0;i<totalFiles;i++)
+        {
+            xhr[i] = new XMLHttpRequest();
+            (xhr[i].upload || xhr[i]).addEventListener('progress', function(e) {
+                var done = e.position || e.loaded;
+                var total = e.totalSize || e.total;
+                $('.progress-bar').css('width', Math.round(done/total*100)+'%').attr('aria-valuenow', Math.round(done/total*100)).html(parseInt(Math.round(done/total*100))+'%');
+            });
+            xhr[i].addEventListener('load', function(e) {
+                $('button[type="submit"]').removeAttr('disabled');
+            });
+            xhr[i].open('post', '<?php echo base_url();?>mailers/uploadFiles', true);
+
+            var data = new FormData;
+            data.append('attachment', this.files[i]);
+            xhr[i].send(data);
+            xhr[i].onreadystatechange = function(e) {
+                if (e.srcElement.readyState == 4 && e.srcElement.status == 200) {
+                    filesArr.push(e.srcElement.responseText);
+                }
+            }
+        }
+    });
+
     $(document).on('submit','#mainMailerForm',function(e){
         e.preventDefault();
         if($('textarea[name="pressEmails"]').val() == '')
@@ -186,13 +268,29 @@
             return false;
         }
 
+        //showCustomLoader();
+        var m_data = new FormData();
+        m_data.append( 'pressEmails', $('textarea[name=pressEmails]').val());
+        m_data.append( 'mailSubject', $('input[name=mailSubject]').val());
+        m_data.append( 'mailBody', $('textarea[name=mailBody]').val());
+        if(filesArr.length != 0)
+        {
+            m_data.append( 'attachment', filesArr.join());
+        }
+        else
+        {
+            m_data.append( 'attachmentUrls', $('textarea[name=attachmentUrls]').val());
+        }
         showCustomLoader();
         $.ajax({
             type:"POST",
             url:$(this).attr('action'),
+            contentType: false,
+            processData: false,
             dataType:"json",
-            data:$(this).serialize(),
+            data:m_data,
             success: function(data){
+
                 hideCustomLoader();
                 if(data.status === true)
                 {
@@ -200,15 +298,25 @@
                         window.location.href=base_url+'mailers';
                     });
                 }
+                else
+                {
+                    if(typeof data.fileName != 'undefined')
+                    {
+                        bootbox.alert('<span class="my-danger-text">'+data.errorMsg+', File Name: '+data.fileName+'</span>');
+                    }
+                    else
+                    {
+                        bootbox.alert('<span class="my-danger-text">'+data.errorMsg+'</span>');
+                    }
+                }
             },
             error: function(){
                 hideCustomLoader();
-                bootbox.alert('Some Error occurred');
+                bootbox.alert('<span class="my-danger-text">Some Error occurred</span>');
             }
         });
 
     });
-    
 
     $(document).on('change', '.mugCheckList', function(){
         var emails= '';
@@ -237,4 +345,4 @@
     });
 </script>
 
-</html>
+</html>l

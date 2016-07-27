@@ -106,7 +106,7 @@ class Sendemail_library
         return 'DO-'.$newCode;
     }
 
-    public function sendEmail($to, $cc = '', $from, $fromName, $subject, $content, $attachment = "")
+    public function sendEmail($to, $cc = '', $from, $fromName, $subject, $content, $attachment = array())
     {
         $CI =& get_instance();
         $CI->load->library('email');
@@ -117,9 +117,16 @@ class Sendemail_library
         if ($cc != '') {
             $CI->email->bcc($cc);
         }
-        if($attachment != ""){
-            $CI->email->attach($attachment);
+        if(isset($attachment) && myIsArray($attachment))
+        {
+            foreach($attachment as $key)
+            {
+                $CI->email->attach($key);
+            }
         }
+        /*if($attachment != ""){
+            $CI->email->attach($attachment);
+        }*/
         $CI->email->subject($subject);
         $CI->email->message($content);
         return $CI->email->send();

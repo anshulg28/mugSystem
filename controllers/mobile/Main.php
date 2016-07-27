@@ -67,6 +67,11 @@ class Main extends MY_Controller {
         echo json_encode($aboutView);
     }
 
+    public function getFacebookResponse()
+    {
+        $post = $this->input->post();
+        //var_dump($post);
+    }
     public function getTwitterFeeds($responseType = RESPONSE_RETURN)
     {
         $params = array(
