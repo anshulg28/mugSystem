@@ -2,6 +2,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery-2.2.4.min.js"></script>
 <!-- Framework 7 script -->
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/framework7.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/material.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/hammer.min.js"></script>
 

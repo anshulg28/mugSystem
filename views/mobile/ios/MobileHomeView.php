@@ -27,8 +27,9 @@
             <div class="navbar-inner">
                 <div class="left">
                     <a href="#" class="link icon-only open-panel main-menu-icon">
+                        <i class="fa fa-bars color-black"></i>
                         <span class="d-logo"></span>
-                        <span class="bottom-bar-line"></span>
+                        <!--<span class="bottom-bar-line"></span>-->
                         <!--<i class="fa fa-minus"></i>
                         <i class="fa fa-minus"></i>-->
                     </a>
@@ -48,9 +49,9 @@
                         <div class="pull-to-refresh-arrow"></div>
                     </div>
                     <p>Page content goes here</p>
-                    <a href="#" class="floating-button color-white">
+                    <!--<a href="#" class="floating-button color-white">
                         <i class="icon fa-4x">+</i>
-                    </a>
+                    </a>-->
                 </div>
             </div>
         </div>
@@ -62,8 +63,8 @@
                 <div class="left">
                     <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
                     <a href="#" class="link icon-only open-panel main-menu-icon">
+                        <i class="fa fa-bars color-black"></i>
                         <span class="d-logo"></span>
-                        <span class="bottom-bar-line"></span>
                         <!--<i class="fa fa-minus"></i>
                         <i class="fa fa-minus"></i>-->
                     </a>
@@ -84,6 +85,7 @@
                                 $postlimit = 0;
                                 foreach($twitterPosts as $key => $row)
                                 {
+                                    $truncated_RestaurantName = (strlen($row['text']) > 140) ? substr($row['text'], 0, 140) . '..' : $row['text'];
                                   ?>
                                     <!--twitter://status?status_id=756765768470130689-->
                                     <!--https://twitter.com/<?php echo $row['user']['screen_name'];?>/status/<?php echo $row['id_str'];?>-->
@@ -149,6 +151,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <div id="tab3" class="view view-menus tab">
@@ -158,8 +161,8 @@
                 <div class="left">
                     <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
                     <a href="#" class="link icon-only open-panel main-menu-icon">
+                        <i class="fa fa-bars color-black"></i>
                         <span class="d-logo"></span>
-                        <span class="bottom-bar-line"></span>
                         <!--<i class="fa fa-minus"></i>
                         <i class="fa fa-minus"></i>-->
                     </a>
@@ -187,14 +190,61 @@
                 <span class="tabbar-label">Coming Up</span>
             </a>
             <a href="#tab2" class="tab-link active">
-                <i class="icon fa fa-beer">
-                </i>
+                <i class="fa fa-hashtag"></i>
                 <span class="tabbar-label">#Doolally</span>
             </a>
             <a href="#tab3" class="tab-link">
                 <i class="fa fa-spoon"></i>
                 <span class="tabbar-label">Menus</span>
             </a>
+        </div>
+    </div>
+</div>
+<!-- Colored FAB button with ripple -->
+<button data-popover=".popover-links"
+        class="open-popover mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored my-fab-btn hide">
+    <i class="material-icons">add</i>
+</button>
+<div class="popover popover-links">
+    <div class="popover-angle"></div>
+    <div class="popover-inner">
+        <p>Filter Posts</p>
+        <div class="list-block inset">
+            <ul>
+                <li>
+                    <div class="item-inner">
+                        <div class="item-title">Facebook</div>
+                        <div class="item-after">
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="fb-checked">
+                                <input type="checkbox" id="fb-checked" class="mdl-checkbox__input" checked>
+                                <span class="mdl-checkbox__label"></span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-inner">
+                        <div class="item-title">Twitter</div>
+                        <div class="item-after">
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tw-checked">
+                                <input type="checkbox" id="tw-checked" class="mdl-checkbox__input" checked>
+                                <span class="mdl-checkbox__label"></span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-inner">
+                        <div class="item-title">Instagram</div>
+                        <div class="item-after">
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="insta-checked">
+                                <input type="checkbox" id="insta-checked" class="mdl-checkbox__input" checked>
+                                <span class="mdl-checkbox__label"></span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

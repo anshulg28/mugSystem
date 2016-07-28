@@ -63,11 +63,9 @@ class curl_library
 		return $this->getDataByPost($url, $filters);
 	}*/
 
-    public function getTwitterPosts($params)
+    public function getFacebookPosts($params)
     {
-        $t=time();
-        $headers = array('Authorization:OAuth oauth_consumer_key="DC0sePOBbQ8bYdC8r4Smg",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1468950442",oauth_nonce="1184072854",oauth_version="1.0",oauth_token="2418712369-XnGMPZgyUkP3Idztu14IhYvnGAJ7iU5y304SvD0",oauth_signature="9zT%2BATR5JlUYyrxWhmu8W1g5Pas%3D"');
-        $url = TWITTER_API.'statuses/user_timeline.json?'.http_build_query($params);
-        return $this->getDataByGet($url, 5, $headers);
+        $url = FACEBOOK_API.'godoolallybandra/feed?'.http_build_query($params);
+        return $this->getDataByGet($url, 30);
     }
 }
