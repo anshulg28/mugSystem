@@ -68,8 +68,31 @@ class Dashboard extends MY_Controller {
         //Instamojo Records
         $data['instamojo'] = $this->dashboard_model->getAllInstamojoRecord();
 
-        $data['feedbacks'] = $this->dashboard_model->getAllFeedbacks($locArray);
+        $feedbacks = $this->dashboard_model->getAllFeedbacks($locArray);
 
+        foreach($feedbacks['feedbacks'][0] as $key => $row)
+        {
+            $keySplit = explode('_',$key);
+            switch($keySplit[0])
+            {
+                case 'total':
+                    $total[$keySplit[1]] = (int)$row;
+                    break;
+                case 'promo':
+                    $promo[$keySplit[1]] = (int)$row;
+                    break;
+                case 'de':
+                    $de[$keySplit[1]] = (int)$row;
+                    break;
+            }
+        }
+        
+        $data['feedbacks']['overall'] = (int)(($promo['overall']/$total['overall'])*100 - ($de['overall']/$total['overall'])*100);
+        $data['feedbacks']['bandra'] = (int)(($promo['bandra']/$total['bandra'])*100 - ($de['bandra']/$total['bandra'])*100);
+        $data['feedbacks']['andheri'] = (int)(($promo['andheri']/$total['andheri'])*100 - ($de['andheri']/$total['andheri'])*100);
+
+
+        //$data['feedbacks'];
 		$data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
 		$data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
 		$data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);

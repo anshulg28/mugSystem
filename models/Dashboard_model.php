@@ -266,8 +266,16 @@ class Dashboard_Model extends CI_Model
     }
     public function getAllFeedbacks($locations)
     {
-        $query = "SELECT DISTINCT (SELECT AVG(overallRating) FROM usersfeedbackmaster 
-                 WHERE feedbackLoc != 0) as overall";
+        $query = "SELECT DISTINCT (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                 WHERE feedbackLoc != 0) as total_overall,
+                 (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                 WHERE feedbackLoc = 1) as total_bandra,
+                 (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                 WHERE feedbackLoc = 2) as total_andheri,
+                 (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                 WHERE feedbackLoc != 0 AND overallRating >= 9) as promo_overall,
+                 (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                 WHERE feedbackLoc != 0 AND overallRating < 7) as de_overall";
         if(isset($locations))
         {
             $length = count($locations)-1;
@@ -281,8 +289,10 @@ class Dashboard_Model extends CI_Model
                     {
                         $query .= ",";
                     }
-                    $query .= "(SELECT AVG(overallRating) FROM usersfeedbackmaster 
-                              WHERE feedbackLoc = ".$row['id'].") as ".$row['locUniqueLink'];
+                    $query .= "(SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                              WHERE feedbackLoc = ".$row['id']." AND overallRating >= 9) as promo_".$row['locUniqueLink'].",";
+                    $query .= "(SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                              WHERE feedbackLoc = ".$row['id']." AND overallRating < 7) as de_".$row['locUniqueLink'];
                 }
             }
         }

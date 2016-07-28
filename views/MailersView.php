@@ -38,29 +38,29 @@
                                 </div>
                             </a>
                         </li>
-                        <li>
+                        <!--<li>
                             <?php
-                            if(count($expiringMugs['expiryMugList']) > 0)
+/*                            if(count($expiringMugs['expiryMugList']) > 0)
                             {
-                                ?>
-                                    <span class="badge"><?php echo count($expiringMugs['expiryMugList']); ?></span>
-                                    <a class="mail-notify-remove" href="<?php echo base_url().'mailers/send/2';?>">
+                                */?>
+                                    <span class="badge"><?php /*echo count($expiringMugs['expiryMugList']); */?></span>
+                                    <a class="mail-notify-remove" href="<?php /*echo base_url().'mailers/send/2';*/?>">
                                 <?php
-                            }
+/*                            }
                             else
                             {
-                                ?>
+                                */?>
                                     <a class="mail-notify-remove" href="#">
                                 <?php
-                            }
-                            ?>
+/*                            }
+                            */?>
                                 <div class="menuWrap">
                                     <i class="fa fa-battery-quarter fa-2x my-orange-text"></i>
                                     <br>
                                     <span>Mugs Expiring</span>
                                 </div>
                             </a>
-                        </li>
+                        </li>-->
                         <li>
                             <?php
                             if(count($birthdayMugs['expiryMugList']) > 0)

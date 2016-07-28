@@ -417,19 +417,19 @@
                             </li>
                         </ul>
                         <?php
-                            if(isset($feedbacks))
+                            if(isset($feedbacks) && myIsArray($feedbacks))
                             {
                                 ?>
                                 <ul class="list-inline">
                                     <?php
-                                        foreach($feedbacks['feedbacks'][0] as $key => $row)
+                                        foreach($feedbacks as $key => $row)
                                         {
                                             if(myInArray($key,$commonLoc))
                                             {
                                                 ?>
                                                 <li>
                                                     <div class="panel panel-default">
-                                                        <div class="panel-heading"><?php echo ucfirst($key);?> Average Rating</div>
+                                                        <div class="panel-heading"><?php echo ucfirst($key);?> Net Rating</div>
                                                         <div class="panel-body stats-nums">
                                                             <?php if(isset($row)){ echo $row;} else{echo 'None';}?>
                                                         </div>
