@@ -12,7 +12,7 @@
 <!-- Panels overlay-->
 <div class="panel-overlay"></div>
 <!-- Left panel with reveal effect-->
-<div class="panel panel-left panel-reveal">
+<div class="panel panel-left panel-cover">
     <div class="content-block">
         <p>Left panel content goes here</p>
     </div>
@@ -62,7 +62,7 @@
             <div class="navbar-inner">
                 <div class="left">
                     <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
-                    <a href="#" class="link icon-only open-panel main-menu-icon">
+                    <a href="#" class="link icon-only open-panel ripple main-menu-icon">
                         <i class="fa fa-bars color-black"></i>
                         <span class="d-logo"></span>
                         <!--<i class="fa fa-minus"></i>
@@ -203,7 +203,8 @@
 <!-- Colored FAB button with ripple -->
 <button data-popover=".popover-links"
         class="open-popover mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored my-fab-btn hide">
-    <i class="material-icons">add</i>
+    <i class="popover-toggle-on fa fa-filter"></i>
+    <i class="popover-toggle-off fa fa-times"></i>
 </button>
 <div class="popover popover-links">
     <div class="popover-angle"></div>

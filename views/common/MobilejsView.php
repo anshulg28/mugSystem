@@ -3,6 +3,7 @@
 <!-- Framework 7 script -->
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/framework7.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/material.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/framework7.upscroller.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/hammer.min.js"></script>
 
