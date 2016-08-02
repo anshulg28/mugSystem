@@ -86,3 +86,4 @@ $route['main'] = 'home/main';
 /* Mobile Routes */
 $route['mobile'] = 'mobile/main';
 $route['mobile/about'] = 'mobile/main/about';
+$route['mobile/renderLink'] = 'mobile/main/renderLink';

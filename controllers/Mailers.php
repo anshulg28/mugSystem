@@ -162,7 +162,7 @@ class Mailers extends MY_Controller {
             }
             $newSubject = $this->replaceMugTags($post['mailSubject'],$mugInfo);
             $newBody = $this->replaceMugTags($post['mailBody'],$mugInfo);
-            if($post['isSimpleMail'] == '1')
+            if(isset($post['isSimpleMail']) && $post['isSimpleMail'] == '1')
             {
                 $mainBody = '<html><body>';
                 $body = $newBody;

@@ -68,4 +68,9 @@ class curl_library
         $url = FACEBOOK_API.'godoolallybandra/feed?'.http_build_query($params);
         return $this->getDataByGet($url, 30);
     }
+    public function getInstagramPosts()
+    {
+        $url = 'https://www.juicer.io/api/feeds/24816';
+        return $this->getDataByGet($url, 30);
+    }
 }
