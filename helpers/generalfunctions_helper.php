@@ -146,3 +146,25 @@ if (!function_exists('ReversesortMultiArray'))
 
     }
 }
+
+if (!function_exists('highlight'))
+{
+    function highlight($regex,$text)
+    {
+        preg_match_all($regex, $text, $m);
+        if(!$m)
+            return $text;
+        foreach($m[0] as $hashkey => $hashrow)
+        {
+            $descrip[$hashkey] = '<label>'.$hashrow.'</label>';
+        }
+        if(isset($descrip))
+        {
+            return  str_replace($m[0],$descrip,$text);
+        }
+        else
+        {
+            return $text;
+        }
+    }
+}

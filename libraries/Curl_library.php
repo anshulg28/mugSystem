@@ -63,9 +63,9 @@ class curl_library
 		return $this->getDataByPost($url, $filters);
 	}*/
 
-    public function getFacebookPosts($params)
+    public function getFacebookPosts($storeName,$params)
     {
-        $url = FACEBOOK_API.'godoolallybandra/feed?'.http_build_query($params);
+        $url = FACEBOOK_API.$storeName.'/tagged?'.http_build_query($params);
         return $this->getDataByGet($url, 30);
     }
     public function getInstagramPosts()
