@@ -77,7 +77,7 @@
                             </label>
                             <br>
                             <input type="email" name="email"
-                                   class="form-control hide" id="emailid" placeholder="Email (abc@doolally.in)" required/>
+                                   class="form-control hide" id="emailid" placeholder="Email (abc@doolally.in)"/>
                         </div>
                     </div>
                     <div class="form-group">

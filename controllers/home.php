@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Class Home
  * @property generalfunction_library $generalfunction_library
+ * @property locations_model $locations_model
  */
 
 class Home extends MY_Controller {
@@ -11,6 +12,7 @@ class Home extends MY_Controller {
     function __construct()
     {
         parent::__construct();
+        $this->load->model('locations_model');
     }
 
     public function index()
@@ -56,6 +58,7 @@ class Home extends MY_Controller {
             $this->session->unset_userdata('page_url');
         }
 
+        $data['locData'] = $this->locations_model->getAllLocations();
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
         $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);

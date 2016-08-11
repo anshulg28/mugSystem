@@ -526,4 +526,353 @@
 <?php echo $mobileJs; ?>
 <?php echo $iosJs; ?>
 
+<script>
+    var mainFeeds;
+    //previous data
+    <?php
+        if(isset($myFeeds) && myIsArray($myFeeds))
+        {
+            switch($myFeeds[0]['socialType'])
+            {
+                case 'i':
+                    ?>
+                    mainFeeds = <?php echo $myFeeds[0]['id'];?>
+                    <?php
+                    break;
+                case 'f':
+                    ?>
+                    mainFeeds = <?php echo $myFeeds[0]['id'];?>
+                    <?php
+                    break;
+                case 't':
+                    ?>
+                    mainFeeds = <?php echo $myFeeds[0]['id_str'];?>
+                    <?php
+                    break;
+            }
+        }
+    ?>
+
+    function highlight(regex,text)
+    {
+        var m = regex.exec(text);
+        if(!m)
+            return text;
+        for(var i=0;i<m.length;i++)
+        {
+           descrip[i] = '<label>'+m[i]+'</label>';
+        }
+        if( typeof descrip !== 'undefined')
+        {
+            return text.replace(descrip,m);
+        }
+        else
+        {
+            return text;
+        }
+    }
+    function fetchNewFeeds()
+    {
+        $.ajax({
+            type:"GET",
+            dataType:"json",
+            url: '<?php echo  base_url();?>mobile/main/returnAllFeeds/json',
+            success: function(data)
+            {
+                var newFeeds = [];
+                for(var i=0;i<data.length;i++)
+                {
+                    var currentId = '';
+                    switch(data[i]['socialType'])
+                    {
+                        case 't':
+                            currentId = data[i]['id_str'];
+                            break;
+                        case 'i':
+                            currentId = data[i]['id'];
+                            break;
+                        case 'f':
+                            currentId = data[i]['id'];
+                            break;
+                    }
+                    if(currentId == mainFeeds)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        newFeeds[i] = data[i];
+                    }
+                }
+                if(newFeeds.length > 0)
+                {
+                    addCards(newFeeds);
+                }
+            },
+            error: function()
+            {
+                console.log('error');
+            }
+        });
+    }
+
+    String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+    function addCards(data)
+    {
+        console.log('in addcards');
+        for(var i=0;i<data.length;i++)
+        {
+            switch(data[i]['socialType'])
+            {
+                case 'i':
+                    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                    var backupLink = urlRegex.exec(data[i]['unformatted_message']);
+                    var truncated_RestaurantName ='';
+                    data[i]['unformatted_message'] = data[i]['unformatted_message'].replace(urlRegex,'');
+
+                    data[i]['unformatted_message'] = data[i]['unformatted_message'].replace(/(#[a-z\d-]+)/ig,"<label>$1</label>");
+                    data[i]['unformatted_message'] = data[i]['unformatted_message'].replace(/(@[a-z\d-]+)/ig,"<label>$1</label>");
+                    if(data[i]['unformatted_message'].length > 140)
+                    {
+                        truncated_RestaurantName = data[i]['unformatted_message'].substr(0,140)+'..';
+                    }
+                    else
+                    {
+                        truncated_RestaurantName = data[i]['unformatted_message'];
+                    }
+                    var bigCardHtml = '';
+                    bigCardHtml += '<a href="'+data[i]['full_url']+'" target="_blank" class="external instagram-wrapper">';
+                    bigCardHtml += '<div class="my-card-items"><div class="card demo-card-header-pic">';
+                    bigCardHtml += '<div class="card-content"><div class="card-content-inner">';
+                    bigCardHtml += '<div class="list-block media-list"><ul><li><div class="item-content">';
+                    bigCardHtml += '<div class="item-media"><img class="myAvtar-list lazy" data-src="'+data[i]['poster_image']+'" width="44"/></div>';
+                    bigCardHtml += '<div class="item-inner"><div class="item-title-row">';
+                    bigCardHtml += '<div class="item-title">'+data[i]['poster_name'].capitalize()+'</div>';
+                    bigCardHtml += '<i class="fa fa-instagram social-icon-gap"></i></div>';
+                    if(data[i].hasOwnProperty('source'))
+                    {
+                        if(data[i]['source']['term_type'] == 'hashtag')
+                        {
+                            bigCardHtml += '<div class="item-subtitle">#'+data[i]['source']['term']+'</div>';
+                        }
+                        else
+                        {
+                            bigCardHtml += '<div class="item-subtitle">@'+data[i]['source']['term']+'</div>';
+                        }
+                    }
+                    bigCardHtml += '</div></div></li></ul></div>';
+                    if(data[i].hasOwnProperty('video'))
+                    {
+                        if(data[i]['video'].indexOf('youtube') != -1 || data[i]['video'].indexOf('youtu.be') != -1)
+                        {
+                            bigCardHtml += '<div class="row no-gutter feed-image-container">';
+                            bigCardHtml += '<div class="col-100">';
+                            bigCardHtml += '<iframe width="100%" src="'+data[i]['video']+'" frameborder="0" allowfullscreen>';
+                            bigCardHtml += '</iframe></div></div>';
+                        }
+                        else
+                        {
+                            bigCardHtml += '<div class="row no-gutter feed-image-container">';
+                            bigCardHtml += '<div class="col-100">';
+                            bigCardHtml += '<video width="100%" controls>';
+                            bigCardHtml += '<source src="'+data[i]['video']+'">No Video found!';
+                            bigCardHtml += '</video></div></div>';
+                        }
+                    }
+                    else if(data[i].hasOwnProperty('image'))
+                    {
+                        bigCardHtml += '<div class="row no-gutter feed-image-container">';
+                        bigCardHtml += '<div class="col-100">';
+                        bigCardHtml += '<img data-src="'+data[i]['image']+'" class="mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '</div></div>';
+                    }
+                    else if(typeof backupLink !== 'undefined')
+                    {
+                        bigCardHtml += '<div class="link-card-wrapper">';
+                        bigCardHtml += '<input type="hidden" class="my-link-url" value="'+backupLink[0]+'"/>';
+                        bigCardHtml += '<div class="liveurl feed-image-container hide">';
+                        bigCardHtml += '<img src="" class="link-image mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '<div class="details"><div class="title"></div><div class="description"></div>';
+                        bigCardHtml += '</div></div></div>';
+                    }
+
+                    bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
+                    bigCardHtml += '</div></div></div></a>';
+                    $('.custom-accordion').prepend(bigCardHtml);
+                    break;
+                case 'f':
+                    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                    var backupLink = urlRegex.exec(data[i]['message']);
+                    var truncated_RestaurantName ='';
+                    data[i]['message'] = data[i]['message'].replace(urlRegex,'');
+
+                    data[i]['message'] = data[i]['message'].replace(/(#[a-z\d-]+)/ig,"<label>$1</label>");
+                    data[i]['message'] = data[i]['message'].replace(/(@[a-z\d-]+)/ig,"<label>$1</label>");
+                    if(data[i]['message'].length > 140)
+                    {
+                        truncated_RestaurantName = data[i]['message'].substr(0,140)+'..';
+                    }
+                    else
+                    {
+                        truncated_RestaurantName = data[i]['message'];
+                    }
+                    var bigCardHtml = '';
+                    bigCardHtml += '<a href="'+data[i]['permalink_url']+'" target="_blank" class="external facebook-wrapper">';
+                    bigCardHtml += '<div class="my-card-items"><div class="card demo-card-header-pic">';
+                    bigCardHtml += '<div class="card-content"><div class="card-content-inner">';
+                    bigCardHtml += '<div class="list-block media-list"><ul><li><div class="item-content">';
+                    bigCardHtml += '<div class="item-media"><img class="myAvtar-list lazy" data-src="https://graph.facebook.com/v2.7/'+data[i]['from']['id']+'/picture" width="44"/></div>';
+                    bigCardHtml += '<div class="item-inner"><div class="item-title-row">';
+                    bigCardHtml += '<div class="item-title">'+data[i]['from']['name'].capitalize()+'</div>';
+                    bigCardHtml += '<i class="fa fa-facebook social-icon-gap"></i></div>';
+                    /*if(data[i].hasOwnProperty('source'))
+                    {
+                        if(data[i]['source']['term_type'] == 'hashtag')
+                        {
+                            bigCardHtml += '<div class="item-subtitle">#'+data[i]['source']['term']+'</div>';
+                        }
+                        else
+                        {
+                            bigCardHtml += '<div class="item-subtitle">@'+data[i]['source']['term']+'</div>';
+                        }
+                    }*/
+                    bigCardHtml += '</div></div></li></ul></div>';
+                    if(data[i].hasOwnProperty('source'))
+                    {
+                        if(data[i]['source'].indexOf('youtube') != -1 || data[i]['source'].indexOf('youtu.be') != -1)
+                        {
+                            bigCardHtml += '<div class="row no-gutter feed-image-container">';
+                            bigCardHtml += '<div class="col-100">';
+                            bigCardHtml += '<iframe width="100%" src="'+data[i]['source']+'" frameborder="0" allowfullscreen>';
+                            bigCardHtml += '</iframe></div></div>';
+                        }
+                        else
+                        {
+                            bigCardHtml += '<div class="row no-gutter feed-image-container">';
+                            bigCardHtml += '<div class="col-100">';
+                            bigCardHtml += '<video width="100%" controls>';
+                            bigCardHtml += '<source src="'+data[i]['source']+'">No Video found!';
+                            bigCardHtml += '</video></div></div>';
+                        }
+                    }
+                    else if(data[i].hasOwnProperty('picture'))
+                    {
+                        bigCardHtml += '<div class="row no-gutter feed-image-container">';
+                        bigCardHtml += '<div class="col-100">';
+                        bigCardHtml += '<img data-src="'+data[i]['picture']+'" class="mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '</div></div>';
+                    }
+                    else if(typeof backupLink !== 'undefined')
+                    {
+                        bigCardHtml += '<div class="link-card-wrapper">';
+                        bigCardHtml += '<input type="hidden" class="my-link-url" value="'+backupLink[0]+'"/>';
+                        bigCardHtml += '<div class="liveurl feed-image-container hide">';
+                        bigCardHtml += '<img src="" class="link-image mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '<div class="details"><div class="title"></div><div class="description"></div>';
+                        bigCardHtml += '</div></div></div>';
+                    }
+
+                    bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
+                    bigCardHtml += '</div></div></div></a>';
+                    $('.custom-accordion').prepend(bigCardHtml);
+                    break;
+                case 't':
+                    var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                    //var httpPattern = "!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!";
+                    var truncated_RestaurantName ='';
+                    data[i]['text'] = data[i]['text'].replace(urlRegex,'');
+
+                    data[i]['text'] = data[i]['text'].replace(/(#[a-z\d-]+)/ig,"<label>$1</label>");
+                    data[i]['text'] = data[i]['text'].replace(/(@[a-z\d-]+)/ig,"<label>$1</label>");
+                    if(data[i]['text'].length > 140)
+                    {
+                        truncated_RestaurantName = data[i]['text'].substr(0,140)+'..';
+                    }
+                    else
+                    {
+                        truncated_RestaurantName = data[i]['text'];
+                    }
+                    var bigCardHtml = '';
+                    bigCardHtml += '<a href="https://twitter.com/'+data[i]['user']['screen_name']+'/status/'+data[i]['id_str']+'" target="_blank" class="external twitter-wrapper">';
+                    bigCardHtml += '<div class="my-card-items"><div class="card demo-card-header-pic">';
+                    bigCardHtml += '<div class="card-content"><div class="card-content-inner">';
+                    bigCardHtml += '<div class="list-block media-list"><ul><li><div class="item-content">';
+                    bigCardHtml += '<div class="item-media"><img class="myAvtar-list lazy" data-src="'+data[i]['user']['profile_image_url']+'" width="44"/></div>';
+                    bigCardHtml += '<div class="item-inner"><div class="item-title-row">';
+                    bigCardHtml += '<div class="item-title">'+data[i]['user']['name'].capitalize()+'</div>';
+                    bigCardHtml += '<i class="fa fa-twitter social-icon-gap"></i></div>';
+                    bigCardHtml += '<div class="item-subtitle">@'+data[i]['user']['screen_name']+'</div>';
+
+                    bigCardHtml += '</div></div></li></ul></div>';
+
+                    if(data[i].hasOwnProperty('extended_entities'))
+                    {
+                        bigCardHtml += '<div class="row no-gutter feed-image-container">';
+                        var imageLimit = 0;
+                        for(var j=0;j<data[i]['extended_entities']['media'].length;j++)
+                        {
+                            if(imageLimit >= 1)
+                            {
+                                return false;
+                            }
+                            imageLimit++;
+                            if(data[i]['extended_entities']['media'][j].hasOwnProperty('video_info') && data[i]['extended_entities']['media'][j]['video_info']['variants'] != null)
+                            {
+                                var videoUrl = '';
+                                var videoType = '';
+                                for(var k=0;k<data[i]['extended_entities']['media'][j]['video_info']['variants'].length;k++)
+                                {
+                                    if(data[i]['extended_entities']['media'][j]['video_info']['variants'][k].hasOwnProperty('bitrate'))
+                                    {
+                                        videoUrl = data[i]['extended_entities']['media'][j]['video_info']['variants'][k]['url'];
+                                        videoType = data[i]['extended_entities']['media'][j]['video_info']['variants'][k]['content_type'];
+                                    }
+                                }
+                                if(videoUrl.indexOf('youtube') != -1 || videoUrl.indexOf('youtu.be') != -1)
+                                {
+                                    bigCardHtml += '<div class="col-100">';
+                                    bigCardHtml += '<iframe width="100%" src="'+videoUrl+'" frameborder="0" allowfullscreen>';
+                                    bigCardHtml += '</iframe></div></div>';
+                                }
+                                else
+                                {
+                                    bigCardHtml += '<div class="col-100">';
+                                    bigCardHtml += '<video width="100%" controls>';
+                                    bigCardHtml += '<source src="'+videoUrl+'" type="'+videoType+'">No Video found!';
+                                    bigCardHtml += '</video></div></div>';
+                                }
+                            }
+                            else
+                            {
+                                bigCardHtml += '<div class="col-100">';
+                                bigCardHtml += '<img data-src="'+data[i]['extended_entities']['media'][j]['media_url']+'" class="mainFeed-img lazy lazy-fadein"/>';
+                                bigCardHtml += '</div></div>';
+                            }
+                        }
+                    }
+                    else if(data[i]['entities']['urls'] != null && data[i]['entities']['urls'].length > 0)
+                    {
+                        bigCardHtml += '<div class="link-card-wrapper">';
+                        bigCardHtml += '<input type="hidden" class="my-link-url" value="'+data[i]['entities']['urls'][0]['expanded_url']+'"/>';
+                        bigCardHtml += '<div class="liveurl feed-image-container hide">';
+                        bigCardHtml += '<img src="" class="link-image mainFeed-img lazy lazy-fadein"/>';
+                        bigCardHtml += '<div class="details"><div class="title"></div><div class="description"></div>';
+                        bigCardHtml += '</div></div></div>';
+                    }
+
+                    bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
+                    bigCardHtml += '</div></div></div></a>';
+                    $('.custom-accordion').prepend(bigCardHtml);
+                    break;
+            }
+        }
+    }
+    $(window).load(function(){
+        setTimeout(fetchNewFeeds,2*60*1000);
+    });
+
+</script>
+
 </html>

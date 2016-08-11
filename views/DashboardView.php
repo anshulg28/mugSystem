@@ -125,7 +125,7 @@
                         </div>
                     </div>
                     <div class="mdl-color--white mdl-shadow--2dp">
-                        <div class="col-sm-8 col-xs-12">
+                        <div class="col-sm-12 col-xs-12">
                             <ul class="list-inline">
                                 <li>
                                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="avg-radio">
@@ -157,7 +157,7 @@
                             <canvas id="irregulars-canvas" class="mygraphs"></canvas>
                             <canvas id="lapsers-canvas" class="mygraphs"></canvas>
                         </div>
-                        <div class="col-sm-4 col-xs-12">
+                        <!--<div class="col-sm-4 col-xs-12">
                             <table class="mdl-data-table mdl-js-data-table">
                                 <thead>
                                 <tr>
@@ -169,114 +169,114 @@
                                 </thead>
                                 <tbody>
                                 <?php
-                                if(isset($avgChecks))
+/*                                if(isset($avgChecks))
                                 {
-                                    ?>
+                                    */?>
                                     <tr>
                                         <td>Avg Check-ins</td>
                                         <td class="overall-td">
                                             <?php
-                                            $allStores = ((int)$avgChecks['checkInList']['overall']/$totalMugs['overall']);
+/*                                            $allStores = ((int)$avgChecks['checkInList']['overall']/$totalMugs['overall']);
                                             echo round($allStores,2);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="andheri-td">
                                             <?php
-                                            $andheriStore = ((int)$avgChecks['checkInList']['andheri']/$totalMugs['andheri']);
+/*                                            $andheriStore = ((int)$avgChecks['checkInList']['andheri']/$totalMugs['andheri']);
                                             echo round($andheriStore,2);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="bandra-td">
                                             <?php
-                                            $bandraStore = ((int)$avgChecks['checkInList']['bandra']/$totalMugs['bandra']);
+/*                                            $bandraStore = ((int)$avgChecks['checkInList']['bandra']/$totalMugs['bandra']);
                                             echo round($bandraStore,2);
-                                            ?>
+                                            */?>
                                         </td>
                                     </tr>
                                     <?php
-                                }
+/*                                }
                                 if(isset($Regulars))
                                 {
-                                    ?>
+                                    */?>
                                     <tr>
                                         <td>Regulars</td>
                                         <td class="overall-td">
                                             <?php
-                                            $allStores = ((int)$Regulars['regularCheckins']['overall']/$totalMugs['overall'])*100;
+/*                                            $allStores = ((int)$Regulars['regularCheckins']['overall']/$totalMugs['overall'])*100;
                                             echo round($allStores,1);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="andheri-td">
                                             <?php
-                                            $andheriStore = ((int)$Regulars['regularCheckins']['andheri']/$totalMugs['andheri'])*100;
+/*                                            $andheriStore = ((int)$Regulars['regularCheckins']['andheri']/$totalMugs['andheri'])*100;
                                             echo round($andheriStore,1);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="bandra-td">
                                             <?php
-                                            $bandraStore = ((int)$Regulars['regularCheckins']['bandra']/$totalMugs['bandra'])*100;
+/*                                            $bandraStore = ((int)$Regulars['regularCheckins']['bandra']/$totalMugs['bandra'])*100;
                                             echo round($bandraStore,1);
-                                            ?>
+                                            */?>
                                         </td>
                                     </tr>
                                     <?php
-                                }
+/*                                }
                                 if(isset($Irregulars))
                                 {
-                                    ?>
+                                    */?>
                                     <tr>
                                         <td>IrRegulars</td>
                                         <td class="overall-td">
                                             <?php
-                                            $allStores = ((int)$Irregulars['irregularCheckins']['overall']/$totalMugs['overall'])*100;
+/*                                            $allStores = ((int)$Irregulars['irregularCheckins']['overall']/$totalMugs['overall'])*100;
                                             echo round($allStores,1);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="andheri-td">
                                             <?php
-                                            $andheriStore = ((int)$Irregulars['irregularCheckins']['andheri']/$totalMugs['andheri'])*100;
+/*                                            $andheriStore = ((int)$Irregulars['irregularCheckins']['andheri']/$totalMugs['andheri'])*100;
                                             echo round($andheriStore,1);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="bandra-td">
                                             <?php
-                                            $bandraStore = ((int)$Irregulars['irregularCheckins']['bandra']/$totalMugs['bandra'])*100;
+/*                                            $bandraStore = ((int)$Irregulars['irregularCheckins']['bandra']/$totalMugs['bandra'])*100;
                                             echo round($bandraStore,1);
-                                            ?>
+                                            */?>
                                         </td>
                                     </tr>
                                     <?php
-                                }
+/*                                }
                                 if(isset($lapsers))
                                 {
-                                    ?>
+                                    */?>
                                     <tr>
                                         <td>Lapsers</td>
                                         <td class="overall-td">
                                             <?php
-                                            $allStores = ((int)$lapsers['lapsers']['overall']/$totalMugs['overall'])*100;
+/*                                            $allStores = ((int)$lapsers['lapsers']['overall']/$totalMugs['overall'])*100;
                                             echo round($allStores,1);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="andheri-td">
                                             <?php
-                                            $andheriStore = ((int)$lapsers['lapsers']['andheri']/$totalMugs['andheri'])*100;
+/*                                            $andheriStore = ((int)$lapsers['lapsers']['andheri']/$totalMugs['andheri'])*100;
                                             echo round($andheriStore,1);
-                                            ?>
+                                            */?>
                                         </td>
                                         <td class="bandra-td">
                                             <?php
-                                            $bandraStore = ((int)$lapsers['lapsers']['bandra']/$totalMugs['bandra'])*100;
+/*                                            $bandraStore = ((int)$lapsers['lapsers']['bandra']/$totalMugs['bandra'])*100;
                                             echo round($bandraStore,1);
-                                            ?>
+                                            */?>
                                         </td>
                                     </tr>
                                     <?php
-                                }
-                                ?>
+/*                                }
+                                */?>
                                 </tbody>
                             </table>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </section>
@@ -482,12 +482,22 @@
             for($i = 0;$i<count($avgChecks['checkInList']); $i++)
             {
                 $mugkeys = array_keys($totalMugs);
-                $checkinKeys = array_keys($avgChecks['checkInList']);
-                $allStores = ((int)$avgChecks['checkInList'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
-                ?>
+                if($totalMugs[$mugkeys[$i]] != 0)
+                {
+                    $checkinKeys = array_keys($avgChecks['checkInList']);
+                    $allStores = ((int)$avgChecks['checkInList'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
+                    ?>
                     totalCheckins[<?php echo $i;?>] = <?php echo (int)$avgChecks['checkInList'][$checkinKeys[$i]];?>;
                     avgCheckins[<?php echo $i;?>] = <?php echo round($allStores,2);?>;
-                <?php
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    totalCheckins[<?php echo $i;?>] = 0;
+                    avgCheckins[<?php echo $i;?>] = 0;
+                    <?php
+                }
             }
         }
         if(isset($Regulars))
@@ -495,11 +505,20 @@
             for($i = 0;$i<count($Regulars['regularCheckins']); $i++)
             {
                 $mugkeys = array_keys($totalMugs);
-                $checkinKeys = array_keys($Regulars['regularCheckins']);
-                $allStores = ((int)$Regulars['regularCheckins'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
-                ?>
+                if($totalMugs[$mugkeys[$i]] != 0)
+                {
+                    $checkinKeys = array_keys($Regulars['regularCheckins']);
+                    $allStores = ((int)$Regulars['regularCheckins'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
+                    ?>
                     regulars[<?php echo $i;?>] = <?php echo round($allStores,2);?>;
-                <?php
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    regulars[<?php echo $i;?>] = 0;
+                    <?php
+                }
             }
         }
         if(isset($Irregulars))
@@ -507,11 +526,20 @@
             for($i = 0;$i<count($Irregulars['irregularCheckins']); $i++)
             {
                 $mugkeys = array_keys($totalMugs);
-                $checkinKeys = array_keys($Irregulars['irregularCheckins']);
-                $allStores = ((int)$Irregulars['irregularCheckins'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
-                ?>
+                if($totalMugs[$mugkeys[$i]] != 0)
+                {
+                    $checkinKeys = array_keys($Irregulars['irregularCheckins']);
+                    $allStores = ((int)$Irregulars['irregularCheckins'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
+                    ?>
                     irregulars[<?php echo $i;?>] = <?php echo round($allStores,2);?>;
-                <?php
+                    <?php
+                }
+                else
+                {
+                    ?>
+                        irregulars[<?php echo $i;?>] = 0;
+                    <?php
+                }
             }
         }
         if(isset($lapsers))
@@ -519,11 +547,20 @@
             for($i = 0;$i<count($lapsers['lapsers']); $i++)
             {
                 $mugkeys = array_keys($totalMugs);
-                $checkinKeys = array_keys($lapsers['lapsers']);
-                $allStores = ((int)$lapsers['lapsers'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
-                ?>
+                if($totalMugs[$mugkeys[$i]] != 0)
+                {
+                    $checkinKeys = array_keys($lapsers['lapsers']);
+                    $allStores = ((int)$lapsers['lapsers'][$checkinKeys[$i]]/$totalMugs[$mugkeys[$i]]);
+                    ?>
                     lapsers[<?php echo $i;?>] = <?php echo round($allStores,2);?>;
-                <?php
+                    <?php
+                }
+                else
+                {
+                    ?>
+                        lapsers[<?php echo $i;?>] = 0;
+                    <?php
+                }
             }
         }
 
@@ -534,15 +571,20 @@
             graph_avg[0] = [];
             graph_avg[1] = [];
             graph_avg[2] = [];
+            graph_avg[3] = [];
             <?php
             for($i = 0;$i<count($graph['avgChecks']); $i++)
             {
                 $graphVals = explode(',',$graph['avgChecks'][$i]);
-                ?>
-                graph_avg[0].push(<?php echo $graphVals[0];?>);
-                graph_avg[1].push(<?php echo $graphVals[1];?>);
-                graph_avg[2].push(<?php echo $graphVals[2];?>);
-                <?php
+                for($j=0;$j<count($graphVals);$j++)
+                {
+                    if(isset($graphVals[$j]))
+                    {
+                        ?>
+                        graph_avg[<?php echo $j;?>].push(<?php echo $graphVals[$j];?>);
+                        <?php
+                    }
+                }
             }
         }
         if(isset($graph['regulars']))
@@ -551,15 +593,20 @@
             graph_regulars[0] = [];
             graph_regulars[1] = [];
             graph_regulars[2] = [];
+            graph_regulars[3] = [];
             <?php
             for($i = 0;$i<count($graph['regulars']); $i++)
             {
                 $graphVals = explode(',',$graph['regulars'][$i]);
-                ?>
-                graph_regulars[0].push(<?php echo $graphVals[0];?>);
-                graph_regulars[1].push(<?php echo $graphVals[1];?>);
-                graph_regulars[2].push(<?php echo $graphVals[2];?>);
-                <?php
+                for($j=0;$j<count($graphVals);$j++)
+                {
+                        if(isset($graphVals[$j]))
+                        {
+                            ?>
+                            graph_regulars[<?php echo $j;?>].push(<?php echo $graphVals[$j];?>);
+                            <?php
+                        }
+                }
             }
         }
         if(isset($graph['irregulars']))
@@ -568,15 +615,20 @@
             graph_irregulars[0] = [];
             graph_irregulars[1] = [];
             graph_irregulars[2] = [];
+            graph_irregulars[3] = [];
             <?php
             for($i = 0;$i<count($graph['irregulars']); $i++)
             {
                 $graphVals = explode(',',$graph['irregulars'][$i]);
-                ?>
-                graph_irregulars[0].push(<?php echo $graphVals[0];?>);
-                graph_irregulars[1].push(<?php echo $graphVals[1];?>);
-                graph_irregulars[2].push(<?php echo $graphVals[2];?>);
-                <?php
+                for($j=0;$j<count($graphVals);$j++)
+                {
+                    if(isset($graphVals[$j]))
+                    {
+                        ?>
+                            graph_irregulars[<?php echo $j;?>].push(<?php echo $graphVals[$j];?>);
+                        <?php
+                    }
+                }
             }
         }
         if(isset($graph['lapsers']))
@@ -585,15 +637,20 @@
             graph_lapsers[0] = [];
             graph_lapsers[1] = [];
             graph_lapsers[2] = [];
+            graph_lapsers[3] = [];
             <?php
             for($i = 0;$i<count($graph['lapsers']); $i++)
             {
                 $graphVals = explode(',',$graph['lapsers'][$i]);
-                ?>
-                graph_lapsers[0].push(<?php echo $graphVals[0];?>);
-                graph_lapsers[1].push(<?php echo $graphVals[1];?>);
-                graph_lapsers[2].push(<?php echo $graphVals[2];?>);
-                <?php
+                for($j=0;$j<count($graphVals);$j++)
+                {
+                    if(isset($graphVals[$j]))
+                    {
+                        ?>
+                            graph_lapsers[<?php echo $j;?>].push(<?php echo $graphVals[$j];?>);
+                        <?php
+                    }
+                }
             }
         }
         if(isset($graph['labelDate']))

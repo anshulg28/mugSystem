@@ -36,7 +36,7 @@ class Dashboard_Model extends CI_Model
                         $query .= "(SELECT count(DISTINCT mugId, location)"
                             ." FROM  mugcheckinmaster "
                             ."WHERE checkinDateTime BETWEEN '$dateStart' AND '$dateEnd' AND location =". $row['id'].")"
-                            ." as ".$row['locUniqueLink'];
+                            ." as '".$row['locUniqueLink']."'";
 
                     }
                 }
@@ -82,7 +82,7 @@ class Dashboard_Model extends CI_Model
                     $query .= "(SELECT count(*) FROM (SELECT m.mugId,homeBase FROM  mugmaster m
                                 LEFT JOIN mugcheckinmaster mc ON m.mugId = mc.mugId
                                 Where homeBase = ".$row['id']." AND date(mc.checkinDateTime) BETWEEN '$dateStart' AND '$dateEnd'
-                                GROUP BY mc.mugId HAVING count(*) > 2) as tbl) as ".$row['locUniqueLink'];
+                                GROUP BY mc.mugId HAVING count(*) > 2) as tbl) as '".$row['locUniqueLink']."'";
                 }
             }
         }
@@ -126,7 +126,7 @@ class Dashboard_Model extends CI_Model
                     $query .= "(SELECT count(*) FROM (SELECT m.mugId,homeBase FROM  mugmaster m
                                 LEFT JOIN mugcheckinmaster mc ON m.mugId = mc.mugId
                                 Where homeBase = ".$row['id']." AND date(mc.checkinDateTime) BETWEEN '$dateStart' AND '$dateEnd'
-                                GROUP BY mc.mugId HAVING count(*) <= 1) as tbl) as ".$row['locUniqueLink'];
+                                GROUP BY mc.mugId HAVING count(*) <= 1) as tbl) as '".$row['locUniqueLink']."'";
                 }
             }
         }
@@ -168,7 +168,7 @@ class Dashboard_Model extends CI_Model
                     }
                     $query .= "(SELECT count(*) FROM mugmaster 
                              WHERE homeBase = ".$row['id']." AND membershipEnd BETWEEN '$dateStart' AND '$dateEnd'
-                              AND membershipEnd != '0000-00-00') as ".$row['locUniqueLink'];
+                              AND membershipEnd != '0000-00-00') as '".$row['locUniqueLink']."'";
                 }
             }
         }
@@ -273,6 +273,8 @@ class Dashboard_Model extends CI_Model
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
                  WHERE feedbackLoc = 2) as total_andheri,
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
+                 WHERE feedbackLoc = 3) as total_kemps,
+                 (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
                  WHERE feedbackLoc != 0 AND overallRating >= 9) as promo_overall,
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
                  WHERE feedbackLoc != 0 AND overallRating < 7) as de_overall";
@@ -290,9 +292,9 @@ class Dashboard_Model extends CI_Model
                         $query .= ",";
                     }
                     $query .= "(SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                              WHERE feedbackLoc = ".$row['id']." AND overallRating >= 9) as promo_".$row['locUniqueLink'].",";
+                              WHERE feedbackLoc = ".$row['id']." AND overallRating >= 9) as 'promo_".$row['locUniqueLink']."',";
                     $query .= "(SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                              WHERE feedbackLoc = ".$row['id']." AND overallRating < 7) as de_".$row['locUniqueLink'];
+                              WHERE feedbackLoc = ".$row['id']." AND overallRating < 7) as 'de_".$row['locUniqueLink']."'";
                 }
             }
         }

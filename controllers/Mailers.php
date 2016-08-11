@@ -172,7 +172,7 @@ class Mailers extends MY_Controller {
                 $mainBody .= $body .'</body></html>';
                 $newBody = $mainBody;
             }
-            $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
+            $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in';
             $fromName  = 'Doolally';
             if(isset($this->userFirstName))
             {
@@ -277,7 +277,7 @@ class Mailers extends MY_Controller {
             {
                 $config = array();
                 $config['upload_path'] = './uploads/';
-                $config['allowed_types'] = 'gif|jpg|png';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']      = '0';
                 $config['overwrite']     = TRUE;
 
@@ -310,16 +310,13 @@ class Mailers extends MY_Controller {
         $pressBody = $post['mailBody'];
         $mainBody = '<html><body>';
         $body = $pressBody;
-        $body = wordwrap($body, 70);
-        $body = nl2br($body);
-        $body = stripslashes($body);
         $mainBody .= $body .'</body></html>';
 
         foreach($pressEmails as $key)
         {
             $pressInfo = $this->mailers_model->getPressInfoByMail($key);
             $newBody = $this->replacePressName($mainBody,$pressInfo);
-            $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in';
+            $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in';
             $fromName  = 'Doolally';
             if(isset($this->userFirstName))
             {

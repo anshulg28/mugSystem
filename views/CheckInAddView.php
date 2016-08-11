@@ -251,7 +251,7 @@
                             <div class="form-group my-marginLR-zero hide" id="missingBdate">
                                 <div class="col-sm-1 col-xs-0"></div>
                                 <div class="col-sm-10 col-xs-12">
-                                    <input type="date" name="birthdate"
+                                    <input onfocus="(this.type='date')" onblur="(this.type='text')" type="text" name="birthdate"
                                            class="form-control" placeholder="Birth Date">
                                 </div>
                                 <div class="col-sm-1 col-xs-0"></div>
@@ -486,7 +486,8 @@
        var myBigStatusHtml = '<ul>';
        var myFormatedData = {
             'Mug #' : mugList.mugId,
-            'Name': mugList.firstName +' '+mugList.lastName,
+            'First Name': mugList.firstName,
+            'Last Name': mugList.lastName,
             'Mug Tag': mugList.mugTag,
             'Mobile #': mugList.mobileNo,
             'Email': mugList.emailId,
@@ -716,7 +717,7 @@
         {
             dataMissing.push('missingEmail');
         }
-        if(mugList.birthDate == '')
+        if(mugList.birthDate == '' || mugList.birthDate == null)
         {
             dataMissing.push('missingBdate');
         }

@@ -7,6 +7,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/material.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/getmdl-select.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/Chart.min.js"></script>
+<script src="http://cdn.ckeditor.com/4.5.10/basic/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/progressbar.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/doolally-local-session.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery.dataTables.min.js"></script>
@@ -88,6 +89,10 @@
     }
     function formatJsDate(gotDate)
     {
+        if(gotDate == null)
+        {
+            return '';
+        }
         var monthNames = [
             "Jan", "Feb", "Mar",
             "Apr", "May", "June", "July",

@@ -76,6 +76,9 @@
                                                     case 7:
                                                         $mailTypes['workshops'][] = $row['pressEmail'];
                                                         break;
+                                                    case 8:
+                                                        $mailTypes['office'][] = $row['pressEmail'];
+                                                        break;
                                                 }
                                             }
                                         ?>
@@ -175,6 +178,7 @@
 <?php echo $globalJs; ?>
 
 <script>
+    CKEDITOR.replace( 'mailBody' );
     var whichHasFocus = 0;
     $(document).on('change','input[name="attachmentType"]',function(){
         if($(this).val() == '1')

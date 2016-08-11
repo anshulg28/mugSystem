@@ -24,22 +24,32 @@
                             }
                         ?>
                         <ul class="list-inline my-mainMenuList">
-                            <li>
-                                <input type="radio" name="currentLoc" onchange="submitLocation()" id="andheri" value="2" />
-                                <label for="andheri">
-                                    <i class="glyphicon glyphicon-map-marker fa-5x"></i>
-                                    <br>
-                                    <span>Andheri</span>
-                                </label>
-                            </li>
-                            <li>
+                            <?php
+                                foreach($locData as $key => $row)
+                                {
+                                    if($row != 'status')
+                                    {
+                                        ?>
+                                        <li>
+                                            <input type="radio" name="currentLoc" onchange="submitLocation()" id="<?php echo $row['locUniqueLink'];?>" value="<?php echo $row['id'];?>" />
+                                            <label for="<?php echo $row['locUniqueLink'];?>">
+                                                <i class="glyphicon glyphicon-map-marker fa-5x"></i>
+                                                <br>
+                                                <span><?php echo $row['locName'];?></span>
+                                            </label>
+                                        </li>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                            <!--<li>
                                 <input type="radio" name="currentLoc" onchange="submitLocation()" id="bandra" value="1" />
                                 <label for="bandra">
                                     <i class="glyphicon glyphicon-map-marker fa-5x"></i>
                                     <br>
                                     <span>Bandra</span>
                                 </label>
-                            </li>
+                            </li>-->
                         </ul>
                     </div>
                 </form>

@@ -97,7 +97,7 @@ class Dashboard extends MY_Controller {
 		$data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
 		$data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
         $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
-
+        
 
 		$this->load->view('DashboardView', $data);
 	}

@@ -81,7 +81,7 @@ class Cron extends MY_Controller
         $parmas = array(
             'count' => '61',
             'exclude_replies' => 'true',
-            'screen_name' => 'godoolally'
+            'screen_name' => 'Apple_Coder'
         );
         $responseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/statuses/user_timeline.json',$parmas);
         if($responseCode == 200)
