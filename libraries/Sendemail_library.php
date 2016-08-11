@@ -111,6 +111,7 @@ class Sendemail_library
         $CI =& get_instance();
         $CI->load->library('email');
         $config['mailtype'] = 'html';
+        $CI->email->clear(true);
         $CI->email->initialize($config);
         $CI->email->from($from, $fromName);
         $CI->email->to($to);
