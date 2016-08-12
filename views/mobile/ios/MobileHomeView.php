@@ -113,7 +113,9 @@
                                                                                             <div class="item-title"><?php echo ucfirst($row['user']['name']);?></div>
                                                                                             <i class="fa fa-twitter social-icon-gap"></i>
                                                                                         </div>
-                                                                                        <div class="item-subtitle">@<?php echo $row['user']['screen_name'];?></div>
+                                                                                        <div class="item-subtitle">@<?php echo $row['user']['screen_name'];?>
+                                                                                            <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
@@ -227,7 +229,9 @@
                                                                                             <div class="item-title"><?php echo ucfirst($row['from']['name']);?></div>
                                                                                             <i class="fa fa-facebook-official social-icon-gap"></i>
                                                                                         </div>
-                                                                                        <!--<div class="item-subtitle">@<?php /*echo $row['user']['screen_name'];*/?></div>-->
+                                                                                        <div class="item-subtitle">
+                                                                                            <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
@@ -324,13 +328,17 @@
                                                                                                 if($row['source']['term_type'] == 'hashtag')
                                                                                                 {
                                                                                                     ?>
-                                                                                                    <div class="item-subtitle">#<?php echo $row['source']['term'];?></div>
+                                                                                                    <div class="item-subtitle">#<?php echo $row['source']['term'];?>
+                                                                                                        <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                                    </div>
                                                                                                     <?php
                                                                                                 }
                                                                                                 else
                                                                                                 {
                                                                                                     ?>
-                                                                                                    <div class="item-subtitle">@<?php echo $row['source']['term'];?></div>
+                                                                                                    <div class="item-subtitle">@<?php echo $row['source']['term'];?>
+                                                                                                        <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                                    </div>
                                                                                                     <?php
                                                                                                 }
                                                                                             }
@@ -655,11 +663,14 @@
                     {
                         if(data[i]['source']['term_type'] == 'hashtag')
                         {
-                            bigCardHtml += '<div class="item-subtitle">#'+data[i]['source']['term']+'</div>';
+                            bigCardHtml += '<div class="item-subtitle">#'+data[i]['source']['term'];
+                            bigCardHtml += '<time class="timeago time-stamp" datetime="'+data[i]['created_at']+'"></time></div>';
+                            //bigCardHtml += '<span class="time-stamp"></span></div>'
                         }
                         else
                         {
-                            bigCardHtml += '<div class="item-subtitle">@'+data[i]['source']['term']+'</div>';
+                            bigCardHtml += '<div class="item-subtitle">@'+data[i]['source']['term'];
+                            bigCardHtml += '<time class="timeago time-stamp" datetime="'+data[i]['created_at']+'"></time></div>';
                         }
                     }
                     bigCardHtml += '</div></div></li></ul></div>';
@@ -700,7 +711,9 @@
 
                     bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
                     bigCardHtml += '</div></div></div></a>';
+                    //var currentPos = $(document).scrollTop();
                     $('.custom-accordion').prepend(bigCardHtml);
+                    $('.page-content').scrollTop(currentPos);
                     break;
                 case 'f':
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -727,6 +740,8 @@
                     bigCardHtml += '<div class="item-inner"><div class="item-title-row">';
                     bigCardHtml += '<div class="item-title">'+data[i]['from']['name'].capitalize()+'</div>';
                     bigCardHtml += '<i class="fa fa-facebook social-icon-gap"></i></div>';
+                    bigCardHtml += '<div class="item-subtitle">';
+                    bigCardHtml += '<time class="timeago time-stamp" datetime="'+data[i]['created_at']+'"></time></div>';
                     /*if(data[i].hasOwnProperty('source'))
                     {
                         if(data[i]['source']['term_type'] == 'hashtag')
@@ -776,7 +791,9 @@
 
                     bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
                     bigCardHtml += '</div></div></div></a>';
+                    //var currentPos = $(document).scrollTop();
                     $('.custom-accordion').prepend(bigCardHtml);
+                    $('.page-content').scrollTop(currentPos);
                     break;
                 case 't':
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -803,7 +820,8 @@
                     bigCardHtml += '<div class="item-inner"><div class="item-title-row">';
                     bigCardHtml += '<div class="item-title">'+data[i]['user']['name'].capitalize()+'</div>';
                     bigCardHtml += '<i class="fa fa-twitter social-icon-gap"></i></div>';
-                    bigCardHtml += '<div class="item-subtitle">@'+data[i]['user']['screen_name']+'</div>';
+                    bigCardHtml += '<div class="item-subtitle">@'+data[i]['user']['screen_name'];
+                    bigCardHtml += '<time class="timeago time-stamp" datetime="'+data[i]['created_at']+'"></time></div>';
 
                     bigCardHtml += '</div></div></li></ul></div>';
 
@@ -864,13 +882,16 @@
 
                     bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
                     bigCardHtml += '</div></div></div></a>';
+                    //var currentPos = $(document).scrollTop();
                     $('.custom-accordion').prepend(bigCardHtml);
+                    $('.page-content').scrollTop(currentPos);
                     break;
             }
         }
+        $("time.timeago").timeago();
     }
     $(window).load(function(){
-        setTimeout(fetchNewFeeds,2*60*1000);
+        setInterval(fetchNewFeeds,10*60*1000);
     });
 
 </script>

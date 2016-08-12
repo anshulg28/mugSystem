@@ -168,3 +168,48 @@ if (!function_exists('highlight'))
         }
     }
 }
+
+if (!function_exists('getTimeLapsed'))
+{
+    function getTimeLapsed($dateStr)
+    {
+        $dStart = strtotime($dateStr);
+        /*$dEnd = new DateTime();
+        $dDiff = $dStart->diff($dEnd);*/
+
+        $diff = time() - $dStart;
+
+        if ($diff <= 0) {
+            return 'Now';
+        }
+        else if ($diff < 60) {
+            return grammar_date(floor($diff), ' second(s) ago');
+        }
+        else if ($diff < 60*60) {
+            return grammar_date(floor($diff/60), ' minute(s) ago');
+        }
+        else if ($diff < 60*60*24) {
+            return grammar_date(floor($diff/(60*60)), ' hour(s) ago');
+        }
+        else if ($diff < 60*60*24*30) {
+            return grammar_date(floor($diff/(60*60*24)), ' day(s) ago');
+        }
+        else if ($diff < 60*60*24*30*12) {
+            return grammar_date(floor($diff/(60*60*24*30)), ' month(s) ago');
+        }
+        else {
+            return grammar_date(floor($diff/(60*60*24*30*12)), ' year(s) ago');
+        }
+    }
+}
+
+if (!function_exists('grammar_date'))
+{
+    function grammar_date($val, $sentence) {
+        if ($val > 1) {
+            return $val.str_replace('(s)', 's', $sentence);
+        } else {
+            return $val.str_replace('(s)', '', $sentence);
+        }
+    }
+}
