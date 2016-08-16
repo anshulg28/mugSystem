@@ -15,7 +15,52 @@
 <!-- Left panel with reveal effect-->
 <div class="panel panel-left panel-cover">
     <div class="content-block">
-        <p>Left panel content goes here</p>
+        <ul class="demo-list-icon mdl-list">
+            <li class="mdl-list__item">
+                <a href="#">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">location_on</i>
+                        <select class="my-select">
+                            <option value="andheri" selected>Andheri Taproom</option>
+                            <option value="bandra">Bandra Taproom</option>
+                            <option value="kemps">Kemps Temproom</option>
+                        </select>
+                    </span>
+                </a>
+            </li>
+            <li class="mdl-list__item">
+                <a href="#">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="ic_mug_icon mdl-list__item-icon"></i>
+                        Mug Club
+                    </span>
+                </a>
+            </li>
+            <li class="mdl-list__item">
+                <a href="#">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">music_note</i>
+                        Music
+                    </span>
+                </a>
+            </li>
+            <li class="mdl-list__item">
+                <a href="#">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">insert_invitation</i>
+                        My Events
+                    </span>
+                </a>
+            </li>
+            <li class="mdl-list__item">
+                <a href="#">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">settings</i>
+                        Settings
+                    </span>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 <!-- Views -->
@@ -29,13 +74,13 @@
                 <div class="left">
                     <a href="#" class="link icon-only open-panel main-menu-icon">
                         <i class="fa fa-bars color-black"></i>
-                        <span class="d-logo"></span>
+                        <!--<span class="d-logo"></span>-->
                         <!--<span class="bottom-bar-line"></span>-->
                         <!--<i class="fa fa-minus"></i>
                         <i class="fa fa-minus"></i>-->
                     </a>
                 </div>
-                <!--<div class="center sliding">Awesome App</div>-->
+                <div class="center sliding">Events</div>
             </div>
         </div>
 
@@ -44,7 +89,7 @@
             <!-- Page, "data-page" contains page name -->
             <div class="page" data-page="comming-up">
                 <!-- Scrollable page content -->
-                <div class="page-content pull-to-refresh-content" data-ptr-distance="55" id="my-page1">
+                <div class="page-content" id="my-page1">
                     <div class="pull-to-refresh-layer">
                         <div class="preloader"></div>
                         <div class="pull-to-refresh-arrow"></div>
@@ -66,12 +111,11 @@
                     <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
                     <a href="#" class="link icon-only open-panel ripple main-menu-icon">
                         <i class="fa fa-bars color-black"></i>
-                        <span class="d-logo"></span>
                         <!--<i class="fa fa-minus"></i>
                         <i class="fa fa-minus"></i>-->
                     </a>
                 </div>
-                <!--<div class="center sliding">Awesome App</div>-->
+                <div class="center sliding">Doolally</div>
             </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -79,7 +123,11 @@
             <!-- Page, "data-page" contains page name -->
             <div data-page="main-feeds" class="page">
                 <!-- Scrollable page content -->
-                <div class="page-content infinite-scroll" id="my-page2">
+                <div class="page-content hide-navbar-on-scroll infinite-scroll pull-to-refresh-content" data-ptr-distance="55" id="my-page2">
+                    <div class="pull-to-refresh-layer">
+                        <div class="preloader"></div>
+                        <div class="pull-to-refresh-arrow"></div>
+                    </div>
                     <div class="content-block custom-accordion">
                         <?php
                             if(isset($myFeeds) && myIsArray($myFeeds))
@@ -107,7 +155,22 @@
                                                                         <ul>
                                                                             <li>
                                                                                 <div class="item-content">
-                                                                                    <div class="item-media"><img class="myAvtar-list lazy" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/></div>
+                                                                                    <div class="item-media">
+                                                                                        <?php
+                                                                                            if($postlimit >= 10)
+                                                                                            {
+                                                                                                ?>
+                                                                                                <img class="myAvtar-list lazy" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
+                                                                                                <?php
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                ?>
+                                                                                                <img class="myAvtar-list" src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
+                                                                                                <?php
+                                                                                            }
+                                                                                        ?>
+                                                                                    </div>
                                                                                     <div class="item-inner">
                                                                                         <div class="item-title-row">
                                                                                             <div class="item-title"><?php echo ucfirst($row['user']['name']);?></div>
@@ -173,7 +236,20 @@
                                                                                 {
                                                                                     ?>
                                                                                     <div class="col-100">
-                                                                                        <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                        <?php
+                                                                                        if($postlimit >= 10)
+                                                                                        {
+                                                                                            ?>
+                                                                                            <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                            <?php
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            ?>
+                                                                                            <img src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
+                                                                                            <?php
+                                                                                        }
+                                                                                        ?>
                                                                                     </div>
                                                                                     <?php
                                                                                 }
@@ -223,7 +299,22 @@
                                                                         <ul>
                                                                             <li>
                                                                                 <div class="item-content">
-                                                                                    <div class="item-media"><img class="myAvtar-list lazy" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/></div>
+                                                                                    <div class="item-media">
+                                                                                        <?php
+                                                                                        if($postlimit >= 10)
+                                                                                        {
+                                                                                            ?>
+                                                                                            <img class="myAvtar-list lazy" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
+                                                                                            <?php
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            ?>
+                                                                                            <img class="myAvtar-list" src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
+                                                                                            <?php
+                                                                                        }
+                                                                                        ?>
+                                                                                    </div>
                                                                                     <div class="item-inner">
                                                                                         <div class="item-title-row">
                                                                                             <div class="item-title"><?php echo ucfirst($row['from']['name']);?></div>
@@ -243,7 +334,7 @@
                                                                         if(strpos($row['source'],"youtube") !== false || strpos($row['source'],"youtu.be") !== false)
                                                                         {
                                                                             ?>
-                                                                            <div class="row no-gutter feed-image-container">
+                                                                            <div class="row no-gutter feed-image-container" onclick="preventAct(event)">
                                                                                 <div class="col-100">
                                                                                     <iframe width="100%" src="<?php echo $row['source'];?>" frameborder="0" allowfullscreen>
                                                                                     </iframe>
@@ -254,7 +345,7 @@
                                                                         else
                                                                         {
                                                                             ?>
-                                                                            <div class="row no-gutter feed-image-container">
+                                                                            <div class="row no-gutter feed-image-container" onclick="preventAct(event)">
                                                                                 <div class="col-100">
                                                                                     <video width="100%" controls>
                                                                                         <source src="<?php echo $row['source'];?>" >
@@ -270,7 +361,20 @@
                                                                         ?>
                                                                         <div class="row no-gutter feed-image-container">
                                                                             <div class="col-100">
-                                                                                <img data-src="<?php echo $row['picture'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                <?php
+                                                                                if($postlimit >= 10)
+                                                                                {
+                                                                                    ?>
+                                                                                    <img data-src="<?php echo $row['picture'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                    <?php
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    ?>
+                                                                                    <img src="<?php echo $row['picture'];?>" class="mainFeed-img"/>
+                                                                                    <?php
+                                                                                }
+                                                                                ?>
                                                                             </div>
                                                                         </div>
                                                                         <?php
@@ -316,7 +420,22 @@
                                                                         <ul>
                                                                             <li>
                                                                                 <div class="item-content">
-                                                                                    <div class="item-media"><img class="myAvtar-list lazy" data-src="<?php echo $row['poster_image'];?>" width="44"/></div>
+                                                                                    <div class="item-media">
+                                                                                        <?php
+                                                                                        if($postlimit >= 10)
+                                                                                        {
+                                                                                            ?>
+                                                                                            <img class="myAvtar-list lazy" data-src="<?php echo $row['poster_image'];?>" width="44"/>
+                                                                                            <?php
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            ?>
+                                                                                            <img class="myAvtar-list" src="<?php echo $row['poster_image'];?>" width="44"/>
+                                                                                            <?php
+                                                                                        }
+                                                                                        ?>
+                                                                                    </div>
                                                                                     <div class="item-inner">
                                                                                         <div class="item-title-row">
                                                                                             <div class="item-title"><?php echo ucfirst($row['poster_name']);?></div>
@@ -381,7 +500,20 @@
                                                                         ?>
                                                                         <div class="row no-gutter feed-image-container">
                                                                             <div class="col-100">
-                                                                                <img data-src="<?php echo $row['image'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                <?php
+                                                                                if($postlimit >= 10)
+                                                                                {
+                                                                                    ?>
+                                                                                    <img data-src="<?php echo $row['image'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                    <?php
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    ?>
+                                                                                    <img src="<?php echo $row['image'];?>" class="mainFeed-img"/>
+                                                                                    <?php
+                                                                                }
+                                                                                ?>
                                                                             </div>
                                                                         </div>
                                                                         <?php
@@ -443,12 +575,12 @@
                     <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
                     <a href="#" class="link icon-only open-panel main-menu-icon">
                         <i class="fa fa-bars color-black"></i>
-                        <span class="d-logo"></span>
+                        <!--<span class="d-logo"></span>-->
                         <!--<i class="fa fa-minus"></i>
                         <i class="fa fa-minus"></i>-->
                     </a>
                 </div>
-                <!--<div class="center sliding">Awesome App</div>-->
+                <div class="center sliding">F & B</div>
             </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -471,7 +603,10 @@
                 <span class="tabbar-label">Events</span>
             </a>
             <a href="#tab2" class="tab-link active">
-                <i class="fa fa-hashtag"></i>
+                <!--<i class="fa fa-hashtag"></i>-->
+                <i class="icon d-logo">
+                    <span class="badge feed-notifier hide"></span>
+                </i>
                 <span class="tabbar-label">#Doolally</span>
             </a>
             <a href="#tab3" class="tab-link">
@@ -535,7 +670,7 @@
 <?php echo $iosJs; ?>
 
 <script>
-    var mainFeeds;
+    var mainFeeds = '';
     //previous data
     <?php
         if(isset($myFeeds) && myIsArray($myFeeds))
@@ -544,17 +679,17 @@
             {
                 case 'i':
                     ?>
-                    mainFeeds = <?php echo $myFeeds[0]['id'];?>
+                    mainFeeds = '<?php echo $myFeeds[0]['id'];?>';
                     <?php
                     break;
                 case 'f':
                     ?>
-                    mainFeeds = <?php echo $myFeeds[0]['id'];?>
+                    mainFeeds = '<?php echo $myFeeds[0]['id'];?>';
                     <?php
                     break;
                 case 't':
                     ?>
-                    mainFeeds = <?php echo $myFeeds[0]['id_str'];?>
+                    mainFeeds = '<?php echo $myFeeds[0]['id_str'];?>';
                     <?php
                     break;
             }
@@ -629,12 +764,19 @@
     }
     function addCards(data)
     {
-        console.log('in addcards');
+        var ifUpdate = false;
+        var totalNew = 0;
+        var oldHeight = $('.custom-accordion').height();
         for(var i=0;i<data.length;i++)
         {
             switch(data[i]['socialType'])
             {
                 case 'i':
+                    if(ifUpdate == false)
+                    {
+                        ifUpdate = true;
+                        mainFeeds = data[i]['id'];
+                    }
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
                     var backupLink = urlRegex.exec(data[i]['unformatted_message']);
                     var truncated_RestaurantName ='';
@@ -651,7 +793,7 @@
                         truncated_RestaurantName = data[i]['unformatted_message'];
                     }
                     var bigCardHtml = '';
-                    bigCardHtml += '<a href="'+data[i]['full_url']+'" target="_blank" class="external instagram-wrapper">';
+                    bigCardHtml += '<a href="'+data[i]['full_url']+'" target="_blank" class="external instagram-wrapper new-post-wrapper hide">';
                     bigCardHtml += '<div class="my-card-items"><div class="card demo-card-header-pic">';
                     bigCardHtml += '<div class="card-content"><div class="card-content-inner">';
                     bigCardHtml += '<div class="list-block media-list"><ul><li><div class="item-content">';
@@ -711,11 +853,17 @@
 
                     bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
                     bigCardHtml += '</div></div></div></a>';
-                    //var currentPos = $(document).scrollTop();
+
                     $('.custom-accordion').prepend(bigCardHtml);
-                    $('.page-content').scrollTop(currentPos);
+
+                    totalNew++;
                     break;
                 case 'f':
+                    if(ifUpdate == false)
+                    {
+                        ifUpdate = true;
+                        mainFeeds = data[i]['id'];
+                    }
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
                     var backupLink = urlRegex.exec(data[i]['message']);
                     var truncated_RestaurantName ='';
@@ -732,7 +880,7 @@
                         truncated_RestaurantName = data[i]['message'];
                     }
                     var bigCardHtml = '';
-                    bigCardHtml += '<a href="'+data[i]['permalink_url']+'" target="_blank" class="external facebook-wrapper">';
+                    bigCardHtml += '<a href="'+data[i]['permalink_url']+'" target="_blank" class="external facebook-wrapper new-post-wrapper hide">';
                     bigCardHtml += '<div class="my-card-items"><div class="card demo-card-header-pic">';
                     bigCardHtml += '<div class="card-content"><div class="card-content-inner">';
                     bigCardHtml += '<div class="list-block media-list"><ul><li><div class="item-content">';
@@ -791,11 +939,19 @@
 
                     bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
                     bigCardHtml += '</div></div></div></a>';
-                    //var currentPos = $(document).scrollTop();
+                    /*var oldHeight = $('.custom-accordion').height();
                     $('.custom-accordion').prepend(bigCardHtml);
-                    $('.page-content').scrollTop(currentPos);
+                    var total = currentPos+($('.custom-accordion').height()- oldHeight);
+                    $('.page-content').scrollTop(total);*/
+                    $('.custom-accordion').prepend(bigCardHtml);
+                    totalNew++;
                     break;
                 case 't':
+                    if(ifUpdate == false)
+                    {
+                        ifUpdate = true;
+                        mainFeeds = data[i]['id_str'];
+                    }
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
                     //var httpPattern = "!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!";
                     var truncated_RestaurantName ='';
@@ -812,7 +968,7 @@
                         truncated_RestaurantName = data[i]['text'];
                     }
                     var bigCardHtml = '';
-                    bigCardHtml += '<a href="https://twitter.com/'+data[i]['user']['screen_name']+'/status/'+data[i]['id_str']+'" target="_blank" class="external twitter-wrapper">';
+                    bigCardHtml += '<a href="https://twitter.com/'+data[i]['user']['screen_name']+'/status/'+data[i]['id_str']+'" target="_blank" class="external twitter-wrapper new-post-wrapper hide">';
                     bigCardHtml += '<div class="my-card-items"><div class="card demo-card-header-pic">';
                     bigCardHtml += '<div class="card-content"><div class="card-content-inner">';
                     bigCardHtml += '<div class="list-block media-list"><ul><li><div class="item-content">';
@@ -882,18 +1038,45 @@
 
                     bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
                     bigCardHtml += '</div></div></div></a>';
-                    //var currentPos = $(document).scrollTop();
                     $('.custom-accordion').prepend(bigCardHtml);
-                    $('.page-content').scrollTop(currentPos);
+                    /*var oldHeight = $('.custom-accordion').height();
+                    $('.custom-accordion').prepend(bigCardHtml);
+                    var total = currentPos+($('.custom-accordion').height()- oldHeight);
+                    $('.page-content').scrollTop(total);*/
+                    totalNew++;
                     break;
+            }
+        }
+
+        $('.new-post-wrapper').removeClass('hide').removeClass('new-post-wrapper');
+        var total = currentPos+($('.custom-accordion').height()- oldHeight);
+        $('.page-content').animate({
+            scrollTop: total
+        },100);
+
+        $('.feed-notifier').html(totalNew).removeClass('hide');
+        if(currentPos <=20)
+        {
+            if(!$('.feed-notifier').hasClass('hide'))
+            {
+                $('.feed-notifier').addClass('hide');
             }
         }
         $("time.timeago").timeago();
     }
     $(window).load(function(){
-        setInterval(fetchNewFeeds,10*60*1000);
+        setInterval(fetchNewFeeds,5*60*1000);
     });
 
+    var ptrContent = $$('.pull-to-refresh-content');
+    ptrContent.on('refresh', function (e) {
+        fetchNewFeeds();
+        // Emulate 2s loading
+        setTimeout(function () {
+            // When loading done, we need to reset it
+            myApp.pullToRefreshDone();
+        }, 2000);
+    });
 </script>
 
 </html>
