@@ -19,12 +19,14 @@
             <li class="mdl-list__item">
                 <a href="#">
                     <span class="mdl-list__item-primary-content">
-                        <i class="material-icons mdl-list__item-icon">location_on</i>
-                        <select class="my-select">
+                        <i class="fa fa-map-marker mdl-list__item-icon"></i>
+                        <!--<i class="material-icons ">location_on</i>-->
+                        <input type="text" class="my-select" placeholder="Select Taproom" readonly id="picker-device">
+                        <!--<select class="my-select">
                             <option value="andheri" selected>Andheri Taproom</option>
                             <option value="bandra">Bandra Taproom</option>
                             <option value="kemps">Kemps Temproom</option>
-                        </select>
+                        </select>-->
                     </span>
                 </a>
             </li>
@@ -39,7 +41,8 @@
             <li class="mdl-list__item">
                 <a href="#">
                     <span class="mdl-list__item-primary-content">
-                        <i class="material-icons mdl-list__item-icon">music_note</i>
+                        <i class="fa fa-music mdl-list__item-icon"></i>
+                        <!--<i class="material-icons mdl-list__item-icon">music_note</i>-->
                         Music
                     </span>
                 </a>
@@ -47,7 +50,8 @@
             <li class="mdl-list__item">
                 <a href="#">
                     <span class="mdl-list__item-primary-content">
-                        <i class="material-icons mdl-list__item-icon">insert_invitation</i>
+                        <i class="fa fa-calendar mdl-list__item-icon"></i>
+                        <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
                         My Events
                     </span>
                 </a>
@@ -55,7 +59,8 @@
             <li class="mdl-list__item">
                 <a href="#">
                     <span class="mdl-list__item-primary-content">
-                        <i class="material-icons mdl-list__item-icon">settings</i>
+                        <i class="fa fa-cog mdl-list__item-icon"></i>
+                        <!--<i class="material-icons mdl-list__item-icon">settings</i>-->
                         Settings
                     </span>
                 </a>

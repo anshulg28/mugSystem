@@ -78,19 +78,41 @@ class Cron extends MY_Controller
     {
         $twitterFeeds = '';
         $this->twitter->tmhOAuth->reconfigure();
-        $parmas = array(
+        $oldparmas = array(
             'count' => '61',
             'exclude_replies' => 'true',
-            'screen_name' => 'Apple_Coder'
+            'screen_name' => 'godoolally'
         );
-        $responseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/statuses/user_timeline.json',$parmas);
+        $parmas = array(
+            'count' => '61',
+            'q' => '#doolally OR doolally OR @godoolally',
+            'geocode' => '19.0759837,72.87765590000004,6km',
+            'lang' => 'en',
+            'result_type' => 'recent'
+        );
+        //$responseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/statuses/user_timeline.json',$parmas);
+        $responseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/search/tweets.json',$parmas);
         if($responseCode == 200)
         {
             $twitterFeeds = $this->twitter->tmhOAuth->response['response'];
+            $oldresponseCode = $this->twitter->tmhOAuth->request('GET','https://api.twitter.com/1.1/statuses/user_timeline.json',$oldparmas);
+
+            if($oldresponseCode == 200)
+            {
+                $oldTwitterFeeds = $this->twitter->tmhOAuth->response['response'];
+                $oldTwitterFeeds = json_decode($oldTwitterFeeds,true);
+            }
         }
         $twitterFeeds = json_decode($twitterFeeds,true);
 
-        return $twitterFeeds;
+        if(isset($oldTwitterFeeds) && myIsMultiArray($oldTwitterFeeds))
+        {
+            return array_merge($twitterFeeds['statuses'], $oldTwitterFeeds);
+        }
+        else
+        {
+            return $twitterFeeds['statuses'];
+        }
     }
     public function getInstagramFeeds()
     {
