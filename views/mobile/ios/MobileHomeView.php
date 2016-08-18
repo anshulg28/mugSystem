@@ -128,7 +128,7 @@
             <!-- Page, "data-page" contains page name -->
             <div data-page="main-feeds" class="page">
                 <!-- Scrollable page content -->
-                <div class="page-content hide-navbar-on-scroll infinite-scroll pull-to-refresh-content" data-ptr-distance="55" id="my-page2">
+                <div class="page-content infinite-scroll pull-to-refresh-content" data-ptr-distance="55" id="my-page2">
                     <div class="pull-to-refresh-layer">
                         <div class="preloader"></div>
                         <div class="pull-to-refresh-arrow"></div>

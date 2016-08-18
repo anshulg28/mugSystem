@@ -24,23 +24,8 @@
     var welcomescreen_slides = [
         {
             id: 'slide0',
-            picture: '<div class="tutorialicon"><img src="<?php echo base_url();?>asset/images/mainImg.jpg"/><div class="windows8">'+
-                        '<div class="wBall" id="wBall_1">'+
-                                '<div class="wInnerBall"></div>'+
-                             '</div>'+
-                        '<div class="wBall" id="wBall_2">'+
-                            '<div class="wInnerBall"></div>'+
-                        '</div>'+
-                        '<div class="wBall" id="wBall_3">'+
-                            '<div class="wInnerBall"></div>'+
-                        '</div>'+
-                        '<div class="wBall" id="wBall_4">'+
-                            '<div class="wInnerBall"></div>'+
-                        '</div>'+
-                        '<div class="wBall" id="wBall_5">'+
-                            '<div class="wInnerBall"></div>'+
-                        '</div>'+
-                        '</div></div>'
+            picture: '<div class="tutorialicon"><img src="<?php echo base_url();?>asset/images/splashLogo.png"/>'+
+            '<span class="load-txt">Loading</span><div class="progress-bar"></div></div>'
         }
     ];
     var options = {
@@ -49,4 +34,21 @@
         closeButton:false,
         pagination:false
     };
+   /* <div class="windows8">'+
+    '<div class="wBall" id="wBall_1">'+
+    '<div class="wInnerBall"></div>'+
+    '</div>'+
+    '<div class="wBall" id="wBall_2">'+
+    '<div class="wInnerBall"></div>'+
+    '</div>'+
+    '<div class="wBall" id="wBall_3">'+
+    '<div class="wInnerBall"></div>'+
+    '</div>'+
+    '<div class="wBall" id="wBall_4">'+
+    '<div class="wInnerBall"></div>'+
+    '</div>'+
+    '<div class="wBall" id="wBall_5">'+
+    '<div class="wInnerBall"></div>'+
+    '</div>'+
+    '</div>*/
 </script>

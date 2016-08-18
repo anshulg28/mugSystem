@@ -86,7 +86,7 @@ class Cron extends MY_Controller
         $parmas = array(
             'count' => '61',
             'q' => '#doolally OR doolally OR @godoolally',
-            'geocode' => '19.0759837,72.87765590000004,6km',
+            'geocode' => '20.1885251,64.446117,1000km',
             'lang' => 'en',
             'result_type' => 'recent'
         );
