@@ -25,7 +25,7 @@
         {
             id: 'slide0',
             picture: '<div class="tutorialicon"><img src="<?php echo base_url();?>asset/images/splashLogo.png"/>'+
-            '<span class="load-txt">Loading</span><div class="progress-bar"></div></div>'
+            '<span class="load-txt">Loading</span><div class="progress-bar"><div class="progressbar-infinite"></div></div></div>'
         }
     ];
     var options = {

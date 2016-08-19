@@ -727,6 +727,10 @@
             url: '<?php echo  base_url();?>mobile/main/returnAllFeeds/json',
             success: function(data)
             {
+                if(mainFeeds == '' && typeof mainFeeds == 'undefined')
+                {
+                    return false;
+                }
                 var newFeeds = [];
                 for(var i=0;i<data.length;i++)
                 {
@@ -757,9 +761,11 @@
                     addCards(newFeeds);
                 }
             },
-            error: function()
-            {
+            error: function(xhr) {
                 console.log('error');
+                /*
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);*/
             }
         });
     }
@@ -772,7 +778,7 @@
         var ifUpdate = false;
         var totalNew = 0;
         var oldHeight = $('.custom-accordion').height();
-        for(var i=0;i<data.length;i++)
+        for(var i=data.length-1;i>=0;i--)
         {
             switch(data[i]['socialType'])
             {
@@ -780,7 +786,7 @@
                     if(ifUpdate == false)
                     {
                         ifUpdate = true;
-                        mainFeeds = data[i]['id'];
+                        mainFeeds = data[0]['id'];
                     }
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
                     var backupLink = urlRegex.exec(data[i]['unformatted_message']);
@@ -867,7 +873,7 @@
                     if(ifUpdate == false)
                     {
                         ifUpdate = true;
-                        mainFeeds = data[i]['id'];
+                        mainFeeds = data[0]['id'];
                     }
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
                     var backupLink = urlRegex.exec(data[i]['message']);
@@ -955,7 +961,7 @@
                     if(ifUpdate == false)
                     {
                         ifUpdate = true;
-                        mainFeeds = data[i]['id_str'];
+                        mainFeeds = data[0]['id_str'];
                     }
                     var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
                     //var httpPattern = "!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!";
@@ -1069,7 +1075,7 @@
         }
         $("time.timeago").timeago();
     }
-    $(window).load(function(){
+    $$(window).on('load', function(e){
         setInterval(fetchNewFeeds,5*60*1000);
     });
 
