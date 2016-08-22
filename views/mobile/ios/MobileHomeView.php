@@ -162,10 +162,10 @@
                                                                                 <div class="item-content">
                                                                                     <div class="item-media">
                                                                                         <?php
-                                                                                            if($postlimit >= 10)
+                                                                                            if($postlimit > 10)
                                                                                             {
                                                                                                 ?>
-                                                                                                <img class="myAvtar-list lazy" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
+                                                                                                <img class="myAvtar-list" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
                                                                                                 <?php
                                                                                             }
                                                                                             else
@@ -242,10 +242,10 @@
                                                                                     ?>
                                                                                     <div class="col-100">
                                                                                         <?php
-                                                                                        if($postlimit >= 10)
+                                                                                        if($postlimit > 10)
                                                                                         {
                                                                                             ?>
-                                                                                            <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                            <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
@@ -306,10 +306,10 @@
                                                                                 <div class="item-content">
                                                                                     <div class="item-media">
                                                                                         <?php
-                                                                                        if($postlimit >= 10)
+                                                                                        if($postlimit > 10)
                                                                                         {
                                                                                             ?>
-                                                                                            <img class="myAvtar-list lazy" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
+                                                                                            <img class="myAvtar-list" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
@@ -367,10 +367,10 @@
                                                                         <div class="row no-gutter feed-image-container">
                                                                             <div class="col-100">
                                                                                 <?php
-                                                                                if($postlimit >= 10)
+                                                                                if($postlimit > 10)
                                                                                 {
                                                                                     ?>
-                                                                                    <img data-src="<?php echo $row['picture'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                    <img data-src="<?php echo $row['picture'];?>" class="mainFeed-img"/>
                                                                                     <?php
                                                                                 }
                                                                                 else
@@ -427,10 +427,10 @@
                                                                                 <div class="item-content">
                                                                                     <div class="item-media">
                                                                                         <?php
-                                                                                        if($postlimit >= 10)
+                                                                                        if($postlimit > 10)
                                                                                         {
                                                                                             ?>
-                                                                                            <img class="myAvtar-list lazy" data-src="<?php echo $row['poster_image'];?>" width="44"/>
+                                                                                            <img class="myAvtar-list" data-src="<?php echo $row['poster_image'];?>" width="44"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
@@ -506,10 +506,10 @@
                                                                         <div class="row no-gutter feed-image-container">
                                                                             <div class="col-100">
                                                                                 <?php
-                                                                                if($postlimit >= 10)
+                                                                                if($postlimit > 10)
                                                                                 {
                                                                                     ?>
-                                                                                    <img data-src="<?php echo $row['image'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                                    <img data-src="<?php echo $row['image'];?>" class="mainFeed-img"/>
                                                                                     <?php
                                                                                 }
                                                                                 else

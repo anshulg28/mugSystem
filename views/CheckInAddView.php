@@ -251,7 +251,8 @@
                             <div class="form-group my-marginLR-zero hide" id="missingBdate">
                                 <div class="col-sm-1 col-xs-0"></div>
                                 <div class="col-sm-10 col-xs-12">
-                                    <input onfocus="(this.type='date')" onblur="(this.type='text')" type="text" name="birthdate"
+                                    <label for="birth_date">Birthdate :</label>
+                                    <input id="birth_date" type="date" name="birthdate"
                                            class="form-control" placeholder="Birth Date">
                                 </div>
                                 <div class="col-sm-1 col-xs-0"></div>

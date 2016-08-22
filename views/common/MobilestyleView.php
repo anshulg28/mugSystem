@@ -2,7 +2,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" sizes="76x76" href="<?php echo base_url();?>asset/images/doolally-d.png"/>
-<link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url();?>asset/images/doolally-d.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="<?php echo base_url();?>asset/images/apple-icon-114x114.png"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/framework7.upscroller.min.css">
