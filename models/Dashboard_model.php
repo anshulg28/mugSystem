@@ -318,4 +318,21 @@ class Dashboard_Model extends CI_Model
         $this->db->insert_batch('usersfeedbackmaster', $details);
         return true;
     }
+
+    public function saveFnbRecord($details)
+    {
+        $details['updateDateTime'] = date('Y-m-d H:i:s');
+        $details['insertedDateTime'] = date('Y-m-d H:i:s');
+
+        $this->db->insert('fnbmaster', $details);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+    public function saveFnbAttachment($details)
+    {
+        $details['insertedDateTime'] = date('Y-m-d H:i:s');
+
+        $this->db->insert('fnbattachment', $details);
+        return true;
+    }
 }

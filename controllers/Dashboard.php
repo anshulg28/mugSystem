@@ -19,6 +19,8 @@ class Dashboard extends MY_Controller {
         $this->load->model('mugclub_model');
         $this->load->model('users_model');
         $this->load->model('locations_model');
+        ini_set('memory_limit', "256M");
+        ini_set('upload_max_filesize', "50M");
     }
 
     public function index()
@@ -272,5 +274,89 @@ class Dashboard extends MY_Controller {
             redirect(base_url().'dashboard');
         }
 
+    }
+
+    public function savefnb()
+    {
+        $post = $this->input->post();
+
+        $details = array(
+            'itemType'=> $post['itemType'],
+            'itemName' => $post['itemName'],
+            'itemDescription' => $post['itemDescription'],
+            'priceFull' => $post['priceFull'],
+            'priceHalf' => $post['priceHalf'],
+            'insertedBy' => $this->userId
+        );
+        $fnbId = $this->dashboard_model->saveFnbRecord($details);
+
+        $img_names = explode(',',$post['attachment']);
+        foreach($img_names as $key)
+        {
+            $attArr = array(
+                'fnbId' => $fnbId,
+                'filename'=> $key,
+                'attachmentType' => $post['attType']
+            );
+            $this->dashboard_model->saveFnbAttachment($attArr);
+        }
+
+        redirect(base_url().'dashboard');
+
+    }
+    public function uploadFiles()
+    {
+        $attchmentArr = '';
+        $this->load->library('upload');
+        if(isset($_FILES))
+        {
+            if($_FILES['attachment']['error'] != 1)
+            {
+                $config = array();
+                $config['upload_path'] = './uploads/food/';
+                if(isset($_POST['itemType']) && $_POST['itemType'] == '3')
+                {
+                    $config['upload_path'] = './uploads/beverage/';
+                }
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']      = '0';
+                $config['overwrite']     = TRUE;
+
+                $this->upload->initialize($config);
+                $this->upload->do_upload('attachment');
+                $upload_data = $this->upload->data();
+
+                //$attchmentArr = $upload_data['full_path'];
+                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name']);
+                echo $attchmentArr;
+            }
+            else
+            {
+                echo 'Some Error Occurred!';
+            }
+        }
+    }
+    function image_thumb( $image_path, $img_name )
+    {
+        $image_thumb = $image_path.'thumb/'.$img_name;
+
+        if ( !file_exists( $image_thumb ) ) {
+            // LOAD LIBRARY
+            $this->load->library( 'image_lib' );
+
+            // CONFIGURE IMAGE LIBRARY
+            $config['image_library']    = 'gd2';
+            $config['source_image']     = $image_path.$img_name;
+            $config['new_image']        = $image_thumb;
+            $config['maintain_ratio']   = TRUE;
+            $config['quality']          = 80;
+            $config['height']           = 480;
+            $config['width']            = 690;
+            $this->image_lib->initialize( $config );
+            $this->image_lib->resize();
+            $this->image_lib->clear();
+        }
+
+        return $img_name;
     }
 }

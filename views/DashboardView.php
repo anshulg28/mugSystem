@@ -15,6 +15,7 @@
                 <li class="active"><a data-toggle="pill" class="my-noBorderRadius" href="#mugclub">Mug Club</a></li>
                 <li><a class="my-noBorderRadius" data-toggle="pill" href="#instamojo">Instamojo</a></li>
                 <li><a class="my-noBorderRadius" data-toggle="pill" href="#feedback">Feedback</a></li>
+                <li><a class="my-noBorderRadius" data-toggle="pill" href="#fnbpanel">FnB Data</a></li>
             </ul>
             <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
                 <a href="#mugclub" class="mdl-layout__tab">Mug Club</a><br>
@@ -83,13 +84,13 @@
                                     </li>
                                     <li>
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label custom-filter">
-                                            <input class="mdl-textfield__input" type="date" name="startDate" id="startDate" placeholder="">
+                                            <input class="mdl-textfield__input" type="text" name="startDate" id="startDate" placeholder="">
                                             <label class="mdl-textfield__label" for="startDate">Start Date</label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label custom-filter">
-                                            <input class="mdl-textfield__input" type="date" name="endDate" id="endDate" placeholder="">
+                                            <input class="mdl-textfield__input" type="text" name="endDate" id="endDate" placeholder="">
                                             <label class="mdl-textfield__label" for="endDate">End Date</label>
                                         </div>
                                     </li>
@@ -455,6 +456,85 @@
                     </div>
                 </div>
             </section>
+            <section class="tab-pane fade" id="fnbpanel">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--2-col"></div>
+                    <div class="mdl-cell mdl-cell--8-col text-center">
+                        <form action="<?php echo base_url();?>dashboard/savefnb" method="post" enctype="multipart/form-data">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                <input class="mdl-textfield__input" type="text" name="itemName" id="itemName">
+                                <label class="mdl-textfield__label" for="itemName">Name</label>
+                            </div>
+                            <br>
+                            <div class="text-left">
+                                <label>Item Type :</label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemFood">
+                                    <input type="radio" id="itemFood" class="mdl-radio__button" name="itemType" value="1" checked>
+                                    <span class="mdl-radio__label">Veg</span>
+                                </label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemNFood">
+                                    <input type="radio" id="itemNFood" class="mdl-radio__button" name="itemType" value="2">
+                                    <span class="mdl-radio__label">Non-Veg</span>
+                                </label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemBeverage">
+                                    <input type="radio" id="itemBeverage" class="mdl-radio__button" name="itemType" value="3">
+                                    <span class="mdl-radio__label">Beverage</span>
+                                </label>
+                            </div>
+                            <br>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                <textarea class="mdl-textfield__input" type="text" name="itemDescription" rows="5" id="itemDesc"></textarea>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                <input class="mdl-textfield__input" type="text" name="priceFull" pattern="-?[0-9]*(\.[0-9]+)?" id="itemPriceF">
+                                <label class="mdl-textfield__label" for="itemPriceF">Price (Full)</label>
+                                <span class="mdl-textfield__error">Input is not a number!</span>
+                            </div>
+                            <br>
+                            <div class="text-left">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="priceHalf">
+                                    <input type="checkbox" id="priceHalf" class="mdl-checkbox__input" onchange="toggleHalf(this)">
+                                    <span class="mdl-checkbox__label">Half Price?</span>
+                                </label>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label priceHalfCls hide my-fullWidth">
+                                    <input class="mdl-textfield__input" type="text" name="priceHalf" pattern="-?[0-9]*(\.[0-9]+)?" id="itemPriceH">
+                                    <label class="mdl-textfield__label" for="itemPriceH">Price (Half)</label>
+                                    <span class="mdl-textfield__error">Input is not a number!</span>
+                                </div>
+                            </div>
+
+                            <div class="text-left">
+                                <input type="file" multiple class="form-control" id="itemAttachment" />
+                                <input type="hidden" name="attachment" />
+                            </div>
+                            <div class="text-left">
+                                <label>Attachment Type :</label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood">
+                                    <input type="radio" id="attFood" class="mdl-radio__button" name="attType" value="1" checked>
+                                    <span class="mdl-radio__label">Food</span>
+                                </label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeer">
+                                    <input type="radio" id="attBeer" class="mdl-radio__button" name="attType" value="2">
+                                    <span class="mdl-radio__label">Beer Digital</span>
+                                </label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW">
+                                    <input type="radio" id="attBeerW" class="mdl-radio__button" name="attType" value="3">
+                                    <span class="mdl-radio__label">Beer Woodcut</span>
+                                </label>
+                            </div>
+                            <br>
+                            <button onclick="fillImgs()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+                        </form>
+                        <br>
+                        <div class="progress hide">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--2-col"></div>
+                </div>
+            </section>
 
         </main>
     </div>
@@ -463,6 +543,12 @@
 </body>
 <?php echo $globalJs; ?>
 <script>
+    $('#startDate').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss'
+    });
+    $('#endDate').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss'
+    });
     var totalCheckins = {};
     var avgCheckins = {};
     var regulars = {};
@@ -1253,5 +1339,60 @@
         });
     }
 
+</script>
+
+<script>
+    CKEDITOR.replace( 'itemDesc' );
+    function toggleHalf(ele)
+    {
+        if($(ele).is(':checked'))
+        {
+            $('.priceHalfCls').removeClass('hide');
+        }
+        else
+        {
+            $('.priceHalfCls').addClass('hide');
+        }
+    }
+    var filesArr = [];
+    $(document).on('change','#itemAttachment', function(e){
+
+        $('button[type="submit"]').attr('disabled','true');
+        $('.progress').removeClass('hide');
+        var xhr = [];
+        var totalFiles = this.files.length;
+        for(var i=0;i<totalFiles;i++)
+        {
+            xhr[i] = new XMLHttpRequest();
+            (xhr[i].upload || xhr[i]).addEventListener('progress', function(e) {
+                var done = e.position || e.loaded;
+                var total = e.totalSize || e.total;
+                $('.progress-bar').css('width', Math.round(done/total*100)+'%').attr('aria-valuenow', Math.round(done/total*100)).html(parseInt(Math.round(done/total*100))+'%');
+            });
+            xhr[i].addEventListener('load', function(e) {
+                $('button[type="submit"]').removeAttr('disabled');
+            });
+            xhr[i].open('post', '<?php echo base_url();?>dashboard/uploadFiles', true);
+
+            var data = new FormData;
+            data.append('attachment', this.files[i]);
+            data.append('itemType',$('input[name="itemType"]:checked').val());
+            xhr[i].send(data);
+            xhr[i].onreadystatechange = function(e) {
+                if (e.srcElement.readyState == 4 && e.srcElement.status == 200) {
+                    if(e.srcElement.responseText == 'Some Error Occurred!')
+                    {
+                        bootbox.alert('File size Limit 30MB');
+                        return false;
+                    }
+                    filesArr.push(e.srcElement.responseText);
+                }
+            }
+        }
+    });
+    function fillImgs()
+    {
+        $('input[name="attachment"]').val(filesArr.join());
+    }
 </script>
 </html>
