@@ -16,7 +16,7 @@ class Mugclub_Model extends CI_Model
 
     public function getAllMugClubList()
     {
-        $query = "SELECT mugId,mugTag,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipStart, membershipEnd,notes "
+        $query = "SELECT mugId,mugTag,homeBase,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipStart, membershipEnd,notes "
             ."FROM mugmaster m "
             ."LEFT JOIN locationmaster l ON id = m.homeBase";
 

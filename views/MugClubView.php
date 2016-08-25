@@ -60,6 +60,9 @@
                             <a class="btn btn-primary" href="<?php echo base_url().'mugclub/add';?>">
                                 <i class="fa fa-plus"></i>
                                 Add New Mug</a>
+                            <a class="btn btn-primary" href="<?php echo base_url().'mugclub/check';?>">
+                                <i class="fa fa-beer"></i>
+                                Check Mug Number</a>
                             <!--<ul class="list-inline pagination-List">
                                 <li>
                                     <label class="control-label" for="pageEntry">Show</label>
@@ -151,6 +154,9 @@
                                                     }
                                                 }
                                                 ?>
+                                                <a data-toggle="tooltip" title="Transfer" href="#" class="mugTransfer"
+                                                   data-mugId="<?php echo $row['mugId'];?>" data-locId="<?php echo $row['homeBase'];?>">
+                                                    <i class="glyphicon glyphicon-transfer"></i></a>&nbsp;
                                             </td>
                                         </tr>
                                         <?php
@@ -170,6 +176,9 @@
                             <a class="btn btn-primary" href="<?php echo base_url().'mugclub/add';?>">
                                 <i class="fa fa-plus"></i>
                                 Add New Mug</a>
+                            <a class="btn btn-primary" href="<?php echo base_url().'mugclub/check';?>">
+                                <i class="fa fa-beer"></i>
+                                Check Mug Number</a>
                         </div>
                     </div>
                 </div>
@@ -178,6 +187,72 @@
         ?>
 
     </main>
+    <div id="transferModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Transfer Mug</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <form id="saveTransfer" action="<?php echo base_url().'mugclub/transfer';?>" method="post" role="form" class="form-horizontal">
+                            <input type="hidden" name="mugId" id="missingMugNum" />
+                            <div class="form-group my-marginLR-zero">
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <label>From: </label>
+                                    <label id="fromlbl"></label>
+                                    <input type="hidden" name="oldHomeBase"/>
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
+                            </div>
+                            <div class="form-group my-marginLR-zero">
+                                <div class="col-sm-1 col-xs-0"></div>
+                                <div class="col-sm-10 col-xs-12">
+                                    <div class="form-group">
+                                        <label>To :</label>
+                                        <ul class="list-inline">
+                                            <?php
+                                                if(myIsMultiArray($locArr))
+                                                {
+                                                    foreach($locArr as $key => $row)
+                                                    {
+                                                        if($row['id'] != '')
+                                                        {
+                                                            ?>
+                                                            <li>
+                                                                <label>
+                                                                    <input type="radio" name="homeBase"
+                                                                           value="<?php echo $row['id'];?>"/> <?php echo $row['locName'];?>
+                                                                </label>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-xs-0"></div>
+                            </div>
+                            <div class="form-group my-marginLR-zero">
+                                <div class="col-sm-12 col-xs-12 text-center">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <?php echo $globalJs; ?>
 
@@ -352,5 +427,51 @@
         }
     ?>
 
+</script>
+<script>
+    var locArr = [];
+    <?php
+        if(myIsMultiArray($locArr))
+        {
+            foreach($locArr as $key => $row)
+            {
+                if($row['id'] != '')
+                {
+                    ?>
+                    locArr[<?php echo $row['id'];?>] = '<?php echo $row['locName'];?>';
+                    <?php
+                }
+            }
+        }
+    ?>
+    $(document).on('click','.mugTransfer', function(){
+        var mugId = $(this).attr('data-mugId');
+        var locId = $(this).attr('data-locId');
+
+        $('#transferModal').find('#fromlbl').html(locArr[locId]);
+        $('#transferModal').find('input[name="oldHomeBase"]').val(locId);
+        $('#transferModal').find('#missingMugNum').val(mugId);
+        $('#transferModal').modal('show');
+    });
+    $(document).on('submit','#saveTransfer', function(e){
+        e.preventDefault();
+        $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:$(this).attr('action'),
+            data:$(this).serialize(),
+            success: function(data){
+                if(data.status === true)
+                {
+                    bootbox.alert('Mug Transferred Successfully!');
+                    $('#transferModal').modal('hide');
+                    window.location.reload();
+                }
+            },
+            error: function(){
+
+            }
+        });
+    });
 </script>
 </html>

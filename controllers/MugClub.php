@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Mugclub
  * @property mugclub_model $mugclub_model
  * @property users_model $users_model
+ * @property locations_model $locations_model
  */
 
 class Mugclub extends MY_Controller {
@@ -14,6 +15,7 @@ class Mugclub extends MY_Controller {
         parent::__construct();
         $this->load->model('mugclub_model');
         $this->load->model('users_model');
+        $this->load->model('locations_model');
     }
 	public function index()
 	{
@@ -30,6 +32,7 @@ class Mugclub extends MY_Controller {
         //Getting All Mug List
         $mugData = $this->mugclub_model->getAllMugClubList();
 
+        $data['locArr'] = $this->locations_model->getAllLocations();
         /*if(isset($mugData['mugList']) && myIsArray($mugData['mugList']))
         {
             foreach($mugData['mugList'] as $key => $row)
@@ -51,6 +54,24 @@ class Mugclub extends MY_Controller {
 		$this->load->view('MugClubView', $data);
 	}
 
+    public function mugAvail()
+    {
+        $data = array();
+        if(isSessionVariableSet($this->isUserSession) === false)
+        {
+            redirect(base_url());
+        }
+        if(isset($this->userType) && $this->userType == GUEST_USER)
+        {
+            redirect(base_url());
+        }
+
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+
+        $this->load->view('MugAvailView', $data);
+    }
     public function addNewMug()
     {
         $data = array();
@@ -491,5 +512,17 @@ class Mugclub extends MY_Controller {
         {
             return $data;
         }
+    }
+
+    public function transfer()
+    {
+        $post = $this->input->post();
+        $data = array();
+
+        $params = $this->mugclub_model->filterMugParameters($post);
+        $this->mugclub_model->updateMugRecord($params);
+        $data['status'] = true;
+        
+        echo json_encode($data);
     }
 }
