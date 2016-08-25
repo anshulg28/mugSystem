@@ -470,14 +470,10 @@
                                 <label>Item Type :</label>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemFood">
                                     <input type="radio" id="itemFood" class="mdl-radio__button" name="itemType" value="1" checked>
-                                    <span class="mdl-radio__label">Veg</span>
-                                </label>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemNFood">
-                                    <input type="radio" id="itemNFood" class="mdl-radio__button" name="itemType" value="2">
-                                    <span class="mdl-radio__label">Non-Veg</span>
+                                    <span class="mdl-radio__label">Food</span>
                                 </label>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemBeverage">
-                                    <input type="radio" id="itemBeverage" class="mdl-radio__button" name="itemType" value="3">
+                                    <input type="radio" id="itemBeverage" class="mdl-radio__button" name="itemType" value="2">
                                     <span class="mdl-radio__label">Beverage</span>
                                 </label>
                             </div>
@@ -503,24 +499,24 @@
                                 </div>
                             </div>
 
-                            <div class="text-left">
-                                <input type="file" multiple class="form-control" id="itemAttachment" />
-                                <input type="hidden" name="attachment" />
-                            </div>
-                            <div class="text-left">
+                            <div class="myUploadPanel text-left">
                                 <label>Attachment Type :</label>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood">
-                                    <input type="radio" id="attFood" class="mdl-radio__button" name="attType" value="1" checked>
+                                    <input type="radio" id="attFood" class="mdl-radio__button" name="attType[0]" value="1" checked>
                                     <span class="mdl-radio__label">Food</span>
                                 </label>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeer">
-                                    <input type="radio" id="attBeer" class="mdl-radio__button" name="attType" value="2">
+                                    <input type="radio" id="attBeer" class="mdl-radio__button" name="attType[0]" value="2">
                                     <span class="mdl-radio__label">Beer Digital</span>
                                 </label>
                                 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW">
-                                    <input type="radio" id="attBeerW" class="mdl-radio__button" name="attType" value="3">
+                                    <input type="radio" id="attBeerW" class="mdl-radio__button" name="attType[0]" value="3">
                                     <span class="mdl-radio__label">Beer Woodcut</span>
                                 </label>
+                                <input type="file" multiple class="form-control" onchange="uploadChange(this)" />
+                                <br>
+                                <button onclick="addUploadPanel()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add More?</button>
+                                <input type="hidden" name="attachment" />
                             </div>
                             <br>
                             <button onclick="fillImgs()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
@@ -1354,13 +1350,36 @@
             $('.priceHalfCls').addClass('hide');
         }
     }
+    var upPanel = 1;
+    function addUploadPanel()
+    {
+        var html = '';
+        html += '<br><br><label>Attachment Type :</label>'+
+                '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood'+upPanel+'">'+
+                '<input type="radio" id="attFood'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="1" checked>'+
+                '<span class="mdl-radio__label">Food</span>'+
+                '</label>'+
+                '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeer'+upPanel+'">'+
+                '<input type="radio" id="attBeer'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="2">'+
+                '<span class="mdl-radio__label">Beer Digital</span>'+
+                '</label>'+
+                '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW'+upPanel+'">'+
+                '<input type="radio" id="attBeerW'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="3">'+
+                '<span class="mdl-radio__label">Beer Woodcut</span>'+
+                '</label>'+
+                '<input type="file" multiple class="form-control" onchange="uploadChange(this)" /><br>'+
+                '<button onclick="addUploadPanel()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Another?</button>';
+        upPanel++;
+        $('.myUploadPanel').append(html);
+    }
     var filesArr = [];
-    $(document).on('change','#itemAttachment', function(e){
+    function uploadChange(ele)
+    {
 
         $('button[type="submit"]').attr('disabled','true');
         $('.progress').removeClass('hide');
         var xhr = [];
-        var totalFiles = this.files.length;
+        var totalFiles = ele.files.length;
         for(var i=0;i<totalFiles;i++)
         {
             xhr[i] = new XMLHttpRequest();
@@ -1375,7 +1394,7 @@
             xhr[i].open('post', '<?php echo base_url();?>dashboard/uploadFiles', true);
 
             var data = new FormData;
-            data.append('attachment', this.files[i]);
+            data.append('attachment', ele.files[i]);
             data.append('itemType',$('input[name="itemType"]:checked').val());
             xhr[i].send(data);
             xhr[i].onreadystatechange = function(e) {
@@ -1389,7 +1408,7 @@
                 }
             }
         }
-    });
+    }
     function fillImgs()
     {
         $('input[name="attachment"]').val(filesArr.join());

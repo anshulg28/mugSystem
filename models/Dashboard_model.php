@@ -323,6 +323,7 @@ class Dashboard_Model extends CI_Model
     {
         $details['updateDateTime'] = date('Y-m-d H:i:s');
         $details['insertedDateTime'] = date('Y-m-d H:i:s');
+        $details['ifActive'] = '1';
 
         $this->db->insert('fnbmaster', $details);
         $insert_id = $this->db->insert_id();
@@ -334,5 +335,34 @@ class Dashboard_Model extends CI_Model
 
         $this->db->insert('fnbattachment', $details);
         return true;
+    }
+
+    public function getAllFnB()
+    {
+        $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
+                  FROM fnbmaster WHERE ifActive = 1";
+
+        $result = $this->db->query($query)->result_array();
+        $data['fnbItems'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
+    public function getFnbAttById($id)
+    {
+        $query = "SELECT fnbId,filename,attachmentType
+                  FROM fnbattachment WHERE fnbId = ".$id;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
     }
 }

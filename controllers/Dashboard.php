@@ -279,7 +279,6 @@ class Dashboard extends MY_Controller {
     public function savefnb()
     {
         $post = $this->input->post();
-
         $details = array(
             'itemType'=> $post['itemType'],
             'itemName' => $post['itemName'],
@@ -291,12 +290,12 @@ class Dashboard extends MY_Controller {
         $fnbId = $this->dashboard_model->saveFnbRecord($details);
 
         $img_names = explode(',',$post['attachment']);
-        foreach($img_names as $key)
+        for($i=0;$i<count($img_names);$i++)
         {
             $attArr = array(
                 'fnbId' => $fnbId,
-                'filename'=> $key,
-                'attachmentType' => $post['attType']
+                'filename'=> $img_names[$i],
+                'attachmentType' => $post['attType'][$i]
             );
             $this->dashboard_model->saveFnbAttachment($attArr);
         }
@@ -314,7 +313,7 @@ class Dashboard extends MY_Controller {
             {
                 $config = array();
                 $config['upload_path'] = './uploads/food/';
-                if(isset($_POST['itemType']) && $_POST['itemType'] == '3')
+                if(isset($_POST['itemType']) && $_POST['itemType'] == '2')
                 {
                     $config['upload_path'] = './uploads/beverage/';
                 }

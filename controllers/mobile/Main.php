@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Class Main
  * @property cron_model $cron_model
+ * @property dashboard_model $dashboard_model
 */
 
 class Main extends MY_Controller {
@@ -12,6 +13,7 @@ class Main extends MY_Controller {
 	{
 		parent::__construct();
         $this->load->model('cron_model');
+        $this->load->model('dashboard_model');
 	}
 	public function index()
 	{
@@ -20,6 +22,15 @@ class Main extends MY_Controller {
         $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
 
         $data['myFeeds'] = $this->returnAllFeeds();
+        $newFnb = $this->dashboard_model->getAllFnB();
+        if($newFnb['status'] === true)
+        {
+            foreach($newFnb['fnbItems'] as $key => $row)
+            {
+                $data['fnb'][$key]['item'] = $row;
+                $data['fnb'][$key]['att'] = $this->dashboard_model->getFnbAttById($row['fnbId']);
+            }
+        }
         /*if ($this->mobile_detect->isAndroidOS()) {
 
             $data['androidStyle'] = $this->dataformatinghtml_library->getAndroidStyleHtml($data);

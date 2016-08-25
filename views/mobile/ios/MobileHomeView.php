@@ -85,10 +85,474 @@
                         <i class="fa fa-minus"></i>-->
                     </a>
                 </div>
-                <div class="center sliding">Events</div>
+                <!--<div class="center sliding">events</div>-->
             </div>
         </div>
 
+        <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-through toolbar-through">
+            <!-- Page, "data-page" contains page name -->
+            <div data-page="main-feeds" class="page">
+                <!-- Scrollable page content -->
+                <div class="page-content infinite-scroll pull-to-refresh-content" data-ptr-distance="55" id="my-page2">
+                    <div class="pull-to-refresh-layer">
+                        <div class="preloader"></div>
+                        <div class="pull-to-refresh-arrow"></div>
+                    </div>
+                    <div class="content-block custom-accordion">
+                        <?php
+                        if(isset($myFeeds) && myIsArray($myFeeds))
+                        {
+                            $postlimit = 0;
+                            foreach($myFeeds as $key => $row)
+                            {
+                                if(isset($row['socialType']))
+                                {
+                                    switch($row['socialType'])
+                                    {
+                                        case 't':
+                                            $row['text'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['text']);
+                                            $row['text'] = highlight('/#\w+/',$row['text']);
+                                            $row['text'] = highlight('/@\w+/',$row['text']);
+                                            $truncated_RestaurantName = (strlen($row['text']) > 140) ? substr($row['text'], 0, 140) . '..' : $row['text'];
+                                            ?>
+                                            <!--twitter://status?status_id=756765768470130689-->
+                                            <a href="https://twitter.com/<?php echo $row['user']['screen_name'];?>/status/<?php echo $row['id_str'];?>" target="_blank" class="external twitter-wrapper">
+                                                <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                                    <div class="card demo-card-header-pic">
+                                                        <div class="card-content">
+                                                            <div class="card-content-inner">
+                                                                <div class="list-block media-list">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <div class="item-content">
+                                                                                <div class="item-media">
+                                                                                    <?php
+                                                                                    if($postlimit > 10)
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img class="myAvtar-list" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img class="myAvtar-list" src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    ?>
+                                                                                </div>
+                                                                                <div class="item-inner">
+                                                                                    <div class="item-title-row">
+                                                                                        <div class="item-title"><?php echo ucfirst($row['user']['name']);?></div>
+                                                                                        <i class="fa fa-twitter social-icon-gap"></i>
+                                                                                    </div>
+                                                                                    <div class="item-subtitle">@<?php echo $row['user']['screen_name'];?>
+                                                                                        <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <?php
+                                                                if(isset($row['extended_entities']))
+                                                                {
+                                                                    ?>
+                                                                    <div class="row no-gutter feed-image-container">
+                                                                        <?php
+                                                                        $imageLimit = 0;
+                                                                        foreach($row['extended_entities']['media'] as $mediaKey => $mediaRow)
+                                                                        {
+                                                                            if($imageLimit >= 1)
+                                                                            {
+                                                                                $isImageDone = true;
+                                                                                break;
+                                                                            }
+                                                                            $imageLimit++;
+                                                                            if(isset($mediaRow['video_info']['variants']) && myIsArray($mediaRow['video_info']['variants']))
+                                                                            {
+                                                                                $videoUrl= '';
+                                                                                $videoType = '';
+                                                                                foreach($mediaRow['video_info']['variants'] as $videoKey => $videoRow)
+                                                                                {
+                                                                                    if(isset($videoRow['bitrate']))
+                                                                                    {
+                                                                                        $videoUrl = $videoRow['url'];
+                                                                                        $videoType = $videoRow['content_type'];
+                                                                                    }
+                                                                                }
+                                                                                if(strpos($videoUrl,"youtube") !== false || strpos($videoUrl,"youtu.be"))
+                                                                                {
+                                                                                    ?>
+                                                                                    <div class="col-100">
+                                                                                        <iframe width="100%" src="<?php echo $videoUrl;?>" frameborder="0" allowfullscreen>
+                                                                                        </iframe>
+                                                                                    </div>
+                                                                                    <?php
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    ?>
+                                                                                    <div class="col-100">
+                                                                                        <video width="100%" controls>
+                                                                                            <source src="<?php echo $videoUrl;?>" type="<?php echo $videoType;?>">
+                                                                                            No Video Found!
+                                                                                        </video>
+                                                                                    </div>
+                                                                                    <?php
+                                                                                }
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                ?>
+                                                                                <div class="col-100">
+                                                                                    <?php
+                                                                                    if($postlimit > 10)
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    ?>
+                                                                                </div>
+                                                                                <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                elseif(isset($row['entities']['urls']) && myIsArray($row['entities']['urls']))
+                                                                {
+                                                                    ?>
+                                                                    <div class="link-card-wrapper">
+                                                                        <input type="hidden" class="my-link-url" value="<?php echo $row['entities']['urls'][0]['expanded_url'];?>"/>
+                                                                        <div class="liveurl feed-image-container hide">
+                                                                            <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
+                                                                            <div class="details">
+                                                                                <div class="title"></div>
+                                                                                <div class="description"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                <p class="final-card-text"><?php echo $truncated_RestaurantName;?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <?php
+                                            break;
+                                        case 'f':
+                                            preg_match_all('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', $row['message'], $backupLink);
+                                            $row['message'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['message']);
+                                            $row['message'] = highlight('/#\w+/',$row['message']);
+                                            $row['message'] = highlight('/@\w+/',$row['message']);
+                                            $truncated_RestaurantName = (strlen($row['message']) > 140) ? substr($row['message'], 0, 140) . '..' : $row['message'];
+                                            ?>
+                                            <!--twitter://status?status_id=756765768470130689-->
+                                            <a href="<?php echo $row['permalink_url'];?>" target="_blank" class="external facebook-wrapper">
+                                                <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                                    <div class="card demo-card-header-pic">
+                                                        <div class="card-content">
+                                                            <div class="card-content-inner">
+                                                                <div class="list-block media-list">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <div class="item-content">
+                                                                                <div class="item-media">
+                                                                                    <?php
+                                                                                    if($postlimit > 10)
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img class="myAvtar-list" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img class="myAvtar-list" src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    ?>
+                                                                                </div>
+                                                                                <div class="item-inner">
+                                                                                    <div class="item-title-row">
+                                                                                        <div class="item-title"><?php echo ucfirst($row['from']['name']);?></div>
+                                                                                        <i class="fa fa-facebook-official social-icon-gap"></i>
+                                                                                    </div>
+                                                                                    <div class="item-subtitle">
+                                                                                        <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <?php
+                                                                if(isset($row['source']))
+                                                                {
+                                                                    if(strpos($row['source'],"youtube") !== false || strpos($row['source'],"youtu.be") !== false)
+                                                                    {
+                                                                        ?>
+                                                                        <div class="row no-gutter feed-image-container" onclick="preventAct(event)">
+                                                                            <div class="col-100">
+                                                                                <iframe width="100%" src="<?php echo $row['source'];?>" frameborder="0" allowfullscreen>
+                                                                                </iframe>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        ?>
+                                                                        <div class="row no-gutter feed-image-container" onclick="preventAct(event)">
+                                                                            <div class="col-100">
+                                                                                <video width="100%" controls>
+                                                                                    <source src="<?php echo $row['source'];?>" >
+                                                                                    No Video Found!
+                                                                                </video>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                elseif(isset($row['picture']))
+                                                                {
+                                                                    ?>
+                                                                    <div class="row no-gutter feed-image-container">
+                                                                        <div class="col-100">
+                                                                            <?php
+                                                                            if($postlimit > 10)
+                                                                            {
+                                                                                ?>
+                                                                                <img data-src="<?php echo $row['picture'];?>" class="mainFeed-img"/>
+                                                                                <?php
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                ?>
+                                                                                <img src="<?php echo $row['picture'];?>" class="mainFeed-img"/>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                elseif(isset($backupLink) && myIsArray($backupLink))
+                                                                {
+                                                                    ?>
+                                                                    <div class="link-card-wrapper">
+                                                                        <input type="hidden" class="my-link-url" value="<?php echo $backupLink[0][0];?>"/>
+                                                                        <div class="liveurl feed-image-container hide">
+                                                                            <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
+                                                                            <div class="details">
+                                                                                <div class="title"></div>
+                                                                                <div class="description"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                <p class="final-card-text"><?php echo $truncated_RestaurantName;?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <?php
+                                            break;
+                                        case 'i':
+                                            preg_match_all('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', $row['unformatted_message'], $backupLink);
+                                            $row['unformatted_message'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['unformatted_message']);
+                                            $row['unformatted_message'] = highlight('/#\w+/',$row['unformatted_message']);
+                                            $row['unformatted_message'] = highlight('/@\w+/',$row['unformatted_message']);
+                                            $truncated_RestaurantName = (strlen($row['unformatted_message']) > 140) ? substr($row['unformatted_message'], 0, 140) . '..' : $row['unformatted_message'];
+                                            ?>
+                                            <!--twitter://status?status_id=756765768470130689-->
+                                            <a href="<?php echo $row['full_url'];?>" target="_blank" class="external instagram-wrapper">
+                                                <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                                    <div class="card demo-card-header-pic">
+                                                        <div class="card-content">
+                                                            <div class="card-content-inner">
+                                                                <div class="list-block media-list">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <div class="item-content">
+                                                                                <div class="item-media">
+                                                                                    <?php
+                                                                                    if($postlimit > 10)
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img class="myAvtar-list" data-src="<?php echo $row['poster_image'];?>" width="44"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        ?>
+                                                                                        <img class="myAvtar-list" src="<?php echo $row['poster_image'];?>" width="44"/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    ?>
+                                                                                </div>
+                                                                                <div class="item-inner">
+                                                                                    <div class="item-title-row">
+                                                                                        <div class="item-title"><?php echo ucfirst($row['poster_name']);?></div>
+                                                                                        <i class="fa fa-instagram social-icon-gap"></i>
+                                                                                    </div>
+                                                                                    <?php
+                                                                                    if(isset($row['source']))
+                                                                                    {
+                                                                                        if($row['source']['term_type'] == 'hashtag')
+                                                                                        {
+                                                                                            ?>
+                                                                                            <div class="item-subtitle">#<?php echo $row['source']['term'];?>
+                                                                                                <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                            </div>
+                                                                                            <?php
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            ?>
+                                                                                            <div class="item-subtitle">@<?php echo $row['source']['term'];?>
+                                                                                                <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                            </div>
+                                                                                            <?php
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <?php
+                                                                if(isset($row['video']))
+                                                                {
+                                                                    if(strpos($row['video'],"youtube") !== false || strpos($row['video'],"youtu.be") !== false)
+                                                                    {
+                                                                        ?>
+                                                                        <div class="row no-gutter feed-image-container">
+                                                                            <div class="col-100">
+                                                                                <iframe width="100%" src="<?php echo $row['video'];?>" frameborder="0" allowfullscreen>
+                                                                                </iframe>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        ?>
+                                                                        <div class="row no-gutter feed-image-container">
+                                                                            <div class="col-100">
+                                                                                <video width="100%" controls>
+                                                                                    <source src="<?php echo $row['video'];?>" >
+                                                                                    No Video Found!
+                                                                                </video>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                elseif(isset($row['image']))
+                                                                {
+                                                                    ?>
+                                                                    <div class="row no-gutter feed-image-container">
+                                                                        <div class="col-100">
+                                                                            <?php
+                                                                            if($postlimit > 10)
+                                                                            {
+                                                                                ?>
+                                                                                <img data-src="<?php echo $row['image'];?>" class="mainFeed-img"/>
+                                                                                <?php
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                ?>
+                                                                                <img src="<?php echo $row['image'];?>" class="mainFeed-img"/>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                elseif(isset($backupLink) && myIsArray($backupLink))
+                                                                {
+                                                                    ?>
+                                                                    <div class="link-card-wrapper">
+                                                                        <input type="hidden" class="my-link-url" value="<?php echo $backupLink[0][0];?>"/>
+                                                                        <div class="liveurl feed-image-container hide">
+                                                                            <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
+                                                                            <div class="details">
+                                                                                <div class="title"></div>
+                                                                                <div class="description"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                <p class="final-card-text"><?php echo $truncated_RestaurantName;?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <?php
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            echo 'No Feeds Found!';
+                        }
+                        ?>
+                    </div>
+                    <?php
+                    if(isset($myFeeds) && myIsArray($myFeeds))
+                    {
+                        ?>
+                        <div class="infinite-scroll-preloader">
+                            <div class="preloader"></div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="tab2" class="view view-main tab">
+        <!-- Top Navbar-->
+        <div class="navbar mycustomNav">
+            <div class="navbar-inner">
+                <div class="left">
+                    <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
+                    <a href="#" class="link icon-only open-panel ripple main-menu-icon">
+                        <i class="fa fa-bars color-black"></i>
+                        <!--<i class="fa fa-minus"></i>
+                        <i class="fa fa-minus"></i>-->
+                    </a>
+                </div>
+                <!--<div class="center sliding">Doolally</div>-->
+            </div>
+        </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
         <div class="pages navbar-through toolbar-through">
             <!-- Page, "data-page" contains page name -->
@@ -108,470 +572,6 @@
             </div>
         </div>
     </div>
-    <div id="tab2" class="view view-main tab">
-        <!-- Top Navbar-->
-        <div class="navbar mycustomNav">
-            <div class="navbar-inner">
-                <div class="left">
-                    <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
-                    <a href="#" class="link icon-only open-panel ripple main-menu-icon">
-                        <i class="fa fa-bars color-black"></i>
-                        <!--<i class="fa fa-minus"></i>
-                        <i class="fa fa-minus"></i>-->
-                    </a>
-                </div>
-                <div class="center sliding">Doolally</div>
-            </div>
-        </div>
-        <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through toolbar-through">
-            <!-- Page, "data-page" contains page name -->
-            <div data-page="main-feeds" class="page">
-                <!-- Scrollable page content -->
-                <div class="page-content infinite-scroll pull-to-refresh-content" data-ptr-distance="55" id="my-page2">
-                    <div class="pull-to-refresh-layer">
-                        <div class="preloader"></div>
-                        <div class="pull-to-refresh-arrow"></div>
-                    </div>
-                    <div class="content-block custom-accordion">
-                        <?php
-                            if(isset($myFeeds) && myIsArray($myFeeds))
-                            {
-                                $postlimit = 0;
-                                foreach($myFeeds as $key => $row)
-                                {
-                                    if(isset($row['socialType']))
-                                    {
-                                        switch($row['socialType'])
-                                        {
-                                            case 't':
-                                                $row['text'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['text']);
-                                                $row['text'] = highlight('/#\w+/',$row['text']);
-                                                $row['text'] = highlight('/@\w+/',$row['text']);
-                                                $truncated_RestaurantName = (strlen($row['text']) > 140) ? substr($row['text'], 0, 140) . '..' : $row['text'];
-                                                ?>
-                                                <!--twitter://status?status_id=756765768470130689-->
-                                                <a href="https://twitter.com/<?php echo $row['user']['screen_name'];?>/status/<?php echo $row['id_str'];?>" target="_blank" class="external twitter-wrapper">
-                                                    <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
-                                                        <div class="card demo-card-header-pic">
-                                                            <div class="card-content">
-                                                                <div class="card-content-inner">
-                                                                    <div class="list-block media-list">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <div class="item-content">
-                                                                                    <div class="item-media">
-                                                                                        <?php
-                                                                                            if($postlimit > 10)
-                                                                                            {
-                                                                                                ?>
-                                                                                                <img class="myAvtar-list" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
-                                                                                                <?php
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                ?>
-                                                                                                <img class="myAvtar-list" src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
-                                                                                                <?php
-                                                                                            }
-                                                                                        ?>
-                                                                                    </div>
-                                                                                    <div class="item-inner">
-                                                                                        <div class="item-title-row">
-                                                                                            <div class="item-title"><?php echo ucfirst($row['user']['name']);?></div>
-                                                                                            <i class="fa fa-twitter social-icon-gap"></i>
-                                                                                        </div>
-                                                                                        <div class="item-subtitle">@<?php echo $row['user']['screen_name'];?>
-                                                                                            <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <?php
-                                                                    if(isset($row['extended_entities']))
-                                                                    {
-                                                                        ?>
-                                                                        <div class="row no-gutter feed-image-container">
-                                                                            <?php
-                                                                            $imageLimit = 0;
-                                                                            foreach($row['extended_entities']['media'] as $mediaKey => $mediaRow)
-                                                                            {
-                                                                                if($imageLimit >= 1)
-                                                                                {
-                                                                                    $isImageDone = true;
-                                                                                    break;
-                                                                                }
-                                                                                $imageLimit++;
-                                                                                if(isset($mediaRow['video_info']['variants']) && myIsArray($mediaRow['video_info']['variants']))
-                                                                                {
-                                                                                    $videoUrl= '';
-                                                                                    $videoType = '';
-                                                                                    foreach($mediaRow['video_info']['variants'] as $videoKey => $videoRow)
-                                                                                    {
-                                                                                        if(isset($videoRow['bitrate']))
-                                                                                        {
-                                                                                            $videoUrl = $videoRow['url'];
-                                                                                            $videoType = $videoRow['content_type'];
-                                                                                        }
-                                                                                    }
-                                                                                    if(strpos($videoUrl,"youtube") !== false || strpos($videoUrl,"youtu.be"))
-                                                                                    {
-                                                                                        ?>
-                                                                                        <div class="col-100">
-                                                                                            <iframe width="100%" src="<?php echo $videoUrl;?>" frameborder="0" allowfullscreen>
-                                                                                            </iframe>
-                                                                                        </div>
-                                                                                        <?php
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        ?>
-                                                                                        <div class="col-100">
-                                                                                            <video width="100%" controls>
-                                                                                                <source src="<?php echo $videoUrl;?>" type="<?php echo $videoType;?>">
-                                                                                                No Video Found!
-                                                                                            </video>
-                                                                                        </div>
-                                                                                        <?php
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    ?>
-                                                                                    <div class="col-100">
-                                                                                        <?php
-                                                                                        if($postlimit > 10)
-                                                                                        {
-                                                                                            ?>
-                                                                                            <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
-                                                                                            <?php
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            ?>
-                                                                                            <img src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
-                                                                                            <?php
-                                                                                        }
-                                                                                        ?>
-                                                                                    </div>
-                                                                                    <?php
-                                                                                }
-                                                                            }
-                                                                            ?>
-                                                                        </div>
-                                                                        <?php
-                                                                    }
-                                                                    elseif(isset($row['entities']['urls']) && myIsArray($row['entities']['urls']))
-                                                                    {
-                                                                        ?>
-                                                                        <div class="link-card-wrapper">
-                                                                            <input type="hidden" class="my-link-url" value="<?php echo $row['entities']['urls'][0]['expanded_url'];?>"/>
-                                                                            <div class="liveurl feed-image-container hide">
-                                                                                <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
-                                                                                <div class="details">
-                                                                                    <div class="title"></div>
-                                                                                    <div class="description"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
-                                                                    <p class="final-card-text"><?php echo $truncated_RestaurantName;?></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <?php
-                                                break;
-                                            case 'f':
-                                                preg_match_all('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', $row['message'], $backupLink);
-                                                $row['message'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['message']);
-                                                $row['message'] = highlight('/#\w+/',$row['message']);
-                                                $row['message'] = highlight('/@\w+/',$row['message']);
-                                                $truncated_RestaurantName = (strlen($row['message']) > 140) ? substr($row['message'], 0, 140) . '..' : $row['message'];
-                                                ?>
-                                                <!--twitter://status?status_id=756765768470130689-->
-                                                <a href="<?php echo $row['permalink_url'];?>" target="_blank" class="external facebook-wrapper">
-                                                    <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
-                                                        <div class="card demo-card-header-pic">
-                                                            <div class="card-content">
-                                                                <div class="card-content-inner">
-                                                                    <div class="list-block media-list">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <div class="item-content">
-                                                                                    <div class="item-media">
-                                                                                        <?php
-                                                                                        if($postlimit > 10)
-                                                                                        {
-                                                                                            ?>
-                                                                                            <img class="myAvtar-list" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
-                                                                                            <?php
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            ?>
-                                                                                            <img class="myAvtar-list" src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
-                                                                                            <?php
-                                                                                        }
-                                                                                        ?>
-                                                                                    </div>
-                                                                                    <div class="item-inner">
-                                                                                        <div class="item-title-row">
-                                                                                            <div class="item-title"><?php echo ucfirst($row['from']['name']);?></div>
-                                                                                            <i class="fa fa-facebook-official social-icon-gap"></i>
-                                                                                        </div>
-                                                                                        <div class="item-subtitle">
-                                                                                            <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <?php
-                                                                    if(isset($row['source']))
-                                                                    {
-                                                                        if(strpos($row['source'],"youtube") !== false || strpos($row['source'],"youtu.be") !== false)
-                                                                        {
-                                                                            ?>
-                                                                            <div class="row no-gutter feed-image-container" onclick="preventAct(event)">
-                                                                                <div class="col-100">
-                                                                                    <iframe width="100%" src="<?php echo $row['source'];?>" frameborder="0" allowfullscreen>
-                                                                                    </iframe>
-                                                                                </div>
-                                                                            </div>
-                                                                            <?php
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            ?>
-                                                                            <div class="row no-gutter feed-image-container" onclick="preventAct(event)">
-                                                                                <div class="col-100">
-                                                                                    <video width="100%" controls>
-                                                                                        <source src="<?php echo $row['source'];?>" >
-                                                                                        No Video Found!
-                                                                                    </video>
-                                                                                </div>
-                                                                            </div>
-                                                                            <?php
-                                                                        }
-                                                                    }
-                                                                    elseif(isset($row['picture']))
-                                                                    {
-                                                                        ?>
-                                                                        <div class="row no-gutter feed-image-container">
-                                                                            <div class="col-100">
-                                                                                <?php
-                                                                                if($postlimit > 10)
-                                                                                {
-                                                                                    ?>
-                                                                                    <img data-src="<?php echo $row['picture'];?>" class="mainFeed-img"/>
-                                                                                    <?php
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    ?>
-                                                                                    <img src="<?php echo $row['picture'];?>" class="mainFeed-img"/>
-                                                                                    <?php
-                                                                                }
-                                                                                ?>
-                                                                            </div>
-                                                                        </div>
-                                                                        <?php
-                                                                    }
-                                                                    elseif(isset($backupLink) && myIsArray($backupLink))
-                                                                    {
-                                                                        ?>
-                                                                        <div class="link-card-wrapper">
-                                                                            <input type="hidden" class="my-link-url" value="<?php echo $backupLink[0][0];?>"/>
-                                                                            <div class="liveurl feed-image-container hide">
-                                                                                <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
-                                                                                <div class="details">
-                                                                                    <div class="title"></div>
-                                                                                    <div class="description"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
-                                                                    <p class="final-card-text"><?php echo $truncated_RestaurantName;?></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <?php
-                                                break;
-                                            case 'i':
-                                                preg_match_all('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', $row['unformatted_message'], $backupLink);
-                                                $row['unformatted_message'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['unformatted_message']);
-                                                $row['unformatted_message'] = highlight('/#\w+/',$row['unformatted_message']);
-                                                $row['unformatted_message'] = highlight('/@\w+/',$row['unformatted_message']);
-                                                $truncated_RestaurantName = (strlen($row['unformatted_message']) > 140) ? substr($row['unformatted_message'], 0, 140) . '..' : $row['unformatted_message'];
-                                                ?>
-                                                <!--twitter://status?status_id=756765768470130689-->
-                                                <a href="<?php echo $row['full_url'];?>" target="_blank" class="external instagram-wrapper">
-                                                    <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
-                                                        <div class="card demo-card-header-pic">
-                                                            <div class="card-content">
-                                                                <div class="card-content-inner">
-                                                                    <div class="list-block media-list">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <div class="item-content">
-                                                                                    <div class="item-media">
-                                                                                        <?php
-                                                                                        if($postlimit > 10)
-                                                                                        {
-                                                                                            ?>
-                                                                                            <img class="myAvtar-list" data-src="<?php echo $row['poster_image'];?>" width="44"/>
-                                                                                            <?php
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            ?>
-                                                                                            <img class="myAvtar-list" src="<?php echo $row['poster_image'];?>" width="44"/>
-                                                                                            <?php
-                                                                                        }
-                                                                                        ?>
-                                                                                    </div>
-                                                                                    <div class="item-inner">
-                                                                                        <div class="item-title-row">
-                                                                                            <div class="item-title"><?php echo ucfirst($row['poster_name']);?></div>
-                                                                                            <i class="fa fa-instagram social-icon-gap"></i>
-                                                                                        </div>
-                                                                                        <?php
-                                                                                            if(isset($row['source']))
-                                                                                            {
-                                                                                                if($row['source']['term_type'] == 'hashtag')
-                                                                                                {
-                                                                                                    ?>
-                                                                                                    <div class="item-subtitle">#<?php echo $row['source']['term'];?>
-                                                                                                        <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
-                                                                                                    </div>
-                                                                                                    <?php
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    ?>
-                                                                                                    <div class="item-subtitle">@<?php echo $row['source']['term'];?>
-                                                                                                        <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
-                                                                                                    </div>
-                                                                                                    <?php
-                                                                                                }
-                                                                                            }
-                                                                                        ?>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <?php
-                                                                    if(isset($row['video']))
-                                                                    {
-                                                                        if(strpos($row['video'],"youtube") !== false || strpos($row['video'],"youtu.be") !== false)
-                                                                        {
-                                                                            ?>
-                                                                            <div class="row no-gutter feed-image-container">
-                                                                                <div class="col-100">
-                                                                                    <iframe width="100%" src="<?php echo $row['video'];?>" frameborder="0" allowfullscreen>
-                                                                                    </iframe>
-                                                                                </div>
-                                                                            </div>
-                                                                            <?php
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            ?>
-                                                                            <div class="row no-gutter feed-image-container">
-                                                                                <div class="col-100">
-                                                                                    <video width="100%" controls>
-                                                                                        <source src="<?php echo $row['video'];?>" >
-                                                                                        No Video Found!
-                                                                                    </video>
-                                                                                </div>
-                                                                            </div>
-                                                                            <?php
-                                                                        }
-                                                                    }
-                                                                    elseif(isset($row['image']))
-                                                                    {
-                                                                        ?>
-                                                                        <div class="row no-gutter feed-image-container">
-                                                                            <div class="col-100">
-                                                                                <?php
-                                                                                if($postlimit > 10)
-                                                                                {
-                                                                                    ?>
-                                                                                    <img data-src="<?php echo $row['image'];?>" class="mainFeed-img"/>
-                                                                                    <?php
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    ?>
-                                                                                    <img src="<?php echo $row['image'];?>" class="mainFeed-img"/>
-                                                                                    <?php
-                                                                                }
-                                                                                ?>
-                                                                            </div>
-                                                                        </div>
-                                                                        <?php
-                                                                    }
-                                                                    elseif(isset($backupLink) && myIsArray($backupLink))
-                                                                    {
-                                                                        ?>
-                                                                        <div class="link-card-wrapper">
-                                                                            <input type="hidden" class="my-link-url" value="<?php echo $backupLink[0][0];?>"/>
-                                                                            <div class="liveurl feed-image-container hide">
-                                                                                <img src="" class="link-image mainFeed-img lazy lazy-fadeIn" />
-                                                                                <div class="details">
-                                                                                    <div class="title"></div>
-                                                                                    <div class="description"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
-                                                                    <p class="final-card-text"><?php echo $truncated_RestaurantName;?></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <?php
-                                                break;
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                echo 'No Feeds Found!';
-                            }
-                        ?>
-                    </div>
-                    <?php
-                        if(isset($myFeeds) && myIsArray($myFeeds))
-                        {
-                            ?>
-                            <div class="infinite-scroll-preloader">
-                                <div class="preloader"></div>
-                            </div>
-                            <?php
-                        }
-                    ?>
-                </div>
-            </div>
-
-        </div>
-    </div>
     <div id="tab3" class="view view-menus tab">
         <!-- Top Navbar-->
         <div class="navbar mycustomNav">
@@ -585,7 +585,7 @@
                         <i class="fa fa-minus"></i>-->
                     </a>
                 </div>
-                <div class="center sliding">F & B</div>
+                <!--<div class="center sliding">F & B</div>-->
             </div>
         </div>
         <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -594,7 +594,111 @@
             <div class="page" data-page="menusPage">
                 <!-- Scrollable page content -->
                 <div class="page-content" id="my-page3">
-                    <p>Tab 3</p>
+                    <?php
+                        if(isset($fnb) && myIsMultiArray($fnb))
+                        {
+                            $postImg = 0;
+                            foreach($fnb as $key => $row)
+                            {
+                                $img_collection = array();
+                                ?>
+                                <div class="card demo-card-header-pic">
+                                    <div class="row no-gutter">
+                                        <div class="col-100 more-photos-wrapper">
+                                            <?php
+                                            $img_bool = false;
+                                            foreach($row['att'] as $attKey => $attRow)
+                                            {
+                                                if($img_bool == false)
+                                                {
+                                                    $img_bool = true;
+                                                    if($postImg >=10)
+                                                    {
+                                                        if($row['item']['itemType'] == ITEM_FOOD)
+                                                        {
+                                                            $img_collection[] = base_url().FOOD_PATH_THUMB.$attRow['filename'];
+                                                            ?>
+                                                            <img src="<?php echo base_url().FOOD_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
+                                                            <?php
+                                                        }
+                                                        elseif($row['item']['itemType'] == ITEM_BEVERAGE)
+                                                        {
+                                                            $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];
+                                                            ?>
+                                                            <img src="<?php echo base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        if($row['item']['itemType'] == ITEM_FOOD)
+                                                        {
+                                                            $img_collection[] = base_url().FOOD_PATH_THUMB.$attRow['filename'];
+                                                            ?>
+                                                            <img data-src="<?php echo base_url().FOOD_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                            <?php
+                                                        }
+                                                        elseif($row['item']['itemType'] == ITEM_BEVERAGE)
+                                                        {
+                                                            $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];
+                                                            ?>
+                                                            <img data-src="<?php echo base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                            <?php
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    ?>
+                                                    <i class="fa fa-picture-o multiple_pics"></i>
+                                                    <?php
+                                                    if($row['item']['itemType'] == ITEM_FOOD)
+                                                    {
+                                                        $img_collection[] = base_url().FOOD_PATH_THUMB.$attRow['filename'];
+                                                    }
+                                                    else
+                                                    {
+                                                        $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];
+                                                    }
+                                                }
+                                            }
+                                            $postImg++;
+                                            if(myIsArray($img_collection))
+                                            {
+                                                ?>
+                                                    <input type="hidden" class="imgs_collection"
+                                                           value="<?php echo implode(',',$img_collection); ?>"/>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <p class="pull-left"><?php echo $row['item']['itemName'];?></p>
+                                            <span class="pull-right">Rs. <?php echo $row['item']['priceFull'];?>
+                                                <?php
+                                                    if(isset($row['item']['priceHalf']) && $row['item']['priceHalf'] != '0')
+                                                    {
+                                                        echo '/'.$row['item']['priceHalf'];
+                                                    }
+                                                ?>
+                                            </span>
+                                            <div class="comment more content-block clear">
+                                                <?php echo strip_tags($row['item']['itemDescription'],"<br>");?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        }
+                        else
+                        {
+                            echo 'No Items Found!';
+                        }
+                    ?>
                 </div>
             </div>
         </div>
@@ -603,16 +707,16 @@
     <!--</div>-->
     <div class="toolbar tabbar tabbar-labels myMainBottomBar">
         <div class="toolbar-inner">
-            <a href="#tab1" class="tab-link">
-                <i class="fa fa-calendar"></i>
-                <span class="tabbar-label">Events</span>
-            </a>
-            <a href="#tab2" class="tab-link active">
-                <!--<i class="fa fa-hashtag"></i>-->
-                <i class="icon d-logo">
+            <a href="#tab1" class="tab-link active">
+                <i class="icon fa fa-hashtag">
                     <span class="badge feed-notifier hide"></span>
                 </i>
-                <span class="tabbar-label">#Doolally</span>
+                <span class="tabbar-label">Doolally</span>
+            </a>
+            <a href="#tab2" class="tab-link">
+                <!--<i class="fa fa-hashtag"></i>-->
+                <i class="fa fa-calendar"></i>
+                <span class="tabbar-label">Events</span>
             </a>
             <a href="#tab3" class="tab-link">
                 <i class="fa fa-cutlery"></i>
