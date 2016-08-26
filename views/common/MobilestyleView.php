@@ -8,5 +8,4 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material-icon.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/welcomescreen.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/photoswipe.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>asset/default-skin/default-skin.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/swipebox.min.css">

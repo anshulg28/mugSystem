@@ -149,6 +149,13 @@ class Mugclub extends MY_Controller {
         $userFirstName = $mugDetails['firstName'];
         unset($mugDetails['firstName']);
         $mugDetails['mugId'] = $post['mugId'];
+
+        if(isset($mugDetails['emailId']))
+        {
+            $userEmail = $mugDetails['emailId'];
+            unset($mugDetails['emailId']);
+        }
+        
         $this->mugclub_model->saveRenewRecord($mugDetails);
 
         $post['membershipStart'] = date('Y-m-d');

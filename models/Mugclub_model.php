@@ -101,7 +101,7 @@ class Mugclub_Model extends CI_Model
 
     public function getMugIdForRenew($mugId)
     {
-        $query = "SELECT firstName, invoiceDate, invoiceNo, membershipStart, membershipEnd "
+        $query = "SELECT emailId, firstName, invoiceDate, invoiceNo, membershipStart, membershipEnd "
             ."FROM mugmaster "
             ."where mugId = ".$mugId;
 
