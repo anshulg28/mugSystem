@@ -7,4 +7,5 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/getmdl-select.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material-icon.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/swipebox.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/general_style.css">

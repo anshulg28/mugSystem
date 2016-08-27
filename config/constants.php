@@ -123,5 +123,6 @@ defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAUZBjn6HCmQBAGRccGXJCh7i
 /* Image Paths for Fnb*/
 defined('FOOD_PATH_THUMB') OR define('FOOD_PATH_THUMB','uploads/food/thumb/');
 defined('BEVERAGE_PATH_THUMB') OR define('BEVERAGE_PATH_THUMB','uploads/beverage/thumb/');
+defined('EVENT_PATH_THUMB') OR define('EVENT_PATH_THUMB','uploads/events/thumb/');
 defined('ITEM_FOOD') OR define('ITEM_FOOD','1');
 defined('ITEM_BEVERAGE') OR define('ITEM_BEVERAGE','2');

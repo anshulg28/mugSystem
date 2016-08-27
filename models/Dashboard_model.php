@@ -381,4 +381,44 @@ class Dashboard_Model extends CI_Model
         $this->db->insert('eventattachment', $details);
         return true;
     }
+    public function getAllEvents()
+    {
+        $query = "SELECT *
+                  FROM eventmaster";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function activateEventRecord($eventId)
+    {
+        $data['ifActive'] = 1;
+
+        $this->db->where('eventId', $eventId);
+        $this->db->update('eventmaster', $data);
+        return true;
+    }
+    public function deActivateEventRecord($eventId)
+    {
+        $data['ifActive'] = 0;
+
+        $this->db->where('eventId', $eventId);
+        $this->db->update('eventmaster', $data);
+        return true;
+    }
+    public function eventDelete($eventId)
+    {
+        $this->db->where('eventId', $eventId);
+        $this->db->delete('eventmaster');
+        return true;
+    }
+    public function getEventAttById($id)
+    {
+        $query = "SELECT filename
+                  FROM eventattachment WHERE eventId = ".$id;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
 }

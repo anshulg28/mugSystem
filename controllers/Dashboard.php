@@ -93,6 +93,16 @@ class Dashboard extends MY_Controller {
         $data['feedbacks']['bandra'] = (int)(($promo['bandra']/$total['bandra'])*100 - ($de['bandra']/$total['bandra'])*100);
         $data['feedbacks']['andheri'] = (int)(($promo['andheri']/$total['andheri'])*100 - ($de['andheri']/$total['andheri'])*100);
 
+        $events = $this->dashboard_model->getAllEvents();
+        
+        if(isset($events) && myIsMultiArray($events))
+        {
+            foreach($events as $key => $row)
+            {
+                $data['eventDetails'][$key]['eventData'] = $row;
+                $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
+            }
+        }
 
         //$data['feedbacks'];
 		$data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
@@ -415,5 +425,21 @@ class Dashboard extends MY_Controller {
 
         redirect(base_url().'dashboard');
 
+    }
+    
+    function setEventDeActive($eventId)
+    {
+        $this->dashboard_model->deActivateEventRecord($eventId);
+        redirect(base_url().'dashboard');
+    }
+    function setEventActive($eventId)
+    {
+        $this->dashboard_model->activateEventRecord($eventId);
+        redirect(base_url().'dashboard');
+    }
+    function deleteEvent($eventId)
+    {
+        $this->dashboard_model->eventDelete($eventId);
+        redirect(base_url().'dashboard');
     }
 }
