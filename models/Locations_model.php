@@ -89,7 +89,7 @@ class Locations_Model extends CI_Model
     {
         $post['lastUpdate'] = date('Y-m-d H:i:s');
 
-        $this->db->where('id', $post['locId']);
+        $this->db->where('id', $post['id']);
         $this->db->update('locationmaster', $post);
         return true;
     }

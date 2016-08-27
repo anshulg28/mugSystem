@@ -606,6 +606,7 @@
                                                     }
                                                 if(isset($row['eventAtt']) && myIsMultiArray($row['eventAtt']))
                                                 {
+                                                    $imgs = array();
                                                     foreach($row['eventAtt'] as $attkey => $attrow)
                                                     {
                                                         $imgs[] = base_url().EVENT_PATH_THUMB.$attrow['filename'];
@@ -713,15 +714,22 @@
                                     <br>
                                     <div class="text-left">
                                         <label>Event Place: </label>
-                                        <div class="my-map-link my-display-inline hide">
-                                            <a href="" target="_blank">Show On Map</a>
-                                        </div>
-                                        <button type="button" data-toggle="modal" data-target="#mapModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Select Place</button>
-                                        <div class="maps-container">
-                                            <input name="placeLat" type="hidden" value="">
-                                            <input name="placeLong" type="hidden" value="">
-                                            <input name="eventPlace" type="hidden" value="">
-                                        </div>
+                                        <select id="eventPlace" class="form-control">
+                                            <?php
+                                            if(isset($locations))
+                                            {
+                                                foreach($locations as $key => $row)
+                                                {
+                                                    if(isset($row['id']))
+                                                    {
+                                                        ?>
+                                                        <option value="<?php echo $row['id'];?>"><?php echo $row['locName'];?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                     <br>
                                     <div class="text-left">
@@ -781,32 +789,7 @@
 
         </main>
     </div>
-    <!-- Modal -->
-    <div id="mapModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Place Selection</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="mapInput" class="my-fullWidth"/>
-                    <br>
-                    <div id="my_map"></div>
-                    <form id="mapForm" class="hide">
-                        Latitude:   <input name="lat" type="text" value="">
-                        Longitude:  <input name="lng" type="text" value="">
-                        Address:    <input name="formatted_address" type="text" value="">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button onclick="addPlaces()" type="button" class="btn btn-default" data-dismiss="modal">Done</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    
     <?php echo $footerView; ?>
 
 </body>
@@ -1726,28 +1709,7 @@
             $('.special-offer').addClass('hide');
         }
     });
-    $("#mapModal #mapInput").geocomplete(
-        {
-            details: "#mapForm",
-            map: "#my_map",
-            types: ["geocode", "establishment"]
-        });
-    function addPlaces()
-    {
-        var lat = $('#mapForm input[name="lat"]').val();
-        var lng = $('#mapForm input[name="lng"]').val();
-        var adds = $('#mapInput').val();
-
-        if(lat != '' && lng != '' && adds != '')
-        {
-            $('.maps-container input[name="placeLat"]').val(lat);
-            $('.maps-container input[name="placeLong"]').val(lng);
-            $('.maps-container input[name="eventPlace"]').val(adds);
-            //https://www.google.com/maps/place/19.0979741,72.8273923
-            $('.my-map-link a').attr('href','https://www.google.com/maps/place/'+lat+','+lng);
-            $('.my-map-link').removeClass('hide');
-        }
-    }
+    
     var filesEventsArr = [];
     function eventUploadChange(ele)
     {

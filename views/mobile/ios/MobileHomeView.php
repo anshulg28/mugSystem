@@ -559,15 +559,83 @@
             <div class="page" data-page="comming-up">
                 <!-- Scrollable page content -->
                 <div class="page-content" id="my-page1">
-                    <div class="pull-to-refresh-layer">
-                        <div class="preloader"></div>
-                        <div class="pull-to-refresh-arrow"></div>
-                    </div>
-                    <p>Page content goes here</p>
-                    <div id="instafeed"></div>
-                    <!--<a href="#" class="floating-button color-white">
-                        <i class="icon fa-4x">+</i>
-                    </a>-->
+                    <?php
+                    if(isset($eventDetails) && myIsMultiArray($eventDetails))
+                    {
+                        $postImg = 0;
+                        foreach($eventDetails as $key => $row)
+                        {
+                            $img_collection = array();
+                            ?>
+                            <div class="card demo-card-header-pic">
+                                <div class="row no-gutter">
+                                    <div class="col-100 more-photos-wrapper">
+                                        <?php
+                                        $img_bool = false;
+                                        foreach($row['eventAtt'] as $attKey => $attRow)
+                                        {
+                                            if($img_bool == false)
+                                            {
+                                                $img_bool = true;
+                                                if($postImg >=10)
+                                                {
+                                                    $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
+                                                    ?>
+                                                    <img src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
+                                                    <?php
+                                                }
+                                                else
+                                                {
+                                                    $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
+                                                    ?>
+                                                    <img data-src="<?php echo base_url().FOOD_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                    <?php
+                                                }
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                <i class="fa fa-picture-o multiple_pics"></i>
+                                                <?php
+                                                $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
+                                            }
+                                        }
+                                        $postImg++;
+                                        if(myIsArray($img_collection))
+                                        {
+                                            ?>
+                                            <input type="hidden" class="imgs_collection"
+                                                   value="<?php echo implode(',',$img_collection); ?>"/>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
+                                <div class="card-content">
+                                    <div class="card-content-inner">
+                                        <p class="pull-left"><?php echo $row['eventData']['eventName'];?></p>
+                                            <span class="pull-right"><?php $d = date_create($row['eventData']['eventDate']);
+                                                echo date_format($d,EVENT_DATE_FORMAT); ?>
+                                            </span>
+                                        <div class="comment more content-block clear">
+                                            <?php echo strip_tags($row['eventData']['eventDescription'],"<br>");?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <span class="event-new-notify hide" data-created="<?php echo $row['eventData']['createdDateTime'];?>">New</span>
+                                    <a href="#" class="link">Book <i class="fa fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    else
+                    {
+                        echo 'No Items Found!';
+                    }
+                    ?>
                 </div>
             </div>
         </div>

@@ -31,6 +31,16 @@ class Main extends MY_Controller {
                 $data['fnb'][$key]['att'] = $this->dashboard_model->getFnbAttById($row['fnbId']);
             }
         }
+        $events = $this->dashboard_model->getAllEvents();
+
+        if(isset($events) && myIsMultiArray($events))
+        {
+            foreach($events as $key => $row)
+            {
+                $data['eventDetails'][$key]['eventData'] = $row;
+                $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
+            }
+        }
         /*if ($this->mobile_detect->isAndroidOS()) {
 
             $data['androidStyle'] = $this->dataformatinghtml_library->getAndroidStyleHtml($data);

@@ -77,7 +77,7 @@ class Locations extends MY_Controller {
             $post['locUniqueLink'] = getUniqueLink($post['locName']);
         }
         $userExists = $this->locations_model->getLocDetailsByUniqueLink($post['locUniqueLink']);
-
+        
         if($userExists['status'] === false)
         {
             $this->locations_model->saveLocationRecord($post);
