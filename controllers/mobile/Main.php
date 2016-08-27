@@ -32,6 +32,14 @@ class Main extends MY_Controller {
             }
         }
         $events = $this->dashboard_model->getAllEvents();
+        usort($events,
+            function($a, $b) {
+                $ts_a = strtotime($a['createdDateTime']);
+                $ts_b = strtotime($b['createdDateTime']);
+
+                return $ts_a < $ts_b;
+            }
+        );
 
         if(isset($events) && myIsMultiArray($events))
         {

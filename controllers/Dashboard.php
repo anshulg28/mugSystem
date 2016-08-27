@@ -99,6 +99,8 @@ class Dashboard extends MY_Controller {
         {
             foreach($events as $key => $row)
             {
+                $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
+                $row['locData'] = $loc['locData'];
                 $data['eventDetails'][$key]['eventData'] = $row;
                 $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
             }

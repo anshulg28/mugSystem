@@ -78,7 +78,9 @@
             <div class="navbar-inner">
                 <div class="left">
                     <a href="#" class="link icon-only open-panel main-menu-icon">
-                        <i class="fa fa-bars color-black"></i>
+                        <!--<i class="fa fa-bars color-black"></i>-->
+                        <span class="d-logo"></span>
+                        <span class="bottom-bar-line"></span>
                         <!--<span class="d-logo"></span>-->
                         <!--<span class="bottom-bar-line"></span>-->
                         <!--<i class="fa fa-minus"></i>
@@ -545,9 +547,12 @@
                 <div class="left">
                     <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
                     <a href="#" class="link icon-only open-panel ripple main-menu-icon">
-                        <i class="fa fa-bars color-black"></i>
-                        <!--<i class="fa fa-minus"></i>
-                        <i class="fa fa-minus"></i>-->
+                        <!--<i class="fa fa-bars color-black"></i>-->
+                        <span class="d-logo"></span>
+                        <span class="bottom-bar-line"></span>
+                        <!--<br>
+                        <i class="fa fa-minus color-black"></i>
+                        <i class="fa fa-minus color-black"></i>-->
                     </a>
                 </div>
                 <!--<div class="center sliding">Doolally</div>-->
@@ -588,7 +593,7 @@
                                                 {
                                                     $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
                                                     ?>
-                                                    <img data-src="<?php echo base_url().FOOD_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                    <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
                                                     <?php
                                                 }
                                             }
@@ -614,18 +619,21 @@
                                 <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
                                 <div class="card-content">
                                     <div class="card-content-inner">
-                                        <p class="pull-left"><?php echo $row['eventData']['eventName'];?></p>
+                                        <div class="event-info-wrapper">
+                                            <p class="pull-left card-ptag fa-15x"><?php echo $row['eventData']['eventName'];?></p>
                                             <span class="pull-right"><?php $d = date_create($row['eventData']['eventDate']);
                                                 echo date_format($d,EVENT_DATE_FORMAT); ?>
                                             </span>
+                                        </div>
+
                                         <div class="comment more content-block clear">
                                             <?php echo strip_tags($row['eventData']['eventDescription'],"<br>");?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <span class="event-new-notify hide" data-created="<?php echo $row['eventData']['createdDateTime'];?>">New</span>
-                                    <a href="#" class="link">Book <i class="fa fa-arrow-right"></i></a>
+                                    <span class="event-new-notify my-vanish" data-created="<?php echo $row['eventData']['createdDateTime'];?>">New</span>
+                                    <a href="#" class="link color-black">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
                                 </div>
                             </div>
                             <?php
@@ -647,7 +655,9 @@
                 <div class="left">
                     <!--<a href="#" class="link icon-only open-panel"><i class="icon fa fa-bars color-black"></i></a>-->
                     <a href="#" class="link icon-only open-panel main-menu-icon">
-                        <i class="fa fa-bars color-black"></i>
+                        <!--<i class="fa fa-bars color-black"></i>-->
+                        <span class="d-logo"></span>
+                        <span class="bottom-bar-line"></span>
                         <!--<span class="d-logo"></span>-->
                         <!--<i class="fa fa-minus"></i>
                         <i class="fa fa-minus"></i>-->
@@ -744,7 +754,7 @@
                                     <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
                                     <div class="card-content">
                                         <div class="card-content-inner">
-                                            <p class="pull-left"><?php echo $row['item']['itemName'];?></p>
+                                            <p class="pull-left card-ptag"><?php echo $row['item']['itemName'];?></p>
                                             <span class="pull-right">Rs. <?php echo $row['item']['priceFull'];?>
                                                 <?php
                                                     if(isset($row['item']['priceHalf']) && $row['item']['priceHalf'] != '0')
@@ -783,11 +793,13 @@
             </a>
             <a href="#tab2" class="tab-link">
                 <!--<i class="fa fa-hashtag"></i>-->
-                <i class="fa fa-calendar"></i>
+                <!--<i class="fa fa-calendar"></i>-->
+                <span class="ic_events_icon"></span>
                 <span class="tabbar-label">Events</span>
             </a>
             <a href="#tab3" class="tab-link">
-                <i class="fa fa-cutlery"></i>
+                <!--<i class="fa fa-cutlery"></i>-->
+                <span class="ic_fnb_icon"></span>
                 <span class="tabbar-label">F&B</span>
             </a>
         </div>

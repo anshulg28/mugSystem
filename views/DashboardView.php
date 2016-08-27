@@ -585,7 +585,7 @@
                                                     }
                                                     ?>
                                                 </td>
-                                                <td><?php echo $row['eventData']['eventPlace'];?></td>
+                                                <td><?php echo $row['eventData']['locData'][0]['locName'];?></td>
                                                 <td><?php echo $row['eventData']['creatorName'];?></td>
                                                 <td><!--<a data-toggle="tooltip" title="Edit" href="<?php /*echo base_url().'mugclub/edit/'.$row['mugId'];*/?>">
                                                         <i class="glyphicon glyphicon-edit"></i></a>&nbsp;-->
