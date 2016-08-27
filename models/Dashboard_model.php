@@ -365,4 +365,20 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+    public function saveEventRecord($details)
+    {
+        $details['createdDateTime'] = date('Y-m-d H:i:s');
+        $details['ifActive'] = '0';
+
+        $this->db->insert('eventmaster', $details);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+    public function saveEventAttachment($details)
+    {
+        $details['insertedDateTime'] = date('Y-m-d H:i:s');
+
+        $this->db->insert('eventattachment', $details);
+        return true;
+    }
 }

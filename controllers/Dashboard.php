@@ -358,4 +358,62 @@ class Dashboard extends MY_Controller {
 
         return $img_name;
     }
+    public function uploadEventFiles()
+    {
+        $attchmentArr = '';
+        $this->load->library('upload');
+        if(isset($_FILES))
+        {
+            if($_FILES['attachment']['error'] != 1)
+            {
+                $config = array();
+                $config['upload_path'] = './uploads/events/';
+                $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                $config['max_size']      = '0';
+                $config['overwrite']     = TRUE;
+
+                $this->upload->initialize($config);
+                $this->upload->do_upload('attachment');
+                $upload_data = $this->upload->data();
+
+                //$attchmentArr = $upload_data['full_path'];
+                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name']);
+                echo $attchmentArr;
+            }
+            else
+            {
+                echo 'Some Error Occurred!';
+            }
+        }
+    }
+
+    function saveEvent()
+    {
+        $post = $this->input->post();
+
+        if(isset($post['attachment']))
+        {
+            $attachement = $post['attachment'];
+            unset($post['attachment']);
+        }
+        $post['userId'] = $this->userId;
+        $eventId = $this->dashboard_model->saveEventRecord($post);
+
+        if(isset($attachement))
+        {
+            $img_names = explode(',',$attachement);
+            for($i=0;$i<count($img_names);$i++)
+            {
+                $attArr = array(
+                    'eventId' => $eventId,
+                    'filename'=> $img_names[$i],
+                    'attachmentType' => '1'
+                );
+                $this->dashboard_model->saveEventAttachment($attArr);
+            }
+        }
+
+        redirect(base_url().'dashboard');
+
+    }
 }

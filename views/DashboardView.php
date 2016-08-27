@@ -16,6 +16,7 @@
                 <li><a class="my-noBorderRadius" data-toggle="pill" href="#instamojo">Instamojo</a></li>
                 <li><a class="my-noBorderRadius" data-toggle="pill" href="#feedback">Feedback</a></li>
                 <li><a class="my-noBorderRadius" data-toggle="pill" href="#fnbpanel">FnB Data</a></li>
+                <li><a class="my-noBorderRadius" data-toggle="pill" href="#eventpanel">Events</a></li>
             </ul>
             <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
                 <a href="#mugclub" class="mdl-layout__tab">Mug Club</a><br>
@@ -531,11 +532,178 @@
                     <div class="mdl-cell mdl-cell--2-col"></div>
                 </div>
             </section>
+            <section class="tab-pane fade" id="eventpanel">
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--2-col"></div>
+                    <div class="mdl-cell mdl-cell--8-col text-center">
+                        <form action="<?php echo base_url();?>dashboard/saveEvent" method="post" enctype="multipart/form-data">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                <input class="mdl-textfield__input" type="text" name="eventName" id="eventName">
+                                <label class="mdl-textfield__label" for="eventName">Event Name</label>
+                            </div>
+                            <br>
+                            <div class="text-left">
+                                <label for="eventType">Event Type :</label>
+                                <select name="eventType" id="eventType" class="form-control">
+                                    <option value="Presentation">Presentation</option>
+                                    <option value="Meet up">Meet up</option>
+                                    <option value="Pet Event">Pet Event</option>
+                                    <option value="Talk">Talk</option>
+                                    <option value="Discussion">Discussion</option>
+                                    <option value="Exhibition">Exhibition</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Screening">Screening</option>
+                                    <option value="Book Club">Book Club</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                                <div class="mdl-textfield mdl-js-textfield other-event hide">
+                                    <input class="mdl-textfield__input" type="text" id="otherType">
+                                    <label class="mdl-textfield__label" for="otherType">Other</label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                <label for="eventDescription">Event Description: </label>
+                                <textarea class="mdl-textfield__input" type="text" name="eventDescription" rows="5" id="eventDescription"></textarea>
+                            </div>
+                            <ul class="list-inline text-left">
+                                <li>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input class="mdl-textfield__input" type="text" name="eventDate" id="eventDate" placeholder="">
+                                        <label class="mdl-textfield__label" for="eventDate">Event Date</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input class="mdl-textfield__input" type="text" name="startTime" id="startTime" placeholder="">
+                                        <label class="mdl-textfield__label" for="startTime">Start Time</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input class="mdl-textfield__input" type="text" name="endTime" id="endTime" placeholder="">
+                                        <label class="mdl-textfield__label" for="endTime">End Time</label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="text-left">
+                                <label>Event Cost :</label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
+                                    <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1" checked>
+                                    <span class="mdl-radio__label">Free</span>
+                                </label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
+                                    <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2">
+                                    <span class="mdl-radio__label">Paid</span>
+                                </label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price hide">
+                                    <input class="mdl-textfield__input" type="text" name="eventPrice" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
+                                    <label class="mdl-textfield__label" for="eventPrice">Price</label>
+                                    <span class="mdl-textfield__error">Input is not a number!</span>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label special-offer hide">
+                                    <input class="mdl-textfield__input" type="text" name="priceFreeStuff" id="priceFreeStuff" placeholder="">
+                                    <label class="mdl-textfield__label" for="priceFreeStuff">Special Offer With Price?</label>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="text-left">
+                                <label>Event Place: </label>
+                                <div class="my-map-link my-display-inline hide">
+                                    <a href="" target="_blank">Show On Map</a>
+                                </div>
+                                <button type="button" data-toggle="modal" data-target="#mapModal" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Select Place</button>
+                                <div class="maps-container">
+                                    <input name="placeLat" type="hidden" value="">
+                                    <input name="placeLong" type="hidden" value="">
+                                    <input name="eventPlace" type="hidden" value="">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="text-left">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" name="eventCapacity" id="eventCapacity" placeholder="">
+                                    <label class="mdl-textfield__label" for="eventCapacity">Event Capacity</label>
+                                </div>
+                                <br>
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="ifMicRequired">
+                                    <input type="checkbox" name="ifMicRequired" value="1" id="ifMicRequired" class="mdl-checkbox__input">
+                                    <span class="mdl-checkbox__label">Do you need a mic?</span>
+                                </label>
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="ifProjectorRequired">
+                                    <input type="checkbox" id="ifProjectorRequired" name="ifProjectorRequired" value="1" class="mdl-checkbox__input">
+                                    <span class="mdl-checkbox__label">Do you need a projector?</span>
+                                </label>
+                            </div>
+                            <br>
+                            <div class="text-left">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName" placeholder="">
+                                    <label class="mdl-textfield__label" for="creatorName">Organizer Name</label>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone" placeholder="">
+                                    <label class="mdl-textfield__label" for="creatorPhone">Organizer Phone</label>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail" placeholder="">
+                                    <label class="mdl-textfield__label" for="creatorEmail">Organizer Email</label>
+                                </div>
+                                <br>
+                                <label for="eventDescription">Organizer Description: </label>
+                                <textarea class="mdl-textfield__input my-singleBorder" type="text" name="aboutCreator" rows="5" id="aboutCreator"></textarea>
+                            </div>
+                            <br>
+                            <div class="myUploadPanel text-left">
+                                <input type="file" multiple class="form-control" onchange="eventUploadChange(this)" />
+                                <input type="hidden" name="attachment" />
+                            </div>
+
+                            <br>
+                            <button onclick="fillEventImgs()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+                        </form>
+                        <br>
+                        <div class="progress hide">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--2-col"></div>
+                </div>
+            </section>
 
         </main>
     </div>
+    <!-- Modal -->
+    <div id="mapModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Place Selection</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="mapInput" class="my-fullWidth"/>
+                    <br>
+                    <div id="my_map"></div>
+                    <form id="mapForm" class="hide">
+                        Latitude:   <input name="lat" type="text" value="">
+                        Longitude:  <input name="lng" type="text" value="">
+                        Address:    <input name="formatted_address" type="text" value="">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="addPlaces()" type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <?php echo $footerView; ?>
+
 </body>
 <?php echo $globalJs; ?>
 <script>
@@ -1412,6 +1580,108 @@
     function fillImgs()
     {
         $('input[name="attachment"]').val(filesArr.join());
+    }
+</script>
+
+<script>
+    CKEDITOR.replace('eventDescription');
+    var date = new Date();
+    $('#eventDate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        minDate: date
+    });
+    $('#startTime, #endTime').datetimepicker({
+        format: 'HH:mm'
+    });
+    $(document).on('change','#eventType', function(){
+        if($(this).find('option:checked').val() != 'Others')
+        {
+            $(this).attr('name','eventType');
+            $('.other-event').addClass('hide');
+            $('.other-event input').removeAttr('name');
+        }
+        else
+        {
+            $(this).removeAttr('name');
+            $('.other-event').removeClass('hide');
+            $('.other-event input').attr('name','eventType');
+        }
+    });
+
+    $(document).on('change','input[name="costType"]', function(){
+        if($(this).val() == "2")
+        {
+            $('.event-price').removeClass('hide');
+            $('.special-offer').removeClass('hide');
+        }
+        else
+        {
+            $('.event-price').addClass('hide');
+            $('.special-offer').addClass('hide');
+        }
+    });
+    $("#mapModal #mapInput").geocomplete(
+        {
+            details: "#mapForm",
+            map: "#my_map",
+            types: ["geocode", "establishment"]
+        });
+    function addPlaces()
+    {
+        var lat = $('#mapForm input[name="lat"]').val();
+        var lng = $('#mapForm input[name="lng"]').val();
+        var adds = $('#mapInput').val();
+
+        if(lat != '' && lng != '' && adds != '')
+        {
+            $('.maps-container input[name="placeLat"]').val(lat);
+            $('.maps-container input[name="placeLong"]').val(lng);
+            $('.maps-container input[name="eventPlace"]').val(adds);
+            //https://www.google.com/maps/place/19.0979741,72.8273923
+            $('.my-map-link a').attr('href','https://www.google.com/maps/place/'+lat+','+lng);
+            $('.my-map-link').removeClass('hide');
+        }
+    }
+    var filesEventsArr = [];
+    function eventUploadChange(ele)
+    {
+
+        $('#eventpanel button[type="submit"]').attr('disabled','true');
+        $('#eventpanel .progress').removeClass('hide');
+        var xhr = [];
+        var totalFiles = ele.files.length;
+        for(var i=0;i<totalFiles;i++)
+        {
+            xhr[i] = new XMLHttpRequest();
+            (xhr[i].upload || xhr[i]).addEventListener('progress', function(e) {
+                var done = e.position || e.loaded;
+                var total = e.totalSize || e.total;
+                $('.progress-bar').css('width', Math.round(done/total*100)+'%').attr('aria-valuenow', Math.round(done/total*100)).html(parseInt(Math.round(done/total*100))+'%');
+            });
+            xhr[i].addEventListener('load', function(e) {
+                $('#eventpanel button[type="submit"]').removeAttr('disabled');
+            });
+            xhr[i].open('post', '<?php echo base_url();?>dashboard/uploadEventFiles', true);
+
+            var data = new FormData;
+            data.append('attachment', ele.files[i]);
+            xhr[i].send(data);
+            xhr[i].onreadystatechange = function(e) {
+                if (e.srcElement.readyState == 4 && e.srcElement.status == 200) {
+                    if(e.srcElement.responseText == 'Some Error Occurred!')
+                    {
+                        bootbox.alert('File size Limit 30MB');
+                        return false;
+                    }
+                    filesEventsArr.push(e.srcElement.responseText);
+                }
+            }
+        }
+    }
+
+    function fillEventImgs()
+    {
+        $('#eventpanel input[name="attachment"]').val(filesEventsArr.join());
     }
 </script>
 </html>
