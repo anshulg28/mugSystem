@@ -620,19 +620,35 @@
                                 <div class="card-content">
                                     <div class="card-content-inner">
                                         <div class="event-info-wrapper">
-                                            <p class="pull-left card-ptag fa-15x"><?php echo $row['eventData']['eventName'];?></p>
-                                            <span class="pull-right"><?php $d = date_create($row['eventData']['eventDate']);
+                                            <p class="pull-left card-ptag event-date-tag">
+                                                <?php
+                                                $eventName = (strlen($row['eventData']['eventName']) > 25) ? substr($row['eventData']['eventName'], 0, 25) . '..' : $row['eventData']['eventName'];
+                                                echo $eventName;?>
+                                            </p>
+                                            <span class="pull-right event-dt-string"><?php $d = date_create($row['eventData']['eventDate']);
                                                 echo date_format($d,EVENT_DATE_FORMAT); ?>
                                             </span>
                                         </div>
 
-                                        <div class="comment more content-block clear">
+                                        <div class="comment content-block clear">
                                             <?php echo strip_tags($row['eventData']['eventDescription'],"<br>");?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <span class="event-new-notify my-vanish" data-created="<?php echo $row['eventData']['createdDateTime'];?>">New</span>
+                                    <span class="event-new-notify">
+                                        <?php
+                                            switch($row['eventData']['costType'])
+                                            {
+                                                case "1":
+                                                    echo "Free";
+                                                    break;
+                                                case "2":
+                                                    echo 'Rs '.$row['eventData']['eventPrice'];
+                                                    break;
+                                            }
+                                        ?>
+                                    </span>
                                     <a href="#" class="link color-black">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
                                 </div>
                             </div>

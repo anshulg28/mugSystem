@@ -31,13 +31,13 @@ class Main extends MY_Controller {
                 $data['fnb'][$key]['att'] = $this->dashboard_model->getFnbAttById($row['fnbId']);
             }
         }
-        $events = $this->dashboard_model->getAllEvents();
+        $events = $this->dashboard_model->getAllApprovedEvents();
         usort($events,
             function($a, $b) {
-                $ts_a = strtotime($a['createdDateTime']);
-                $ts_b = strtotime($b['createdDateTime']);
+                $ts_a = strtotime($a['eventDate']);
+                $ts_b = strtotime($b['eventDate']);
 
-                return $ts_a < $ts_b;
+                return $ts_a > $ts_b;
             }
         );
 

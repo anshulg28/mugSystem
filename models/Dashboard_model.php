@@ -390,6 +390,14 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+    public function getAllApprovedEvents()
+    {
+        $query = "SELECT *
+                  FROM eventmaster where ifActive = ".ACTIVE;
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
     public function activateEventRecord($eventId)
     {
         $data['ifActive'] = 1;

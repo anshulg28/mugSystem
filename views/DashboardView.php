@@ -714,7 +714,7 @@
                                     <br>
                                     <div class="text-left">
                                         <label>Event Place: </label>
-                                        <select id="eventPlace" class="form-control">
+                                        <select id="eventPlace" name="eventPlace" class="form-control">
                                             <?php
                                             if(isset($locations))
                                             {
