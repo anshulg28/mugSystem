@@ -365,14 +365,24 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+
+    //Event Related Functions
+
     public function saveEventRecord($details)
     {
         $details['createdDateTime'] = date('Y-m-d H:i:s');
         $details['ifActive'] = '0';
+        $details['ifApproved'] = '0';
 
         $this->db->insert('eventmaster', $details);
         $insert_id = $this->db->insert_id();
         return $insert_id;
+    }
+    public function updateEventRecord($details, $eventId)
+    {
+        $this->db->where('eventId',$eventId);
+        $this->db->update('eventmaster', $details);
+        return true;
     }
     public function saveEventAttachment($details)
     {
@@ -384,7 +394,16 @@ class Dashboard_Model extends CI_Model
     public function getAllEvents()
     {
         $query = "SELECT *
-                  FROM eventmaster";
+                  FROM eventmaster ORDER BY eventId DESC";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getEventById($eventId)
+    {
+        $query = "SELECT *
+                  FROM eventmaster WHERE eventId = ".$eventId;
 
         $result = $this->db->query($query)->result_array();
 
@@ -397,6 +416,24 @@ class Dashboard_Model extends CI_Model
         $result = $this->db->query($query)->result_array();
 
         return $result;
+    }
+    public function ApproveEvent($eventId)
+    {
+        $data['ifActive'] = 1;
+        $data['ifApproved'] = 1;
+
+        $this->db->where('eventId', $eventId);
+        $this->db->update('eventmaster', $data);
+        return true;
+    }
+    public function DeclineEvent($eventId)
+    {
+        $data['ifActive'] = 0;
+        $data['ifApproved'] = 2;
+
+        $this->db->where('eventId', $eventId);
+        $this->db->update('eventmaster', $data);
+        return true;
     }
     public function activateEventRecord($eventId)
     {
@@ -420,9 +457,15 @@ class Dashboard_Model extends CI_Model
         $this->db->delete('eventmaster');
         return true;
     }
+    public function eventAttDelete($attId)
+    {
+        $this->db->where('id', $attId);
+        $this->db->delete('eventattachment');
+        return true;
+    }
     public function getEventAttById($id)
     {
-        $query = "SELECT filename
+        $query = "SELECT id, filename
                   FROM eventattachment WHERE eventId = ".$id;
 
         $result = $this->db->query($query)->result_array();

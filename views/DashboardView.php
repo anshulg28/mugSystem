@@ -590,18 +590,34 @@
                                                 <td><!--<a data-toggle="tooltip" title="Edit" href="<?php /*echo base_url().'mugclub/edit/'.$row['mugId'];*/?>">
                                                         <i class="glyphicon glyphicon-edit"></i></a>&nbsp;-->
                                                 <?php
-                                                    if($row['eventData']['ifActive'] == ACTIVE)
+                                                    if($row['eventData']['ifApproved'] == EVENT_WAITING)
+                                                    {
+                                                        ?>
+                                                        <a data-toggle="tooltip" title="Approve" href="<?php echo base_url().'dashboard/approve/'.$row['eventData']['eventId'];?>">
+                                                            <i class="fa fa-15x fa-check my-success-text"></i></a>
+                                                        <a data-toggle="tooltip" title="Decline" href="<?php echo base_url().'dashboard/decline/'.$row['eventData']['eventId'];?>">
+                                                            <i class="fa fa-15x fa-times my-error-text"></i></a>
+                                                        <?php
+                                                    }
+                                                    elseif($row['eventData']['ifApproved'] == EVENT_APPROVED && $row['eventData']['ifActive'] == ACTIVE)
                                                     {
                                                         ?>
                                                         <a data-toggle="tooltip" title="Active" href="<?php echo base_url().'dashboard/setEventDeActive/'.$row['eventData']['eventId'];?>">
                                                             <i class="fa fa-15x fa-lightbulb-o my-success-text"></i></a>
                                                         <?php
                                                     }
-                                                    else
+                                                    elseif($row['eventData']['ifApproved'] == EVENT_APPROVED && $row['eventData']['ifActive'] == NOT_ACTIVE)
                                                     {
                                                         ?>
                                                         <a data-toggle="tooltip" title="Not Active" href="<?php echo base_url().'dashboard/setEventActive/'.$row['eventData']['eventId'];?>">
                                                             <i class="fa fa-15x fa-lightbulb-o my-error-text"></i></a>
+                                                        <?php
+                                                    }
+                                                    elseif($row['eventData']['ifApproved'] == EVENT_DECLINED)
+                                                    {
+                                                        ?>
+                                                        <a data-toggle="tooltip" title="Declined" href="<?php echo base_url().'dashboard/approve/'.$row['eventData']['eventId'];?>">
+                                                            <i class="fa fa-15x fa-ban my-error-text"></i></a>
                                                         <?php
                                                     }
                                                 if(isset($row['eventAtt']) && myIsMultiArray($row['eventAtt']))
@@ -617,8 +633,11 @@
                                                     <?php
                                                 }
                                                 ?>
-                                                    <!--<a data-toggle="tooltip" class="eventDelete-icon" title="Delete" href="<?php /*echo base_url().'dashboard/deleteEvent/'.$row['eventId'];*/?>">
-                                                        <i class="fa fa-trash-o"></i></a>&nbsp;-->
+                                                    <a class="view-photos" data-toggle="tooltip" title="Edit"
+                                                       href="<?php echo base_url().'dashboard/editEvent/'.$row['eventData']['eventId']?>">
+                                                        <i class="fa fa-15x fa-pencil-square-o my-black-text"></i></a>
+                                                    <a data-toggle="tooltip" class="eventDelete-icon" data-eventId="<?php echo $row['eventData']['eventId'];?>" title="Delete" href="#">
+                                                        <i class="fa fa-trash-o fa-15x"></i></a>&nbsp;
                                                 </td>
                                             </tr>
                                             <?php
@@ -649,16 +668,14 @@
                                     <div class="text-left">
                                         <label for="eventType">Event Type :</label>
                                         <select name="eventType" id="eventType" class="form-control">
-                                            <option value="Presentation">Presentation</option>
-                                            <option value="Meet up">Meet up</option>
-                                            <option value="Pet Event">Pet Event</option>
-                                            <option value="Talk">Talk</option>
-                                            <option value="Discussion">Discussion</option>
-                                            <option value="Exhibition">Exhibition</option>
-                                            <option value="Workshop">Workshop</option>
-                                            <option value="Screening">Screening</option>
-                                            <option value="Book Club">Book Club</option>
-                                            <option value="Others">Others</option>
+                                            <?php
+                                                foreach($this->config->item('eventTypes') as $key => $row)
+                                                {
+                                                    ?>
+                                                    <option value="<?php echo $row;?>"><?php echo $row;?></option>
+                                                    <?php
+                                                }
+                                            ?>
                                         </select>
                                         <div class="mdl-textfield mdl-js-textfield other-event hide">
                                             <input class="mdl-textfield__input" type="text" id="otherType">
@@ -1751,7 +1768,9 @@
     {
         $('#eventpanel input[name="attachment"]').val(filesEventsArr.join());
     }
-    $('#main-event-table').DataTable();
+    $('#main-event-table').DataTable({
+        "ordering": false
+    });
     $('[data-toggle="tooltip"]').tooltip();
     $(document).on('click','.view-photos', function(){
         var pics = $(this).attr('data-imgs').split(',');
@@ -1765,6 +1784,15 @@
             }
             $.swipebox( newPics );
         }
+    });
+    $(document).on('click','.eventDelete-icon',function(){
+        var mugId = $(this).attr('data-eventId');
+        bootbox.confirm("Are you sure you want to delete event #"+mugId+" ?", function(result) {
+            if(result === true)
+            {
+                window.location.href='<?php echo base_url();?>dashboard/deleteEvent/'+mugId;
+            }
+        });
     });
 </script>
 </html>

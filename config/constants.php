@@ -110,6 +110,9 @@ defined('GUEST_USER') OR define('GUEST_USER',4);
 /*Active or not*/
 defined('ACTIVE')   OR define('ACTIVE', 1);
 defined('NOT_ACTIVE')   OR define('NOT_ACTIVE', 0);
+defined('EVENT_WAITING')   OR define('EVENT_WAITING', 0);
+defined('EVENT_APPROVED')   OR define('EVENT_APPROVED', 1);
+defined('EVENT_DECLINED')   OR define('EVENT_DECLINED', 2);
 
 /* API Feeds */
 defined('TWITTER_API') OR define('TWITTER_API','https://api.twitter.com/1.1/');

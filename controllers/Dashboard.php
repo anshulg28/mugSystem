@@ -94,7 +94,7 @@ class Dashboard extends MY_Controller {
         $data['feedbacks']['andheri'] = (int)(($promo['andheri']/$total['andheri'])*100 - ($de['andheri']/$total['andheri'])*100);
 
         $events = $this->dashboard_model->getAllEvents();
-        
+
         if(isset($events) && myIsMultiArray($events))
         {
             foreach($events as $key => $row)
@@ -429,6 +429,70 @@ class Dashboard extends MY_Controller {
 
     }
     
+    function editEvent($eventId)
+    {
+        $data = array();
+        $events = $this->dashboard_model->getEventById($eventId);
+        if(isset($events) && myIsMultiArray($events))
+        {
+            foreach($events as $key => $row)
+            {
+                $data['eventInfo'][$key]['eventData'] = $row;
+                $data['eventInfo'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
+            }
+        }
+
+        $locArray = $this->locations_model->getAllLocations();
+        $data['locations'] = $locArray;
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
+
+        $this->load->view('EventEditView', $data);
+    }
+
+    function updateEvent()
+    {
+        $post = $this->input->post();
+
+        if(isset($post['attachment']))
+        {
+            $attachement = $post['attachment'];
+            unset($post['attachment']);
+        }
+        $eventId = $post['eventId'];
+        unset($post['eventId']);
+        $this->dashboard_model->updateEventRecord($post,$eventId);
+
+        if(isset($attachement) && $attachement != '')
+        {
+            $img_names = explode(',',$attachement);
+            for($i=0;$i<count($img_names);$i++)
+            {
+                $attArr = array(
+                    'eventId' => $eventId,
+                    'filename'=> $img_names[$i],
+                    'attachmentType' => '1'
+                );
+                $this->dashboard_model->saveEventAttachment($attArr);
+            }
+        }
+
+        redirect(base_url().'dashboard');
+
+    }
+
+    function eventApproved($eventId)
+    {
+        $this->dashboard_model->ApproveEvent($eventId);
+        redirect(base_url().'dashboard');
+    }
+    function eventDeclined($eventId)
+    {
+        $this->dashboard_model->DeclineEvent($eventId);
+        redirect(base_url().'dashboard');
+    }
     function setEventDeActive($eventId)
     {
         $this->dashboard_model->deActivateEventRecord($eventId);
@@ -443,5 +507,13 @@ class Dashboard extends MY_Controller {
     {
         $this->dashboard_model->eventDelete($eventId);
         redirect(base_url().'dashboard');
+    }
+    function deleteEventAtt()
+    {
+        $post = $this->input->post();
+        $picId = $post['picId'];
+        $this->dashboard_model->eventAttDelete($picId);
+        $data['status'] = true;
+        echo json_encode($data);
     }
 }

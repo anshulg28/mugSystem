@@ -82,6 +82,8 @@ $route['dashboard/custom'] = 'dashboard/getCustomStats';
 $route['dashboard/save'] = 'dashboard/saveRecord';
 $route['dashboard/instamojo'] = 'dashboard/instaMojoRecord';
 $route['dashboard/instadone/(:any)/(:any)'] = 'dashboard/setInstamojoDone/$1/$2';
+$route['dashboard/approve/(:any)'] = 'dashboard/eventApproved/$1';
+$route['dashboard/decline/(:any)'] = 'dashboard/eventDeclined/$1';
 $route['main'] = 'home/main';
 
 /* Mobile Routes */
