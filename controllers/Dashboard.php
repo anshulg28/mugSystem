@@ -106,6 +106,16 @@ class Dashboard extends MY_Controller {
             }
         }
 
+        $fnb = $this->dashboard_model->getAllFnB();
+
+        if(isset($fnb) && myIsMultiArray($fnb))
+        {
+            foreach($fnb['fnbItems'] as $key => $row)
+            {
+                $data['fnbData'][$key]['fnb']= $row;
+                $data['fnbData'][$key]['fnbAtt'] = $this->dashboard_model->getFnbAttById($row['fnbId']);
+            }
+        }
         //$data['feedbacks'];
 		$data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
 		$data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
@@ -515,5 +525,76 @@ class Dashboard extends MY_Controller {
         $this->dashboard_model->eventAttDelete($picId);
         $data['status'] = true;
         echo json_encode($data);
+    }
+
+    //For Fnb Section
+    function setFnbActive($fnbId)
+    {
+        $this->dashboard_model->activateFnbRecord($fnbId);
+        redirect(base_url().'dashboard');
+    }
+    function setFnbDeActive($fnbId)
+    {
+        $this->dashboard_model->DeActivateFnbRecord($fnbId);
+        redirect(base_url().'dashboard');
+    }
+    function deleteFnb($fnbId)
+    {
+        $this->dashboard_model->eventDelete($fnbId);
+        redirect(base_url().'dashboard');
+    }
+    function editFnb($fnbId)
+    {
+        $data = array();
+        $fnb = $this->dashboard_model->getFnBById($fnbId);
+        if(isset($fnb) && myIsMultiArray($fnb))
+        {
+            foreach($fnb as $key => $row)
+            {
+                $data['fnbInfo'][$key]['fnbData'] = $row;
+                $data['fnbInfo'][$key]['fnbAtt'] = $this->dashboard_model->getFnbAttById($row['fnbId']);
+            }
+        }
+        
+        $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
+        $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
+        $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
+        $data['footerView'] = $this->dataformatinghtml_library->getFooterHtml($data);
+
+        $this->load->view('FnbEditView', $data);
+    }
+    function deleteFnbAtt()
+    {
+        $post = $this->input->post();
+        $picId = $post['picId'];
+        $this->dashboard_model->fnbAttDelete($picId);
+        $data['status'] = true;
+        echo json_encode($data);
+    }
+    public function updatefnb()
+    {
+        $post = $this->input->post();
+        $details = array(
+            'itemType'=> $post['itemType'],
+            'itemName' => $post['itemName'],
+            'itemDescription' => $post['itemDescription'],
+            'priceFull' => $post['priceFull'],
+            'priceHalf' => $post['priceHalf']
+        );
+        $this->dashboard_model->updateFnbRecord($details,$post['fnbId']);
+
+        $img_names = explode(',',$post['attachment']);
+        for($i=0;$i<count($img_names);$i++)
+        {
+            $attArr = array(
+                'fnbId' => $post['fnbId'],
+                'filename'=> $img_names[$i],
+                'attachmentType' => $post['attType'][$i]
+            );
+            $this->dashboard_model->saveFnbAttachment($attArr);
+        }
+
+        redirect(base_url().'dashboard');
+
     }
 }

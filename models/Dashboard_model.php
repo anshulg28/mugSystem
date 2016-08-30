@@ -340,7 +340,7 @@ class Dashboard_Model extends CI_Model
     public function getAllFnB()
     {
         $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
-                  FROM fnbmaster WHERE ifActive = 1";
+                  FROM fnbmaster WHERE ifActive = 1 ORDER BY fnbId DESC";
 
         $result = $this->db->query($query)->result_array();
         $data['fnbItems'] = $result;
@@ -354,6 +354,15 @@ class Dashboard_Model extends CI_Model
         }
 
         return $data;
+    }
+    public function getFnBById($fnbId)
+    {
+        $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
+                  FROM fnbmaster WHERE ifActive = 1 AND fnbId = ".$fnbId;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
     }
 
     public function getFnbAttById($id)
@@ -463,6 +472,12 @@ class Dashboard_Model extends CI_Model
         $this->db->delete('eventattachment');
         return true;
     }
+    public function fnbAttDelete($attId)
+    {
+        $this->db->where('id', $attId);
+        $this->db->delete('fnbattachment');
+        return true;
+    }
     public function getEventAttById($id)
     {
         $query = "SELECT id, filename
@@ -471,5 +486,36 @@ class Dashboard_Model extends CI_Model
         $result = $this->db->query($query)->result_array();
 
         return $result;
+    }
+
+    //For Fnb
+    public function activateFnbRecord($fnbId)
+    {
+        $data['ifActive'] = 1;
+
+        $this->db->where('fnbId', $fnbId);
+        $this->db->update('fnbmaster', $data);
+        return true;
+    }
+    public function DeActivateFnbRecord($fnbId)
+    {
+        $data['ifActive'] = 0;
+
+        $this->db->where('fnbId', $fnbId);
+        $this->db->update('fnbmaster', $data);
+        return true;
+    }
+    public function fnbDelete($fnbId)
+    {
+        $this->db->where('fnbId', $fnbId);
+        $this->db->delete('fnbmaster');
+        return true;
+    }
+
+    public function updateFnbRecord($details, $fnbId)
+    {
+        $this->db->where('fnbId',$fnbId);
+        $this->db->update('fnbmaster', $details);
+        return true;
     }
 }

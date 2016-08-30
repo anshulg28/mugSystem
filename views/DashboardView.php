@@ -458,78 +458,193 @@
                 </div>
             </section>
             <section class="tab-pane fade" id="fnbpanel">
-                <div class="mdl-grid">
-                    <div class="mdl-cell mdl-cell--2-col"></div>
-                    <div class="mdl-cell mdl-cell--8-col text-center">
-                        <form action="<?php echo base_url();?>dashboard/savefnb" method="post" enctype="multipart/form-data">
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                <input class="mdl-textfield__input" type="text" name="itemName" id="itemName">
-                                <label class="mdl-textfield__label" for="itemName">Name</label>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#fnbView">Fnb Records</a></li>
+                    <li><a data-toggle="tab" href="#fnbAdd">Add Fnb</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="fnbView" class="tab-pane fade in active">
+                        <?php
+                        if(isset($fnbData) && myIsMultiArray($fnbData))
+                        {
+                            ?>
+                            <div class="mdl-grid table-responsive">
+                                <table id="main-fnb-table" class="table table-hover table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Fnb Id</th>
+                                        <th>Item Type</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Price Full</th>
+                                        <th>Price Half</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    foreach($fnbData as $key => $row)
+                                    {
+                                        ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $row['fnb']['fnbId'];?></th>
+                                            <td>
+                                                <?php
+                                                switch($row['fnb']['itemType'])
+                                                {
+                                                    case "1":
+                                                        echo 'Food';
+                                                        break;
+                                                    case "2":
+                                                        echo 'Beverage';
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td><?php echo $row['fnb']['itemName'];?></td>
+                                            <td><?php echo strip_tags($row['fnb']['itemDescription']);?></td>
+                                            <td><?php echo $row['fnb']['priceFull'];?></td>
+                                            <td><?php echo $row['fnb']['priceHalf'];?></td>
+                                            <td>
+                                                <?php
+                                                if($row['fnb']['ifActive'] == ACTIVE)
+                                                {
+                                                    ?>
+                                                    <a data-toggle="tooltip" title="Active" href="<?php echo base_url().'dashboard/setFnbDeActive/'.$row['fnb']['fnbId'];?>">
+                                                        <i class="fa fa-15x fa-lightbulb-o my-success-text"></i></a>
+                                                    <?php
+                                                }
+                                                else
+                                                {
+                                                    ?>
+                                                    <a data-toggle="tooltip" title="Not Active" href="<?php echo base_url().'dashboard/setFnbActive/'.$row['fnb']['fnbId'];?>">
+                                                        <i class="fa fa-15x fa-lightbulb-o my-error-text"></i></a>
+                                                    <?php
+                                                }
+
+                                                if(isset($row['fnbAtt']) && myIsMultiArray($row['fnbAtt']))
+                                                {
+                                                    $imgs = array();
+                                                    foreach($row['fnbAtt'] as $attkey => $attrow)
+                                                    {
+                                                        switch($attrow['attachmentType'])
+                                                        {
+                                                            case "1":
+                                                                $imgs[] = base_url().FOOD_PATH_THUMB.$attrow['filename'];
+                                                                break;
+                                                            case "2":
+                                                                $imgs[] = base_url().BEVERAGE_PATH_THUMB.$attrow['filename'];
+                                                                break;
+                                                            default:
+                                                                $imgs[] = base_url().BEVERAGE_PATH_THUMB.$attrow['filename'];
+                                                                break;
+
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <a class="view-photos" data-toggle="tooltip" title="View Photos" href="#" data-imgs="<?php echo implode(',',$imgs);?>">
+                                                        <i class="fa fa-15x fa-file-image-o my-success-text"></i></a>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <a data-toggle="tooltip" title="Edit"
+                                                   href="<?php echo base_url().'dashboard/editFnb/'.$row['fnb']['fnbId']?>">
+                                                    <i class="fa fa-15x fa-pencil-square-o my-black-text"></i></a>
+                                                <a data-toggle="tooltip" class="fnbDelete-icon" data-fnbId="<?php echo $row['fnb']['fnbId'];?>" title="Delete" href="#">
+                                                    <i class="fa fa-trash-o fa-15x"></i></a>&nbsp;
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
                             </div>
-                            <br>
-                            <div class="text-left">
-                                <label>Item Type :</label>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemFood">
-                                    <input type="radio" id="itemFood" class="mdl-radio__button" name="itemType" value="1" checked>
-                                    <span class="mdl-radio__label">Food</span>
-                                </label>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemBeverage">
-                                    <input type="radio" id="itemBeverage" class="mdl-radio__button" name="itemType" value="2">
-                                    <span class="mdl-radio__label">Beverage</span>
-                                </label>
-                            </div>
-                            <br>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                <textarea class="mdl-textfield__input" type="text" name="itemDescription" rows="5" id="itemDesc"></textarea>
-                            </div>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                <input class="mdl-textfield__input" type="text" name="priceFull" pattern="-?[0-9]*(\.[0-9]+)?" id="itemPriceF">
-                                <label class="mdl-textfield__label" for="itemPriceF">Price (Full)</label>
-                                <span class="mdl-textfield__error">Input is not a number!</span>
-                            </div>
-                            <br>
-                            <div class="text-left">
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="priceHalf">
-                                    <input type="checkbox" id="priceHalf" class="mdl-checkbox__input" onchange="toggleHalf(this)">
-                                    <span class="mdl-checkbox__label">Half Price?</span>
-                                </label>
-                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label priceHalfCls hide my-fullWidth">
-                                    <input class="mdl-textfield__input" type="text" name="priceHalf" pattern="-?[0-9]*(\.[0-9]+)?" id="itemPriceH">
-                                    <label class="mdl-textfield__label" for="itemPriceH">Price (Half)</label>
-                                    <span class="mdl-textfield__error">Input is not a number!</span>
+                            <?php
+
+                        }
+                        else
+                        {
+                            echo 'No Records Found!';
+                        }
+                        ?>
+                    </div>
+                    <div id="fnbAdd" class="tab-pane fade">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--2-col"></div>
+                            <div class="mdl-cell mdl-cell--8-col text-center">
+                                <form action="<?php echo base_url();?>dashboard/savefnb" method="post" enctype="multipart/form-data">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                        <input class="mdl-textfield__input" type="text" name="itemName" id="itemName">
+                                        <label class="mdl-textfield__label" for="itemName">Name</label>
+                                    </div>
+                                    <br>
+                                    <div class="text-left">
+                                        <label>Item Type :</label>
+                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemFood">
+                                            <input type="radio" id="itemFood" class="mdl-radio__button" name="itemType" value="1" checked>
+                                            <span class="mdl-radio__label">Food</span>
+                                        </label>
+                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="itemBeverage">
+                                            <input type="radio" id="itemBeverage" class="mdl-radio__button" name="itemType" value="2">
+                                            <span class="mdl-radio__label">Beverage</span>
+                                        </label>
+                                    </div>
+                                    <br>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                        <textarea class="mdl-textfield__input" type="text" name="itemDescription" rows="5" id="itemDesc"></textarea>
+                                    </div>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                        <input class="mdl-textfield__input" type="text" name="priceFull" pattern="-?[0-9]*(\.[0-9]+)?" id="itemPriceF">
+                                        <label class="mdl-textfield__label" for="itemPriceF">Price (Full)</label>
+                                        <span class="mdl-textfield__error">Input is not a number!</span>
+                                    </div>
+                                    <br>
+                                    <div class="text-left">
+                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="priceHalf">
+                                            <input type="checkbox" id="priceHalf" class="mdl-checkbox__input" onchange="toggleHalf(this)">
+                                            <span class="mdl-checkbox__label">Half Price?</span>
+                                        </label>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label priceHalfCls hide my-fullWidth">
+                                            <input class="mdl-textfield__input" type="text" name="priceHalf" pattern="-?[0-9]*(\.[0-9]+)?" id="itemPriceH">
+                                            <label class="mdl-textfield__label" for="itemPriceH">Price (Half)</label>
+                                            <span class="mdl-textfield__error">Input is not a number!</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="myUploadPanel text-left">
+                                        <label>Attachment Type :</label>
+                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood">
+                                            <input type="radio" id="attFood" class="mdl-radio__button" name="attType[0]" value="1" checked>
+                                            <span class="mdl-radio__label">Food</span>
+                                        </label>
+                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeer">
+                                            <input type="radio" id="attBeer" class="mdl-radio__button" name="attType[0]" value="2">
+                                            <span class="mdl-radio__label">Beer Digital</span>
+                                        </label>
+                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW">
+                                            <input type="radio" id="attBeerW" class="mdl-radio__button" name="attType[0]" value="3">
+                                            <span class="mdl-radio__label">Beer Woodcut</span>
+                                        </label>
+                                        <input type="file" multiple class="form-control" onchange="uploadChange(this)" />
+                                        <br>
+                                        <button onclick="addUploadPanel()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add More?</button>
+                                        <input type="hidden" name="attachment" />
+                                    </div>
+                                    <br>
+                                    <button onclick="fillImgs()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
+                                </form>
+                                <br>
+                                <div class="progress hide">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="myUploadPanel text-left">
-                                <label>Attachment Type :</label>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood">
-                                    <input type="radio" id="attFood" class="mdl-radio__button" name="attType[0]" value="1" checked>
-                                    <span class="mdl-radio__label">Food</span>
-                                </label>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeer">
-                                    <input type="radio" id="attBeer" class="mdl-radio__button" name="attType[0]" value="2">
-                                    <span class="mdl-radio__label">Beer Digital</span>
-                                </label>
-                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW">
-                                    <input type="radio" id="attBeerW" class="mdl-radio__button" name="attType[0]" value="3">
-                                    <span class="mdl-radio__label">Beer Woodcut</span>
-                                </label>
-                                <input type="file" multiple class="form-control" onchange="uploadChange(this)" />
-                                <br>
-                                <button onclick="addUploadPanel()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add More?</button>
-                                <input type="hidden" name="attachment" />
-                            </div>
-                            <br>
-                            <button onclick="fillImgs()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
-                        </form>
-                        <br>
-                        <div class="progress hide">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                            </div>
+                            <div class="mdl-cell mdl-cell--2-col"></div>
                         </div>
                     </div>
-                    <div class="mdl-cell mdl-cell--2-col"></div>
                 </div>
             </section>
             <section class="tab-pane fade" id="eventpanel">
@@ -633,7 +748,7 @@
                                                     <?php
                                                 }
                                                 ?>
-                                                    <a class="view-photos" data-toggle="tooltip" title="Edit"
+                                                    <a data-toggle="tooltip" title="Edit"
                                                        href="<?php echo base_url().'dashboard/editEvent/'.$row['eventData']['eventId']?>">
                                                         <i class="fa fa-15x fa-pencil-square-o my-black-text"></i></a>
                                                     <a data-toggle="tooltip" class="eventDelete-icon" data-eventId="<?php echo $row['eventData']['eventId'];?>" title="Delete" href="#">
@@ -1768,7 +1883,7 @@
     {
         $('#eventpanel input[name="attachment"]').val(filesEventsArr.join());
     }
-    $('#main-event-table').DataTable({
+    $('#main-event-table, #main-fnb-table').DataTable({
         "ordering": false
     });
     $('[data-toggle="tooltip"]').tooltip();
@@ -1791,6 +1906,15 @@
             if(result === true)
             {
                 window.location.href='<?php echo base_url();?>dashboard/deleteEvent/'+mugId;
+            }
+        });
+    });
+    $(document).on('click','.fnbDelete-icon',function(){
+        var mugId = $(this).attr('data-fnbId');
+        bootbox.confirm("Are you sure you want to delete Item #"+mugId+" ?", function(result) {
+            if(result === true)
+            {
+                window.location.href='<?php echo base_url();?>dashboard/deleteFnb/'+mugId;
             }
         });
     });
