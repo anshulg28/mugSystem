@@ -56,6 +56,7 @@ $route['mugclub/add'] = 'mugclub/addNewMug';
 $route['mugclub/edit/(:any)'] = 'mugclub/editExistingMug/$1';
 $route['mugclub/save'] = 'mugclub/saveOrUpdateMug';
 $route['mugclub/delete/(:any)'] = 'mugclub/deleteMugData/$1';
+$route['mugclub/hold/(:any)'] = 'mugclub/holdMugData/$1';
 $route['mugclub/check'] = 'mugclub/mugAvail';
 $route['check-ins'] = 'checkin';
 $route['check-ins/add'] = 'checkin/addNewCheckIn';

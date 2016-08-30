@@ -805,18 +805,18 @@
                 <i class="icon fa fa-hashtag">
                     <span class="badge feed-notifier hide"></span>
                 </i>
-                <span class="tabbar-label">Doolally</span>
+                <span class="tabbar-label">/doolally</span>
             </a>
             <a href="#tab2" class="tab-link">
                 <!--<i class="fa fa-hashtag"></i>-->
                 <!--<i class="fa fa-calendar"></i>-->
                 <span class="ic_events_icon"></span>
-                <span class="tabbar-label">Events</span>
+                <span class="tabbar-label">/events</span>
             </a>
             <a href="#tab3" class="tab-link">
                 <!--<i class="fa fa-cutlery"></i>-->
                 <span class="ic_fnb_icon"></span>
-                <span class="tabbar-label">F&B</span>
+                <span class="tabbar-label">/fnb</span>
             </a>
         </div>
     </div>

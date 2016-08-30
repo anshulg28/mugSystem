@@ -367,7 +367,7 @@ class Dashboard_Model extends CI_Model
 
     public function getFnbAttById($id)
     {
-        $query = "SELECT fnbId,filename,attachmentType
+        $query = "SELECT id,fnbId,filename,attachmentType
                   FROM fnbattachment WHERE fnbId = ".$id;
 
         $result = $this->db->query($query)->result_array();

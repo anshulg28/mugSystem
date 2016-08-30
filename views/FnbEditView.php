@@ -110,7 +110,7 @@
                                             <?php
                                         }
                                     ?>
-                                    <div class="myUploadPanel text-left">
+                                    <div class="myUploadPanel text-left clear">
                                         <label>Attachment Type :</label>
                                         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood">
                                             <input type="radio" id="attFood" class="mdl-radio__button" name="attType[0]" value="1" checked>

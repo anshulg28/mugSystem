@@ -583,17 +583,19 @@ class Dashboard extends MY_Controller {
         );
         $this->dashboard_model->updateFnbRecord($details,$post['fnbId']);
 
-        $img_names = explode(',',$post['attachment']);
-        for($i=0;$i<count($img_names);$i++)
+        if(isset($attachement) && $attachement != '')
         {
-            $attArr = array(
-                'fnbId' => $post['fnbId'],
-                'filename'=> $img_names[$i],
-                'attachmentType' => $post['attType'][$i]
-            );
-            $this->dashboard_model->saveFnbAttachment($attArr);
+            $img_names = explode(',',$post['attachment']);
+            for($i=0;$i<count($img_names);$i++)
+            {
+                $attArr = array(
+                    'fnbId' => $post['fnbId'],
+                    'filename'=> $img_names[$i],
+                    'attachmentType' => $post['attType'][$i]
+                );
+                $this->dashboard_model->saveFnbAttachment($attArr);
+            }
         }
-
         redirect(base_url().'dashboard');
 
     }

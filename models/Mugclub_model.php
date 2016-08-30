@@ -99,6 +99,46 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
+    public function getMugHoldById($mugId)
+    {
+        $query = "SELECT * "
+            ."FROM holdmugmaster "
+            ."where mugId = ".$mugId;
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['mugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+    public function getAllMugHolds()
+    {
+        $query = "SELECT mugId "
+            ."FROM holdmugmaster ";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['mugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
     public function getMugIdForRenew($mugId)
     {
         $query = "SELECT emailId, firstName, invoiceDate, invoiceNo, membershipStart, membershipEnd "
@@ -334,6 +374,18 @@ class Mugclub_Model extends CI_Model
     public function deleteMugRecord($mugId)
     {
         $query = "INSERT INTO deletedmugmaster "
+            ."SELECT * FROM mugmaster "
+            ."where mugId = ".$mugId;
+
+        $this->db->query($query);
+
+        $this->db->where('mugId', $mugId);
+        $this->db->delete('mugmaster');
+        return true;
+    }
+    public function holdMugRecord($mugId)
+    {
+        $query = "INSERT INTO holdmugmaster "
             ."SELECT * FROM mugmaster "
             ."where mugId = ".$mugId;
 

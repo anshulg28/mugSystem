@@ -152,6 +152,13 @@
                                                             <i class="fa fa-repeat"></i></a>
                                                         <?php
                                                     }
+                                                    if(isset($row['membershipEnd']) && $row['membershipEnd'] <= date('Y-m-d)'))
+                                                    {
+                                                        ?>
+                                                        <a data-toggle="tooltip" class="mugHold-icon my-pointer-item my-noUnderline" title="Hold" data-mugId = "<?php echo $row['mugId'];?>">
+                                                            <i class="fa fa-hand-paper-o"></i></a>
+                                                        <?php
+                                                    }
                                                 }
                                                 ?>
                                                 <a data-toggle="tooltip" title="Transfer" href="#" class="mugTransfer"
@@ -388,7 +395,15 @@
                 var mugId = $(this).attr('data-mugId');
                 window.location.href='<?php echo base_url();?>mugclub/renew/'+mugId;
             });
-
+            $(document).on('click','.mugHold-icon',function(){
+                var mugId = $(this).attr('data-mugId');
+                bootbox.confirm("Are you sure you want to Hold Mug #"+mugId+" ?", function(result) {
+                    if(result === true)
+                    {
+                        window.location.href='<?php echo base_url();?>mugclub/hold/'+mugId;
+                    }
+                });
+            });
             /*var numPerPage = 10;
 
             function changePagination(ele)
