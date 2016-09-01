@@ -116,7 +116,7 @@
                                             $row['text'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['text']);
                                             $row['text'] = highlight('/#\w+/',$row['text']);
                                             $row['text'] = highlight('/@\w+/',$row['text']);
-                                            $truncated_RestaurantName = (strlen($row['text']) > 140) ? substr($row['text'], 0, 140) . '..' : $row['text'];
+                                            //$truncated_RestaurantName = (strlen($row['text']) > 140) ? substr($row['text'], 0, 140) . '..' : $row['text'];
                                             ?>
                                             <!--twitter://status?status_id=756765768470130689-->
                                             <a href="https://twitter.com/<?php echo $row['user']['screen_name'];?>/status/<?php echo $row['id_str'];?>" target="_blank" class="external twitter-wrapper">
@@ -247,7 +247,7 @@
                                                                     <?php
                                                                 }
                                                                 ?>
-                                                                <p class="final-card-text"><?php echo $truncated_RestaurantName;?></p>
+                                                                <p class="final-card-text"><?php echo $row['text'];?></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -631,7 +631,7 @@
                                         </div>
 
                                         <div class="comment content-block clear">
-                                            <?php echo strip_tags($row['eventData']['eventDescription'],"<br>");?>
+                                            <?php echo $row['eventData']['eventDescription'];?>
                                         </div>
                                     </div>
                                 </div>
@@ -780,7 +780,7 @@
                                                 ?>
                                             </span>
                                             <div class="comment more content-block clear">
-                                                <?php echo strip_tags($row['item']['itemDescription'],"<br>");?>
+                                                <?php echo $row['item']['itemDescription'];?>
                                             </div>
                                         </div>
                                     </div>
@@ -1268,7 +1268,7 @@
             scrollTop: total
         },100);
 
-        $('.feed-notifier').html(totalNew).removeClass('hide');
+        $('.feed-notifier').removeClass('hide');
         if(currentPos <=20)
         {
             if(!$('.feed-notifier').hasClass('hide'))

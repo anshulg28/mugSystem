@@ -340,6 +340,24 @@ class Dashboard_Model extends CI_Model
     public function getAllFnB()
     {
         $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
+                  FROM fnbmaster ORDER BY fnbId DESC";
+
+        $result = $this->db->query($query)->result_array();
+        $data['fnbItems'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+    public function getAllActiveFnB()
+    {
+        $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
                   FROM fnbmaster WHERE ifActive = 1 ORDER BY fnbId DESC";
 
         $result = $this->db->query($query)->result_array();
@@ -420,8 +438,10 @@ class Dashboard_Model extends CI_Model
     }
     public function getAllApprovedEvents()
     {
-        $query = "SELECT *
-                  FROM eventmaster where ifActive = ".ACTIVE;
+        /*$query = "SELECT *
+                  FROM eventmaster where ifActive = ".ACTIVE;*/
+        $query = "SELECT * FROM eventmaster where ifActive = ".ACTIVE."
+         AND eventDate >= CURRENT_DATE()";
         $result = $this->db->query($query)->result_array();
 
         return $result;

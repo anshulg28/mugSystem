@@ -14,6 +14,7 @@
                 <?php
                     if(isset($eventInfo) && myIsArray($eventInfo))
                     {
+                        $eventDate = '';
                         foreach($eventInfo as $key => $row)
                         {
                             if(isset($row['eventData']['eventId']))
@@ -62,6 +63,9 @@
                                                 <input class="mdl-textfield__input" type="text" name="eventDate"
                                                        id="eventDate" placeholder="">
                                                 <label class="mdl-textfield__label" for="eventDate">Event Date(old: <?php echo $row['eventData']['eventDate'];?>)</label>
+                                                <?php
+                                                $eventDate = $row['eventData']['eventDate'];
+                                                ?>
                                             </div>
                                         </li>
                                         <li>
@@ -277,10 +281,28 @@
         }
     }
     var date = new Date();
+    <?php
+        if(isset($eventDate) && $eventDate != '')
+        {
+            ?>
+    $('#eventDate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        useCurrent: false,
+        minDate: date
+    });
+    $('#eventDate').val('<?php echo $eventDate;?>');
+            <?php
+        }
+        else
+        {
+            ?>
     $('#eventDate').datetimepicker({
         format: 'YYYY-MM-DD',
         minDate: date
     });
+            <?php
+        }
+    ?>
     $('#startTime, #endTime').datetimepicker({
         format: 'HH:mm'
     });

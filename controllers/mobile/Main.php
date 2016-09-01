@@ -22,7 +22,7 @@ class Main extends MY_Controller {
         $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
 
         $data['myFeeds'] = $this->returnAllFeeds();
-        $newFnb = $this->dashboard_model->getAllFnB();
+        $newFnb = $this->dashboard_model->getAllActiveFnB();
         if($newFnb['status'] === true)
         {
             foreach($newFnb['fnbItems'] as $key => $row)

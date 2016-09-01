@@ -311,15 +311,18 @@ class Dashboard extends MY_Controller {
         );
         $fnbId = $this->dashboard_model->saveFnbRecord($details);
 
-        $img_names = explode(',',$post['attachment']);
-        for($i=0;$i<count($img_names);$i++)
+        if(isset($post['attachment']) && isStringSet($post['attachment']))
         {
-            $attArr = array(
-                'fnbId' => $fnbId,
-                'filename'=> $img_names[$i],
-                'attachmentType' => $post['attType'][$i]
-            );
-            $this->dashboard_model->saveFnbAttachment($attArr);
+            $img_names = explode(',',$post['attachment']);
+            for($i=0;$i<count($img_names);$i++)
+            {
+                $attArr = array(
+                    'fnbId' => $fnbId,
+                    'filename'=> $img_names[$i],
+                    'attachmentType' => $post['attType'][$i]
+                );
+                $this->dashboard_model->saveFnbAttachment($attArr);
+            }
         }
 
         redirect(base_url().'dashboard');
@@ -348,7 +351,7 @@ class Dashboard extends MY_Controller {
                 $upload_data = $this->upload->data();
 
                 //$attchmentArr = $upload_data['full_path'];
-                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name']);
+                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name'], false);
                 echo $attchmentArr;
             }
             else
@@ -357,11 +360,11 @@ class Dashboard extends MY_Controller {
             }
         }
     }
-    function image_thumb( $image_path, $img_name )
+    function image_thumb( $image_path, $img_name, $ifEvent)
     {
         $image_thumb = $image_path.'thumb/'.$img_name;
 
-        if ( !file_exists( $image_thumb ) ) {
+        //if ( !file_exists( $image_thumb ) ) {
             // LOAD LIBRARY
             $this->load->library( 'image_lib' );
 
@@ -369,14 +372,23 @@ class Dashboard extends MY_Controller {
             $config['image_library']    = 'gd2';
             $config['source_image']     = $image_path.$img_name;
             $config['new_image']        = $image_thumb;
-            $config['maintain_ratio']   = TRUE;
             $config['quality']          = 80;
-            $config['height']           = 480;
-            $config['width']            = 690;
+            if($ifEvent === true)
+            {
+                $config['maintain_ratio']   = TRUE;
+                $config['height']           = 480;
+                $config['width']            = 690;
+            }
+            else
+            {
+                $config['maintain_ratio']   = FALSE;
+                $config['height']           = 480;
+                $config['width']            = 480;
+            }
             $this->image_lib->initialize( $config );
             $this->image_lib->resize();
             $this->image_lib->clear();
-        }
+        //}
 
         return $img_name;
     }
@@ -399,7 +411,7 @@ class Dashboard extends MY_Controller {
                 $upload_data = $this->upload->data();
 
                 //$attchmentArr = $upload_data['full_path'];
-                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name']);
+                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name'], true);
                 echo $attchmentArr;
             }
             else
@@ -540,7 +552,7 @@ class Dashboard extends MY_Controller {
     }
     function deleteFnb($fnbId)
     {
-        $this->dashboard_model->eventDelete($fnbId);
+        $this->dashboard_model->fnbDelete($fnbId);
         redirect(base_url().'dashboard');
     }
     function editFnb($fnbId)

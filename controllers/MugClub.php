@@ -257,6 +257,20 @@ class Mugclub extends MY_Controller {
         }
         redirect(base_url().'mugclub');
     }
+    public function holdMugData($mugId)
+    {
+        $mugExists = $this->mugclub_model->getMugDataById($mugId);
+
+        if($mugExists['status'] === false)
+        {
+            redirect(base_url().'mugclub');
+        }
+        else
+        {
+            $this->mugclub_model->holdMugRecord($mugId);
+        }
+        redirect(base_url().'mugclub');
+    }
 
     public function MugAvailability($responseType = RESPONSE_JSON, $mugid)
     {
@@ -269,7 +283,8 @@ class Mugclub extends MY_Controller {
             $result = $this->mugclub_model->getMugDataById($mugid);
             if($result['status'] === true)
             {
-                $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap);
+                $holdMugs = $this->mugclub_model->getAllMugHolds();
+                $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap, $holdMugs);
                 if(count($mugResult) < 1)
                 {
                     while(count($mugResult) < 1 && $searchCap != 500)
@@ -286,7 +301,7 @@ class Mugclub extends MY_Controller {
                             $searchCap += 50;
                         }
 
-                        $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap);
+                        $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap,$holdMugs);
                     }
                     $data['availMugs'] = $mugResult;
                 }
@@ -300,7 +315,42 @@ class Mugclub extends MY_Controller {
             }
             else
             {
-                $data['status'] = true;
+                $holdMug = $this->mugclub_model->getMugHoldById($mugid);
+                if($holdMug['status'] === true)
+                {
+                    $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap, array($mugid));
+                    if(count($mugResult) < 1)
+                    {
+                        while(count($mugResult) < 1 && $searchCap != 500)
+                        {
+                            if($opFlag == 1)
+                            {
+                                $opFlag = 2;
+                                $op = 'minus';
+                            }
+                            else
+                            {
+                                $opFlag = 1;
+                                $op = 'plus';
+                                $searchCap += 50;
+                            }
+
+                            $mugResult = $this->getAllUnusedMugs($mugid, $op, $searchCap, array($mugid));
+                        }
+                        $data['availMugs'] = $mugResult;
+                    }
+                    else
+                    {
+                        $data['availMugs'] = $mugResult;
+                    }
+
+                    $data['status'] = false;
+                    $data['errorMsg'] = 'Mug Number Already Exists';
+                }
+                else
+                {
+                    $data['status'] = true;
+                }
             }
         }
 
@@ -315,7 +365,7 @@ class Mugclub extends MY_Controller {
         }
     }
 
-    function getAllUnusedMugs($mugId, $op, $searchCap)
+    function getAllUnusedMugs($mugId, $op, $searchCap, $holdMugs = array())
     {
         $rangeEnd = $mugId + $searchCap;
 
@@ -368,6 +418,18 @@ class Mugclub extends MY_Controller {
         }
 
         $availMugs = array_values($availMugs);
+        if(myIsMultiArray($holdMugs))
+        {
+            foreach($holdMugs as $key => $row)
+            {
+                $aKey = array_search($row,$availMugs);
+                if(isset($aKey))
+                {
+                    unset($availMugs[$aKey]);
+                }
+            }
+        }
+
         return $availMugs;
     }
 
