@@ -614,6 +614,9 @@
                                     </div>
 
                                     <div class="myUploadPanel text-left">
+                                        <br>
+                                        <a href="http://www.photoresizer.com/" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent my-noUnderline">Crop Before Upload?</a>
+                                        <br>
                                         <label>Attachment Type :</label>
                                         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood">
                                             <input type="radio" id="attFood" class="mdl-radio__button" name="attType[0]" value="1" checked>
@@ -627,7 +630,7 @@
                                             <input type="radio" id="attBeerW" class="mdl-radio__button" name="attType[0]" value="3">
                                             <span class="mdl-radio__label">Beer Woodcut</span>
                                         </label>
-                                        <input type="file" multiple class="form-control" onchange="uploadChange(this)" />
+                                        <input type="file" class="form-control" onchange="uploadChange(this)" />
                                         <br>
                                         <button onclick="addUploadPanel()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add More?</button>
                                         <input type="hidden" name="attachment" />

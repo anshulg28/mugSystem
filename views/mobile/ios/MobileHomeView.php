@@ -72,7 +72,7 @@
 <div class="views tabs toolbar-through">
     <!--<div class="tabs">-->
     <!-- Your main view, should have "view-main" class -->
-    <div id="tab1" class="view view-main tab">
+    <div id="tab1" class="view view-commingUp tab">
         <!-- Top Navbar-->
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
@@ -540,7 +540,7 @@
 
         </div>
     </div>
-    <div id="tab2" class="view view-commingUp tab">
+    <div id="tab2" class="view view-main tab">
         <!-- Top Navbar-->
         <div class="navbar mycustomNav">
             <div class="navbar-inner">
@@ -649,7 +649,7 @@
                                             }
                                         ?>
                                     </span>
-                                    <a href="#" class="link color-black">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
+                                    <a href="<?php echo base_url().'mobile/events/'.$row['eventData']['eventId'];?>" class="link color-black event-bookNow">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
                                 </div>
                             </div>
                             <?php

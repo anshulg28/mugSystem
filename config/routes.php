@@ -90,4 +90,5 @@ $route['main'] = 'home/main';
 /* Mobile Routes */
 $route['mobile'] = 'mobile/main';
 $route['mobile/about'] = 'mobile/main/about';
+$route['mobile/events/(:any)'] = 'mobile/main/eventFetch/$1';
 $route['mobile/renderLink'] = 'mobile/main/renderLink';

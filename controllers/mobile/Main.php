@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Main
  * @property cron_model $cron_model
  * @property dashboard_model $dashboard_model
+ * @property locations_model $locations_model
 */
 
 class Main extends MY_Controller {
@@ -14,6 +15,7 @@ class Main extends MY_Controller {
 		parent::__construct();
         $this->load->model('cron_model');
         $this->load->model('dashboard_model');
+        $this->load->model('locations_model');
 	}
 	public function index()
 	{
@@ -78,6 +80,28 @@ class Main extends MY_Controller {
         {
             $aboutView = $this->load->view('mobile/android/AboutUsView', $data);
         }
+        echo json_encode($aboutView);
+    }
+    public function eventFetch($eventId)
+    {
+        $data = array();
+
+        /*if($this->session->userdata('osType') == 'android')
+        {*/
+        $events = $this->dashboard_model->getEventById($eventId);
+        if(isset($events) && myIsMultiArray($events))
+        {
+            foreach($events as $key => $row)
+            {
+                $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
+                $row['locData'] = $loc['locData'];
+                $data['eventDetails'][$key]['eventData'] = $row;
+                $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
+            }
+        }
+
+        $aboutView = $this->load->view('mobile/ios/EventView', $data);
+
         echo json_encode($aboutView);
     }
 
