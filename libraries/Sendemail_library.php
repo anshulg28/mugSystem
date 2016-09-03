@@ -16,17 +16,17 @@ class Sendemail_library
     public function signUpWelcomeSendMail($userData)
     {
         $data['mailData'] = $userData;
-        $data['breakfastCode'] = $this->generateBreakfastCode();
+        $data['breakfastCode'] = $this->generateBreakfastCode($userData['mugId']);
 
         $content = $this->CI->load->view('emailtemplates/signUpWelcomeMailView', $data, true);
 
-        $fromEmail = 'priyanka@doolally.in';
+        $fromEmail = 'priyanka@brewcrafts.in';
 
         if(isset($this->CI->userEmail))
         {
             $fromEmail = $this->CI->userEmail;
         }
-        $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in';
+        $cc        = 'priyanka@brewcrafts.in,tresha@brewcrafts.in,daksha@brewcrafts.in,shweta@brewcrafts.in';
         $fromName  = 'Doolally';
         if(isset($this->CI->userFirstName))
         {
@@ -44,13 +44,13 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/membershipRenewMailView', $data, true);
 
-        $fromEmail = 'priyanka@doolally.in';
+        $fromEmail = 'priyanka@brewcrafts.in';
 
         if(isset($this->CI->userEmail))
         {
             $fromEmail = $this->CI->userEmail;
         }
-        $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in';
+        $cc        = 'priyanka@brewcrafts.in,tresha@brewcrafts.in,daksha@brewcrafts.in,shweta@brewcrafts.in';
         $fromName  = 'Doolally';
         if(isset($this->CI->userFirstName))
         {
@@ -62,7 +62,7 @@ class Sendemail_library
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
     }
 
-    public function generateBreakfastCode()
+    public function generateBreakfastCode($mugId)
     {
         $allCodes = $this->CI->offers_model->getAllCodes();
         $usedCodes = array();
@@ -82,6 +82,7 @@ class Sendemail_library
                 'offerCode' => $newCode,
                 'offerType' => 'Breakfast',
                 'offerLoc' => null,
+                'offerMug' => $mugId,
                 'isRedeemed' => 0,
                 'ifActive' => 1,
                 'createDateTime' => date('Y-m-d H:i:s'),
@@ -95,6 +96,7 @@ class Sendemail_library
                 'offerCode' => $newCode,
                 'offerType' => 'Breakfast',
                 'offerLoc' => null,
+                'offerMug' => $mugId,
                 'isRedeemed' => 0,
                 'ifActive' => 1,
                 'createDateTime' => date('Y-m-d H:i:s'),

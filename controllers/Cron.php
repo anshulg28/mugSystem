@@ -119,7 +119,7 @@ class Cron extends MY_Controller
 
         $instaFeeds = $this->curl_library->getInstagramPosts();
 
-        if(!myIsMultiArray($instaFeeds))
+        if(!isset($instaFeeds) && !myIsMultiArray($instaFeeds))
         {
             $instaFeeds = null;
         }

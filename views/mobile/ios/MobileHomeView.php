@@ -649,7 +649,7 @@
                                             }
                                         ?>
                                     </span>
-                                    <a href="<?php echo base_url().'mobile/events/'.$row['eventData']['eventId'];?>" class="link color-black event-bookNow">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
+                                    <a href="<?php echo base_url().'mobile/events/'.$row['eventData']['eventId'];?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
                                 </div>
                             </div>
                             <?php

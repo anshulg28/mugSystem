@@ -13,7 +13,7 @@
             <div class="navbar">
                 <div class="navbar-inner">
                     <div class="left">
-                        <a href="#" class="back link">
+                        <a href="#" class="back link" data-ignore-cache="true">
                             <i class="fa fa-arrow-left color-black"></i>
                         </a>
                     </div>
