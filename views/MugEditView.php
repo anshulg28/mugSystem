@@ -28,8 +28,9 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" for="mugNum">Mug No. :</label>
                                             <div class="col-sm-10">
+                                                <input type="hidden" name="oldMugNum" value="<?php echo $row['mugId'];?>"/>
                                                 <input type="number" name="mugNum" class="form-control"
-                                                       value="<?php echo $row['mugId'];?>" id="mugNum" placeholder="Eg. 100" readonly>
+                                                       value="<?php echo $row['mugId'];?>" id="mugNum" placeholder="Eg. 100"/>
                                             </div>
                                         </div>
                                         <div class="form-group">

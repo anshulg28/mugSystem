@@ -338,7 +338,7 @@ class Mugclub_Model extends CI_Model
         return true;
     }
 
-    public function updateMugRecord($post)
+    public function updateMugRecord($post, $mugNum = '')
     {
         if(isset($post['birthDate']))
         {
@@ -367,7 +367,14 @@ class Mugclub_Model extends CI_Model
 
         $post['ifActive'] = '1';
 
-        $this->db->where('mugId', $post['mugId']);
+        if(isset($mugNum) && isStringSet($mugNum))
+        {
+            $this->db->where('mugId', $mugNum);
+        }
+        else
+        {
+            $this->db->where('mugId', $post['mugId']);
+        }
         $this->db->update('mugmaster', $post);
         return true;
     }

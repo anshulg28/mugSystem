@@ -8,4 +8,6 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/material-icon.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/welcomescreen.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jssocials.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jssocials-theme-flat.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/swipebox.min.css">

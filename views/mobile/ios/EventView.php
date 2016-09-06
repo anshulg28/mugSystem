@@ -38,7 +38,7 @@
                                 }
                             ?>
                             <div class="event-header-name"><?php echo $row['eventData']['eventName'];?></div>
-                            <p class="content-block event-about"><?php echo $row['eventData']['eventDescription'];?></p>
+                            <p class="content-block event-about"><?php echo strip_tags($row['eventData']['eventDescription'],'<br>');?></p>
                             <hr class="card-ptag">
                             <!-- Where section -->
                             <div class="event-descrip-wrapper">
@@ -81,6 +81,11 @@
                                     }
                                     ?>
                                 </p>
+                            </div>
+
+                            <div class="event-descrip-wrapper">
+                                <input type="hidden" id="shareLink" value="<?php echo $eventShareUrl;?>"/>
+                                <div id="share" class="my-social-share"></div>
                             </div>
 
                             <!--<div class="list-block cards-list">

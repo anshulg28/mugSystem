@@ -617,7 +617,7 @@
                                         <br>
                                         <a href="http://www.photoresizer.com/" target="_blank" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent my-noUnderline">Crop Before Upload?</a>
                                         <br>
-                                        <label>Attachment Type :</label>
+                                        <!--<label>Attachment Type :</label>
                                         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood">
                                             <input type="radio" id="attFood" class="mdl-radio__button" name="attType[0]" value="1" checked>
                                             <span class="mdl-radio__label">Food</span>
@@ -629,7 +629,7 @@
                                         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW">
                                             <input type="radio" id="attBeerW" class="mdl-radio__button" name="attType[0]" value="3">
                                             <span class="mdl-radio__label">Beer Woodcut</span>
-                                        </label>
+                                        </label>-->
                                         <input type="file" class="form-control" onchange="uploadChange(this)" />
                                         <br>
                                         <button onclick="addUploadPanel()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Add More?</button>
@@ -1745,21 +1745,21 @@
     var upPanel = 1;
     function addUploadPanel()
     {
+        /*'<br><br><label>Attachment Type :</label>'+
+        '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood'+upPanel+'">'+
+        '<input type="radio" id="attFood'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="1" checked>'+
+        '<span class="mdl-radio__label">Food</span>'+
+        '</label>'+
+        '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeer'+upPanel+'">'+
+        '<input type="radio" id="attBeer'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="2">'+
+        '<span class="mdl-radio__label">Beer Digital</span>'+
+        '</label>'+
+        '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW'+upPanel+'">'+
+        '<input type="radio" id="attBeerW'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="3">'+
+        '<span class="mdl-radio__label">Beer Woodcut</span>'+
+        '</label>'+*/
         var html = '';
-        html += '<br><br><label>Attachment Type :</label>'+
-                '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attFood'+upPanel+'">'+
-                '<input type="radio" id="attFood'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="1" checked>'+
-                '<span class="mdl-radio__label">Food</span>'+
-                '</label>'+
-                '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeer'+upPanel+'">'+
-                '<input type="radio" id="attBeer'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="2">'+
-                '<span class="mdl-radio__label">Beer Digital</span>'+
-                '</label>'+
-                '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="attBeerW'+upPanel+'">'+
-                '<input type="radio" id="attBeerW'+upPanel+'" class="mdl-radio__button" name="attType['+upPanel+']" value="3">'+
-                '<span class="mdl-radio__label">Beer Woodcut</span>'+
-                '</label>'+
-                '<input type="file" multiple class="form-control" onchange="uploadChange(this)" /><br>'+
+        html += '<br><br><input type="file" multiple class="form-control" onchange="uploadChange(this)" /><br>'+
                 '<button onclick="addUploadPanel()" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Another?</button>';
         upPanel++;
         $('.myUploadPanel').append(html);

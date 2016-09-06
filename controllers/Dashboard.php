@@ -319,7 +319,7 @@ class Dashboard extends MY_Controller {
                 $attArr = array(
                     'fnbId' => $fnbId,
                     'filename'=> $img_names[$i],
-                    'attachmentType' => $post['attType'][$i]
+                    'attachmentType' => $post['itemType']
                 );
                 $this->dashboard_model->saveFnbAttachment($attArr);
             }
@@ -337,10 +337,10 @@ class Dashboard extends MY_Controller {
             if($_FILES['attachment']['error'] != 1)
             {
                 $config = array();
-                $config['upload_path'] = './uploads/food/';
+                $config['upload_path'] = './'.FOOD_PATH_THUMB; //'uploads/food/';
                 if(isset($_POST['itemType']) && $_POST['itemType'] == '2')
                 {
-                    $config['upload_path'] = './uploads/beverage/';
+                    $config['upload_path'] = './'.BEVERAGE_PATH_THUMB; //uploads/beverage/';
                 }
                 $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']      = '0';
@@ -351,7 +351,7 @@ class Dashboard extends MY_Controller {
                 $upload_data = $this->upload->data();
 
                 //$attchmentArr = $upload_data['full_path'];
-                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name'], false);
+                $attchmentArr= $upload_data['file_name'];// $this->image_thumb($upload_data['file_path'],$upload_data['file_name'], false);
                 echo $attchmentArr;
             }
             else
@@ -595,7 +595,7 @@ class Dashboard extends MY_Controller {
         );
         $this->dashboard_model->updateFnbRecord($details,$post['fnbId']);
 
-        if(isset($attachement) && $attachement != '')
+        if(isset($post['attachment']) && isStringSet($post['attachment']))
         {
             $img_names = explode(',',$post['attachment']);
             for($i=0;$i<count($img_names);$i++)
@@ -603,7 +603,7 @@ class Dashboard extends MY_Controller {
                 $attArr = array(
                     'fnbId' => $post['fnbId'],
                     'filename'=> $img_names[$i],
-                    'attachmentType' => $post['attType'][$i]
+                    'attachmentType' => $post['itemType']
                 );
                 $this->dashboard_model->saveFnbAttachment($attArr);
             }

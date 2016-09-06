@@ -99,6 +99,7 @@ class Main extends MY_Controller {
                 $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
             }
         }
+        $data['eventShareUrl'] = base_url().'share-event/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
 
         $aboutView = $this->load->view('mobile/ios/EventView', $data);
 

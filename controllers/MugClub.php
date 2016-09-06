@@ -199,7 +199,20 @@ class Mugclub extends MY_Controller {
     {
         $post = $this->input->post();
 
-        $mugExists = $this->mugclub_model->getMugDataById($post['mugNum']);
+        if(isset($post['oldMugNum']))
+        {
+            $mugId = $post['oldMugNum'];
+            unset($post['oldMugNum']);
+        }
+
+        if(isset($mugId))
+        {
+            $mugExists = $this->mugclub_model->getMugDataById($mugId);
+        }
+        else
+        {
+            $mugExists = $this->mugclub_model->getMugDataById($post['mugNum']);
+        }
 
         $params = $this->mugclub_model->filterMugParameters($post);
         
@@ -217,7 +230,14 @@ class Mugclub extends MY_Controller {
             {
                 $this->sendemail_library->signUpWelcomeSendMail($params);
             }
-            $this->mugclub_model->updateMugRecord($params);
+            if(isset($mugId))
+            {
+                $this->mugclub_model->updateMugRecord($params,$mugId);
+            }
+            else
+            {
+                $this->mugclub_model->updateMugRecord($params);
+            }
         }
         redirect(base_url().'mugclub');
     }
