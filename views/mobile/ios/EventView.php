@@ -84,7 +84,7 @@
                             </div>
 
                             <div class="event-descrip-wrapper">
-                                <input type="hidden" id="shareLink" value="<?php echo $eventShareUrl;?>"/>
+                                <input type="hidden" id="shareLink" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
                                 <div id="share" class="my-social-share"></div>
                             </div>
 

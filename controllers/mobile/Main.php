@@ -93,13 +93,21 @@ class Main extends MY_Controller {
         {
             foreach($events as $key => $row)
             {
+                if(!isset($row['eventShareLink']))
+                {
+                    $eventShareLink = base_url().'share-event/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
+
+                    $details = array(
+                        'eventShareLink'=> $eventShareLink
+                    );
+                    $this->dashboard_model->updateEventRecord($details,$eventId);
+                }
                 $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
                 $row['locData'] = $loc['locData'];
                 $data['eventDetails'][$key]['eventData'] = $row;
                 $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
             }
         }
-        $data['eventShareUrl'] = base_url().'share-event/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
 
         $aboutView = $this->load->view('mobile/ios/EventView', $data);
 

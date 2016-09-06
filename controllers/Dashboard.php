@@ -433,6 +433,13 @@ class Dashboard extends MY_Controller {
         $post['userId'] = $this->userId;
         $eventId = $this->dashboard_model->saveEventRecord($post);
 
+        $eventShareLink = base_url().'share-event/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
+
+        $details = array(
+          'eventShareLink'=> $eventShareLink
+        );
+        $this->dashboard_model->updateEventRecord($details,$eventId);
+
         if(isset($attachement))
         {
             $img_names = explode(',',$attachement);
