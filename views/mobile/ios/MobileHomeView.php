@@ -827,6 +827,9 @@
     <i class="popover-toggle-on fa fa-filter"></i>
     <i class="popover-toggle-off fa fa-times"></i>
 </button>
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-fab-btn hide">
+    <i class="ic_add"></i>
+</button>
 <div class="popover popover-links">
     <div class="popover-angle"></div>
     <div class="popover-inner">

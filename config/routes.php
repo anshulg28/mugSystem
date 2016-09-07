@@ -92,4 +92,5 @@ $route['share-event/(:any)/(:any)'] = 'home/eventFetch/$1/$2';
 $route['mobile'] = 'mobile/main';
 $route['mobile/about'] = 'mobile/main/about';
 $route['events/(:any)'] = 'mobile/main/eventFetch/$1';
+$route['create_event'] = 'mobile/main/createEvent';
 $route['mobile/renderLink'] = 'mobile/main/renderLink';

@@ -114,6 +114,19 @@ class Main extends MY_Controller {
         echo json_encode($aboutView);
     }
 
+    public function createEvent()
+    {
+        $data = array();
+
+        $data['eventTc'] = $this->config->item('eventTc');// $this->load->view('mobile/ios/EventTcView', $data);
+        $data['locData'] = $this->locations_model->getAllLocations();
+        
+        $aboutView = $this->load->view('mobile/ios/EventAddView', $data);
+
+        echo json_encode($aboutView);
+
+    }
+
     public function returnAllFeeds($responseType = RESPONSE_RETURN)
     {
         $feedData = $this->cron_model->getAllFeeds();
