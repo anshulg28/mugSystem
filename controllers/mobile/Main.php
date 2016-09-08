@@ -82,36 +82,35 @@ class Main extends MY_Controller {
         }
         echo json_encode($aboutView);
     }
-    public function eventFetch($eventId)
+    public function eventFetch($eventId, $evenHash)
     {
         $data = array();
 
-        /*if($this->session->userdata('osType') == 'android')
-        {*/
-        $events = $this->dashboard_model->getEventById($eventId);
-        if(isset($events) && myIsMultiArray($events))
+        if(hash_compare(encrypt_data($eventId),$evenHash))
         {
-            foreach($events as $key => $row)
+            $decodedS = explode('-',$eventId);
+            $eventId = $decodedS[count($decodedS)-1];
+            $events = $this->dashboard_model->getEventById($eventId);
+            if(isset($events) && myIsMultiArray($events))
             {
-                if(!isset($row['eventShareLink']))
+                foreach($events as $key => $row)
                 {
-                    $eventShareLink = base_url().'share-event/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
-
-                    $details = array(
-                        'eventShareLink'=> $eventShareLink
-                    );
-                    $this->dashboard_model->updateEventRecord($details,$eventId);
+                    $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
+                    $row['locData'] = $loc['locData'];
+                    $data['eventDetails'][$key]['eventData'] = $row;
+                    $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
                 }
-                $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
-                $row['locData'] = $loc['locData'];
-                $data['eventDetails'][$key]['eventData'] = $row;
-                $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
             }
+
+            $aboutView = $this->load->view('mobile/ios/EventView', $data);
+
+            echo json_encode($aboutView);
         }
-
-        $aboutView = $this->load->view('mobile/ios/EventView', $data);
-
-        echo json_encode($aboutView);
+        else
+        {
+            $pgError = $this->load->view('mobile/ios/EventView', $data);
+            echo json_encode($pgError);
+        }
     }
 
     public function createEvent()

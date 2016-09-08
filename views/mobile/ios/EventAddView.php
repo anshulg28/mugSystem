@@ -21,14 +21,14 @@
     <div data-page="eventAdd" class="page event-add">
         <div class="page-content">
             <div class="content-block event-wrapper">
-                <form action="<?php echo base_url().'saveEvent';?>" method="post">
+                <form action="<?php echo base_url().'saveEvent';?>" id="eventSave" method="post" class="ajax-submit">
                     <div class="event-img-space">
                         <div class="event-img-before">
                             <input type="file" id="event-img-upload" onchange="uploadChange(this)" class="my-vanish"/>
                             <!--<a href="#" class="button event-img-add-btn">
                                 <i class="ic_add"></i>
                             </a>-->
-                            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-add-btn">
+                            <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-add-btn">
                                 <i class="ic_add"></i>
                             </button>
                             <p class="add-img-caption">Add a cover photo</p>
@@ -167,7 +167,7 @@
                     <div class="row">
                         <div class="col-5"></div>
                         <div class="col-90">
-                            <a href="#" type="submit" class="button button-big button-fill submit-event-btn">Create Event </a>
+                            <input type="submit" class="button button-big button-fill submit-event-btn" value="Create Event"/>
                         </div>
                         <div class="col-5"></div>
                     </div>

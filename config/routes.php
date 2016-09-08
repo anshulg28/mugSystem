@@ -86,11 +86,11 @@ $route['dashboard/instadone/(:any)/(:any)'] = 'dashboard/setInstamojoDone/$1/$2'
 $route['dashboard/approve/(:any)'] = 'dashboard/eventApproved/$1';
 $route['dashboard/decline/(:any)'] = 'dashboard/eventDeclined/$1';
 $route['main'] = 'home/main';
-$route['share-event/(:any)/(:any)'] = 'home/eventFetch/$1/$2';
+//$route['share-event/(:any)/(:any)'] = 'home/eventFetch/$1/$2';
 
 /* Mobile Routes */
 $route['mobile'] = 'mobile/main';
 $route['mobile/about'] = 'mobile/main/about';
-$route['events/(:any)'] = 'mobile/main/eventFetch/$1';
+$route['events/(:any)/(:any)'] = 'mobile/main/eventFetch/$1/$2';
 $route['create_event'] = 'mobile/main/createEvent';
 $route['mobile/renderLink'] = 'mobile/main/renderLink';

@@ -649,7 +649,7 @@
                                             }
                                         ?>
                                     </span>
-                                    <a href="<?php echo 'events/'.$row['eventData']['eventId'];?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
+                                    <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
                                 </div>
                             </div>
                             <?php
@@ -801,7 +801,7 @@
     <!--</div>-->
     <div class="toolbar tabbar tabbar-labels myMainBottomBar">
         <div class="toolbar-inner">
-            <a href="#tab1" class="tab-link active">
+            <a href="#tab1" class="tab-link">
                 <i class="icon fa fa-hashtag">
                     <span class="badge feed-notifier hide"></span>
                 </i>
