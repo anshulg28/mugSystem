@@ -77,14 +77,14 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="bdate">BirthDate:</label>
                         <div class="col-sm-10">
-                            <input type="date" name="birthdate" class="form-control" id="bdate" placeholder="Eg. 12 June 1990">
+                            <input type="text" name="birthdate" class="form-control" id="bdate" placeholder="Eg. 12 June 1990">
                             <div class="birthday-verification-holder"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="invoiceDate">Invoice Date:</label>
                         <div class="col-sm-10">
-                            <input type="date" name="invoiceDate" class="form-control" id="invoiceDate" placeholder="Eg. 12 June 2016">
+                            <input type="text" name="invoiceDate" class="form-control" id="invoiceDate" placeholder="Eg. 12 June 2016">
                         </div>
                     </div>
                     <div class="form-group">
@@ -104,14 +104,14 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="memberS">Membership Start Date:</label>
                         <div class="col-sm-10">
-                            <input type="date" name="memberS"
+                            <input type="text" name="memberS"
                                    class="form-control" id="memberS" placeholder="Eg. 12 June 2016">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="memberE">Membership End Date:</label>
                         <div class="col-sm-10">
-                            <input type="date" name="memberE"
+                            <input type="text" name="memberE"
                                    class="form-control" id="memberE" placeholder="Eg. 12 June 2016">
                         </div>
                     </div>
@@ -267,5 +267,8 @@
         }
         return age;
     }
+    $('#bdate, #invoiceDate, #memberS, #memberE').datetimepicker({
+        format: 'DD-MM-YYYY'
+    });
 </script>
 </html>

@@ -20,6 +20,7 @@ class Main extends MY_Controller {
 	public function index()
 	{
         $data = array();
+
         $data['mobileStyle'] = $this->dataformatinghtml_library->getMobileStyleHtml($data);
         $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
 
@@ -49,6 +50,25 @@ class Main extends MY_Controller {
             {
                 $data['eventDetails'][$key]['eventData'] = $row;
                 $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
+            }
+        }
+        if(isStringSet($_SERVER['QUERY_STRING']))
+        {
+            $query = explode('/',$_SERVER['QUERY_STRING']);
+            if(isset($query[1]) && $query[1] == 'events')
+            {
+                if(isset($query[2]))
+                {
+                    $event = explode('-',$query[2]);
+                    $eventData = $this->dashboard_model->getEventById($event[1]);
+                    $eventAtt = $this->dashboard_model->getEventAttById($event[1]);
+                    $data['meta']['title'] = $eventData[0]['eventName'];
+                    $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
+                    $data['meta']['description'] = $truncated_RestaurantName;
+                    $data['meta']['link'] = $eventData[0]['eventShareLink'];
+                    $data['meta']['img'] = $eventAtt[0]['filename'];
+
+                }
             }
         }
         /*if ($this->mobile_detect->isAndroidOS()) {

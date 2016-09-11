@@ -59,7 +59,7 @@
                     </div>
                     <div class="event-header-name">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <input class="mdl-textfield__input" type="text" id="eventName" name="eventName" required>
+                            <input class="mdl-textfield__input" type="text" id="eventName" name="eventName">
                             <label class="mdl-textfield__label" for="eventName">Name of event</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
@@ -78,7 +78,7 @@
                             ?>
                         </select>
                         <br>
-                        <select id="eventPlace" name="eventPlace" class="mdl-textfield__input" required>
+                        <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
                             <option value="">Location of event (max. 20 people)</option>
                             <?php
                             if(isset($locData))
@@ -95,6 +95,8 @@
                             }
                             ?>
                         </select>
+                        <br>
+                        <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" placeholder="Date of Event" readonly>
                         <br>
                         <div class="row">
                             <div class="col-50">
@@ -113,7 +115,7 @@
                             <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
                             <span class="mdl-radio__label">Paid</span>
                         </label>
-                        <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or horse fries.</p>
+                        <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
                         <div class="row">
                             <div class="col-50">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
@@ -133,18 +135,35 @@
                             <span class="mdl-radio__label">Free</span>
                         </label>
                         <p class="event-sub-text">If you don't charge, we don't charge</p>
+                        <div class="row">
+                            <label>Need Accessories: </label>
+                            <div class="col-10"></div>
+                            <div class="col-40">
+                                <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="ifMicRequired">
+                                    <input type="checkbox" id="ifMicRequired" class="mdl-icon-toggle__input" name="ifMicRequired" value="1">
+                                    <i class="fa fa-microphone mdl-icon-toggle__label"></i>
+                                </label>
+                            </div>
+                            <div class="col-40">
+                                <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="ifProjectorRequired">
+                                    <input type="checkbox" id="ifProjectorRequired" class="mdl-icon-toggle__input" value="1" name="ifProjectorRequired">
+                                    <i class="mdl-icon-toggle__label fa fa-video-camera"></i>
+                                </label>
+                            </div>
+                            <div class="col-10"></div>
+                        </div>
                         <div class="event-header-name">Your details</div>
                         <p class="event-sub-text">We'll contact you while we curate your event.</p>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName" required>
+                            <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName">
                             <label class="mdl-textfield__label" for="creatorName">Name</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone" required>
+                            <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone">
                             <label class="mdl-textfield__label" for="creatorPhone">Phone Number</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail" required>
+                            <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail">
                             <label class="mdl-textfield__label" for="creatorEmail">Email ID</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
