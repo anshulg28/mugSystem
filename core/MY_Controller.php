@@ -18,6 +18,14 @@ class MY_Controller extends CI_Controller
 {
 	public $pageUrl = '';
 
+    /* for Mobile session */
+    public $isMobUserSession = '';
+    public $userMobType = '';
+    public $userMobId = '';
+    public $userMobName = '';
+    public $userMobFirstName = '';
+    public $userMobEmail = '';
+
 	public $isUserSession = '';
 	public $userType = '';
 	public $userId = '';
@@ -53,6 +61,19 @@ class MY_Controller extends CI_Controller
 		}
 
 		//
+        if (isSession($this->session->user_mob_type) !== false)
+        {
+            $this->isMobUserSession = ACTIVE;
+            $this->userMobType = $this->session->user_mob_type;
+            $this->userMobName = $this->session->user_mob_name;
+            $this->userMobId = $this->session->user_mob_id;
+            if(isset($this->session->user_mob_email))
+            {
+                $this->userMobEmail = $this->session->user_mob_email;
+            }
+            $this->userMobFirstName = $this->session->user_mob_firstname;
+        }
+
 		if (isSession($this->session->user_type) !== false)
 		{
 			$this->isUserSession = ACTIVE;
@@ -64,7 +85,6 @@ class MY_Controller extends CI_Controller
 				$this->userEmail = $this->session->user_email;
 			}
             $this->userFirstName = $this->session->user_firstname;
-			$this->userId = $this->session->user_id;
 		}
 
 		//get location from session

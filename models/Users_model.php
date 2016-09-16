@@ -74,6 +74,26 @@ class Users_Model extends CI_Model
 
         return $data;
     }
+    public function checkUserDetails($email, $mob)
+    {
+        $query = "SELECT * "
+            ."FROM doolally_usersmaster "
+            ."WHERE userType = 4 AND emailId = '".$email."' AND mobNum = '".$mob."'";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data['userData'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
     public function filterUserParameters($post)
     {
         if(myIsArray($post))
@@ -122,6 +142,12 @@ class Users_Model extends CI_Model
 
         $this->db->insert('doolally_usersmaster', $post);
         return true;
+    }
+    public function savePublicUser($post)
+    {
+        $this->db->insert('doolally_usersmaster', $post);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
     }
 
     public function updateUserRecord($post)

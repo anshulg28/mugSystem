@@ -38,6 +38,40 @@ class Sendemail_library
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
     }
 
+    public function memberWelcomeMail($userData)
+    {
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/memberWelcomeMailView', $data, true);
+
+        $fromEmail = 'events@doolally.in';
+
+        $cc        = 'events@doolally.in';
+        $fromName  = 'Doolally';
+
+        $subject = 'Welcome to Doolally';
+        $toEmail = $userData['creatorEmail'];
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+    }
+
+    public function newEventMail($userData)
+    {
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/newEventMailView', $data, true);
+
+        $fromEmail = 'events@doolally.in';
+
+        $cc        = 'events@doolally.in';
+        $fromName  = 'Doolally';
+
+        $subject = 'Welcome to Doolally';
+        $toEmail = $userData['creatorEmail'];
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+    }
+
     public function membershipRenewSendMail($userData)
     {
         $data['mailData'] = $userData;

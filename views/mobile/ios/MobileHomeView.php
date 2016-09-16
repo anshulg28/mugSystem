@@ -64,14 +64,14 @@
                     </span>
                 </a>
             </li>
-            <li class="mdl-list__item">
+            <!--<li class="mdl-list__item">
                 <a href="#">
                     <span class="mdl-list__item-primary-content">
                         <i class="ic_mug_icon mdl-list__item-icon"></i>
                         Mug Club
                     </span>
                 </a>
-            </li>
+            </li>-->
             <li class="mdl-list__item">
                 <a href="#">
                     <span class="mdl-list__item-primary-content">
@@ -82,7 +82,7 @@
                 </a>
             </li>
             <li class="mdl-list__item">
-                <a href="#">
+                <a href="#" id="my-events-tab">
                     <span class="mdl-list__item-primary-content">
                         <i class="fa fa-calendar mdl-list__item-icon"></i>
                         <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
@@ -265,7 +265,7 @@
                                                                     </div>
                                                                     <?php
                                                                 }
-                                                                elseif(isset($row['entities']['urls']) && myIsArray($row['entities']['urls']))
+                                                                elseif(isset($row['entities']['urls']) && myIsMultiArray($row['entities']['urls']))
                                                                 {
                                                                     ?>
                                                                     <div class="link-card-wrapper">
@@ -386,7 +386,7 @@
                                                                     </div>
                                                                     <?php
                                                                 }
-                                                                elseif(isset($backupLink) && myIsArray($backupLink))
+                                                                elseif(isset($backupLink) && myIsMultiArray($backupLink))
                                                                 {
                                                                     ?>
                                                                     <div class="link-card-wrapper">
@@ -608,7 +608,7 @@
                             ?>
                             <div class="card demo-card-header-pic">
                                 <div class="row no-gutter">
-                                    <div class="col-100 more-photos-wrapper">
+                                    <div class="col-100"> <!--more-photos-wrapper-->
                                         <?php
                                         $img_bool = false;
                                         foreach($row['eventAtt'] as $attKey => $attRow)
@@ -620,21 +620,25 @@
                                                 {
                                                     $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
                                                     ?>
-                                                    <img src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
+                                                    <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
+                                                        <img src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
+                                                    </a>
                                                     <?php
                                                 }
                                                 else
                                                 {
                                                     $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
                                                     ?>
-                                                    <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                    <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
+                                                        <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                    </a>
                                                     <?php
                                                 }
                                             }
                                             else
                                             {
                                                 ?>
-                                                <i class="fa fa-picture-o multiple_pics"></i>
+                                                <!--<i class="fa fa-picture-o multiple_pics"></i>-->
                                                 <?php
                                                 $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
                                             }

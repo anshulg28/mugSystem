@@ -97,6 +97,10 @@
                             {
                                 bootbox.alert('<label class="my-success-text">Congrats, you get a Breakfast. This includes one pint. </label>');
                             }
+                            else
+                            {
+                                bootbox.alert('<label class="my-success-text">Success, '+data.offerType+' </label>');
+                            }
 
                         }
                         else

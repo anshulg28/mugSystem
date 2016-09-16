@@ -93,4 +93,6 @@ $route['mobile'] = 'mobile/main';
 $route['mobile/about'] = 'mobile/main/about';
 $route['events/(:any)/(:any)'] = 'mobile/main/eventFetch/$1/$2';
 $route['create_event'] = 'mobile/main/createEvent';
+$route['event_dash'] = 'mobile/main/myEvents';
 $route['mobile/renderLink'] = 'mobile/main/renderLink';
+$route['saveEvent'] = 'mobile/main/saveEvent';

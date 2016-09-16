@@ -88,10 +88,11 @@ class Dashboard extends MY_Controller {
                     break;
             }
         }
-        
+
         $data['feedbacks']['overall'] = (int)(($promo['overall']/$total['overall'])*100 - ($de['overall']/$total['overall'])*100);
         $data['feedbacks']['bandra'] = (int)(($promo['bandra']/$total['bandra'])*100 - ($de['bandra']/$total['bandra'])*100);
         $data['feedbacks']['andheri'] = (int)(($promo['andheri']/$total['andheri'])*100 - ($de['andheri']/$total['andheri'])*100);
+        $data['feedbacks']['kemps-corner'] = (int)(($promo['kemps-corner']/$total['kemps-corner'])*100 - ($de['kemps-corner']/$total['kemps-corner'])*100);
 
         $events = $this->dashboard_model->getAllEvents();
 
@@ -433,7 +434,7 @@ class Dashboard extends MY_Controller {
         $post['userId'] = $this->userId;
         $eventId = $this->dashboard_model->saveEventRecord($post);
 
-        $eventShareLink = base_url().'share-event/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
+        $eventShareLink = base_url().'mobile?page/events/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
 
         $details = array(
           'eventShareLink'=> $eventShareLink

@@ -267,17 +267,17 @@ class Dashboard_Model extends CI_Model
     public function getAllFeedbacks($locations)
     {
         $query = "SELECT DISTINCT (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                 WHERE feedbackLoc != 0) as total_overall,
+                 WHERE feedbackLoc != 0) as 'total_overall',
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                 WHERE feedbackLoc = 1) as total_bandra,
+                 WHERE feedbackLoc = 1) as 'total_bandra',
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                 WHERE feedbackLoc = 2) as total_andheri,
+                 WHERE feedbackLoc = 2) as 'total_andheri',
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                 WHERE feedbackLoc = 3) as total_kemps,
+                 WHERE feedbackLoc = 3) as 'total_kemps-corner',
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                 WHERE feedbackLoc != 0 AND overallRating >= 9) as promo_overall,
+                 WHERE feedbackLoc != 0 AND overallRating >= 9) as 'promo_overall',
                  (SELECT COUNT(overallRating) FROM usersfeedbackmaster 
-                 WHERE feedbackLoc != 0 AND overallRating < 7) as de_overall";
+                 WHERE feedbackLoc != 0 AND overallRating < 7) as 'de_overall'";
         if(isset($locations))
         {
             $length = count($locations)-1;
@@ -422,6 +422,16 @@ class Dashboard_Model extends CI_Model
     {
         $query = "SELECT *
                   FROM eventmaster ORDER BY eventId DESC";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getEventsByUserId($userId)
+    {
+        $query = "SELECT * FROM `eventmaster` em
+                  LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
+                  WHERE userId = ".$userId;
 
         $result = $this->db->query($query)->result_array();
 
