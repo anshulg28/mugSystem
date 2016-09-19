@@ -66,7 +66,7 @@ class Sendemail_library
         $cc        = 'events@doolally.in';
         $fromName  = 'Doolally';
 
-        $subject = 'Welcome to Doolally';
+        $subject = 'Event Details';
         $toEmail = $userData['creatorEmail'];
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);

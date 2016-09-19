@@ -51,6 +51,8 @@ class Main extends MY_Controller {
         {
             foreach($events as $key => $row)
             {
+                $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
+                $row['locData'] = $loc['locData'];
                 $data['eventDetails'][$key]['eventData'] = $row;
                 $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
             }
@@ -159,7 +161,7 @@ class Main extends MY_Controller {
         else
         {
             $data['status'] = true;
-            $data['userEvents'] = $this->dashboard_model->getEventsByUserId($this->userId);
+            $data['userEvents'] = $this->dashboard_model->getEventsByUserId($this->userMobId);
         }
 
         $eventView = $this->load->view('mobile/ios/MyEventsView', $data);
@@ -306,7 +308,7 @@ class Main extends MY_Controller {
         }
         elseif(isSessionVariableSet($this->userMobId))
         {
-            $userId = $this->userId;
+            $userId = $this->userMobId;
             $userD = $this->users_model->getUserDetailsById($userId);
             if($userD['status'] === true)
             {

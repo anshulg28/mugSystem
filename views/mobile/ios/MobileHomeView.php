@@ -663,20 +663,22 @@
                                                 $eventName = (strlen($row['eventData']['eventName']) > 25) ? substr($row['eventData']['eventName'], 0, 25) . '..' : $row['eventData']['eventName'];
                                                 echo $eventName;?>
                                             </p>
-                                            <span class="pull-right event-dt-string"><?php $d = date_create($row['eventData']['eventDate']);
-                                                echo date_format($d,EVENT_DATE_FORMAT); ?>
-                                            </span>
                                         </div>
 
                                         <div class="comment content-block clear">
                                             <?php echo $row['eventData']['eventDescription'];?>
+                                            <p>
+                                                <i class="fa fa-map-marker"></i>&nbsp;<?php echo $row['eventData']['locData'][0]['locName']; ?>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
+                                                <?php $d = date_create($row['eventData']['eventDate']);
+                                                    echo date_format($d,EVENT_DATE_FORMAT); ?></p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <span class="event-new-notify">
+                                    <!--<span class="event-new-notify">
                                         <?php
-                                            switch($row['eventData']['costType'])
+/*                                            switch($row['eventData']['costType'])
                                             {
                                                 case "1":
                                                     echo "Free";
@@ -685,9 +687,11 @@
                                                     echo 'Rs '.$row['eventData']['eventPrice'];
                                                     break;
                                             }
-                                        ?>
-                                    </span>
-                                    <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;&nbsp;<i class="fa fa-arrow-right book-arrow-events"></i></a>
+                                        */?>
+                                    </span>-->
+                                    <input type="hidden" data-name="<?php echo $row['eventData']['eventName'];?>" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
+                                    <a href="#" class="link color-black event-card-share-btn">Share</a>
+                                    <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;Event</a>
                                 </div>
                             </div>
                             <?php
@@ -908,6 +912,17 @@
                     </div>
                 </li>
             </ul>
+        </div>
+    </div>
+</div>
+<div class="popover popover-share">
+    <!-- Popover's angle arrow -->
+    <!--<div class="popover-angle"></div>-->
+
+    <!-- Popover content -->
+    <div class="popover-inner my-social-share">
+        <p class="color-black" style="margin-bottom:0"></p>
+        <div id="main-share">
         </div>
     </div>
 </div>

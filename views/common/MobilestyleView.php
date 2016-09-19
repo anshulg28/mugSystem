@@ -10,5 +10,5 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/welcomescreen.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jssocials.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jquery-clockpicker.min.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jssocials-theme-flat.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jssocials-theme-minima.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/swipebox.min.css">

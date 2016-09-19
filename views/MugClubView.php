@@ -382,6 +382,7 @@
                 $('[data-toggle="tooltip"]').tooltip();
             });
             $(document).on('click','.mugDelete-icon',function(){
+                localStorageUtil.setLocal('tabPage',mugClubTab.page());
                 var mugId = $(this).attr('data-mugId');
                 bootbox.confirm("Are you sure you want to delete Mug #"+mugId+" ?", function(result) {
                     if(result === true)
@@ -396,6 +397,7 @@
                 window.location.href='<?php echo base_url();?>mugclub/renew/'+mugId;
             });
             $(document).on('click','.mugHold-icon',function(){
+                localStorageUtil.setLocal('tabPage',mugClubTab.page());
                 var mugId = $(this).attr('data-mugId');
                 bootbox.confirm("Are you sure you want to Hold Mug #"+mugId+" ?", function(result) {
                     if(result === true)
@@ -435,13 +437,32 @@
 
             }*/
     //$(document).ready(function(){
-        $('#main-mugclub-table').DataTable();
+    if(localStorageUtil.getLocal('tabPage') != null)
+    {
+        var mugClubTab =  $('#main-mugclub-table').DataTable({
+            "displayStart": localStorageUtil.getLocal('tabPage') * 10
+        });
+        localStorageUtil.delLocal('tabPage');
+    }
+    else
+    {
+        var mugClubTab =  $('#main-mugclub-table').DataTable();
+    }
+
     //});
             //newPaginationFunc();
             <?php
         }
     ?>
 
+    /*$(window).load(function(){
+       if(localStorageUtil.getLocal('tabPage') != null)
+       {
+           console.log(localStorageUtil.getLocal('tabPage'));
+           mugClubTab.page(localStorageUtil.getLocal('tabPage'));
+           localStorageUtil.delLocal('tabPage');
+       }
+    });*/
 </script>
 <script>
     var locArr = [];

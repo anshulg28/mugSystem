@@ -61,6 +61,18 @@
                                 </p>
                             </div>
 
+                            <!-- Host Section -->
+                            <div class="event-descrip-wrapper">
+                                <a href="tel:<?php echo $row['eventData']['creatorPhone']; ?>">
+                                    <span class="fa-15x fa fa-phone my-right-event-icon color-black"></span>
+                                </a>
+                                <div class="event-header-name">Host</div>
+                                <div class="clear"></div>
+                                <p class="event-sub-text">
+                                    <?php echo $row['eventData']['creatorName']; ?>
+                                </p>
+                            </div>
+
                             <!-- Entry Section -->
                             <div class="event-descrip-wrapper">
                                 <div class="event-header-name">Entry</div>
@@ -81,11 +93,6 @@
                                     }
                                     ?>
                                 </p>
-                            </div>
-
-                            <div class="event-descrip-wrapper">
-                                <input type="hidden" id="shareLink" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
-                                <div id="share" class="my-social-share"></div>
                             </div>
 
                             <!--<div class="list-block cards-list">
@@ -133,6 +140,14 @@
                                     <a href="#" class="button button-big button-fill book-event-btn">Book Now </a>
                                 </div>
                                 <div class="col-5"></div>
+                            </div>
+                            <br>
+                            <div class="bottom-share-panel">
+                                <p class="event-share-text">
+                                    Share "<?php echo $row['eventData']['eventName']; ?>"
+                                </p>
+                                <input type="hidden" id="shareLink" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
+                                <div id="share" class="my-social-share"></div>
                             </div>
                             <br>
                         </div>
