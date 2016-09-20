@@ -513,6 +513,18 @@ class Dashboard extends MY_Controller {
 
     }
 
+    function eventEmailApprove($eventId)
+    {
+        $this->dashboard_model->ApproveEvent($eventId);
+        $data['msg'] = 'Event Approved!';
+        $this->load->view('PageThankYouView',$data);
+    }
+    function eventEmailDecline($eventId)
+    {
+        $this->dashboard_model->DeclineEvent($eventId);
+        $data['msg'] = 'Event Declined!';
+        $this->load->view('PageThankYouView',$data);
+    }
     function eventApproved($eventId)
     {
         $this->dashboard_model->ApproveEvent($eventId);

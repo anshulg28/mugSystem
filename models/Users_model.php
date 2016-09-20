@@ -54,6 +54,26 @@ class Users_Model extends CI_Model
 
         return $data;
     }
+    public function searchUserByLoc($locId)
+    {
+        $query = "SELECT * "
+            ."FROM doolally_usersmaster "
+            ."WHERE FIND_IN_SET('".$locId."', assignedLoc)";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data['userData'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
     public function getUserDetailsByUsername($userName)
     {
         $query = "SELECT * "

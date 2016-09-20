@@ -300,7 +300,10 @@ class Main extends MY_Controller {
                 'creatorName' => $post['creatorName'],
                 'creatorEmail' => $post['creatorEmail']
             );
+            $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
+            $post['locData'] = $loc['locData'];
             $this->sendemail_library->newEventMail($mailEvent);
+            $this->sendemail_library->eventVerifyMail($post);
             $data['status'] = true;
             $this->login_model->setLastLogin($userId);
             $this->generalfunction_library->setMobUserSession($userId);
@@ -363,7 +366,10 @@ class Main extends MY_Controller {
                 'creatorName' => $post['creatorName'],
                 'creatorEmail' => $post['creatorEmail']
             );
+            $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
+            $post['locData'] = $loc['locData'];
             $this->sendemail_library->newEventMail($mailEvent);
+            $this->sendemail_library->eventVerifyMail($post);
             $data['status'] = true;
             $this->login_model->setLastLogin($userId);
             $this->generalfunction_library->setMobUserSession($userId);
