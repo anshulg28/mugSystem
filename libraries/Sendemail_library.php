@@ -70,7 +70,7 @@ class Sendemail_library
 
         $subject = 'Event Details';
         $toEmail = 'events@doolally.in';
-        $mailRecord = $this->CI->users_model->searchUserByLoc($userData['eventPlace']);
+        $mailRecord = $this->CI->users_model->searchUserByLoc($userData[0]['eventPlace']);
         if($mailRecord['status'] === true)
         {
             $toEmail = $mailRecord['userData']['emailId'];

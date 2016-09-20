@@ -8,6 +8,8 @@
 <body>
     <p>Event Detail:</p>
     <p>
+        Event Image:
+        <img src="<?php echo base_url().EVENT_PATH_THUMB.$mailData[0]['attachment'];?>"/><br>
         Event Name: <?php echo $mailData[0]['eventName'];?><br>
         Event description: <?php echo $mailData[0]['eventDescription'];?><br>
         Event Type: <?php echo $mailData[0]['eventType'];?><br>
@@ -49,7 +51,7 @@
             echo 'No';
         }
 
-        ?>
+        ?><br>
         Organiser Name: <?php echo $mailData[0]['creatorName'];?><br>
         Organiser Phone: <?php echo $mailData[0]['creatorPhone'];?><br>
         Organiser Email: <?php echo $mailData[0]['creatorEmail'];?><br><br>

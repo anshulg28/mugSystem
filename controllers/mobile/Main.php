@@ -283,6 +283,7 @@ class Main extends MY_Controller {
             );
             $this->dashboard_model->updateEventRecord($details,$eventId);
 
+            $img_names = array();
             if(isset($attachement))
             {
                 $img_names = explode(',',$attachement);
@@ -303,6 +304,7 @@ class Main extends MY_Controller {
             $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
             $mailVerify = $this->dashboard_model->getEventById($eventId);
             $mailVerify[0]['locData'] = $loc['locData'];
+            $mailVerify[0]['attachment'] = $img_names[0];
             $post['locData'] = $loc['locData'];
             $this->sendemail_library->newEventMail($mailEvent);
             $this->sendemail_library->eventVerifyMail($mailVerify);
@@ -351,6 +353,7 @@ class Main extends MY_Controller {
             );
             $this->dashboard_model->updateEventRecord($details,$eventId);
 
+            $img_names = array();
             if(isset($attachement))
             {
                 $img_names = explode(',',$attachement);
@@ -371,6 +374,7 @@ class Main extends MY_Controller {
             $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
             $mailVerify = $this->dashboard_model->getEventById($eventId);
             $mailVerify[0]['locData'] = $loc['locData'];
+            $mailVerify[0]['attachment'] = $img_names[0];
             $this->sendemail_library->newEventMail($mailEvent);
             $this->sendemail_library->eventVerifyMail($mailVerify);
             $data['status'] = true;
