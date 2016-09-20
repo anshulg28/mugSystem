@@ -8,30 +8,56 @@
 <body>
     <p>Event Detail:</p>
     <p>
-        Event Name: <?php echo $mailData['eventName'];?><br>
-        Event description: <?php echo $mailData['eventDescription'];?><br>
-        Event Date: <?php echo $mailData['eventDate'];?><br>
-        Event Time: <?php echo $mailData['startTime'] .' - '.$mailData['endTime'];?><br>
+        Event Name: <?php echo $mailData[0]['eventName'];?><br>
+        Event description: <?php echo $mailData[0]['eventDescription'];?><br>
+        Event Type: <?php echo $mailData[0]['eventType'];?><br>
+        Event Date: <?php echo $mailData[0]['eventDate'];?><br>
+        Event Time: <?php echo $mailData[0]['startTime'] .' - '.$mailData[0]['endTime'];?><br>
         Event Price:
         <?php
-            if($mailData['costType'] == '1')
+            if($mailData[0]['costType'] == '1')
             {
                 echo 'Free';
             }
             else
             {
-                echo $mailData['eventPrice'];
+                echo $mailData[0]['eventPrice'];
             }
         ?><br>
-        Event Place: <?php echo $mailData['locData'][0]['locName'];?><br>
-        Organiser Name: <?php echo $mailData['creatorName'];?><br>
-        Organiser Phone: <?php echo $mailData['creatorPhone'];?><br>
-        Organiser Email: <?php echo $mailData['creatorEmail'];?><br><br>
+        Event Place: <?php echo $mailData[0]['locData'][0]['locName'];?><br>
+        Event Capacity: <?php echo $mailData[0]['eventCapacity'];?><br>
+        Mic Required:
+        <?php
+            if($mailData[0]['ifMicRequired'] == '1')
+            {
+                echo 'Yes';
+            }
+            else
+            {
+                echo 'No';
+            }
 
-        <a href="<?php echo base_url().'dashboard/eventEmailApprove/'.$mailData['eventId'];?>"
+        ?><br>
+        Projector Required:
+        <?php
+        if($mailData[0]['ifProjectorRequired'] == '1')
+        {
+            echo 'Yes';
+        }
+        else
+        {
+            echo 'No';
+        }
+
+        ?>
+        Organiser Name: <?php echo $mailData[0]['creatorName'];?><br>
+        Organiser Phone: <?php echo $mailData[0]['creatorPhone'];?><br>
+        Organiser Email: <?php echo $mailData[0]['creatorEmail'];?><br><br>
+
+        <a href="<?php echo base_url().'dashboard/eventEmailApprove/'.$mailData[0]['eventId'];?>"
         style="text-decoration: none;border: 2px solid #000;padding: 5px;border-radius: 5px;color:green;">Approve Event</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="<?php echo base_url().'dashboard/eventEmailDecline/'.$mailData['eventId'];?>"
+        <a href="<?php echo base_url().'dashboard/eventEmailDecline/'.$mailData[0]['eventId'];?>"
            style="text-decoration: none;border: 2px solid #000;padding: 5px;border-radius: 5px;color:red;">Decline Event</a>
     </p>
 
