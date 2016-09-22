@@ -515,25 +515,100 @@ class Dashboard extends MY_Controller {
 
     function eventEmailApprove($eventId)
     {
-        $this->dashboard_model->ApproveEvent($eventId);
+        $this->eventApprove($eventId);
         $data['msg'] = 'Event Approved!';
         $this->load->view('PageThankYouView',$data);
     }
     function eventEmailDecline($eventId)
     {
-        $this->dashboard_model->DeclineEvent($eventId);
+        $this->eventDecline($eventId);
         $data['msg'] = 'Event Declined!';
         $this->load->view('PageThankYouView',$data);
     }
     function eventApproved($eventId)
     {
-        $this->dashboard_model->ApproveEvent($eventId);
+        $this->eventApprove($eventId);
         redirect(base_url().'dashboard');
     }
     function eventDeclined($eventId)
     {
-        $this->dashboard_model->DeclineEvent($eventId);
+        $this->eventDecline($eventId);
         redirect(base_url().'dashboard');
+    }
+
+    function eventApprove($eventId)
+    {
+        $eventDetail = $this->dashboard_model->getFullEventInfoById($eventId);
+
+        if(isset($eventDetail[0]['eventPaymentLink']) && isStringSet($eventDetail[0]['eventPaymentLink']))
+        {
+            $this->dashboard_model->ApproveEvent($eventId);
+            $this->sendemail_library->eventApproveMail($eventDetail);
+        }
+        else
+        {
+            $instaImgLink = $this->curl_library->getInstaImageLink();
+            $donePost = array();
+            if($instaImgLink['success'] === true)
+            {
+                $coverImg =  $this->curl_library->uploadInstaImage($instaImgLink['upload_url'],$eventDetail[0]['filename']);
+                if(isset($coverImg) && myIsMultiArray($coverImg) && isset($coverImg['url']))
+                {
+                    $postData = array(
+                        'title' => $eventDetail[0]['eventName'],
+                        'description' => $eventDetail[0]['eventDescription'],
+                        'currency' => 'INR',
+                        'base_price' => $eventDetail[0]['eventPrice'],
+                        'start_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['startTime'],
+                        'end_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['endTime'],
+                        'venue' => $eventDetail[0]['locName'].', Doolally Taproom',
+                        'redirect_url' => base_url().'mobile?page/thankYou/EV-'.$eventDetail[0]['eventId'],
+                        'cover_image_json' => json_encode($coverImg),
+                        'timezone' => 'Asia/Kolkata'
+                    );
+                    $donePost = $this->curl_library->createInstaLink($postData);
+                }
+            }
+
+            if(!myIsMultiArray($donePost))
+            {
+                $postData = array(
+                    'title' => $eventDetail[0]['eventName'],
+                    'description' => $eventDetail[0]['eventDescription'],
+                    'currency' => 'INR',
+                    'base_price' => $eventDetail[0]['eventPrice'],
+                    'start_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['startTime'],
+                    'end_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['endTime'],
+                    'venue' => $eventDetail[0]['locName'].', Doolally Taproom',
+                    'redirect_url' => base_url().'mobile?page/thankYou/EV-'.$eventDetail[0]['eventId'],
+                    'timezone' => 'Asia/Kolkata'
+                );
+                $donePost = $this->curl_library->createInstaLink($postData);
+            }
+            $this->dashboard_model->ApproveEvent($eventId);
+            $this->sendemail_library->eventApproveMail($eventDetail);
+            $details = array();
+            if(isset($donePost['link']['shorturl']))
+            {
+                $details = array(
+                    'eventPaymentLink' => $donePost['link']['shorturl']
+                );
+            }
+            else
+            {
+                $details = array(
+                    'eventPaymentLink' => $donePost['link']['url']
+                );
+            }
+            $this->dashboard_model->updateEventRecord($details, $eventDetail[0]['eventId']);
+        }
+
+    }
+    function eventDecline($eventId)
+    {
+        $eventDetail = $this->dashboard_model->getFullEventInfoById($eventId);
+        $this->dashboard_model->DeclineEvent($eventId);
+        $this->sendemail_library->eventDeclineMail($eventDetail);
     }
     function setEventDeActive($eventId)
     {

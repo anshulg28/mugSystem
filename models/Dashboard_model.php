@@ -418,6 +418,12 @@ class Dashboard_Model extends CI_Model
         $this->db->insert('eventattachment', $details);
         return true;
     }
+    public function updateEventAttachment($details, $eventId)
+    {
+        $this->db->where('eventId',$eventId);
+        $this->db->update('eventattachment', $details);
+        return true;
+    }
     public function getAllEvents()
     {
         $query = "SELECT *
@@ -429,9 +435,14 @@ class Dashboard_Model extends CI_Model
     }
     public function getEventsByUserId($userId)
     {
-        $query = "SELECT * FROM `eventmaster` em
+        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
+                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
+                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink,
+                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName
+                  FROM `eventmaster` em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
-                  WHERE userId = ".$userId;
+                  LEFT JOIN locationmaster l ON eventPlace = l.id
+                  WHERE userId = ".$userId." GROUP BY em.eventId";
 
         $result = $this->db->query($query)->result_array();
 
@@ -512,6 +523,22 @@ class Dashboard_Model extends CI_Model
     {
         $query = "SELECT id, filename
                   FROM eventattachment WHERE eventId = ".$id;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+
+    public function getFullEventInfoById($eventId)
+    {
+        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
+                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
+                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink,
+                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName
+                  FROM `eventmaster` em
+                  LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
+                  LEFT JOIN locationmaster l ON eventPlace = l.id
+                  WHERE em.eventId = ".$eventId." GROUP BY em.eventId";
 
         $result = $this->db->query($query)->result_array();
 

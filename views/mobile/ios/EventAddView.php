@@ -35,7 +35,7 @@
                             <p class="add-img-caption">Add a cover photo<br> The image must be at least 1080 x 540 pixels</p>
                         </div>
                         <div class="event-img-after hide">
-                            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-remove hide">
+                            <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-remove hide">
                                 <i class="ic_add"></i>
                             </button>
                             <div class="progress-bar">
@@ -80,7 +80,7 @@
                         </select>
                         <br>
                         <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
-                            <option value="">Location of event (max. 20 people)</option>
+                            <option value="">Location of event</option>
                             <?php
                             if(isset($locData))
                             {

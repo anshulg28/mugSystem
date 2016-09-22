@@ -175,7 +175,7 @@
             </div>
         </div>
         <div class="pages">
-            <div data-page="about" class="page">
+            <div data-page="event" class="page">
                 <div class="page-content">
                     <div class="content-block">
                         <p>No result Found!</p>

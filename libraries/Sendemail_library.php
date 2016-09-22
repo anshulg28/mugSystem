@@ -79,6 +79,39 @@ class Sendemail_library
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
     }
 
+    public function eventApproveMail($userData)
+    {
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/eventApproveMailView', $data, true);
+
+        $fromEmail = 'events@doolally.in';
+
+        $cc        = 'events@doolally.in';
+        $fromName  = 'Doolally';
+
+        $subject = 'Event Approved';
+        $toEmail = $userData[0]['creatorEmail'];
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+    }
+    public function eventDeclineMail($userData)
+    {
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/eventDeclineMailView', $data, true);
+
+        $fromEmail = 'events@doolally.in';
+
+        $cc        = 'events@doolally.in';
+        $fromName  = 'Doolally';
+
+        $subject = 'Event Approved';
+        $toEmail = $userData[0]['creatorEmail'];
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+    }
+
     public function newEventMail($userData)
     {
         $data['mailData'] = $userData;
@@ -114,7 +147,7 @@ class Sendemail_library
         {
             $fromName = ucfirst($this->CI->userFirstName);
         }
-        $subject = 'Renewal Mug Mail';
+        $subject = 'Renewal of Mug #'.$userData['mugId'];
         $toEmail = $userData['emailId'];
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);

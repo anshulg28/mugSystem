@@ -38,7 +38,8 @@ class curl_library
 		curl_setopt($curl, CURLOPT_POST, true);  // tell curl you want to post something
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		$result = curl_exec ($curl);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		$result = curl_exec($curl);
 		curl_close ($curl);
 		return $result;
 	}
@@ -72,5 +73,37 @@ class curl_library
     {
         $url = 'https://www.juicer.io/api/feeds/24816';
         return $this->getDataByGet($url, 30);
+    }
+
+    /* Instamojo API */
+
+    public function getInstaImageLink()
+    {
+        $url = 'https://www.instamojo.com/api/1.1/links/get_file_upload_url/';
+        $header = array(
+            'X-Api-Key:'.INSTA_API_KEY,
+            'X-Auth-Token:'.INSTA_AUTH_TOKEN
+        );
+        return $this->getDataByGet($url,0, $header);
+    }
+    public function uploadInstaImage($imgLink, $img)
+    {
+        $url = $imgLink;
+        $header = array(
+            'X-Api-Key:'.INSTA_API_KEY,
+            'X-Auth-Token:'.INSTA_AUTH_TOKEN
+        );
+        //var_dump(base_url().EVENT_PATH_THUMB.$img);
+        return $this->getDataByPost($url,array('url'=>base_url().EVENT_PATH_THUMB.$img),0, $header);
+    }
+    public function createInstaLink($details)
+    {
+        $url = 'https://www.instamojo.com/api/1.1/links/';
+        $header = array(
+            'X-Api-Key:'.INSTA_API_KEY,
+            'X-Auth-Token:'.INSTA_AUTH_TOKEN
+        );
+        //var_dump(base_url().EVENT_PATH_THUMB.$img);
+        return $this->getDataByPost($url,$details,0, $header);
     }
 }

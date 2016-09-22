@@ -138,6 +138,29 @@ class Main extends MY_Controller {
         }
     }
 
+    public function editEvent($eventId, $evenHash)
+    {
+        $data = array();
+
+        if(hash_compare(encrypt_data($eventId),$evenHash))
+        {
+            $decodedS = explode('-',$eventId);
+            $eventId = $decodedS[count($decodedS)-1];
+            $data['eventDetails'] = $this->dashboard_model->getFullEventInfoById($eventId);
+            $data['eventTc'] = $this->config->item('eventTc');
+            $data['locData'] = $this->locations_model->getAllLocations();
+
+            $aboutView = $this->load->view('mobile/ios/EventEditView', $data);
+
+            echo json_encode($aboutView);
+        }
+        else
+        {
+            $pgError = $this->load->view('mobile/ios/EventEditView', $data);
+            echo json_encode($pgError);
+        }
+    }
+
     public function createEvent()
     {
         $data = array();
@@ -148,7 +171,6 @@ class Main extends MY_Controller {
         $aboutView = $this->load->view('mobile/ios/EventAddView', $data);
 
         echo json_encode($aboutView);
-
     }
 
     public function myEvents()
@@ -168,6 +190,28 @@ class Main extends MY_Controller {
 
         echo json_encode($eventView);
 
+    }
+    public function thankYou($eventName)
+    {
+        $post = $this->input->post();
+        echo '<pre>';
+        var_dump($eventName);
+        var_dump($post);
+        die();
+        $data = array();
+        if(isSessionVariableSet($this->isMobUserSession) === false)
+        {
+            $data['status'] = false;
+        }
+        else
+        {
+            $data['status'] = true;
+            $data['userEvents'] = $this->dashboard_model->getEventsByUserId($this->userMobId);
+        }
+
+        $eventView = $this->load->view('mobile/ios/MyEventsView', $data);
+
+        echo json_encode($eventView);
     }
     public function checkUser()
     {
@@ -386,6 +430,74 @@ class Main extends MY_Controller {
         {
             $data['status'] = false;
             $data['errorMsg'] = 'Error in Account Creation';
+            echo json_encode($data);
+        }
+
+    }
+    public function updateEvent()
+    {
+        $this->load->model('login_model');
+        $post = $this->input->post();
+        $userId = '';
+
+        if(isSessionVariableSet($this->userMobId))
+        {
+            $userId = $this->userMobId;
+        }
+        elseif(isset($post['userId']) && $post['userId'] != '')
+        {
+            $userId = $post['userId'];
+        }
+        else
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Error in Account Creation';
+            echo json_encode($data);
+        }
+        if(isStringSet($userId))
+        {
+            //Save event
+            if(isset($post['attachment']))
+            {
+                $attachement = $post['attachment'];
+                unset($post['attachment']);
+            }
+            if(isset($post['ifMicRequired']) && myIsArray($post['ifMicRequired']))
+            {
+                $post['ifMicRequired'] = $post['ifMicRequired'][0];
+            }
+            if(isset($post['ifProjectorRequired']) && myIsArray($post['ifProjectorRequired']))
+            {
+                $post['ifProjectorRequired'] = $post['ifProjectorRequired'][0];
+            }
+            $this->dashboard_model->updateEventRecord($post,$post['eventId']);
+
+            $details = array(
+                'ifActive' => '0',
+                'ifApproved' => '0'
+            );
+            $this->dashboard_model->updateEventRecord($details,$post['eventId']);
+
+            $img_names = array();
+            if(isset($attachement))
+            {
+                $img_names = explode(',',$attachement);
+                for($i=0;$i<count($img_names);$i++)
+                {
+                    $attArr = array(
+                        'filename'=> $img_names[$i],
+                    );
+                    $this->dashboard_model->updateEventAttachment($attArr,$post['eventId']);
+                }
+            }
+
+            $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
+            $mailVerify = $this->dashboard_model->getEventById($post['eventId']);
+            $mailVerify[0]['locData'] = $loc['locData'];
+            $mailVerify[0]['attachment'] = $img_names[0];
+            $this->sendemail_library->eventVerifyMail($mailVerify);
+            $data['status'] = true;
+
             echo json_encode($data);
         }
 
