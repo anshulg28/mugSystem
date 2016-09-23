@@ -14,7 +14,7 @@
                 <div class="navbar-inner">
                     <div class="left">
                         <a href="#" class="back link" data-ignore-cache="true">
-                            <i class="fa fa-arrow-left color-black"></i>
+                            <i class="ic_back_icon point-item"></i>
                         </a>
                     </div>
                     <div class="center sliding"><?php echo $row['eventData']['eventName'];?></div>
@@ -42,7 +42,7 @@
                             <hr class="card-ptag">
                             <!-- Where section -->
                             <div class="event-descrip-wrapper">
-                                <i class="fa fa-map-marker my-right-event-icon fa-15x"></i>
+                                <i class="ic_me_location_icon point-item my-right-event-icon"></i>
                                 <div class="event-header-name">Where</div>
                                 <div class="clear"></div>
                                 <p class="event-sub-text">
@@ -64,7 +64,7 @@
                             <!-- Host Section -->
                             <div class="event-descrip-wrapper">
                                 <a href="tel:<?php echo $row['eventData']['creatorPhone']; ?>">
-                                    <span class="fa-15x fa fa-phone my-right-event-icon color-black"></span>
+                                    <span class="ic_event_contact_icon my-right-event-icon"></span>
                                 </a>
                                 <div class="event-header-name">Host</div>
                                 <div class="clear"></div>
@@ -137,7 +137,20 @@
                             <div class="row">
                                 <div class="col-5"></div>
                                 <div class="col-90">
-                                    <a href="#" class="button button-big button-fill book-event-btn">Book Now </a>
+                                    <?php
+                                        if(isset($row['eventData']['eventPaymentLink']) && isStringSet($row['eventData']['eventPaymentLink']))
+                                        {
+                                            ?>
+                                            <a href="<?php echo $row['eventData']['eventPaymentLink'];?>" class="button button-big button-fill book-event-btn external">Book Now </a>
+                                            <?php
+                                        }
+                                        else
+                                        {
+                                            ?>
+                                            <a href="#" class="button button-big button-fill book-event-btn" disabled>Book Now </a>
+                                            <?php
+                                        }
+                                    ?>
                                 </div>
                                 <div class="col-5"></div>
                             </div>

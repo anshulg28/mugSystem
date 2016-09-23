@@ -29,11 +29,10 @@ class Main extends MY_Controller {
         {
             if(hash_compare(encrypt_data('EV-'.$get['event']),$get['hash']))
             {
-                $post = $this->input->post();
-                echo '<pre>';
-                var_dump($post);
-                die();
-                $this->thankYou($get['event'],$post);
+                if(isset($get['status']) && $get['status'] == 'success' && isset($get['payment_id']))
+                {
+                    $this->thankYou($get['event'],$get['payment_id']);
+                }
             }
         }
         if(isSessionVariableSet($this->instaMojoStatus) && $this->instaMojoStatus == '1')
@@ -206,6 +205,7 @@ class Main extends MY_Controller {
         else
         {
             $data['status'] = true;
+            $data['registeredEvents'] = $this->dashboard_model->getEventsRegisteredByUser($this->userMobId);
             $data['userEvents'] = $this->dashboard_model->getEventsByUserId($this->userMobId);
         }
 
@@ -214,8 +214,9 @@ class Main extends MY_Controller {
         echo json_encode($eventView);
 
     }
-    function thankYou($eventId, $postData)
+    function thankYou($eventId, $mojoId)
     {
+        $sessionDone = false;
         if(isSessionVariableSet($this->instaEventId))
         {
             if($this->instaEventId != $eventId)
@@ -224,6 +225,7 @@ class Main extends MY_Controller {
                 $this->instaEventId= $eventId;
                 $this->generalfunction_library->setSessionVariable('instaMojoStatus','1');
                 $this->instaMojoStatus = '1';
+                $sessionDone = true;
                 //redirect(base_url().'mobile');
             }
         }
@@ -233,28 +235,74 @@ class Main extends MY_Controller {
             $this->instaEventId= $eventId;
             $this->generalfunction_library->setSessionVariable('instaMojoStatus','1');
             $this->instaMojoStatus = '1';
+            $sessionDone = true;
             //redirect(base_url().'mobile');
         }
+        if($sessionDone === true)
+        {
+            $this->load->model('login_model');
+            $userId = '';
+
+            $requiredInfo = array();
+            $mojoDetails = $this->curl_library->getInstaMojoRecord($mojoId);
+            if(isset($mojoDetails) && myIsMultiArray($mojoDetails))
+            {
+                $userStatus = $this->checkPublicUser($mojoDetails['payment']['buyer_email'],$mojoDetails['payment']['buyer_phone']);
+                if($userStatus['status'] === false)
+                {
+                    $userId = $userStatus['userData']['userId'];
+                }
+                else
+                {
+                    $userName = explode(' ',$mojoDetails['payment']['buyer_name']);
+                    if(count($userName)< 2)
+                    {
+                        $userName[1] = '';
+                    }
+
+                    $user = array(
+                        'userName' => $mojoDetails['payment']['buyer_email'],
+                        'firstName' => $userName[0],
+                        'lastName' => $userName[1],
+                        'password' => md5($mojoDetails['payment']['buyer_phone']),
+                        'LoginPin' => null,
+                        'isPinChanged' => null,
+                        'emailId' => $mojoDetails['payment']['buyer_email'],
+                        'mobNum' => $mojoDetails['payment']['buyer_phone'],
+                        'userType' => '4',
+                        'assignedLoc' => null,
+                        'ifActive' => '1',
+                        'insertedDate' => date('Y-m-d H:i:s'),
+                        'updateDate' => date('Y-m-d H:i:s'),
+                        'updatedBy' => $mojoDetails['payment']['buyer_name'],
+                        'lastLogin' => date('Y-m-d H:i:s')
+                    );
+
+                    $userId = $this->users_model->savePublicUser($user);
+                    $mailData= array(
+                        'creatorName' => $mojoDetails['payment']['buyer_name'],
+                        'creatorEmail' => $mojoDetails['payment']['buyer_email']
+                    );
+                    $this->sendemail_library->memberWelcomeMail($mailData);
+                }
+
+                //Save Booking Details
+
+                $requiredInfo = array(
+                    'bookerUserId' => $userId,
+                    'eventId' => $eventId,
+                    'quantity' => $mojoDetails['payment']['quantity'],
+                    'paymentId' => $mojoId
+                );
+
+                $this->dashboard_model->saveEventRegis($requiredInfo);
+                //$this->sendemail_library->newEventMail($mailEvent);
+                $this->login_model->setLastLogin($userId);
+                $this->generalfunction_library->setMobUserSession($userId);
+            }
+
+        }
         return true;
-        /*$post = $this->input->post();
-        echo '<pre>';
-        var_dump($eventName);
-        var_dump($post);
-        die();
-        $data = array();
-        if(isSessionVariableSet($this->isMobUserSession) === false)
-        {
-            $data['status'] = false;
-        }
-        else
-        {
-            $data['status'] = true;
-            $data['userEvents'] = $this->dashboard_model->getEventsByUserId($this->userMobId);
-        }
-
-        $eventView = $this->load->view('mobile/ios/MyEventsView', $data);
-
-        echo json_encode($eventView);*/
     }
     public function checkUser()
     {

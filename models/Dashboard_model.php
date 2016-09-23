@@ -433,6 +433,7 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+
     public function getEventsByUserId($userId)
     {
         $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
@@ -443,6 +444,23 @@ class Dashboard_Model extends CI_Model
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id
                   WHERE userId = ".$userId." GROUP BY em.eventId";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getEventsRegisteredByUser($userId)
+    {
+        $query = "SELECT erm.bookerId,erm.bookerUserId,erm.eventId,erm.quantity, em.eventId, em.eventName,
+                  em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
+                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
+                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink,
+                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName
+                  FROM eventregistermaster erm
+                  LEFT JOIN eventmaster em ON em.eventId = erm.eventId
+                  LEFT JOIN eventattachment ea ON ea.eventId = erm.eventId
+                  LEFT JOIN locationmaster l ON l.id = em.eventPlace
+                  WHERE bookerUserId = ".$userId." GROUP BY erm.eventId";
 
         $result = $this->db->query($query)->result_array();
 
@@ -563,6 +581,13 @@ class Dashboard_Model extends CI_Model
         $result = $this->db->query($query)->result_array();
 
         return $result;
+    }
+    public function saveEventRegis($details)
+    {
+        $details['createdDT'] = date('Y-m-d H:i:s');
+
+        $this->db->insert('eventregistermaster', $details);
+        return true;
     }
 
     //For Fnb

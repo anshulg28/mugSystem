@@ -667,17 +667,17 @@
                                                     echo $eventName;?>
                                                 </p>
                                                 <input type="hidden" data-name="<?php echo $row['eventData']['eventName'];?>" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
-                                                <i class="fa fa-share-alt pull-right event-share-icn event-card-share-btn"></i>
+                                                <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
                                             </div>
 
                                             <div class="comment clear">
                                                 <?php echo $row['eventData']['eventDescription'];?>
                                                 <p>
-                                                    <i class="fa fa-map-marker"></i>&nbsp;<?php echo $row['eventData']['locData'][0]['locName']; ?>
+                                                    <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['eventData']['locData'][0]['locName']; ?>
                                                     &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
                                                     <?php $d = date_create($row['eventData']['eventDate']);
                                                         echo date_format($d,EVENT_DATE_FORMAT); ?>
-                                                    &nbsp;&nbsp;<i class="fa fa-inr"></i>
+                                                    &nbsp;&nbsp;<i class="ic_me_rupee_icon main-rupee-icon"></i>
                                                     <?php
                                                     switch($row['eventData']['costType'])
                                                     {

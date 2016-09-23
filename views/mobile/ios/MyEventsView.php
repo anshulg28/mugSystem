@@ -71,7 +71,78 @@
                         <!-- Tab 1, active by default -->
                         <div id="attending" class="page-content tab active">
                             <div class="content-block">
-                                No Data
+                                <?php
+                                    if(isset($registeredEvents) && myIsMultiArray($registeredEvents))
+                                    {
+                                        $postImg = 0;
+                                        foreach($registeredEvents as $key => $row)
+                                        {
+                                            $img_collection = array();
+                                            ?>
+                                            <div class="card demo-card-header-pic">
+                                                <div class="row no-gutter">
+                                                    <div class="col-100"> <!--more-photos-wrapper-->
+                                                        <?php
+                                                        if($postImg >=10)
+                                                        {
+                                                            ?>
+                                                            <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+                                                            ?>
+                                                            <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                            <?php
+                                                        }
+                                                        $postImg++;
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                                <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
+                                                <div class="card-content">
+                                                    <div class="card-content-inner">
+                                                        <div class="event-info-wrapper">
+                                                            <p class="pull-left card-ptag event-date-tag">
+                                                                <?php
+                                                                $eventName = (strlen($row['eventName']) > 25) ? substr($row['eventName'], 0, 25) . '..' : $row['eventName'];
+                                                                echo $eventName;?>
+                                                            </p>
+                                                            <input type="hidden" data-name="<?php echo $row['eventName'];?>" value="<?php echo $row['eventShareLink'];?>"/>
+                                                            <i class="fa fa-share-alt pull-right event-share-icn event-card-share-btn"></i>
+                                                        </div>
+
+                                                        <div class="comment my-event-status">
+                                                            <?php echo $row['eventDescription'];?>
+                                                            <p>
+                                                                <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['locName']; ?>
+                                                                &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
+                                                                <?php $d = date_create($row['eventDate']);
+                                                                echo date_format($d,EVENT_DATE_FORMAT); ?>
+                                                                &nbsp;&nbsp;<i class="ic_me_rupee_icon main-rupee-icon"></i>
+                                                                <?php
+                                                                switch($row['costType'])
+                                                                {
+                                                                    case "1":
+                                                                        echo "Free";
+                                                                        break;
+                                                                    case "2":
+                                                                        echo 'Rs '.$row['eventPrice'];
+                                                                        break;
+                                                                }
+                                                                ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer event-card-footer">
+                                                    <a href="#" class="link color-black">View&nbsp;Details</a>
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+                                ?>
                             </div>
                         </div>
                         <!-- Tab 2 -->
@@ -131,22 +202,22 @@
                                                                 if($row['ifApproved'] == EVENT_DECLINED)
                                                                 {
                                                                     ?>
-                                                                    <i class="material-icons info-icon">info_outline</i>&nbsp;&nbsp;Event Declined!<?php
+                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Declined!<?php
                                                                 }
                                                                 elseif($row['ifApproved'] == EVENT_WAITING)
                                                                 {
                                                                     ?>
-                                                                    <i class="material-icons info-icon">info_outline</i>&nbsp;&nbsp;Review In Progress...<?php
+                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Review In Progress...<?php
                                                                 }
                                                                 elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == ACTIVE)
                                                                 {
                                                                     ?>
-                                                                    <i class="material-icons info-icon">info_outline</i>&nbsp;&nbsp;Event Approved!<?php
+                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved!<?php
                                                                 }
                                                                     elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == NOT_ACTIVE)
                                                                 {
                                                                     ?>
-                                                                    <i class="material-icons info-icon">info_outline</i>&nbsp;&nbsp;Event Approved But Not Active<?php
+                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved But Not Active<?php
                                                                 }
                                                             ?>
                                                             </span>

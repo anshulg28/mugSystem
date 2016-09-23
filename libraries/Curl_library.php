@@ -106,4 +106,13 @@ class curl_library
         //var_dump(base_url().EVENT_PATH_THUMB.$img);
         return $this->getDataByPost($url,$details,0, $header);
     }
+    public function getInstaMojoRecord($payId)
+    {
+        $url = 'https://www.instamojo.com/api/1.1/payments/'.$payId.'/';
+        $header = array(
+            'X-Api-Key:'.INSTA_API_KEY,
+            'X-Auth-Token:'.INSTA_AUTH_TOKEN
+        );
+        return $this->getDataByGet($url,0, $header);
+    }
 }

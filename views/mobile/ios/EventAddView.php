@@ -8,7 +8,7 @@
     <div class="navbar-inner">
         <div class="left">
             <a href="#" class="back link" data-ignore-cache="true">
-                <i class="fa fa-arrow-left color-black"></i>
+                <i class="ic_back_icon point-item"></i>
             </a>
         </div>
         <!--<div class="center sliding"><?php /*echo $row['eventData']['eventName'];*/?></div>-->
@@ -52,7 +52,7 @@
                             <div class="col-90">
                                 <div class="hide" id="event-guide"><?php echo $eventTc;?></div>
                                 <a href="#" class="button button-big button-fill book-event-btn">
-                                    <i class="material-icons info-icon">info_outline</i> Read Event Guidelines
+                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Read Event Guidelines
                                 </a>
                             </div>
                             <div class="col-5"></div>

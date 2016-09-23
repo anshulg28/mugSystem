@@ -14,7 +14,7 @@
                 <div class="navbar-inner">
                     <div class="left">
                         <a href="#" class="back link" data-ignore-cache="true">
-                            <i class="fa fa-arrow-left color-black"></i>
+                            <i class="ic_back_icon point-item"></i>
                         </a>
                     </div>
                     <!--<div class="center sliding"><?php /*echo $row['eventData']['eventName'];*/?></div>-->
@@ -60,7 +60,7 @@
                                         <div class="col-90">
                                             <div class="hide" id="event-guide"><?php echo $eventTc;?></div>
                                             <a href="#" class="button button-big button-fill book-event-btn">
-                                                <i class="material-icons info-icon">info_outline</i> Read Event Guidelines
+                                                <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Read Event Guidelines
                                             </a>
                                         </div>
                                         <div class="col-5"></div>
@@ -139,33 +139,77 @@
                                         </div>
                                     </div>
                                     <div class="event-header-name">Is the event Free or Paid?</div>
-                                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
-                                        <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2"
-                                               <?php if($row['costType'] == '2'){echo 'checked';} ?>>
-                                        <span class="mdl-radio__label">Paid</span>
-                                    </label>
-                                    <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
-                                    <div class="row">
-                                        <div class="col-50">
-                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
-                                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
-                                                value="<?php echo $row['eventPrice'];?>">
-                                                <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
-                                                <span class="mdl-textfield__error">Input is not a number!</span>
+
+                                    <?php
+                                        if($row['costType'] == '2')
+                                        {
+                                            ?>
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
+                                                <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
+                                                <span class="mdl-radio__label">Paid</span>
+                                            </label>
+                                            <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
+                                                        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
+                                                               value="<?php echo $row['eventPrice'];?>">
+                                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
+                                                        <span class="mdl-textfield__error">Input is not a number!</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <p class="event-sub-text">+ Rs. 250 Doolally Fee</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-50">
-                                            <p class="event-sub-text">+ Rs. 250 Doolally Fee</p>
-                                        </div>
-                                    </div>
-                                    <div class="event-header-name">Total Price: Rs. <span class="total-event-price">250</span></div>
-                                    <input type="hidden" name="eventPrice" value="<?php echo $row['eventPrice'];?>"/>
-                                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
-                                        <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1"
-                                            <?php if($row['costType'] == '1'){echo 'checked';} ?>>
-                                        <span class="mdl-radio__label">Free</span>
-                                    </label>
-                                    <p class="event-sub-text">If you don't charge, we don't charge</p>
+                                            <div class="event-header-name">Total Price: Rs.
+                                                <span class="total-event-price">
+                                                    <?php echo ($row['eventPrice']+250); ?>
+                                                </span>
+                                            </div>
+                                            <input type="hidden" name="eventPrice" value="<?php echo $row['eventPrice'];?>"/>
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
+                                                <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1">
+                                                <span class="mdl-radio__label">Free</span>
+                                            </label>
+                                            <p class="event-sub-text">If you don't charge, we don't charge</p>
+                                            <?php
+                                        }
+                                        elseif($row['costType'] == '1')
+                                        {
+                                            ?>
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
+                                                <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2">
+                                                <span class="mdl-radio__label">Paid</span>
+                                            </label>
+                                            <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
+                                                        <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
+                                                               value="">
+                                                        <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
+                                                        <span class="mdl-textfield__error">Input is not a number!</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <p class="event-sub-text">+ Rs. 250 Doolally Fee</p>
+                                                </div>
+                                            </div>
+                                            <div class="event-header-name">Total Price: Rs.
+                                                <span class="total-event-price">
+                                                    0
+                                                </span>
+                                            </div>
+                                            <input type="hidden" name="eventPrice" value="0"/>
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
+                                                <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1" checked>
+                                                <span class="mdl-radio__label">Free</span>
+                                            </label>
+                                            <p class="event-sub-text">If you don't charge, we don't charge</p>
+                                            <?php
+                                        }
+                                    ?>
                                     <div class="row">
                                         <label class="col-100">Need Accessories: </label>
                                         <div class="col-100">
