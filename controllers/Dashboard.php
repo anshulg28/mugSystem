@@ -587,18 +587,26 @@ class Dashboard extends MY_Controller {
                 $donePost = $this->curl_library->createInstaLink($postData);
             }
             $this->dashboard_model->ApproveEvent($eventId);
+            $senderName = 'Doolally';
+            if(isSessionVariableSet($this->userEmail))
+            {
+                $senderName = $this->userEmail;
+            }
+            $eventDetail['senderName'] = $senderName;
             $this->sendemail_library->eventApproveMail($eventDetail);
             $details = array();
             if(isset($donePost['link']['shorturl']))
             {
                 $details = array(
-                    'eventPaymentLink' => $donePost['link']['shorturl']
+                    'eventPaymentLink' => $donePost['link']['shorturl'],
+                    'eventSlug' => $donePost['link']['slug']
                 );
             }
             else
             {
                 $details = array(
-                    'eventPaymentLink' => $donePost['link']['url']
+                    'eventPaymentLink' => $donePost['link']['url'],
+                    'eventSlug' => $donePost['link']['slug']
                 );
             }
             $this->dashboard_model->updateEventRecord($details, $eventDetail[0]['eventId']);
@@ -609,6 +617,12 @@ class Dashboard extends MY_Controller {
     {
         $eventDetail = $this->dashboard_model->getFullEventInfoById($eventId);
         $this->dashboard_model->DeclineEvent($eventId);
+        $senderName = 'Doolally';
+        if(isSessionVariableSet($this->userEmail))
+        {
+            $senderName = $this->userEmail;
+        }
+        $eventDetail['senderName'] = $senderName;
         $this->sendemail_library->eventDeclineMail($eventDetail);
     }
     function setEventDeActive($eventId)
