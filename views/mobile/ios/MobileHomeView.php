@@ -599,6 +599,7 @@
             <div class="page" data-page="comming-up">
                 <!-- Scrollable page content -->
                 <div class="page-content" id="my-page1">
+                    <input type="hidden" id="MojoStatus" value="<?php echo $MojoStatus;?>"/>
                     <div class="content-block">
                         <?php
                         if(isset($eventDetails) && myIsMultiArray($eventDetails))

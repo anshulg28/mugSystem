@@ -485,6 +485,20 @@ class Dashboard_Model extends CI_Model
         $this->db->update('eventmaster', $data);
         return true;
     }
+    public function findCompletedEvents()
+    {
+        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
+                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
+                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink,
+                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName
+                  FROM `eventcompletedmaster` em
+                  LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
+                  LEFT JOIN locationmaster l ON eventPlace = l.id
+                  GROUP BY em.eventId";
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
+    }
     public function activateEventRecord($eventId)
     {
         $data['ifActive'] = 1;
@@ -505,6 +519,12 @@ class Dashboard_Model extends CI_Model
     {
         $this->db->where('eventId', $eventId);
         $this->db->delete('eventmaster');
+        return true;
+    }
+    public function eventCompDelete($eventId)
+    {
+        $this->db->where('eventId', $eventId);
+        $this->db->delete('eventcompletedmaster');
         return true;
     }
     public function eventAttDelete($attId)

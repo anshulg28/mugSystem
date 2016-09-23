@@ -145,4 +145,17 @@ class Cron extends MY_Controller
         return array_merge($fbFeeds[0]['data'],$fbFeeds[1]['data'],$fbFeeds[2]['data']);
     }
 
+    public function shiftEvents()
+    {
+        $events = $this->cron_model->findCompletedEvents();
+
+        if(isset($events) && myIsMultiArray($events))
+        {
+            foreach($events as $key => $row)
+            {
+                $this->cron_model->transferEventRecord($row['eventId']);
+            }
+        }
+    }
+
 }

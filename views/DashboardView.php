@@ -654,6 +654,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#eventView">Event Records</a></li>
                     <li><a data-toggle="tab" href="#eventAdd">Add Event</a></li>
+                    <li><a data-toggle="tab" href="#compEvents">Completed</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -918,6 +919,88 @@
                             </div>
                             <div class="mdl-cell mdl-cell--2-col"></div>
                         </div>
+                    </div>
+                    <div id="compEvents" class="tab-pane fade">
+                        <?php
+                        if(isset($completedEvents) && myIsMultiArray($completedEvents))
+                        {
+                            ?>
+                            <div class="mdl-grid table-responsive">
+                                <table id="main-event-table" class="table table-hover table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Event Id</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Timing</th>
+                                        <th>Cost</th>
+                                        <th>Place</th>
+                                        <th>Organizer Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    foreach($completedEvents as $key => $row)
+                                    {
+                                        ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $row['eventId'];?></th>
+                                            <td><?php echo $row['eventName'];?></td>
+                                            <td><?php echo strip_tags($row['eventDescription']);?></td>
+                                            <td><?php echo $row['eventType'];?></td>
+                                            <td><?php $d = date_create($row['eventDate']); echo date_format($d,DATE_FORMAT_UI);?></td>
+                                            <td><?php echo $row['startTime'] .' - '.$row['endTime'];?></td>
+                                            <td>
+                                                <?php
+                                                switch($row['costType'])
+                                                {
+                                                    case 1:
+                                                        echo 'Free';
+                                                        break;
+                                                    case 2:
+                                                        echo 'Paid : Rs '.$row['eventPrice'];
+                                                        break;
+                                                }
+                                                ?>
+                                            </td>
+                                            <td><?php echo $row['locName'];?></td>
+                                            <td><?php echo $row['creatorName'];?></td>
+                                            <td><!--<a data-toggle="tooltip" title="Edit" href="<?php /*echo base_url().'mugclub/edit/'.$row['mugId'];*/?>">
+                                                        <i class="glyphicon glyphicon-edit"></i></a>&nbsp;-->
+                                                <?php
+                                                if(isset($row['filename']))
+                                                {
+                                                    $imgs[] = base_url().EVENT_PATH_THUMB.$row['filename'];
+                                                    ?>
+                                                    <a class="view-photos" data-toggle="tooltip" title="View Photos" href="#" data-imgs="<?php echo implode(',',$imgs);?>">
+                                                        <i class="fa fa-15x fa-file-image-o my-success-text"></i></a>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <!--<a data-toggle="tooltip" title="Edit"
+                                                   href="<?php /*echo base_url().'dashboard/editEvent/'.$row['eventId']*/?>">
+                                                    <i class="fa fa-15x fa-pencil-square-o my-black-text"></i></a>-->
+                                                <a data-toggle="tooltip" class="eventCompletedDelete-icon" data-eventId="<?php echo $row['eventId'];?>" title="Delete" href="#">
+                                                    <i class="fa fa-trash-o fa-15x"></i></a>&nbsp;
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php
+
+                        }
+                        else
+                        {
+                            echo 'No Records Found!';
+                        }
+                        ?>
                     </div>
                 </div>
             </section>
@@ -1909,6 +1992,15 @@
             if(result === true)
             {
                 window.location.href='<?php echo base_url();?>dashboard/deleteEvent/'+mugId;
+            }
+        });
+    });
+    $(document).on('click','.eventCompletedDelete-icon',function(){
+        var mugId = $(this).attr('data-eventId');
+        bootbox.confirm("Are you sure you want to delete event #"+mugId+" ?", function(result) {
+            if(result === true)
+            {
+                window.location.href='<?php echo base_url();?>dashboard/deleteCompEvent/'+mugId;
             }
         });
     });

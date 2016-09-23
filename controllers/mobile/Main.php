@@ -23,6 +23,29 @@ class Main extends MY_Controller {
 	public function index()
 	{
         $data = array();
+        $get = $this->input->get();
+
+        if(isset($get['event']) && isStringSet($get['event']) && isset($get['hash']) && isStringSet($get['hash']))
+        {
+            if(hash_compare(encrypt_data('EV-'.$get['event']),$get['hash']))
+            {
+                $post = $this->input->post();
+                echo '<pre>';
+                var_dump($post);
+                die();
+                $this->thankYou($get['event'],$post);
+            }
+        }
+        if(isSessionVariableSet($this->instaMojoStatus) && $this->instaMojoStatus == '1')
+        {
+            $this->generalfunction_library->setSessionVariable('instaMojoStatus','0');
+            $this->instaMojoStatus = '0';
+            $data['MojoStatus'] = 1;
+        }
+        else
+        {
+            $data['MojoStatus'] = 0;
+        }
 
         $data['mobileStyle'] = $this->dataformatinghtml_library->getMobileStyleHtml($data);
         $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
@@ -191,9 +214,29 @@ class Main extends MY_Controller {
         echo json_encode($eventView);
 
     }
-    public function thankYou($eventName)
+    function thankYou($eventId, $postData)
     {
-        $post = $this->input->post();
+        if(isSessionVariableSet($this->instaEventId))
+        {
+            if($this->instaEventId != $eventId)
+            {
+                $this->generalfunction_library->setSessionVariable('instaEventId',$eventId);
+                $this->instaEventId= $eventId;
+                $this->generalfunction_library->setSessionVariable('instaMojoStatus','1');
+                $this->instaMojoStatus = '1';
+                //redirect(base_url().'mobile');
+            }
+        }
+        else
+        {
+            $this->generalfunction_library->setSessionVariable('instaEventId',$eventId);
+            $this->instaEventId= $eventId;
+            $this->generalfunction_library->setSessionVariable('instaMojoStatus','1');
+            $this->instaMojoStatus = '1';
+            //redirect(base_url().'mobile');
+        }
+        return true;
+        /*$post = $this->input->post();
         echo '<pre>';
         var_dump($eventName);
         var_dump($post);
@@ -211,7 +254,7 @@ class Main extends MY_Controller {
 
         $eventView = $this->load->view('mobile/ios/MyEventsView', $data);
 
-        echo json_encode($eventView);
+        echo json_encode($eventView);*/
     }
     public function checkUser()
     {
@@ -619,4 +662,5 @@ class Main extends MY_Controller {
         }
         return $uData;
     }
+
 }

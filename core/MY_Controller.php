@@ -36,6 +36,9 @@ class MY_Controller extends CI_Controller
 
 	public $currentUrl = '';
 
+    public $instaMojoStatus = '';
+    public $instaEventId = '';
+
 
 	function __construct()
 	{
@@ -91,6 +94,11 @@ class MY_Controller extends CI_Controller
 		if(isSessionVariableSet($this->session->currentLocation) === true)
         {
             $this->currentLocation = $this->session->currentLocation;
+        }
+        if(isSessionVariableSet($this->session->instaEventId) === true)
+        {
+            $this->instaEventId = $this->session->instaEventId;
+            $this->instaMojoStatus = $this->session->instaMojoStatus;
         }
 
 		//

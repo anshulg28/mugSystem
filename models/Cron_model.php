@@ -69,4 +69,27 @@ class Cron_Model extends CI_Model
         $this->db->insert('socialfeedmaster', $post);
         return true;
     }
+
+    public function findCompletedEvents()
+    {
+        $query = "SELECT * "
+            ."FROM eventmaster "
+            ."where eventDate < CURRENT_DATE()";
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
+    }
+
+    public function transferEventRecord($eventId)
+    {
+        $query = "INSERT INTO eventcompletedmaster "
+            ."SELECT * FROM eventmaster "
+            ."where eventId = ".$eventId;
+
+        $this->db->query($query);
+
+        $this->db->where('eventId', $eventId);
+        $this->db->delete('eventmaster');
+        return true;
+    }
 }

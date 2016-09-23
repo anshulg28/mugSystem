@@ -106,6 +106,7 @@ class Dashboard extends MY_Controller {
                 $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
             }
         }
+        $data['completedEvents'] = $this->dashboard_model->findCompletedEvents();
 
         $fnb = $this->dashboard_model->getAllFnB();
 
@@ -562,7 +563,7 @@ class Dashboard extends MY_Controller {
                         'start_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['startTime'],
                         'end_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['endTime'],
                         'venue' => $eventDetail[0]['locName'].', Doolally Taproom',
-                        'redirect_url' => base_url().'mobile?page/thankYou/EV-'.$eventDetail[0]['eventId'],
+                        'redirect_url' => base_url().'mobile?event='.$eventDetail[0]['eventId'].'&hash='.encrypt_data('EV-'.$eventDetail[0]['eventId']),
                         'cover_image_json' => json_encode($coverImg),
                         'timezone' => 'Asia/Kolkata'
                     );
@@ -580,7 +581,7 @@ class Dashboard extends MY_Controller {
                     'start_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['startTime'],
                     'end_date' => $eventDetail[0]['eventDate'].' '.$eventDetail[0]['endTime'],
                     'venue' => $eventDetail[0]['locName'].', Doolally Taproom',
-                    'redirect_url' => base_url().'mobile?page/thankYou/EV-'.$eventDetail[0]['eventId'],
+                    'redirect_url' => base_url().'mobile?event='.$eventDetail[0]['eventId'].'&hash='.encrypt_data('EV-'.$eventDetail[0]['eventId']),
                     'timezone' => 'Asia/Kolkata'
                 );
                 $donePost = $this->curl_library->createInstaLink($postData);
@@ -623,6 +624,11 @@ class Dashboard extends MY_Controller {
     function deleteEvent($eventId)
     {
         $this->dashboard_model->eventDelete($eventId);
+        redirect(base_url().'dashboard');
+    }
+    function deleteCompEvent($eventId)
+    {
+        $this->dashboard_model->eventCompDelete($eventId);
         redirect(base_url().'dashboard');
     }
     function deleteEventAtt()
