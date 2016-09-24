@@ -109,7 +109,7 @@
                                                                 echo $eventName;?>
                                                             </p>
                                                             <input type="hidden" data-name="<?php echo $row['eventName'];?>" value="<?php echo $row['eventShareLink'];?>"/>
-                                                            <i class="fa fa-share-alt pull-right event-share-icn event-card-share-btn"></i>
+                                                            <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
                                                         </div>
 
                                                         <div class="comment my-event-status">
@@ -190,7 +190,7 @@
                                                             if($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == ACTIVE)
                                                             {
                                                                 ?>
-                                                                <i class="fa fa-share-alt pull-right event-share-icn event-card-share-btn"></i>
+                                                                <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
                                                                 <?php
                                                             }
                                                             ?>
