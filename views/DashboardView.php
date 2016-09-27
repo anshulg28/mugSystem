@@ -886,15 +886,15 @@
                                     <br>
                                     <div class="text-left">
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                            <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName" placeholder="">
+                                            <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName" placeholder="" required>
                                             <label class="mdl-textfield__label" for="creatorName">Organizer Name</label>
                                         </div>
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                            <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone" placeholder="">
+                                            <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone" placeholder="" required>
                                             <label class="mdl-textfield__label" for="creatorPhone">Organizer Phone</label>
                                         </div>
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                            <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail" placeholder="">
+                                            <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail" placeholder="" required>
                                             <label class="mdl-textfield__label" for="creatorEmail">Organizer Email</label>
                                         </div>
                                         <br>

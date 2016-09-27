@@ -73,6 +73,11 @@ class Main extends MY_Controller {
         {
             foreach($events as $key => $row)
             {
+                $shortDWName = $this->googleurlapi->shorten($row['eventShareLink']);
+                if($shortDWName !== false)
+                {
+                    $row['eventShareLink'] = $shortDWName;
+                }
                 $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
                 $row['locData'] = $loc['locData'];
                 $data['eventDetails'][$key]['eventData'] = $row;
@@ -132,7 +137,6 @@ class Main extends MY_Controller {
     public function eventFetch($eventId, $evenHash)
     {
         $data = array();
-
         if(hash_compare(encrypt_data($eventId),$evenHash))
         {
             $decodedS = explode('-',$eventId);
@@ -142,6 +146,11 @@ class Main extends MY_Controller {
             {
                 foreach($events as $key => $row)
                 {
+                    $shortDWName = $this->googleurlapi->shorten($row['eventShareLink']);
+                    if($shortDWName !== false)
+                    {
+                        $row['eventShareLink'] = $shortDWName;
+                    }
                     $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
                     $row['locData'] = $loc['locData'];
                     $data['eventDetails'][$key]['eventData'] = $row;
@@ -207,6 +216,13 @@ class Main extends MY_Controller {
             $data['status'] = true;
             $data['registeredEvents'] = $this->dashboard_model->getEventsRegisteredByUser($this->userMobId);
             $data['userEvents'] = $this->dashboard_model->getEventsByUserId($this->userMobId);
+            $shortDWName = $this->googleurlapi->shorten($data['registeredEvents'][0]['eventShareLink']);
+            $shortDWName1 = $this->googleurlapi->shorten($data['userEvents'][0]['eventShareLink']);
+            if($shortDWName !== false)
+            {
+                $data['registeredEvents'][0]['eventShareLink'] = $shortDWName;
+                $data['userEvents'][0]['eventShareLink'] = $shortDWName1;
+            }
         }
 
         $eventView = $this->load->view('mobile/ios/MyEventsView', $data);
@@ -245,7 +261,7 @@ class Main extends MY_Controller {
 
             $requiredInfo = array();
             $mojoDetails = $this->curl_library->getInstaMojoRecord($mojoId);
-            if(isset($mojoDetails) && myIsMultiArray($mojoDetails))
+            if(isset($mojoDetails) && myIsMultiArray($mojoDetails) && isset($mojoDetails['payment']))
             {
                 $userStatus = $this->checkPublicUser($mojoDetails['payment']['buyer_email'],$mojoDetails['payment']['buyer_phone']);
                 if($userStatus['status'] === false)

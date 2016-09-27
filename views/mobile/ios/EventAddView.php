@@ -142,7 +142,7 @@
                             </div>
                         </div>
                         <div class="event-header-name">Total Price: Rs. <span class="total-event-price">250</span></div>
-                        <input type="hidden" name="eventPrice" value="250"/>
+                        <input type="hidden" name="eventPrice" value="0"/>
                         <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
                             <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1">
                             <span class="mdl-radio__label">Free</span>
