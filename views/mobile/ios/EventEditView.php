@@ -76,51 +76,89 @@
                                         <textarea class="mdl-textfield__input" type="text" rows= "3" id="eventDesc" name="eventDescription"><?php echo $row['eventDescription'];?></textarea>
                                         <label class="mdl-textfield__label" for="eventDesc">Describe your event</label>
                                     </div>
-                                    <select name="eventType" id="eventType" class="mdl-textfield__input">
-                                        <option value="" selected>Type of event</option>
-                                        <?php
-                                        foreach($this->config->item('eventTypes') as $subkey => $subrow)
-                                        {
-                                            ?>
-                                            <option value="<?php echo $subrow;?>" <?php if($subrow == $row['eventType']){echo 'selected';} ?>>
-                                                <?php echo $subrow;?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                    <br>
-                                    <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
-                                        <option value="">Location of event</option>
-                                        <?php
-                                        if(isset($locData))
-                                        {
-                                            foreach($locData as $subkey => $subrow)
-                                            {
-                                                if(isset($subrow['id']))
-                                                {
-                                                    ?>
-                                                    <option value="<?php echo $subrow['id'];?>" <?php if($subrow['id'] == $row['eventPlace']){echo 'selected';} ?>>
-                                                        <?php echo $subrow['locName'];?></option>
-                                                    <?php
-                                                }
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                    <br>
-                                    <select name="eventCapacity" id="eventCapacity" class="mdl-textfield__input">
-                                        <option value="">Number of People</option>
-                                        <?php
-                                        for($i=1;$i<=20;$i++)
-                                        {
-                                            ?>
-                                            <option value="<?php echo $i;?>" <?php if($i == $row['eventCapacity']){echo 'selected';} ?>>
-                                                <?php echo $i;?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                    <br>
+                                    <div class="list-block">
+                                        <ul>
+                                            <li>
+                                                <a href="#" class="item-link smart-select" data-back-on-select="true">
+                                                    <!-- select -->
+                                                    <select name="eventType" id="eventType" class="mdl-textfield__input">
+                                                        <?php
+                                                        foreach($this->config->item('eventTypes') as $subkey => $subrow)
+                                                        {
+                                                            ?>
+                                                            <option value="<?php echo $subrow;?>" <?php if($subrow == $row['eventType']){echo 'selected';} ?>>
+                                                                <?php echo $subrow;?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <!-- Select label -->
+                                                            <div class="item-title">Type of event</div>
+                                                            <!-- Selected value, not required -->
+                                                            <div class="item-after"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="item-link smart-select" data-back-on-select="true">
+                                                    <!-- select -->
+                                                    <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
+                                                        <?php
+                                                        if(isset($locData))
+                                                        {
+                                                            foreach($locData as $subkey => $subrow)
+                                                            {
+                                                                if(isset($subrow['id']))
+                                                                {
+                                                                    ?>
+                                                                    <option value="<?php echo $subrow['id'];?>" <?php if($subrow['id'] == $row['eventPlace']){echo 'selected';} ?>>
+                                                                        <?php echo $subrow['locName'];?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <!-- Select label -->
+                                                            <div class="item-title">Location of event</div>
+                                                            <!-- Selected value, not required -->
+                                                            <div class="item-after"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="item-link smart-select" data-back-on-select="true">
+                                                    <!-- select -->
+                                                    <select name="eventCapacity" id="eventCapacity" class="mdl-textfield__input">
+                                                        <?php
+                                                        for($i=1;$i<=20;$i++)
+                                                        {
+                                                            ?>
+                                                            <option value="<?php echo $i;?>" <?php if($i == $row['eventCapacity']){echo 'selected';} ?>>
+                                                                <?php echo $i;?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <div class="item-content">
+                                                        <div class="item-inner">
+                                                            <!-- Select label -->
+                                                            <div class="item-title">Number of People</div>
+                                                            <!-- Selected value, not required -->
+                                                            <div class="item-after"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
                                     <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" placeholder="Date of Event" readonly
                                     value="<?php echo $row['eventDate'];?>">
                                     <br>

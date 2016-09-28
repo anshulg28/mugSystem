@@ -42,7 +42,9 @@
                             <hr class="card-ptag">
                             <!-- Where section -->
                             <div class="event-descrip-wrapper">
-                                <i class="ic_me_location_icon point-item my-right-event-icon"></i>
+                                <a href="<?php echo $row['eventData']['locData'][0]['mapLink'];?>" class="external" target="_blank">
+                                    <i class="ic_me_location_icon point-item my-right-event-icon color-black"></i>
+                                </a>
                                 <div class="event-header-name">Where</div>
                                 <div class="clear"></div>
                                 <p class="event-sub-text">
@@ -52,7 +54,12 @@
 
                             <!-- When Section -->
                             <div class="event-descrip-wrapper">
-                                <span class="fa-15x ic_events_icon my-right-event-icon"></span>
+                                <span class="fa-15x ic_events_icon point-item my-right-event-icon custom-addToCal"
+                                data-ev-title="<?php echo $row['eventData']['eventName'];?>" data-ev-location="Doolally Taproom, <?php echo $row['eventData']['locData'][0]['locName'];?>"
+                                data-ev-start="<?php echo $row['eventData']['eventDate'].' '.$row['eventData']['startTime'];?>"
+                                data-ev-end="<?php echo $row['eventData']['eventDate'].' '.$row['eventData']['endTime'];?>"
+                                data-ev-description="<?php echo strip_tags($row['eventData']['eventDescription'],'<br>');?>">
+                                </span>
                                 <div class="event-header-name">When</div>
                                 <div class="clear"></div>
                                 <p class="event-sub-text">
@@ -63,7 +70,7 @@
 
                             <!-- Host Section -->
                             <div class="event-descrip-wrapper">
-                                <a href="tel:<?php echo $row['eventData']['creatorPhone']; ?>">
+                                <a href="tel:+91<?php echo $row['eventData']['creatorPhone']; ?>" class="external">
                                     <span class="ic_event_contact_icon my-right-event-icon"></span>
                                 </a>
                                 <div class="event-header-name">Host</div>
@@ -156,6 +163,14 @@
                             </div>
                             <br>
                             <div class="bottom-share-panel">
+                                <?php
+                                if(isset($meta) && myIsMultiArray($meta))
+                                {
+                                    ?>
+                                    <input type="hidden" id="meta_title" value="<?php echo $meta['title']; ?>"/>
+                                    <?php
+                                }
+                                ?>
                                 <p class="event-share-text">
                                     Share "<?php echo $row['eventData']['eventName']; ?>"
                                 </p>

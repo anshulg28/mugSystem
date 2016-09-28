@@ -155,6 +155,7 @@ class Main extends MY_Controller {
                     $row['locData'] = $loc['locData'];
                     $data['eventDetails'][$key]['eventData'] = $row;
                     $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
+                    $data['meta']['title'] = $row['eventName'];
                 }
             }
 
