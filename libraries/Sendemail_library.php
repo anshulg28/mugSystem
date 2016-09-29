@@ -59,6 +59,18 @@ class Sendemail_library
 
     public function eventVerifyMail($userData)
     {
+        $mailRecord = $this->CI->users_model->searchUserByLoc($userData[0]['eventPlace']);
+        $senderName = 'Doolally';
+        $senderEmail = 'events@doolally.in';
+
+        if($mailRecord['status'] === true)
+        {
+            $senderName = $mailRecord['userData']['firstName'];
+            $senderEmail = $mailRecord['userData']['emailId'];
+        }
+        $userData['senderName'] = $senderName;
+        $userData['senderEmail'] = $senderEmail;
+
         $data['mailData'] = $userData;
 
         $content = $this->CI->load->view('emailtemplates/eventVerifyMailView', $data, true);
@@ -70,7 +82,7 @@ class Sendemail_library
 
         $subject = 'Event Details';
         $toEmail = 'events@doolally.in';
-        $mailRecord = $this->CI->users_model->searchUserByLoc($userData[0]['eventPlace']);
+
         if($mailRecord['status'] === true)
         {
             $toEmail = $mailRecord['userData']['emailId'];
@@ -86,9 +98,16 @@ class Sendemail_library
         $content = $this->CI->load->view('emailtemplates/eventApproveMailView', $data, true);
 
         $fromEmail = 'events@doolally.in';
-
+        if(isset($userData['senderEmail']) && isStringSet($userData['senderEmail']))
+        {
+            $fromEmail = $userData['senderEmail'];
+        }
         $cc        = 'events@doolally.in';
         $fromName  = 'Doolally';
+        if(isset($userData['senderName']) && isStringSet($userData['senderName']))
+        {
+            $fromName = $userData['senderName'];
+        }
 
         $subject = 'Event Approved';
         $toEmail = $userData[0]['creatorEmail'];
@@ -102,11 +121,19 @@ class Sendemail_library
         $content = $this->CI->load->view('emailtemplates/eventDeclineMailView', $data, true);
 
         $fromEmail = 'events@doolally.in';
+        if(isset($userData['senderEmail']) && isStringSet($userData['senderEmail']))
+        {
+            $fromEmail = $userData['senderEmail'];
+        }
 
         $cc        = 'events@doolally.in';
         $fromName  = 'Doolally';
+        if(isset($userData['senderName']) && isStringSet($userData['senderName']))
+        {
+            $fromName = $userData['senderName'];
+        }
 
-        $subject = 'Event Approved';
+        $subject = 'Event Declined';
         $toEmail = $userData[0]['creatorEmail'];
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);

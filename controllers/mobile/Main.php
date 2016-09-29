@@ -141,21 +141,33 @@ class Main extends MY_Controller {
         {
             $decodedS = explode('-',$eventId);
             $eventId = $decodedS[count($decodedS)-1];
-            $events = $this->dashboard_model->getEventById($eventId);
-            if(isset($events) && myIsMultiArray($events))
+            $events = $this->dashboard_model->getFullEventInfoById($eventId);
+            $shortDWName = $this->googleurlapi->shorten($events[0]['eventShareLink']);
+            if($shortDWName !== false)
             {
-                foreach($events as $key => $row)
+                $events[0]['eventShareLink'] = $shortDWName;
+            }
+            $data['meta']['title'] = $events[0]['eventName'];
+            $data['eventDetails'] = $events;
+            if(isSessionVariableSet($this->userMobId))
+            {
+                $userCreated = $this->dashboard_model->checkUserCreated($this->userMobId,$eventId);
+                if($userCreated['status'] === true)
                 {
-                    $shortDWName = $this->googleurlapi->shorten($row['eventShareLink']);
-                    if($shortDWName !== false)
-                    {
-                        $row['eventShareLink'] = $shortDWName;
-                    }
-                    $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
-                    $row['locData'] = $loc['locData'];
-                    $data['eventDetails'][$key]['eventData'] = $row;
-                    $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
-                    $data['meta']['title'] = $row['eventName'];
+                    $data['userCreated'] = true;
+                }
+                else
+                {
+                    $data['userCreated'] = false;
+                }
+                $userBooked = $this->dashboard_model->checkUserBooked($this->userMobId,$eventId);
+                if($userBooked['status'] === true)
+                {
+                    $data['userBooked'] = true;
+                }
+                else
+                {
+                    $data['userBooked'] = false;
                 }
             }
 

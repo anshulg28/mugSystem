@@ -17,7 +17,7 @@
                             <i class="ic_back_icon point-item"></i>
                         </a>
                     </div>
-                    <div class="center sliding"><?php echo $row['eventData']['eventName'];?></div>
+                    <div class="center sliding"><?php echo $row['eventName'];?></div>
                     <!--<div class="right">
 
                     </div>-->
@@ -27,56 +27,49 @@
                 <div data-page="event" class="page">
                     <div class="page-content">
                         <div class="content-block event-wrapper">
-                            <?php
-                                if(isset($row['eventAtt']) && myIsMultiArray($row['eventAtt']))
-                                {
-                                    ?>
-                                    <div class="col-100 more-photos-wrapper">
-                                        <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['eventAtt'][0]['filename'];?>" class="mainFeed-img"/>
-                                    </div>
-                                    <?php
-                                }
-                            ?>
-                            <div class="event-header-name"><?php echo $row['eventData']['eventName'];?></div>
-                            <p class="content-block event-about"><?php echo strip_tags($row['eventData']['eventDescription'],'<br>');?></p>
+                            <div class="col-100 more-photos-wrapper">
+                                <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                            </div>
+                            <div class="event-header-name"><?php echo $row['eventName'];?></div>
+                            <p class="content-block event-about"><?php echo strip_tags($row['eventDescription'],'<br>');?></p>
                             <hr class="card-ptag">
                             <!-- Where section -->
                             <div class="event-descrip-wrapper">
-                                <a href="<?php echo $row['eventData']['locData'][0]['mapLink'];?>" class="external" target="_blank">
+                                <a href="<?php echo $row['mapLink'];?>" class="external" target="_blank">
                                     <i class="ic_me_location_icon point-item my-right-event-icon color-black"></i>
                                 </a>
                                 <div class="event-header-name">Where</div>
                                 <div class="clear"></div>
                                 <p class="event-sub-text">
-                                    Doolally Taproom, <?php echo $row['eventData']['locData'][0]['locName'];?>
+                                    Doolally Taproom, <?php echo $row['locName'];?>
                                 </p>
                             </div>
 
                             <!-- When Section -->
                             <div class="event-descrip-wrapper">
                                 <span class="fa-15x ic_events_icon point-item my-right-event-icon custom-addToCal"
-                                data-ev-title="<?php echo $row['eventData']['eventName'];?>" data-ev-location="Doolally Taproom, <?php echo $row['eventData']['locData'][0]['locName'];?>"
-                                data-ev-start="<?php echo $row['eventData']['eventDate'].' '.$row['eventData']['startTime'];?>"
-                                data-ev-end="<?php echo $row['eventData']['eventDate'].' '.$row['eventData']['endTime'];?>"
-                                data-ev-description="<?php echo strip_tags($row['eventData']['eventDescription'],'<br>');?>">
+                                data-ev-title="<?php echo $row['eventName'];?>" data-ev-location="Doolally Taproom, <?php echo $row['locName'];?>"
+                                data-ev-start="<?php echo $row['eventDate'].' '.$row['startTime'];?>"
+                                data-ev-end="<?php echo $row['eventDate'].' '.$row['endTime'];?>"
+                                data-ev-description="<?php echo strip_tags($row['eventDescription'],'<br>');?>">
                                 </span>
                                 <div class="event-header-name">When</div>
                                 <div class="clear"></div>
                                 <p class="event-sub-text">
-                                    <?php $d = date_create($row['eventData']['eventDate']);
-                                    echo date('h:i a',strtotime($row['eventData']['startTime'])).'-'.date('h:i a',strtotime($row['eventData']['endTime'])).' ,'. date_format($d,EVENT_INSIDE_DATE_FORMAT);?>
+                                    <?php $d = date_create($row['eventDate']);
+                                    echo date('h:i a',strtotime($row['startTime'])).'-'.date('h:i a',strtotime($row['endTime'])).' ,'. date_format($d,EVENT_INSIDE_DATE_FORMAT);?>
                                 </p>
                             </div>
 
                             <!-- Host Section -->
                             <div class="event-descrip-wrapper">
-                                <a href="tel:+91<?php echo $row['eventData']['creatorPhone']; ?>" class="external">
+                                <a href="tel:+91<?php echo $row['creatorPhone']; ?>" class="external">
                                     <span class="ic_event_contact_icon my-right-event-icon"></span>
                                 </a>
                                 <div class="event-header-name">Host</div>
                                 <div class="clear"></div>
                                 <p class="event-sub-text">
-                                    <?php echo $row['eventData']['creatorName']; ?>
+                                    <?php echo $row['creatorName']; ?>
                                 </p>
                             </div>
 
@@ -85,16 +78,16 @@
                                 <div class="event-header-name">Entry</div>
                                 <p class="event-sub-text">
                                     <?php
-                                    switch($row['eventData']['costType'])
+                                    switch($row['costType'])
                                     {
                                         case "1":
                                             echo "Free";
                                             break;
                                         case "2":
-                                            echo 'Rs. '.$row['eventData']['eventPrice'];
-                                            if(isset($row['eventData']['priceFreeStuff']) && isStringSet($row['eventData']['priceFreeStuff']))
+                                            echo 'Rs. '.$row['eventPrice'];
+                                            if(isset($row['priceFreeStuff']) && isStringSet($row['priceFreeStuff']))
                                             {
-                                                echo ' + '.$row['eventData']['priceFreeStuff'];
+                                                echo ' + '.$row['priceFreeStuff'];
                                             }
                                             break;
                                     }
@@ -145,10 +138,22 @@
                                 <div class="col-5"></div>
                                 <div class="col-90">
                                     <?php
-                                        if(isset($row['eventData']['eventPaymentLink']) && isStringSet($row['eventData']['eventPaymentLink']))
+                                        if(isset($userCreated) && $userCreated === true)
                                         {
                                             ?>
-                                            <a href="<?php echo $row['eventData']['eventPaymentLink'];?>" class="button button-big button-fill book-event-btn external">Book Now </a>
+                                            <a href="#" class="button button-big button-fill book-event-btn" disabled>Thank you for creating! </a>
+                                            <?php
+                                        }
+                                        elseif(isset($userBooked) && $userBooked === true)
+                                        {
+                                            ?>
+                                            <a href="#" class="button button-big button-fill book-event-btn" disabled>Thank you for registering! </a>
+                                            <?php
+                                        }
+                                        elseif(isset($row['eventPaymentLink']) && isStringSet($row['eventPaymentLink']))
+                                        {
+                                            ?>
+                                            <a href="<?php echo $row['eventPaymentLink'];?>" class="button button-big button-fill book-event-btn external">Book Now </a>
                                             <?php
                                         }
                                         else
@@ -172,9 +177,9 @@
                                 }
                                 ?>
                                 <p class="event-share-text">
-                                    Share "<?php echo $row['eventData']['eventName']; ?>"
+                                    Share "<?php echo $row['eventName']; ?>"
                                 </p>
-                                <input type="hidden" id="shareLink" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
+                                <input type="hidden" id="shareLink" value="<?php echo $row['eventShareLink'];?>"/>
                                 <div id="share" class="my-social-share"></div>
                             </div>
                             <br>

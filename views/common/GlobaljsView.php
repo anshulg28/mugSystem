@@ -126,10 +126,14 @@
                     success: function(data){
                         if(data.status === true)
                         {
-                            localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                            localStorageUtil.setLocal('foundM1','1',(23 * 60 * 60 * 1000));
                             $('.notification-indicator').addClass('notification-animate-cls');
                             $('.notification-indicator-mobile').addClass('notification-animate-cls');
                             $('.notification-indicator-big').addClass('notification-animate-cls');
+                        }
+                        else
+                        {
+                            localStorageUtil.setLocal('foundM1','0',(23 * 60 * 60 * 1000));
                         }
                     },
                     error: function(){
@@ -148,13 +152,17 @@
                     success: function(data){
                         if(data.status === true)
                         {
-                            localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                            localStorageUtil.setLocal('foundM2','1',(23 * 60 * 60 * 1000));
                             if(!$('.notification-indicator').hasClass('notification-animate-cls'))
                             {
                                 $('.notification-indicator').addClass('notification-animate-cls');
                                 $('.notification-indicator-mobile').addClass('notification-animate-cls');
                                 $('.notification-indicator-big').addClass('notification-animate-cls');
                             }
+                        }
+                        else
+                        {
+                            localStorageUtil.setLocal('foundM2','0',(23 * 60 * 60 * 1000));
                         }
                     },
                     error: function(){
@@ -170,15 +178,20 @@
                     async: true,
                     url:base_url+'mugclub/getAllBirthdayMugs/json',
                     success: function(data){
+                        console.log(data);
                         if(data.status === true)
                         {
-                            localStorageUtil.setLocal('foundMails','1',(23 * 60 * 60 * 1000));
+                            localStorageUtil.setLocal('foundM3','1',(23 * 60 * 60 * 1000));
                             if(!$('.notification-indicator').hasClass('notification-animate-cls'))
                             {
                                 $('.notification-indicator').addClass('notification-animate-cls');
                                 $('.notification-indicator-mobile').addClass('notification-animate-cls');
                                 $('.notification-indicator-big').addClass('notification-animate-cls');
                             }
+                        }
+                        else
+                        {
+                            localStorageUtil.setLocal('foundM3','0',(23 * 60 * 60 * 1000));
                         }
                     },
                     error: function(){
@@ -187,6 +200,9 @@
                 });
             }
 
+            /*checkExpiredMugs();
+            checkExpiringMugs();
+            checkBirthdayMugs();*/
             if(localStorageUtil.getLocal('mailCheckDone') == null)
             {
                 localStorageUtil.setLocal('mailCheckDone','1',(23 * 60 * 60 * 1000));
@@ -201,17 +217,33 @@
                 checkExpiringMugs();
                 checkBirthdayMugs();
             }
-            else if(localStorageUtil.getLocal('foundMails') == '1')
+            else if(localStorageUtil.getLocal('foundM1') == '1' ||
+                    localStorageUtil.getLocal('foundM2') == '1' ||
+                    localStorageUtil.getLocal('foundM3') == '1')
             {
                 $('.notification-indicator').addClass('notification-animate-cls');
                 $('.notification-indicator-mobile').addClass('notification-animate-cls');
                 $('.notification-indicator-big').addClass('notification-animate-cls');
             }
+            else
+            {
+                $('.notification-indicator').removeClass('notification-animate-cls');
+                $('.notification-indicator-mobile').removeClass('notification-animate-cls');
+                $('.notification-indicator-big').removeClass('notification-animate-cls');
+            }
 
             function removeNotifications()
             {
-                localStorageUtil.setLocal('foundMails','0');
+                if(localStorageUtil.getLocal('foundMails') != null)
+                {
+                    localStorageUtil.delLocal('foundMails');
+                }
+                if(localStorageUtil.getLocal('mailCheckDone') != null)
+                {
+                    localStorageUtil.delLocal('mailCheckDone');
+                }
             }
+
         <?php
     }
 ?>

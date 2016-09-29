@@ -512,6 +512,7 @@
                     bootbox.alert('Mail Send Successfully', function(){
                         window.location.href=base_url+'mailers';
                     });
+                    removeNotifications();
                 }
             },
             error: function(){

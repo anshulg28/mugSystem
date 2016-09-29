@@ -517,6 +517,38 @@ class Dashboard_Model extends CI_Model
         $result = $this->db->query($query)->result_array();
         return $result;
     }
+    public function checkUserBooked($userId, $eventId)
+    {
+        $query = "SELECT * FROM eventregistermaster
+                  WHERE bookerUserId = ".$userId." AND eventId = ".$eventId;
+        $result = $this->db->query($query)->result_array();
+
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+        return $data;
+    }
+    public function checkUserCreated($userId, $eventId)
+    {
+        $query = "SELECT * FROM eventmaster
+                  WHERE userId = ".$userId." AND eventId = ".$eventId;
+        $result = $this->db->query($query)->result_array();
+
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+        return $data;
+    }
     public function activateEventRecord($eventId)
     {
         $data['ifActive'] = 1;
@@ -572,7 +604,7 @@ class Dashboard_Model extends CI_Model
         $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
                   em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
                   em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink,
-                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName
+                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName, l.mapLink
                   FROM `eventmaster` em
                   LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
                   LEFT JOIN locationmaster l ON eventPlace = l.id

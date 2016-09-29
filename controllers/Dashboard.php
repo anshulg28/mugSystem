@@ -514,14 +514,18 @@ class Dashboard extends MY_Controller {
 
     }
 
-    function eventEmailApprove($eventId)
+    function eventEmailApprove($sName, $sEmail, $eventId)
     {
+        $this->userName = $sName;
+        $this->userEmail = $sEmail;
         $this->eventApprove($eventId);
         $data['msg'] = 'Event Approved!';
         $this->load->view('PageThankYouView',$data);
     }
-    function eventEmailDecline($eventId)
+    function eventEmailDecline($sName, $sEmail, $eventId)
     {
+        $this->userName = $sName;
+        $this->userEmail = $sEmail;
         $this->eventDecline($eventId);
         $data['msg'] = 'Event Declined!';
         $this->load->view('PageThankYouView',$data);
@@ -544,6 +548,15 @@ class Dashboard extends MY_Controller {
         if(isset($eventDetail[0]['eventPaymentLink']) && isStringSet($eventDetail[0]['eventPaymentLink']))
         {
             $this->dashboard_model->ApproveEvent($eventId);
+            $senderName = 'Doolally';
+            $senderEmail = 'events@doolally.in';
+            if(isStringSet($this->userEmail) && isStringSet($this->userName))
+            {
+                $senderEmail = $this->userEmail;
+                $senderName = $this->userName;
+            }
+            $eventDetail['senderName'] = $senderName;
+            $eventDetail['senderEmail'] = $senderEmail;
             $this->sendemail_library->eventApproveMail($eventDetail);
         }
         else
@@ -588,11 +601,14 @@ class Dashboard extends MY_Controller {
             }
             $this->dashboard_model->ApproveEvent($eventId);
             $senderName = 'Doolally';
-            if(isSessionVariableSet($this->userEmail))
+            $senderEmail = 'events@doolally.in';
+            if(isStringSet($this->userEmail) && isStringSet($this->userName))
             {
-                $senderName = $this->userEmail;
+                $senderEmail = $this->userEmail;
+                $senderName = $this->userName;
             }
             $eventDetail['senderName'] = $senderName;
+            $eventDetail['senderEmail'] = $senderEmail;
             $this->sendemail_library->eventApproveMail($eventDetail);
             $details = array();
             if(isset($donePost['link']['shorturl']))
@@ -618,11 +634,14 @@ class Dashboard extends MY_Controller {
         $eventDetail = $this->dashboard_model->getFullEventInfoById($eventId);
         $this->dashboard_model->DeclineEvent($eventId);
         $senderName = 'Doolally';
-        if(isSessionVariableSet($this->userEmail))
+        $senderEmail = 'events@doolally.in';
+        if(isStringSet($this->userEmail) && isStringSet($this->userName))
         {
-            $senderName = $this->userEmail;
+            $senderName = $this->userName;
+            $senderEmail = $this->userEmail;
         }
         $eventDetail['senderName'] = $senderName;
+        $eventDetail['senderEmail'] = $senderEmail;
         $this->sendemail_library->eventDeclineMail($eventDetail);
     }
     function setEventDeActive($eventId)
