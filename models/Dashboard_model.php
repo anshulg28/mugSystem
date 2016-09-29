@@ -549,6 +549,24 @@ class Dashboard_Model extends CI_Model
         }
         return $data;
     }
+    public function checkEventSpace($details)
+    {
+        $query = "SELECT * FROM eventmaster
+                  WHERE startTime >= ".$details['startTime']." AND endTime <= ".$details['endTime']." AND 
+                  eventPlace = ".$details['eventPlace']." AND eventDate = ".$details['eventDate'];
+        $result = $this->db->query($query)->result_array();
+
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+        return $data;
+
+    }
     public function activateEventRecord($eventId)
     {
         $data['ifActive'] = 1;
