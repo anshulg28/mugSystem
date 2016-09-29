@@ -552,8 +552,8 @@ class Dashboard_Model extends CI_Model
     public function checkEventSpace($details)
     {
         $query = "SELECT * FROM eventmaster
-                  WHERE startTime >= ".$details['startTime']." AND endTime <= ".$details['endTime']." AND 
-                  eventPlace = ".$details['eventPlace']." AND eventDate = ".$details['eventDate'];
+                  WHERE startTime >= '".$details['startTime']."' AND endTime <= '".$details['endTime']."' AND 
+                  eventPlace = '".$details['eventPlace']."' AND eventDate = '".$details['eventDate']."'";
         $result = $this->db->query($query)->result_array();
 
         if(myIsArray($result))

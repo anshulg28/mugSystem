@@ -93,6 +93,8 @@ class Sendemail_library
 
     public function eventApproveMail($userData)
     {
+        $phons = $this->CI->config->item('phons');
+        $userData['senderPhone'] = $phons[$userData['senderName']];
         $data['mailData'] = $userData;
 
         $content = $this->CI->load->view('emailtemplates/eventApproveMailView', $data, true);
@@ -116,6 +118,8 @@ class Sendemail_library
     }
     public function eventDeclineMail($userData)
     {
+        $phons = $this->CI->config->item('phons');
+        $userData['senderPhone'] = $phons[$userData['senderName']];
         $data['mailData'] = $userData;
 
         $content = $this->CI->load->view('emailtemplates/eventDeclineMailView', $data, true);
@@ -141,14 +145,29 @@ class Sendemail_library
 
     public function newEventMail($userData)
     {
+        $phons = $this->CI->config->item('phons');
+        $mailRecord = $this->CI->users_model->searchUserByLoc($userData['eventPlace']);
+        $senderName = 'Tresha';
+        $senderEmail = 'events@doolally.in';
+        $senderPhone = $phons[$senderName];
+
+        if($mailRecord['status'] === true)
+        {
+            $senderName = $mailRecord['userData']['firstName'];
+            $senderEmail = $mailRecord['userData']['emailId'];
+            $senderPhone = $phons[$senderName];
+        }
+        $userData['senderName'] = $senderName;
+        $userData['senderEmail'] = $senderEmail;
+        $userData['senderPhone'] = $senderPhone;
         $data['mailData'] = $userData;
 
         $content = $this->CI->load->view('emailtemplates/newEventMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = $senderEmail;
 
         $cc        = 'events@doolally.in';
-        $fromName  = 'Doolally';
+        $fromName  = $senderName;
 
         $subject = 'Event Details';
         $toEmail = $userData['creatorEmail'];

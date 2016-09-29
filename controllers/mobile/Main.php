@@ -473,7 +473,8 @@ class Main extends MY_Controller {
                 }
                 $mailEvent= array(
                     'creatorName' => $post['creatorName'],
-                    'creatorEmail' => $post['creatorEmail']
+                    'creatorEmail' => $post['creatorEmail'],
+                    'eventPlace' => $post['eventPlace']
                 );
                 $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
                 $mailVerify = $this->dashboard_model->getEventById($eventId);

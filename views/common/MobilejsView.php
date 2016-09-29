@@ -155,4 +155,12 @@
             outlook: calendarGenerators.outlook(event)
         };
     };
+    function scrollToField(ele)
+    {
+        var eleScroll = $(ele).scrollTop();
+        console.log(eleScroll);
+        $('.event-add .page-content').animate({
+            scrollTop:eleScroll
+        },500);
+    }
 </script>

@@ -23,6 +23,9 @@
         5. For events below 5000, organisers will be reimbursed by cash on the day of the event. For events greater than 5000, we will hand over a cheque in the name of organiser.<br><br>
         All the best for your event, in case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at 9820570311 (tresha) 7045170006 (shweta) 9920087855(priyanka) 9892110655 (daksha).<br><br>
 
+        In case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at
+        <?php echo $mailData['senderPhone'] .' ('.$mailData['senderName'].')';?><br><br>
+
         Cheers!
         <?php echo $mailData['senderName']; ?>
     </p>

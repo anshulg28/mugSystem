@@ -60,7 +60,7 @@
                     </div>
                     <div class="event-header-name">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <input class="mdl-textfield__input" type="text" id="eventName" name="eventName">
+                            <input onfocus="scrollToField(this)" class="mdl-textfield__input" type="text" id="eventName" name="eventName">
                             <label class="mdl-textfield__label" for="eventName">Name of event</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
@@ -245,7 +245,7 @@
                             <label class="mdl-textfield__label" for="aboutCreator">Something about yourself (Optional)</label>
                         </div>
                         <div class="event-header-name">
-                            All events are curated and approved by Doolally. Once approved, we will create an Instamojo payment link and
+                            All events are reviewed and approved by Doolally. Once approved, we will create an Instamojo payment link and
                             accept payments on your behalf.
                         </div>
                         <hr>

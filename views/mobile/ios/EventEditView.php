@@ -339,7 +339,7 @@
                                     </div>
                                     <input type="hidden" name="userId" value="<?php echo $row['userId'];?>"/>
                                     <div class="event-header-name">
-                                        All events are curated and approved by Doolally. Once approved, we will create an Instamojo payment link and
+                                        All events are reviewed and approved by Doolally. Once approved, we will create an Instamojo payment link and
                                         accept payments on your behalf.
                                     </div>
                                     <hr>

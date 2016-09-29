@@ -7,20 +7,13 @@
 
 <body>
     <p>Dear <?php echo trim(ucfirst($mailData['creatorName']));?>,</p>
-    <p>Thanks for creating an event at Doolally, please give us a few days to approve your event. Once approved, we will create an Instamojo payment link and accept payments on your behalf. We will pay out your money 7 days after your event. This is to ensure that any buyer issues are well taken care of.<br><br>
+    <p>Thanks for creating an event at Doolally, please give us a few days to approve your event. Once your event is approved, you will recieve an email from us and will be given access to an event dashboard. <br><br>
 
-        You can access your events from the event dashboard, where information on the number of sign ups, money collected, payout system will be available to you. You can also edit your event or cancel your event from this dashboard. <br><br>
-        Additionally, as an organiser, you are expected:<br>
-        To set up and manage the ticket counter for any ticketed events.<br>
-        To chip in with the arrangements of the event.<br>
-        To have visited the venue prior to the event.<br>
-        To arrive at the venue at least 45 minutes before the scheduled time of the event.<br><br>
-
-        In case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at +91-9820570311.<br><br>
-        All the best with your event<br><br>
+        In case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at
+        <?php echo $mailData['senderPhone'] .' ('.$mailData['senderName'].')';?><br><br>
 
         Cheers!<br>
-        Doolally
+        <?php echo $mailData['senderName'];?>
     </p>
 
 </body>

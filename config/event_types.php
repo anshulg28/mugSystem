@@ -7,6 +7,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Time: 4:16 PM
  */
 
+$config['phons'] = array(
+    'Tresha' => '9820570311',
+    'Priyanka' => '9920087855',
+    'Daksha' => '9892110655',
+    'Shweta' => '7045170006'
+);
 $config['eventTypes'] = array(
     "Presentation",
     "Meet up",
