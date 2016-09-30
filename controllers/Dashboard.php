@@ -339,10 +339,10 @@ class Dashboard extends MY_Controller {
             if($_FILES['attachment']['error'] != 1)
             {
                 $config = array();
-                $config['upload_path'] = './'.FOOD_PATH_THUMB; //'uploads/food/';
+                $config['upload_path'] = './'.FOOD_PATH_NORMAL; // FOOD_PATH_THUMB; //'uploads/food/';
                 if(isset($_POST['itemType']) && $_POST['itemType'] == '2')
                 {
-                    $config['upload_path'] = './'.BEVERAGE_PATH_THUMB; //uploads/beverage/';
+                    $config['upload_path'] = './'.BEVERAGE_PATH_NORMAL; //BEVERAGE_PATH_THUMB; //uploads/beverage/';
                 }
                 $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']      = '0';
@@ -353,7 +353,7 @@ class Dashboard extends MY_Controller {
                 $upload_data = $this->upload->data();
 
                 //$attchmentArr = $upload_data['full_path'];
-                $attchmentArr= $upload_data['file_name'];// $this->image_thumb($upload_data['file_path'],$upload_data['file_name'], false);
+                $attchmentArr=  $this->image_thumb($upload_data['file_path'],$upload_data['file_name']); //$upload_data['file_name'];
                 echo $attchmentArr;
             }
             else
@@ -362,7 +362,7 @@ class Dashboard extends MY_Controller {
             }
         }
     }
-    function image_thumb( $image_path, $img_name, $ifEvent)
+    function image_thumb( $image_path, $img_name)
     {
         $image_thumb = $image_path.'thumb/'.$img_name;
 
@@ -375,18 +375,10 @@ class Dashboard extends MY_Controller {
             $config['source_image']     = $image_path.$img_name;
             $config['new_image']        = $image_thumb;
             $config['quality']          = 80;
-            if($ifEvent === true)
-            {
-                $config['maintain_ratio']   = TRUE;
-                $config['height']           = 480;
-                $config['width']            = 690;
-            }
-            else
-            {
-                $config['maintain_ratio']   = FALSE;
-                $config['height']           = 480;
-                $config['width']            = 480;
-            }
+            $config['maintain_ratio']   = TRUE;
+            $config['height']           = 480;
+            $config['width']            = 690;
+
             $this->image_lib->initialize( $config );
             $this->image_lib->resize();
             $this->image_lib->clear();
@@ -413,7 +405,7 @@ class Dashboard extends MY_Controller {
                 $upload_data = $this->upload->data();
 
                 //$attchmentArr = $upload_data['full_path'];
-                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name'], true);
+                $attchmentArr= $this->image_thumb($upload_data['file_path'],$upload_data['file_name']);
                 echo $attchmentArr;
             }
             else

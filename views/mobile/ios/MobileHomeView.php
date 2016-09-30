@@ -613,38 +613,23 @@
                                     <div class="row no-gutter">
                                         <div class="col-100"> <!--more-photos-wrapper-->
                                             <?php
-                                            $img_bool = false;
-                                            foreach($row['eventAtt'] as $attKey => $attRow)
+                                            if($postImg >=5)
                                             {
-                                                if($img_bool == false)
-                                                {
-                                                    $img_bool = true;
-                                                    if($postImg >=10)
-                                                    {
-                                                        $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
-                                                        ?>
-                                                        <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
-                                                            <img src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
-                                                        </a>
-                                                        <?php
-                                                    }
-                                                    else
-                                                    {
-                                                        $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
-                                                        ?>
-                                                        <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
-                                                            <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
-                                                        </a>
-                                                        <?php
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    ?>
-                                                    <!--<i class="fa fa-picture-o multiple_pics"></i>-->
-                                                    <?php
-                                                    $img_collection[] = base_url().EVENT_PATH_THUMB.$attRow['filename'];
-                                                }
+                                                $img_collection[] = base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];
+                                                ?>
+                                                <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
+                                                    <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];?>" class="mainFeed-img"/>
+                                                </a>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                $img_collection[] = base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];
+                                                ?>
+                                                <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
+                                                    <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                </a>
+                                                <?php
                                             }
                                             $postImg++;
                                             if(myIsArray($img_collection))
@@ -664,7 +649,8 @@
                                                 <p class="pull-left card-ptag event-date-tag">
                                                     <?php
                                                     $eventName = (strlen($row['eventData']['eventName']) > 25) ? substr($row['eventData']['eventName'], 0, 25) . '..' : $row['eventData']['eventName'];
-                                                    echo $eventName;?>
+                                                    echo $eventName;
+                                                    ?>
                                                 </p>
                                                 <input type="hidden" data-name="<?php echo $row['eventData']['eventName'];?>" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
                                                 <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
@@ -673,7 +659,7 @@
                                             <div class="comment clear">
                                                 <?php echo $row['eventData']['eventDescription'];?>
                                                 <p>
-                                                    <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['eventData']['locData'][0]['locName']; ?>
+                                                    <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['eventData']['locName']; ?>
                                                     &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
                                                     <?php $d = date_create($row['eventData']['eventDate']);
                                                         echo date_format($d,EVENT_DATE_FORMAT); ?>
@@ -750,98 +736,76 @@
                 <div class="page-content" id="my-page3">
                     <div class="content-block">
                         <?php
-                            if(isset($fnb) && myIsMultiArray($fnb))
+                            if(isset($fnbItems) && myIsMultiArray($fnbItems))
                             {
                                 $postImg = 0;
-                                foreach($fnb as $key => $row)
+                                foreach($fnbItems as $key => $row)
                                 {
-                                    $img_collection = array();
                                     ?>
                                     <div class="card demo-card-header-pic">
                                         <div class="row no-gutter">
                                             <div class="col-100 more-photos-wrapper">
                                                 <?php
-                                                $img_bool = false;
-                                                foreach($row['att'] as $attKey => $attRow)
-                                                {
-                                                    if($img_bool == false)
+                                                $img_collection = array();
+                                                    if($postImg >=5)
                                                     {
-                                                        $img_bool = true;
-                                                        if($postImg >=10)
+                                                        if($row['itemType'] == ITEM_FOOD)
                                                         {
-                                                            if($row['item']['itemType'] == ITEM_FOOD)
-                                                            {
-                                                                $img_collection[] = base_url().FOOD_PATH_THUMB.$attRow['filename'];
-                                                                ?>
-                                                                <img src="<?php echo base_url().FOOD_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
-                                                                <?php
-                                                            }
-                                                            elseif($row['item']['itemType'] == ITEM_BEVERAGE)
-                                                            {
-                                                                $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];
-                                                                ?>
-                                                                <img src="<?php echo base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img"/>
-                                                                <?php
-                                                            }
+                                                            $img_collection[] = base_url().FOOD_PATH_THUMB.$row['filename'];
+                                                            ?>
+                                                            <img src="<?php echo base_url().FOOD_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                                                            <?php
                                                         }
-                                                        else
+                                                        elseif($row['itemType'] == ITEM_BEVERAGE)
                                                         {
-                                                            if($row['item']['itemType'] == ITEM_FOOD)
-                                                            {
-                                                                $img_collection[] = base_url().FOOD_PATH_THUMB.$attRow['filename'];
-                                                                ?>
-                                                                <img data-src="<?php echo base_url().FOOD_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
-                                                                <?php
-                                                            }
-                                                            elseif($row['item']['itemType'] == ITEM_BEVERAGE)
-                                                            {
-                                                                $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];
-                                                                ?>
-                                                                <img data-src="<?php echo base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
-                                                                <?php
-                                                            }
+                                                            $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$row['filename'];
+                                                            ?>
+                                                            <img src="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                                                            <?php
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        ?>
-                                                        <i class="fa fa-picture-o multiple_pics"></i>
-                                                        <?php
-                                                        if($row['item']['itemType'] == ITEM_FOOD)
+                                                        if($row['itemType'] == ITEM_FOOD)
                                                         {
-                                                            $img_collection[] = base_url().FOOD_PATH_THUMB.$attRow['filename'];
+                                                            $img_collection[] = base_url().FOOD_PATH_THUMB.$row['filename'];
+                                                            ?>
+                                                            <img data-src="<?php echo base_url().FOOD_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                            <?php
                                                         }
-                                                        else
+                                                        elseif($row['itemType'] == ITEM_BEVERAGE)
                                                         {
-                                                            $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$attRow['filename'];
+                                                            $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$row['filename'];
+                                                            ?>
+                                                            <img data-src="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                            <?php
                                                         }
                                                     }
-                                                }
-                                                $postImg++;
-                                                if(myIsArray($img_collection))
-                                                {
-                                                    ?>
-                                                        <input type="hidden" class="imgs_collection"
-                                                               value="<?php echo implode(',',$img_collection); ?>"/>
-                                                    <?php
-                                                }
+                                                    $postImg++;
+                                                    if(myIsArray($img_collection))
+                                                    {
+                                                        ?>
+                                                            <input type="hidden" class="imgs_collection"
+                                                                   value="<?php echo implode(',',$img_collection); ?>"/>
+                                                        <?php
+                                                    }
                                                 ?>
                                             </div>
                                         </div>
                                         <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
                                         <div class="card-content">
                                             <div class="card-content-inner">
-                                                <p class="pull-left card-ptag"><?php echo $row['item']['itemName'];?></p>
-                                                <span class="pull-right">Rs. <?php echo $row['item']['priceFull'];?>
+                                                <p class="pull-left card-ptag"><?php echo $row['itemName'];?></p>
+                                                <span class="pull-right">Rs. <?php echo $row['priceFull'];?>
                                                     <?php
-                                                        if(isset($row['item']['priceHalf']) && $row['item']['priceHalf'] != '0')
+                                                        if(isset($row['priceHalf']) && $row['priceHalf'] != '0')
                                                         {
-                                                            echo '/'.$row['item']['priceHalf'];
+                                                            echo '/'.$row['priceHalf'];
                                                         }
                                                     ?>
                                                 </span>
                                                 <div class="comment more content-block clear">
-                                                    <?php echo strip_tags($row['item']['itemDescription'],'<br>');?>
+                                                    <?php echo strip_tags($row['itemDescription'],'<br>');?>
                                                 </div>
                                             </div>
                                         </div>

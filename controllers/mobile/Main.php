@@ -50,15 +50,8 @@ class Main extends MY_Controller {
         $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
 
         $data['myFeeds'] = $this->returnAllFeeds();
-        $newFnb = $this->dashboard_model->getAllActiveFnB();
-        if($newFnb['status'] === true)
-        {
-            foreach($newFnb['fnbItems'] as $key => $row)
-            {
-                $data['fnb'][$key]['item'] = $row;
-                $data['fnb'][$key]['att'] = $this->dashboard_model->getFnbAttById($row['fnbId']);
-            }
-        }
+        $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
+
         $events = $this->dashboard_model->getAllApprovedEvents();
         usort($events,
             function($a, $b) {
@@ -78,10 +71,7 @@ class Main extends MY_Controller {
                 {
                     $row['eventShareLink'] = $shortDWName;
                 }
-                $loc = $this->locations_model->getLocationDetailsById($row['eventPlace']);
-                $row['locData'] = $loc['locData'];
                 $data['eventDetails'][$key]['eventData'] = $row;
-                $data['eventDetails'][$key]['eventAtt'] = $this->dashboard_model->getEventAttById($row['eventId']);
             }
         }
         if(isStringSet($_SERVER['QUERY_STRING']))

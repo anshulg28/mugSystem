@@ -357,21 +357,15 @@ class Dashboard_Model extends CI_Model
     }
     public function getAllActiveFnB()
     {
-        $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
-                  FROM fnbmaster WHERE ifActive = 1 ORDER BY fnbId DESC";
+        $query = "SELECT fm.fnbId,fm.itemType,fm.itemName,fm.itemDescription,fm.priceFull,fm.priceHalf,
+                  fm.ifActive,fa.id,fa.filename
+                  FROM fnbmaster fm
+                  LEFT JOIN fnbattachment fa ON fa.fnbId = fm.fnbId
+                  WHERE fm.ifActive = 1 
+                  GROUP BY fm.fnbId";
 
         $result = $this->db->query($query)->result_array();
-        $data['fnbItems'] = $result;
-        if(myIsArray($result))
-        {
-            $data['status'] = true;
-        }
-        else
-        {
-            $data['status'] = false;
-        }
-
-        return $data;
+        return $result;
     }
     public function getFnBById($fnbId)
     {
@@ -477,10 +471,17 @@ class Dashboard_Model extends CI_Model
     }
     public function getAllApprovedEvents()
     {
-        /*$query = "SELECT *
-                  FROM eventmaster where ifActive = ".ACTIVE;*/
-        $query = "SELECT * FROM eventmaster where ifActive = ".ACTIVE."
-         AND eventDate >= CURRENT_DATE()";
+        $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 
+                  em.eventPrice, em.priceFreeStuff, em.eventPlace, em.eventCapacity, em.ifMicRequired, em.ifProjectorRequired, 
+                  em.creatorName, em.creatorPhone, em.creatorEmail, em.aboutCreator, em.userId, em.eventShareLink,
+                  em.eventPaymentLink, em.ifActive, em.ifApproved, ea.filename, l.locName, l.mapLink
+                  FROM `eventmaster` em
+                  LEFT JOIN eventattachment ea ON ea.eventId = em.eventId
+                  LEFT JOIN locationmaster l ON eventPlace = l.id
+                  WHERE em.ifActive = ".ACTIVE." AND em.ifApproved = ".EVENT_APPROVED." AND eventDate >= CURRENT_DATE() GROUP BY em.eventId";
+
+        /*$query = "SELECT * FROM eventmaster where ifActive = ".ACTIVE."
+         AND eventDate >= CURRENT_DATE()";*/
         $result = $this->db->query($query)->result_array();
 
         return $result;
