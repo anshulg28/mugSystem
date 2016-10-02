@@ -51,6 +51,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div id="cropContainerModal" class="hide"></div>
                                 <br>
                                 <div class="event-descrip-wrapper">
                                     <div class="event-header-name">Create an event</div>

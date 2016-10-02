@@ -386,6 +386,95 @@ class Dashboard extends MY_Controller {
 
         return $img_name;
     }
+
+    public function cropEventImage()
+    {
+        $post = $this->input->post();
+
+        $imgUrl = $post['imgUrl'];
+        // original sizes
+        $imgInitW = $post['imgInitW'];
+        $imgInitH = $post['imgInitH'];
+
+        // resized sizes
+        $imgW = $post['imgW'];
+        $imgH = $post['imgH'];
+
+        // offsets
+        $imgY1 = $post['imgY1'];
+        $imgX1 = $post['imgX1'];
+
+        // crop box
+        $cropW = $post['cropW'];
+        $cropH = $post['cropH'];
+
+        // rotation angle
+        $angle = $post['rotation'];
+
+        $jpeg_quality = 100;
+
+        $filename = explode('.',basename($imgUrl));
+        $output_filename = './uploads/events/thumb/'.$filename[0].'_cropped';
+
+        $what = getimagesize($imgUrl);
+
+        switch(strtolower($what['mime']))
+        {
+            case 'image/png':
+                $source_image = imagecreatefrompng($imgUrl);
+                $type = '.png';
+                break;
+            case 'image/jpeg':
+                $source_image = imagecreatefromjpeg($imgUrl);
+                error_log("jpg");
+                $type = '.jpeg';
+                break;
+            case 'image/gif':
+                $source_image = imagecreatefromgif($imgUrl);
+                $type = '.gif';
+                break;
+            default:
+                $response = Array(
+                "status" => 'error',
+                "message" => 'image type not supported'
+            );
+        }
+
+        if(isset($source_image))
+        {
+            // resize the original image to size of editor
+            $resizedImage = imagecreatetruecolor($imgW, $imgH);
+
+            imagecopyresampled($resizedImage, $source_image, 0, 0, 0, 0, $imgW, $imgH, $imgInitW, $imgInitH);
+            // rotate the rezized image
+            $rotated_image = imagerotate($resizedImage, -$angle, 0);
+            // find new width & height of rotated image
+            $rotated_width = imagesx($rotated_image);
+            $rotated_height = imagesy($rotated_image);
+            // diff between rotated & original sizes
+            $dx = $rotated_width - $imgW;
+            $dy = $rotated_height - $imgH;
+            // crop rotated image to fit into original rezized rectangle
+            $cropped_rotated_image = imagecreatetruecolor($imgW, $imgH);
+            imagecolortransparent($cropped_rotated_image, imagecolorallocate($cropped_rotated_image, 0, 0, 0));
+            imagecopyresampled($cropped_rotated_image, $rotated_image, 0, 0, $dx / 2, $dy / 2, $imgW, $imgH, $imgW, $imgH);
+            // crop image into selected area
+            $final_image = imagecreatetruecolor($cropW, $cropH);
+            imagecolortransparent($final_image, imagecolorallocate($final_image, 0, 0, 0));
+            imagecopyresampled($final_image, $cropped_rotated_image, 0, 0, $imgX1, $imgY1, $cropW, $cropH, $cropW, $cropH);
+            // finally output png image
+            //imagepng($final_image, $output_filename.$type, $png_quality);
+            imagejpeg($final_image, $output_filename.$type, $jpeg_quality);
+            $response = Array(
+                "status" => 'success',
+                "url" => $output_filename.$type
+            );
+        }
+
+        echo json_encode($response);
+
+    }
+
     public function uploadEventFiles()
     {
         $attchmentArr = '';

@@ -79,12 +79,12 @@ class Cron extends MY_Controller
         $twitterFeeds = '';
         $this->twitter->tmhOAuth->reconfigure();
         $oldparmas = array(
-            'count' => '61',
+            'count' => '35',
             'exclude_replies' => 'true',
             'screen_name' => 'godoolally'
         );
         $parmas = array(
-            'count' => '61',
+            'count' => '35',
             'q' => '#doolally OR doolally OR @godoolally -filter:retweets',
             'geocode' => '20.1885251,64.446117,1000km',
             'lang' => 'en',
@@ -135,7 +135,7 @@ class Cron extends MY_Controller
     {
         $params = array(
             'access_token' => FACEBOOK_TOKEN,
-            'limit' => '30',
+            'limit' => '25',
             'fields' => 'message,permalink_url,id,from,name,picture,source,updated_time'
         );
         $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolallyandheri',$params);

@@ -141,25 +141,25 @@
                                         if(isset($userCreated) && $userCreated === true)
                                         {
                                             ?>
-                                            <a href="#" class="button button-big button-fill book-event-btn" disabled>Thank you for creating! </a>
+                                            <a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Thank you for creating! </a>
                                             <?php
                                         }
                                         elseif(isset($userBooked) && $userBooked === true)
                                         {
                                             ?>
-                                            <a href="#" class="button button-big button-fill book-event-btn" disabled>Thank you for registering! </a>
+                                            <a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Thank you for registering! </a>
                                             <?php
                                         }
                                         elseif(isset($row['eventPaymentLink']) && isStringSet($row['eventPaymentLink']))
                                         {
                                             ?>
-                                            <a href="<?php echo $row['eventPaymentLink'];?>" class="button button-big button-fill book-event-btn external">Book Now </a>
+                                            <a href="<?php echo $row['eventPaymentLink'];?>" class="button button-big button-fill bookNow-event-btn external">Book Now </a>
                                             <?php
                                         }
                                         else
                                         {
                                             ?>
-                                            <a href="#" class="button button-big button-fill book-event-btn" disabled>Book Now </a>
+                                            <a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Book Now </a>
                                             <?php
                                         }
                                     ?>
