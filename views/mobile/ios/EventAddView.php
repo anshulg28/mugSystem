@@ -63,11 +63,12 @@
                     </div>
                     <div class="event-header-name">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <input onfocus="scrollToField(this)" class="mdl-textfield__input" type="text" id="eventName" name="eventName">
+                            <!--onfocus="scrollToField(this)"-->
+                            <input class="mdl-textfield__input kbdfix" type="text" id="eventName" name="eventName">
                             <label class="mdl-textfield__label" for="eventName">Name of event</label>
                         </div>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <textarea class="mdl-textfield__input" type="text" rows= "3" id="eventDesc" name="eventDescription"></textarea>
+                            <textarea class="mdl-textfield__input kbdfix" type="text" rows= "3" id="eventDesc" name="eventDescription"></textarea>
                             <label class="mdl-textfield__label" for="eventDesc">Describe your event</label>
                         </div>
                         <div class="list-block">
@@ -152,7 +153,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" placeholder="Date of Event" readonly>
+                        <input class="mdl-textfield__input kbdfix" type="text" id="eventDate" name="eventDate" placeholder="Date of Event" readonly>
                         <br>
                         <div class="row">
                             <div class="col-50">
@@ -175,7 +176,7 @@
                         <div class="row">
                             <div class="col-50">
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
-                                    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
+                                    <input class="mdl-textfield__input kbdfix" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice">
                                     <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
                                     <span class="mdl-textfield__error">Input is not a number!</span>
                                 </div>
@@ -228,23 +229,23 @@
                                 <div class="event-header-name">Your details</div>
                                 <p class="event-sub-text">We'll contact you while we curate your event.</p>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                    <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName">
+                                    <input class="mdl-textfield__input kbdfix" type="text" name="creatorName" id="creatorName">
                                     <label class="mdl-textfield__label" for="creatorName">Name</label>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                    <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone" maxlength="10"
+                                    <input class="mdl-textfield__input kbdfix" type="number" name="creatorPhone" id="creatorPhone" maxlength="10"
                                            oninput="maxLengthCheck(this)">
                                     <label class="mdl-textfield__label" for="creatorPhone">Phone Number</label>
                                 </div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                    <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail">
+                                    <input class="mdl-textfield__input kbdfix" type="email" name="creatorEmail" id="creatorEmail">
                                     <label class="mdl-textfield__label" for="creatorEmail">Email ID</label>
                                 </div>
                                 <?php
                             }
                         ?>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                            <textarea class="mdl-textfield__input" type="text" rows= "3" id="aboutCreator" name="aboutCreator"></textarea>
+                            <textarea class="mdl-textfield__input kbdfix" type="text" rows= "3" id="aboutCreator" name="aboutCreator"></textarea>
                             <label class="mdl-textfield__label" for="aboutCreator">Something about yourself (Optional)</label>
                         </div>
                         <div class="event-header-name">

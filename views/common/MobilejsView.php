@@ -156,12 +156,44 @@
             outlook: calendarGenerators.outlook(event)
         };
     };
-    function scrollToField(ele)
+    $$(document).on("focus",".kbdfix", function(e)
     {
-        var eleScroll = $(ele).scrollTop();
-        console.log(eleScroll);
-        $('.event-add .page-content').animate({
-            scrollTop:eleScroll
-        },500);
-    }
+        if(isAndroid)
+        {
+            var el = $$(e.target);
+            var page = el.closest(".page-content");
+            var elTop = el.offset().top; //do correction if input at near or below middle of screen
+            if(elTop > page.height() / 2 - 20 )
+            {
+                var delta = page.offset().top + elTop - $$(".statusbar-overlay").height() * (myApp.device.ios?2:1) - $$(".navbar").height();
+                //minus navbar height?&quest;? 56 fot MD
+                var kbdfix = page.find("#keyboard-fix");
+                if(kbdfix.length == 0)
+                {
+                    //create kbdfix element
+                    page.append("<div id='keyboard-fix'></div>");
+                }
+                $$("#keyboard-fix").css("height", delta * 2 + "px");
+                page.scrollTop( delta, 300);
+            }
+        }
+    }, true);
+
+    $$(document).on("blur",".kbdfix", function(e)
+    { //reduce all fixes
+        if(isAndroid)
+        {
+            $$("#keyboard-fix").css("height", "0px");
+        }
+    }, true);
+    /*function scrollToField(ele)
+    {
+        $(ele).focus();
+        /!*var p = $( ele );
+         var position = p.offset();
+         console.log(position.top);
+         $('.event-add .page-content').animate({
+         scrollTop:(position.top-30)
+         },500);*!/
+    }*/
 </script>

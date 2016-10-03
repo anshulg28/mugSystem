@@ -155,7 +155,7 @@
                                             ?>
                                             <!--twitter://status?status_id=756765768470130689-->
                                             <a href="https://twitter.com/<?php echo $row['user']['screen_name'];?>/status/<?php echo $row['id_str'];?>" target="_blank" class="external twitter-wrapper">
-                                                <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                                <div class="my-card-items <?php if($postlimit >= 5){echo 'hide';} $postlimit++; ?>">
                                                     <div class="card demo-card-header-pic">
                                                         <div class="card-content">
                                                             <div class="card-content-inner">
@@ -165,7 +165,7 @@
                                                                             <div class="item-content">
                                                                                 <div class="item-media">
                                                                                     <?php
-                                                                                    if($postlimit > 10)
+                                                                                    if($postlimit > 5)
                                                                                     {
                                                                                         ?>
                                                                                         <img class="myAvtar-list" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
@@ -245,7 +245,7 @@
                                                                                 ?>
                                                                                 <div class="col-100">
                                                                                     <?php
-                                                                                    if($postlimit > 10)
+                                                                                    if($postlimit > 5)
                                                                                     {
                                                                                         ?>
                                                                                         <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
@@ -299,7 +299,7 @@
                                             ?>
                                             <!--twitter://status?status_id=756765768470130689-->
                                             <a href="<?php echo $row['permalink_url'];?>" target="_blank" class="external facebook-wrapper">
-                                                <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                                <div class="my-card-items <?php if($postlimit >= 5){echo 'hide';} $postlimit++; ?>">
                                                     <div class="card demo-card-header-pic">
                                                         <div class="card-content">
                                                             <div class="card-content-inner">
@@ -309,7 +309,7 @@
                                                                             <div class="item-content">
                                                                                 <div class="item-media">
                                                                                     <?php
-                                                                                    if($postlimit > 10)
+                                                                                    if($postlimit > 5)
                                                                                     {
                                                                                         ?>
                                                                                         <img class="myAvtar-list" data-src="https://graph.facebook.com/v2.7/<?php echo $row['from']['id'];?>/picture" width="44"/>
@@ -370,7 +370,7 @@
                                                                     <div class="row no-gutter feed-image-container">
                                                                         <div class="col-100">
                                                                             <?php
-                                                                            if($postlimit > 10)
+                                                                            if($postlimit > 5)
                                                                             {
                                                                                 ?>
                                                                                 <img data-src="<?php echo $row['picture'];?>" class="mainFeed-img"/>
@@ -420,7 +420,7 @@
                                             ?>
                                             <!--twitter://status?status_id=756765768470130689-->
                                             <a href="<?php echo $row['full_url'];?>" target="_blank" class="external instagram-wrapper">
-                                                <div class="my-card-items <?php if($postlimit >= 10){echo 'hide';} $postlimit++; ?>">
+                                                <div class="my-card-items <?php if($postlimit >= 5){echo 'hide';} $postlimit++; ?>">
                                                     <div class="card demo-card-header-pic">
                                                         <div class="card-content">
                                                             <div class="card-content-inner">
@@ -430,7 +430,7 @@
                                                                             <div class="item-content">
                                                                                 <div class="item-media">
                                                                                     <?php
-                                                                                    if($postlimit > 10)
+                                                                                    if($postlimit > 5)
                                                                                     {
                                                                                         ?>
                                                                                         <img class="myAvtar-list" data-src="<?php echo $row['poster_image'];?>" width="44"/>
@@ -509,7 +509,7 @@
                                                                     <div class="row no-gutter feed-image-container">
                                                                         <div class="col-100">
                                                                             <?php
-                                                                            if($postlimit > 10)
+                                                                            if($postlimit > 5)
                                                                             {
                                                                                 ?>
                                                                                 <img data-src="<?php echo $row['image'];?>" class="mainFeed-img"/>
