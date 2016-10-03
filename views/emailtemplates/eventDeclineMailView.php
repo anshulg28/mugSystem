@@ -14,7 +14,7 @@
         In case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at
         <?php echo $mailData['senderPhone'] .' ('.$mailData['senderName'].')';?><br><br>
 
-        Cheers!
+        Cheers!<br>
         <?php echo $mailData['senderName']; ?>
     </p>
 

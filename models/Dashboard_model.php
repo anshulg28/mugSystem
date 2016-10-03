@@ -312,6 +312,14 @@ class Dashboard_Model extends CI_Model
 
         return $data;
     }
+    public function getWeeklyFeedBack()
+    {
+        $query = "SELECT *
+                  FROM feedbackweekscore";
+
+        $result = $this->db->query($query)->result_array();
+        return $result;
+    }
 
     public function insertFeedBack($details)
     {

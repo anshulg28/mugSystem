@@ -92,4 +92,9 @@ class Cron_Model extends CI_Model
         $this->db->delete('eventmaster');
         return true;
     }
+    public function insertWeeklyFeedback($post)
+    {
+        $this->db->insert('feedbackweekscore', $post);
+        return true;
+    }
 }

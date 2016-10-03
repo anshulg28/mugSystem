@@ -6,11 +6,15 @@ class Cron extends MY_Controller
     /**
      * Class Cron
      * @property Cron_model $cron_model
+     * @property Dashboard_Model $dashboard_model
+     * @property Locations_Model $locations_model
      */
     function __construct()
     {
         parent::__construct();
         $this->load->model('cron_model');
+        $this->load->model('dashboard_model');
+        $this->load->model('locations_model');
     }
     public function index()
     {
@@ -156,6 +160,52 @@ class Cron extends MY_Controller
                 $this->cron_model->transferEventRecord($row['eventId']);
             }
         }
+    }
+
+    public function weeklyFeedback()
+    {
+        $locArray = $this->locations_model->getAllLocations();
+        $feedbacks = $this->dashboard_model->getAllFeedbacks($locArray);
+
+        foreach($feedbacks['feedbacks'][0] as $key => $row)
+        {
+            $keySplit = explode('_',$key);
+            switch($keySplit[0])
+            {
+                case 'total':
+                    $total[$keySplit[1]] = (int)$row;
+                    break;
+                case 'promo':
+                    $promo[$keySplit[1]] = (int)$row;
+                    break;
+                case 'de':
+                    $de[$keySplit[1]] = (int)$row;
+                    break;
+            }
+        }
+
+        if($total['overall'] != 0)
+        {
+            $data[] = (int)(($promo['overall']/$total['overall'])*100 - ($de['overall']/$total['overall'])*100);
+        }
+        if($total['bandra'] != 0)
+        {
+            $data[] = (int)(($promo['bandra']/$total['bandra'])*100 - ($de['bandra']/$total['bandra'])*100);
+        }
+        if($total['andheri'] != 0)
+        {
+            $data[] = (int)(($promo['andheri']/$total['andheri'])*100 - ($de['andheri']/$total['andheri'])*100);
+        }
+        if($total['kemps-corner'] != 0)
+        {
+            $data[] = (int)(($promo['kemps-corner']/$total['kemps-corner'])*100 - ($de['kemps-corner']/$total['kemps-corner'])*100);
+        }
+
+        $details = array(
+            'locs' => implode(',',$data),
+            'insertedDate' => date('Y-m-d')
+        );
+        $this->cron_model->insertWeeklyFeedback($details);
     }
 
 }

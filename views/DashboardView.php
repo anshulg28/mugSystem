@@ -445,7 +445,10 @@
                                 <?php
                             }
                         ?>
-
+                        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                                data-toggle="modal" data-target="#feedback-modal">
+                            Show Graph
+                        </button>
                     </div>
                     <div class="mdl-cell mdl-cell--1-col"></div>
                     <!-- Dynamic Form -->
@@ -1007,7 +1010,72 @@
 
         </main>
     </div>
-    
+    <div id="feedback-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Feedback Analysis</h4>
+                </div>
+                <div class="modal-body">
+                    <?php
+                    if($this->userType == ADMIN_USER)
+                    {
+                        ?>
+                        <select id="location-feed" onchange="refreshFeeds(this)" class="form-control">
+                            <option value="0">Overall</option>
+                            <?php
+                            if(isset($locations))
+                            {
+                                foreach($locations as $key => $row)
+                                {
+                                    if(isset($row['id']))
+                                    {
+                                        ?>
+                                        <option value="<?php echo $row['id'];?>"><?php echo $row['locName'];?></option>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </select>
+                        <?php
+                    }
+                    elseif($this->userType == EXECUTIVE_USER)
+                    {
+                        if(isset($userInfo))
+                        {
+                            ?>
+                            <select id="location-feed" onchange="refreshFeeds(this)" class="form-control">
+                                <?php
+                                foreach($userInfo as $key => $row)
+                                {
+                                    ?>
+                                    <option value="<?php echo $row['locData'][0]['id'];?>">
+                                        <?php echo $row['locData'][0]['locName'];?>
+                                    </option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                            <?php
+                        }
+                        ?>
+
+                        <?php
+                    }
+                    ?>
+                    <canvas id="feedWeekly-canvas" class="mygraphs"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <?php echo $footerView; ?>
 
 </body>
@@ -1030,6 +1098,8 @@
     var graph_irregulars = {};
     var graph_lapsers = {};
     var graph_labels = [];
+    var feed_labels = [];
+    var feed_locs = {};
 
     var totalChecksBar, avgChecksBar, regularsBar, irregularsBar,lapsersBar;
     //setting all values
@@ -1219,6 +1289,31 @@
                 <?php
             }
         }
+        if(isset($weeklyFeed) && myIsMultiArray($weeklyFeed))
+        {
+            ?>
+            feed_locs[0] = [];
+            feed_locs[1] = [];
+            feed_locs[2] = [];
+            feed_locs[3] = [];
+            <?php
+            foreach($weeklyFeed as $key => $row)
+            {
+                $feedLocs = explode(',',$row['feeds']);
+                for($j=0;$j<count($feedLocs);$j++)
+                {
+                    if(isset($feedLocs[$j]))
+                    {
+                        ?>
+                            feed_locs[<?php echo $j;?>].push(<?php echo $feedLocs[$j];?>);
+                        <?php
+                    }
+                }
+                ?>
+                    feed_labels.push('<?php echo $row['labelDate'];?>');
+                <?php
+            }
+        }
     ?>
 
 
@@ -1391,6 +1486,7 @@
             $('.'+tdArray[index]).removeClass('hide');
         });
         drawGraphs();
+        drawFeedGraph();
     });
 
     $(document).on('submit', '#customDateForm', function(e){
@@ -1556,6 +1652,46 @@
         return config;
     }
 
+    function getConfigFeed(color,dataSet,title)
+    {
+        var config1 = {
+            type: 'line',
+            data: {
+                labels: feed_labels,
+                datasets: [
+                    {
+                        label: title,
+                        fill: false,
+                        lineTension: 0.1,
+                        backgroundColor: color,
+                        borderColor: color,
+                        borderCapStyle: 'butt',
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: 'miter',
+                        pointBorderColor: color,
+                        pointBackgroundColor: "#fff",
+                        pointBorderWidth: 1,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: color,
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data: dataSet
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                hover: {
+                    mode: 'label'
+                }
+            }
+        };
+        return config1;
+    }
+
+
     function drawGraphs()
     {
         var selectedLoc = Number($('#location').val());
@@ -1571,6 +1707,12 @@
         var lapsersCanvas = document.getElementById("lapsers-canvas").getContext("2d");
         window.lapLine = new Chart(lapsersCanvas, getConfig('#EF3C79',graph_lapsers[selectedLoc],'Lapsers'));
     }
+    function drawFeedGraph()
+    {
+        var selectedLoc = Number($('#location-feed').val());
+        var feedWeekCanvas = document.getElementById("feedWeekly-canvas").getContext("2d");
+        window.feedLine = new Chart(feedWeekCanvas, getConfigFeed('#EF3C79',feed_locs[selectedLoc],'Weekly Feedback'));
+    }
     function refreshGraphs()
     {
         var selectedLoc = Number($('#location').val());
@@ -1585,6 +1727,12 @@
 
         window.lapLine.config.data.datasets[0].data = graph_lapsers[selectedLoc];
         window.lapLine.update();
+    }
+    function refreshFeeds()
+    {
+        var selectedLoc = Number($('#location-feed').val());
+        window.feedLine.config.data.datasets[0].data = feed_locs[selectedLoc];
+        window.feedLine.update();
     }
 
     $(document).on('change','input[name="dashboardStats"]', function(){

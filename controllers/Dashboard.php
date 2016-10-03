@@ -70,6 +70,13 @@ class Dashboard extends MY_Controller {
         //Instamojo Records
         $data['instamojo'] = $this->dashboard_model->getAllInstamojoRecord();
 
+        $weeklyFeed = $this->dashboard_model->getWeeklyFeedBack();
+        foreach($weeklyFeed as $key => $row)
+        {
+            $d = date_create($row['insertedDate']);
+            $data['weeklyFeed'][$key]['labelDate'] = date_format($d,DATE_FORMAT_GRAPH_UI);
+            $data['weeklyFeed'][$key]['feeds'] = $row['locs'];
+        }
         $feedbacks = $this->dashboard_model->getAllFeedbacks($locArray);
 
         foreach($feedbacks['feedbacks'][0] as $key => $row)

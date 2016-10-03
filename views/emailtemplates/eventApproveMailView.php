@@ -21,12 +21,11 @@
         4. You can access your events from your <a href="<?php echo base_url().'mobile?page/event_dash';?>" target="_blank">Event Dashboard</a>. Your dashboard is a place where information on the number of sign ups, fees collected, payout details will be available to you. You can also edit your event or cancel your event from this dashboard.<br><br>
 
         5. For events below 5000, organisers will be reimbursed by cash on the day of the event. For events greater than 5000, we will hand over a cheque in the name of organiser.<br><br>
-        All the best for your event, in case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at 9820570311 (tresha) 7045170006 (shweta) 9920087855(priyanka) 9892110655 (daksha).<br><br>
 
         In case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at
         <?php echo $mailData['senderPhone'] .' ('.$mailData['senderName'].')';?><br><br>
 
-        Cheers!
+        Cheers!<br>
         <?php echo $mailData['senderName']; ?>
     </p>
 
