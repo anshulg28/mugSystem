@@ -225,7 +225,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-footer event-card-footer">
-                                                    <a href="<?php echo 'eventEdit/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Edit&nbsp;Event</a>
+                                                    <a href="<?php echo 'eventEdit/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">View&nbsp;Details</a>
                                                 </div>
                                             </div>
                                             <?php

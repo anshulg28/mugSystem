@@ -60,16 +60,13 @@ class Sendemail_library
     public function eventVerifyMail($userData)
     {
         $mailRecord = $this->CI->users_model->searchUserByLoc($userData[0]['eventPlace']);
-        $senderName = 'Doolally';
-        $senderEmail = 'events@doolally.in';
+        $senderUser = 'U-0';
 
         if($mailRecord['status'] === true)
         {
-            $senderName = $mailRecord['userData']['firstName'];
-            $senderEmail = $mailRecord['userData']['emailId'];
+            $senderUser = 'U-'.$mailRecord['userData']['userId'];
         }
-        $userData['senderName'] = $senderName;
-        $userData['senderEmail'] = $senderEmail;
+        $userData['senderUser'] = $senderUser;
 
         $data['mailData'] = $userData;
 

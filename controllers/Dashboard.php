@@ -595,18 +595,38 @@ class Dashboard extends MY_Controller {
 
     }
 
-    function eventEmailApprove($sName, $sEmail, $eventId)
+    function eventEmailApprove($sUser, $eventId)
     {
-        $this->userName = $sName;
-        $this->userEmail = $sEmail;
+        $sExplode = explode('-',$sUser);
+        if($sExplode[1] == '0')
+        {
+            $this->userName = 'Doolally';
+            $this->userEmail = 'events@doolally.in';
+        }
+        else
+        {
+            $userDetails = $this->users_model->getUserDetailsById($sExplode[1]);
+            $this->userName = $userDetails['userData'][0]['firstName'];
+            $this->userEmail = $userDetails['userData'][0]['emailId'];
+        }
         $this->eventApprove($eventId);
         $data['msg'] = 'Event Approved!';
         $this->load->view('PageThankYouView',$data);
     }
-    function eventEmailDecline($sName, $sEmail, $eventId)
+    function eventEmailDecline($sUser, $eventId)
     {
-        $this->userName = $sName;
-        $this->userEmail = $sEmail;
+        $sExplode = explode('-',$sUser);
+        if($sExplode[1] == '0')
+        {
+            $this->userName = 'Doolally';
+            $this->userEmail = 'events@doolally.in';
+        }
+        else
+        {
+            $userDetails = $this->users_model->getUserDetailsById($sExplode[1]);
+            $this->userName = $userDetails['userData'][0]['firstName'];
+            $this->userEmail = $userDetails['userData'][0]['emailId'];
+        }
         $this->eventDecline($eventId);
         $data['msg'] = 'Event Declined!';
         $this->load->view('PageThankYouView',$data);
