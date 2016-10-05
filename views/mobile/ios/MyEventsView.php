@@ -24,7 +24,7 @@
                 {
                     ?>
                     <a href="#" id="logout-btn">
-                        <i class="fa fa-sign-out"></i>
+                        <i class="ic_logout_icon point-item"></i>
                     </a>
                     <?php
                 }

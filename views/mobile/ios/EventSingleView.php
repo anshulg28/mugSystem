@@ -19,7 +19,7 @@
                     </div>
                     <div class="center sliding"><?php echo $row['eventName'];?></div>
                     <div class="right">
-                        <i class="fa fa-refresh event-refresh-icon"></i>
+                        <i class="ic_me_refresh_icon point-item"></i>
                     </div>
                 </div>
             </div>
