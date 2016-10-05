@@ -9,6 +9,9 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.swipebox.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/croppic.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/dialog-polyfill.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery-ui.js"></script>
+
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/hammer.min.js"></script>-->
 
 <script>
@@ -186,14 +189,38 @@
             $$("#keyboard-fix").css("height", "0px");
         }
     }, true);
-    /*function scrollToField(ele)
+    var dialogClose = false;
+    function alertDialog(title, msg, callbak)
     {
-        $(ele).focus();
-        /!*var p = $( ele );
-         var position = p.offset();
-         console.log(position.top);
-         $('.event-add .page-content').animate({
-         scrollTop:(position.top-30)
-         },500);*!/
-    }*/
+        dialogClose = callbak;
+        var dialog = document.querySelector('dialog#alertDialog');
+        $(dialog).find('.mdl-dialog__title').html(title);
+        $(dialog).find('p').html(msg);
+        if (! dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        dialog.showModal();
+        dialog.querySelector('.close').addEventListener('click', function() {
+            $('dialog.mdl-dialog').effect( "drop", "slow", function(){
+                if(dialog.open)
+                {
+                    dialog.close();
+                }
+            });
+        });
+    }
+    document.querySelector('dialog#alertDialog').addEventListener('close', function() {
+        if(dialogClose)
+        {
+            setTimeout(function(){
+                console.log('in');
+                mainView.router.back({
+                    ignoreCache: true
+                });
+            },500);
+        }
+        setTimeout(function(){
+            $('dialog#alertDialog').attr('style','');
+        },2000);
+    });
 </script>

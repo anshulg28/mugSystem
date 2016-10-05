@@ -13,3 +13,4 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jssocials-theme-minima.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/swipebox.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/croppic.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/dialog-polyfill.css">

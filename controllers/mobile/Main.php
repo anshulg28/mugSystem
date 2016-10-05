@@ -219,12 +219,21 @@ class Main extends MY_Controller {
             $data['status'] = true;
             $data['registeredEvents'] = $this->dashboard_model->getEventsRegisteredByUser($this->userMobId);
             $data['userEvents'] = $this->dashboard_model->getEventsByUserId($this->userMobId);
-            $shortDWName = $this->googleurlapi->shorten($data['registeredEvents'][0]['eventShareLink']);
-            $shortDWName1 = $this->googleurlapi->shorten($data['userEvents'][0]['eventShareLink']);
-            if($shortDWName !== false)
+            if(isset($data['registeredEvents']) && myIsMultiArray($data['registeredEvents']))
             {
-                $data['registeredEvents'][0]['eventShareLink'] = $shortDWName;
-                $data['userEvents'][0]['eventShareLink'] = $shortDWName1;
+                $shortDWName = $this->googleurlapi->shorten($data['registeredEvents'][0]['eventShareLink']);
+                if($shortDWName !== false)
+                {
+                    $data['registeredEvents'][0]['eventShareLink'] = $shortDWName;
+                }
+            }
+            if(isset($data['userEvents']) && myIsMultiArray($data['userEvents']))
+            {
+                $shortDWName1 = $this->googleurlapi->shorten($data['userEvents'][0]['eventShareLink']);
+                if($shortDWName1 !== false)
+                {
+                    $data['userEvents'][0]['eventShareLink'] = $shortDWName1;
+                }
             }
         }
 

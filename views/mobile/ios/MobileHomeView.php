@@ -913,6 +913,16 @@
 <span class="custom-scroll-up">
     ↑ Scroll Up
 </span>
+<dialog class="mdl-dialog" id="alertDialog">
+    <h4 class="mdl-dialog__title"></h4>
+    <div class="mdl-dialog__content">
+        <p class="msg">
+        </p>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect close">Close</button>
+    </div>
+</dialog>
 </body>
 <?php echo $mobileJs; ?>
 <?php echo $iosJs; ?>

@@ -54,6 +54,7 @@
         ?><br>
         Organiser Name: <?php echo $mailData[0]['creatorName'];?><br>
         Organiser Phone: <?php echo $mailData[0]['creatorPhone'];?><br>
+        Organiser Email: <?php echo $mailData[0]['creatorEmail'];?><br>
         Organiser Email: <?php echo $mailData[0]['creatorEmail'];?><br><br>
 
         <a href="<?php echo base_url().'dashboard/eventEmailApprove/'.$mailData['senderUser'].'/'.$mailData[0]['eventId'];?>"
