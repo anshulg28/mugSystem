@@ -7,8 +7,18 @@
 
 <body>
     <p>Dear <?php echo trim(ucfirst($mailData['creatorName']));?>,</p>
-    <p>Thanks for creating an event at Doolally, please give us a few days to approve your event. Once your event is approved, you will recieve an email from us and will be given access to an event dashboard. <br><br>
+    <p>Thanks for creating <?php echo $mailData['eventName'];?> at Doolally, please give us a few days to approve your event. Once your event is approved, you will recieve an email from us and will be given access to an event dashboard. <br><br>
 
+        <?php
+            if(isset($mailData['creatorPhone']))
+            {
+                ?>
+        Since this is the first time you have created an event, here are your login details
+        Login: <?php echo $mailData['creatorEmail'];?>
+        Password: <?php echo $mailData['creatorPhone'];?><br><br>
+                <?php
+            }
+        ?>
         In case you have any questions/queries please don't hesitate to write to me at this mail address or you can reach me at
         <?php echo $mailData['senderPhone'] .' ('.$mailData['senderName'].')';?><br><br>
 

@@ -144,7 +144,7 @@ class Sendemail_library
     {
         $phons = $this->CI->config->item('phons');
         $mailRecord = $this->CI->users_model->searchUserByLoc($userData['eventPlace']);
-        $senderName = 'Tresha';
+        $senderName = 'Doolally';
         $senderEmail = 'events@doolally.in';
         $senderPhone = $phons[$senderName];
 

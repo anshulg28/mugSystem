@@ -376,6 +376,7 @@ class Main extends MY_Controller {
     }
     public function saveEvent()
     {
+        $isUserCreated = false;
         $this->load->model('login_model');
         $post = $this->input->post();
         $userId = '';
@@ -425,11 +426,12 @@ class Main extends MY_Controller {
                     );
 
                     $userId = $this->users_model->savePublicUser($user);
-                    $mailData= array(
+                    /*$mailData= array(
                         'creatorName' => $post['creatorName'],
                         'creatorEmail' => $post['creatorEmail']
-                    );
-                    $this->sendemail_library->memberWelcomeMail($mailData);
+                    );*/
+                    $isUserCreated = true;
+                    //$this->sendemail_library->memberWelcomeMail($mailData);
                 }
 
                 //Save event
@@ -473,8 +475,13 @@ class Main extends MY_Controller {
                 $mailEvent= array(
                     'creatorName' => $post['creatorName'],
                     'creatorEmail' => $post['creatorEmail'],
+                    'eventName' => $post['eventName'],
                     'eventPlace' => $post['eventPlace']
                 );
+                if($isUserCreated === true)
+                {
+                    $mailEvent['creatorPhone'] = $post['creatorPhone'];
+                }
                 $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
                 $mailVerify = $this->dashboard_model->getEventById($eventId);
                 $mailVerify[0]['locData'] = $loc['locData'];
@@ -543,7 +550,9 @@ class Main extends MY_Controller {
                 }
                 $mailEvent= array(
                     'creatorName' => $post['creatorName'],
-                    'creatorEmail' => $post['creatorEmail']
+                    'creatorEmail' => $post['creatorEmail'],
+                    'eventName' => $post['eventName'],
+                    'eventPlace' => $post['eventPlace']
                 );
                 $loc = $this->locations_model->getLocationDetailsById($post['eventPlace']);
                 $mailVerify = $this->dashboard_model->getEventById($eventId);

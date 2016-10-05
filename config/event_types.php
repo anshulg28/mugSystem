@@ -35,7 +35,7 @@ $config['eventTc'] = '<div class="page-content">
         <h6><strong>General rules:</strong></h6>
         <p><ol><li>All events have to be open for all.</li>
             <li>Events with corporate sponsorship are not allowed.</li>
-            <li>Sale of any material is NOT permitted in the premises. Only the works of the performer(s)/artist(s) who are at the event can be sold.</li></ol></p>
+            <li>Sale of any material is not permitted in the premises. Only the works of the performer(s)/artist(s) who are at the event can be sold.</li></ol></p>
 
         <h6><strong>Organizers are expected:</strong></h6>
         <p><ol><li>To set up and manage the ticket counter for any ticketed events.</li>
@@ -54,7 +54,7 @@ $config['eventTc'] = '<div class="page-content">
         <li>Once your event is approved, we will create an Event/Instamojo link.</li>
         <li>Please use this link to accept payments.</li>
         <li>The transaction fee will be borne by Doolally.</li>
-        <li>Your dashboard is a place....</li>
+        <li>Your dashboard is a place where information on the number of sign ups, fees collected, payout details will be available to you. You can also edit your event or cancel your event from this dashboard.</li>
         <li>For events below 5000, organisers will be reimbursed by cash on the day of the event. For events greater than 5000, we will hand over a cheque in the name of organiser.</li></ol></p>
 
         <h6><strong>Contact:</strong></h6>
