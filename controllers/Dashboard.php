@@ -774,6 +774,8 @@ class Dashboard extends MY_Controller {
     function deleteEvent($eventId)
     {
         $this->dashboard_model->eventDelete($eventId);
+        $this->dashboard_model->eventRegisDelete($eventId);
+        $this->dashboard_model->eventAttDeleteById($eventId);
         redirect(base_url().'dashboard');
     }
     function deleteCompEvent($eventId)

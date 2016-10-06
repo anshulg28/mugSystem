@@ -621,10 +621,22 @@ class Dashboard_Model extends CI_Model
         $this->db->delete('eventmaster');
         return true;
     }
+    public function eventRegisDelete($eventId)
+    {
+        $this->db->where('eventId', $eventId);
+        $this->db->delete('eventregistermaster');
+        return true;
+    }
     public function eventCompDelete($eventId)
     {
         $this->db->where('eventId', $eventId);
         $this->db->delete('eventcompletedmaster');
+        return true;
+    }
+    public function eventAttDeleteById($eventId)
+    {
+        $this->db->where('eventId', $eventId);
+        $this->db->delete('eventattachment');
         return true;
     }
     public function eventAttDelete($attId)
