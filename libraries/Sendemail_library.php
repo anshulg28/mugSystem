@@ -173,7 +173,7 @@ class Sendemail_library
         $mailRecord = $this->CI->users_model->searchUserByLoc($userData['eventPlace']);
         $senderName = 'Doolally';
         $senderEmail = 'events@brewcraftsindia.com';
-        $senderPhone = $phons[$senderName];
+        $senderPhone = $phons['Tresha'];
 
         if($mailRecord['status'] === true)
         {

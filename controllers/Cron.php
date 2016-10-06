@@ -89,7 +89,7 @@ class Cron extends MY_Controller
         );
         $parmas = array(
             'count' => '35',
-            'q' => '#doolally OR doolally OR @godoolally -filter:retweets',
+            'q' => '#doolally OR #animalsofdoolally OR #ontapnow OR doolally OR @godoolally -filter:retweets',
             'geocode' => '20.1885251,64.446117,1000km',
             'lang' => 'en',
             'result_type' => 'recent'

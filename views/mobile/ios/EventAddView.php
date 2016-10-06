@@ -227,7 +227,7 @@
                             {
                                 ?>
                                 <div class="event-header-name">Your details</div>
-                                <p class="event-sub-text">We'll contact you while we curate your event.</p>
+                                <!--<p class="event-sub-text">We'll contact you while we curate your event.</p>-->
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                                     <input class="mdl-textfield__input kbdfix" type="text" name="creatorName" id="creatorName">
                                     <label class="mdl-textfield__label" for="creatorName">Name</label>

@@ -267,7 +267,7 @@
         },2000);
     });
     document.querySelector('.confirm-option').addEventListener('click', function(){
-        console.log($('#confirmDialog #imp-stuff').val());
+        cancelEvent($('#confirmDialog #imp-stuff').val());
         if(dialog1.open)
         {
             dialog1.close();

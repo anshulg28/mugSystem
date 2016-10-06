@@ -19,7 +19,7 @@
                     </div>
                     <div class="center sliding"><?php echo $row['eventName'];?></div>
                     <div class="right">
-                        <i class="ic_me_refresh_icon point-item"></i>
+                        <i class="ic_me_refresh_icon point-item page-refresh-btn"></i>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,16 @@
                                     <div class="card">
                                         <div class="card-content">
                                             <div class="card-content-inner">
-                                                <label class="bigInfo"><?php echo $row['totalQuant'];?></label>
+                                                <label class="bigInfo"><?php
+                                                    if(isset($row['totalQuant']))
+                                                    {
+                                                        echo $row['totalQuant'];
+                                                    }
+                                                    else
+                                                    {
+                                                        echo '0';
+                                                    }
+                                                    ?></label>
                                                 <br> Signups
                                             </div>
                                         </div>
