@@ -190,6 +190,7 @@
         }
     }, true);
     var dialogClose = false;
+    var confirmClose = false;
     function alertDialog(title, msg, callbak)
     {
         dialogClose = callbak;
@@ -213,14 +214,63 @@
         if(dialogClose)
         {
             setTimeout(function(){
-                console.log('in');
                 mainView.router.back({
                     ignoreCache: true
                 });
             },500);
         }
-        setTimeout(function(){
-            $('dialog#alertDialog').attr('style','');
+        var diaClose = setInterval(function(){
+            if($('dialog#alertDialog').attr('style') != '')
+            {
+                $('dialog#alertDialog').attr('style','');
+                clearInterval(diaClose);
+            }
         },2000);
+    });
+    var dialog1;
+    function confirmDialog(title, msg, otherBtn, impStuff, callbak)
+    {
+        confirmClose = callbak;
+        dialog1 = document.querySelector('dialog#confirmDialog');
+        $(dialog1).find('.mdl-dialog__title').html(title);
+        $(dialog1).find('p').html(msg);
+        $(dialog1).find('#imp-stuff').val(impStuff);
+        $(dialog1).find('.confirm-option').html(otherBtn);
+        if (! dialog1.showModal) {
+            dialogPolyfill.registerDialog(dialog1);
+        }
+        dialog1.showModal();
+        dialog1.querySelector('.close').addEventListener('click', function() {
+            $('dialog.mdl-dialog#confirmDialog').effect( "drop", "slow", function(){
+                if(dialog1.open)
+                {
+                    dialog1.close();
+                }
+            });
+        });
+    }
+    document.querySelector('dialog#confirmDialog').addEventListener('close', function() {
+        if(confirmClose)
+        {
+            setTimeout(function(){
+                mainView.router.back({
+                    ignoreCache: true
+                });
+            },500);
+        }
+        var diaClose1 = setInterval(function(){
+            if($('dialog#confirmDialog').attr('style') != '')
+            {
+                $('dialog#confirmDialog').attr('style','');
+                clearInterval(diaClose1);
+            }
+        },2000);
+    });
+    document.querySelector('.confirm-option').addEventListener('click', function(){
+        console.log($('#confirmDialog #imp-stuff').val());
+        if(dialog1.open)
+        {
+            dialog1.close();
+        }
     });
 </script>

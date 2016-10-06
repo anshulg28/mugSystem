@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<body class="event-view">
+<body>
 <!-- Status bar overlay for full screen mode (PhoneGap) -->
 <!-- Top Navbar-->
 <?php
@@ -24,9 +24,10 @@
                 </div>
             </div>
             <div class="pages">
-                <div data-page="eventSingle" class="page">
+                <div data-page="eventSingle" class="page event-details">
                     <div class="page-content">
                         <div class="content-block event-wrapper">
+                            <input type="hidden" id="eventId" value="<?php echo $row['eventId'];?>"/>
                             <div class="comment my-event-status">
                                 <span>
                                 <?php
@@ -53,147 +54,65 @@
                                 ?>
                                 </span>
                             </div>
-                            <div class="col-100 more-photos-wrapper">
-                                <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                            <div class="row bottom-share-panel no-gutter">
+                                <div class="col-50">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-content-inner">
+                                                <span>
+                                                    <i class="ic_me_rupee_icon main-rupee-icon"></i>
+                                                    <label class="bigInfo">
+                                                        <?php
+                                                            if($row['costType'] == "1")
+                                                            {
+                                                                ?>
+                                                                Free
+                                                                <?php
+                                                            }
+                                                            elseif($row['costType'] == "2")
+                                                            {
+                                                                $total = (int)$row['eventPrice'] * (int)$row['totalQuant'];
+                                                                echo number_format($total);
+                                                            }
+                                                        ?>
+                                                    </label>
+                                                </span>
+                                                <br> Amount Collected
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-50">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-content-inner">
+                                                <label class="bigInfo"><?php echo $row['totalQuant'];?></label>
+                                                <br> Signups
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="event-header-name"><?php echo $row['eventName'];?></div>
-                            <p class="content-block event-about"><?php echo strip_tags($row['eventDescription'],'<br>');?></p>
-                            <hr class="card-ptag">
-                            <!-- Where section -->
-                            <div class="event-descrip-wrapper">
-                                <a href="<?php echo $row['mapLink'];?>" class="external" target="_blank">
-                                    <i class="ic_me_location_icon point-item my-right-event-icon color-black"></i>
-                                </a>
-                                <div class="event-header-name">Where</div>
-                                <div class="clear"></div>
-                                <p class="event-sub-text">
-                                    Doolally Taproom, <?php echo $row['locName'];?>
-                                </p>
-                            </div>
-
-                            <!-- When Section -->
-                            <div class="event-descrip-wrapper">
-                                <span class="fa-15x ic_events_icon point-item my-right-event-icon custom-addToCal"
-                                data-ev-title="<?php echo $row['eventName'];?>" data-ev-location="Doolally Taproom, <?php echo $row['locName'];?>"
-                                data-ev-start="<?php echo $row['eventDate'].' '.$row['startTime'];?>"
-                                data-ev-end="<?php echo $row['eventDate'].' '.$row['endTime'];?>"
-                                data-ev-description="<?php echo strip_tags($row['eventDescription'],'<br>');?>">
-                                </span>
-                                <div class="event-header-name">When</div>
-                                <div class="clear"></div>
-                                <p class="event-sub-text">
-                                    <?php $d = date_create($row['eventDate']);
-                                    echo date('h:i a',strtotime($row['startTime'])).'-'.date('h:i a',strtotime($row['endTime'])).' ,'. date_format($d,EVENT_INSIDE_DATE_FORMAT);?>
-                                </p>
-                            </div>
-
-                            <!-- Host Section -->
-                            <div class="event-descrip-wrapper">
-                                <a href="tel:+91<?php echo $row['creatorPhone']; ?>" class="external">
-                                    <span class="ic_event_contact_icon my-right-event-icon"></span>
-                                </a>
-                                <div class="event-header-name">Host</div>
-                                <div class="clear"></div>
-                                <p class="event-sub-text">
-                                    <?php echo $row['creatorName']; ?>
-                                </p>
-                            </div>
-
-                            <!-- Entry Section -->
-                            <div class="event-descrip-wrapper">
-                                <div class="event-header-name">Entry</div>
-                                <p class="event-sub-text">
-                                    <?php
-                                    switch($row['costType'])
-                                    {
-                                        case "1":
-                                            echo "Free";
-                                            break;
-                                        case "2":
-                                            echo 'Rs. '.$row['eventPrice'];
-                                            if(isset($row['priceFreeStuff']) && isStringSet($row['priceFreeStuff']))
-                                            {
-                                                echo ' + '.$row['priceFreeStuff'];
-                                            }
-                                            break;
-                                    }
-                                    ?>
-                                </p>
-                            </div>
-
-                            <!--<div class="list-block cards-list">
+                            <div class="list-block">
                                 <ul>
-                                    <li class="card">
-                                        <div class="card-header">Where</div>
-                                        <p class="color-gray">
-                                           Doolally Taproom, <?php /*echo $row['eventData']['locData'][0]['locName'];*/?>
-                                        </p>
-                                        <i class="fa fa-map-marker pull-right"></i>
-                                    </li>
-                                    <li class="card">
-                                        <div class="card-header">When</div>
-                                        <p class="color-gray">
-                                            <?php /*$d = date_create($row['eventData']['eventDate']);
-                                            echo date('h:i a',strtotime($row['eventData']['startTime'])).'-'.date('h:i a',strtotime($row['eventData']['endTime'])).' ,'. date_format($d,EVENT_INSIDE_DATE_FORMAT);*/?>
-                                        </p>
-                                        <span class="ic_events_icon pull-right"></span>
-                                    </li>
-                                    <li class="card">
-                                        <div class="card-header">Entry</div>
-                                        <p class="color-gray">
-                                            <?php
-/*                                            switch($row['eventData']['costType'])
-                                            {
-                                                case "1":
-                                                    echo "Free";
-                                                    break;
-                                                case "2":
-                                                    echo 'Rs. '.$row['eventData']['eventPrice'];
-                                                    if(isset($row['eventDate']['priceFreeStuff']) && isStringSet($row['eventDate']['priceFreeStuff']))
-                                                    {
-                                                        echo ' + '.$row['eventDate']['priceFreeStuff'];
-                                                    }
-                                                    break;
-                                            }
-                                            */?>
-                                        </p>
+                                    <li>
+                                        <a href="<?php echo 'eventEdit/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link item-link list-button color-black event-bookNow">Edit Event</a>
                                     </li>
                                 </ul>
-                            </div>-->
-                            <div class="row">
-                                <div class="col-5"></div>
-                                <div class="col-90">
-                                    <?php
-                                        if(isset($userCreated) && $userCreated === true)
-                                        {
-                                            ?>
-                                            <a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Thank you for creating! </a>
-                                            <?php
-                                        }
-                                        elseif(isset($userBooked) && $userBooked === true)
-                                        {
-                                            ?>
-                                            <a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Thank you for registering! </a>
-                                            <?php
-                                        }
-                                        elseif(isset($row['eventPaymentLink']) && isStringSet($row['eventPaymentLink']))
-                                        {
-                                            ?>
-                                            <a href="<?php echo $row['eventPaymentLink'];?>" class="button button-big button-fill bookNow-event-btn external">Book Now </a>
-                                            <?php
-                                        }
-                                        else
-                                        {
-                                            ?>
-                                            <a href="#" class="button button-big button-fill bookNow-event-btn" disabled>Book Now </a>
-                                            <?php
-                                        }
-                                    ?>
-                                </div>
-                                <div class="col-5"></div>
                             </div>
-                            <br>
+                            <div class="list-block">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="item-link list-button color-black event-cancel-btn">Cancel Event</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--<div class="comment individual-btns">
+                                <a href="<?php /*echo 'eventEdit/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);*/?>" data-ignore-cache="true" class="link color-black event-bookNow">Edit Event</a>
+                            </div>-->
+                            <hr class="event-hr">
                             <div class="bottom-share-panel">
+                                <br>
                                 <?php
                                 if(isset($meta) && myIsMultiArray($meta))
                                 {
@@ -208,7 +127,6 @@
                                 <input type="hidden" id="shareLink" value="<?php echo $row['eventShareLink'];?>"/>
                                 <div id="share" class="my-social-share"></div>
                             </div>
-                            <br>
                         </div>
                     </div>
                 </div>

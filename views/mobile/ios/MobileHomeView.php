@@ -923,6 +923,18 @@
         <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect close">Close</button>
     </div>
 </dialog>
+<dialog class="mdl-dialog" id="confirmDialog">
+    <h4 class="mdl-dialog__title"></h4>
+    <div class="mdl-dialog__content">
+        <p class="msg">
+        </p>
+    </div>
+    <div class="mdl-dialog__actions">
+        <input type="hidden" id="imp-stuff" value=""/>
+        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect close">Close</button>
+        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect confirm-option"></button>
+    </div>
+</dialog>
 </body>
 <?php echo $mobileJs; ?>
 <?php echo $iosJs; ?>

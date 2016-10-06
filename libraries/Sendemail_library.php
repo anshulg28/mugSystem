@@ -46,9 +46,9 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/memberWelcomeMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = 'events@brewcraftsindia.com';
 
-        $cc        = 'events@doolally.in';
+        $cc        = 'events@brewcraftsindia.com';
         $fromName  = 'Doolally';
 
         $subject = 'Welcome to Doolally';
@@ -72,13 +72,40 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventVerifyMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = 'events@brewcraftsindia.com';
 
         $cc        = 'tresha@brewcraftsindia.com';
         $fromName  = 'Doolally';
 
         $subject = 'Event Details';
-        $toEmail = 'events@doolally.in';
+        $toEmail = 'events@brewcraftsindia.com';
+
+        if($mailRecord['status'] === true)
+        {
+            $toEmail = $mailRecord['userData']['emailId'];
+        }
+
+        $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);
+    }
+
+    public function eventCancelMail($userData)
+    {
+        $mailRecord = $this->CI->users_model->searchUserByLoc($userData[0]['eventPlace']);
+
+        $data['mailData'] = $userData;
+
+        $content = $this->CI->load->view('emailtemplates/eventCancelMailView', $data, true);
+
+        $fromEmail = 'events@brewcraftsindia.com';
+        if(isset($userData[0]['creatorEmail']))
+        {
+            $fromEmail = $userData[0]['creatorEmail'];
+        }
+        $cc        = 'tresha@brewcraftsindia.com';
+        $fromName  = 'Doolally';
+
+        $subject = 'Event Cancel';
+        $toEmail = 'events@brewcraftsindia.com';
 
         if($mailRecord['status'] === true)
         {
@@ -96,12 +123,12 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventApproveMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = 'events@brewcraftsindia.com';
         if(isset($userData['senderEmail']) && isStringSet($userData['senderEmail']))
         {
             $fromEmail = $userData['senderEmail'];
         }
-        $cc        = 'events@doolally.in';
+        $cc        = 'events@brewcraftsindia.com';
         $fromName  = 'Doolally';
         if(isset($userData['senderName']) && isStringSet($userData['senderName']))
         {
@@ -121,13 +148,13 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventDeclineMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
+        $fromEmail = 'events@brewcraftsindia.com';
         if(isset($userData['senderEmail']) && isStringSet($userData['senderEmail']))
         {
             $fromEmail = $userData['senderEmail'];
         }
 
-        $cc        = 'events@doolally.in';
+        $cc        = 'events@brewcraftsindia.com';
         $fromName  = 'Doolally';
         if(isset($userData['senderName']) && isStringSet($userData['senderName']))
         {
@@ -145,7 +172,7 @@ class Sendemail_library
         $phons = $this->CI->config->item('phons');
         $mailRecord = $this->CI->users_model->searchUserByLoc($userData['eventPlace']);
         $senderName = 'Doolally';
-        $senderEmail = 'events@doolally.in';
+        $senderEmail = 'events@brewcraftsindia.com';
         $senderPhone = $phons[$senderName];
 
         if($mailRecord['status'] === true)
@@ -163,7 +190,7 @@ class Sendemail_library
 
         $fromEmail = $senderEmail;
 
-        $cc        = 'events@doolally.in';
+        $cc        = 'events@brewcraftsindia.com';
         $fromName  = $senderName;
 
         $subject = 'Event Details';

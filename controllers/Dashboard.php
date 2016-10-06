@@ -602,13 +602,22 @@ class Dashboard extends MY_Controller {
 
     }
 
+    public function cancelEvent($eventId)
+    {
+        $data = array();
+        $events = $this->dashboard_model->getEventById($eventId);
+        $this->sendemail_library->eventCancelMail($events);
+        $data['status'] = true;
+        echo json_encode($data);
+
+    }
     function eventEmailApprove($sUser, $eventId)
     {
         $sExplode = explode('-',$sUser);
         if($sExplode[1] == '0')
         {
             $this->userName = 'Doolally';
-            $this->userEmail = 'events@doolally.in';
+            $this->userEmail = 'events@brewcraftsindia.com';
         }
         else
         {
@@ -626,7 +635,7 @@ class Dashboard extends MY_Controller {
         if($sExplode[1] == '0')
         {
             $this->userName = 'Doolally';
-            $this->userEmail = 'events@doolally.in';
+            $this->userEmail = 'events@brewcraftsindia.com';
         }
         else
         {
@@ -657,7 +666,7 @@ class Dashboard extends MY_Controller {
         {
             $this->dashboard_model->ApproveEvent($eventId);
             $senderName = 'Doolally';
-            $senderEmail = 'events@doolally.in';
+            $senderEmail = 'events@brewcraftsindia.com';
             if(isStringSet($this->userEmail) && isStringSet($this->userName))
             {
                 $senderEmail = $this->userEmail;
@@ -709,7 +718,7 @@ class Dashboard extends MY_Controller {
             }
             $this->dashboard_model->ApproveEvent($eventId);
             $senderName = 'Doolally';
-            $senderEmail = 'events@doolally.in';
+            $senderEmail = 'events@brewcraftsindia.com';
             if(isStringSet($this->userEmail) && isStringSet($this->userName))
             {
                 $senderEmail = $this->userEmail;
@@ -742,7 +751,7 @@ class Dashboard extends MY_Controller {
         $eventDetail = $this->dashboard_model->getFullEventInfoById($eventId);
         $this->dashboard_model->DeclineEvent($eventId);
         $senderName = 'Doolally';
-        $senderEmail = 'events@doolally.in';
+        $senderEmail = 'events@brewcraftsindia.com';
         if(isStringSet($this->userEmail) && isStringSet($this->userName))
         {
             $senderName = $this->userName;

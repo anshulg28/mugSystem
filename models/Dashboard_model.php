@@ -494,6 +494,29 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+    public function getDashboardEventDetails($eventId)
+    {
+        $query = "SELECT em.eventId, em.eventName, em.costType,em.eventPrice,em.eventShareLink,
+                  em.ifActive, em.ifApproved, SUM(erm.quantity) as 'totalQuant'
+                  FROM `eventmaster`em
+                  LEFT JOIN eventregistermaster erm ON erm.eventId = em.eventId
+                  WHERE em.eventId = ".$eventId;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function getJoinersInfo($eventId)
+    {
+        $query = "SELECT um.firstName, um.lastName, erm.quantity, erm.createdDT
+                  FROM `eventregistermaster`erm
+                  LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
+                  WHERE erm.eventId = $eventId ORDER BY erm.createdDT desc";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
     public function ApproveEvent($eventId)
     {
         $data['ifActive'] = 1;

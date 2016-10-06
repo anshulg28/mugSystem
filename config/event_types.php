@@ -58,7 +58,7 @@ $config['eventTc'] = '<div class="page-content">
         <li>For events below 5000, organisers will be reimbursed by cash on the day of the event. For events greater than 5000, we will hand over a cheque in the name of organiser.</li></ol></p>
 
         <h6><strong>Contact:</strong></h6>
-        <p>Email: events@doolally.in</p>
+        <p>Email: events@brewcraftsindia.com</p>
 
     </div>
 </div>';

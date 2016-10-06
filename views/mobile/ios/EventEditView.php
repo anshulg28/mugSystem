@@ -261,7 +261,7 @@
                                                             <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1" checked/>
                                                             <label for="ifMicRequired">
                                                                 <i class="ic_mic_icon on"></i>
-                                                                <span>Microphone</span>
+                                                                <span class="on">Microphone</span>
                                                             </label>
                                                         </li>
                                                         <?php
@@ -287,7 +287,7 @@
                                                             <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1" checked>
                                                             <label for="ifProjectorRequired" class="">
                                                                 <i class="ic_projector_icon on"></i>
-                                                                <span>Projector</span>
+                                                                <span class="on">Projector</span>
                                                             </label>
                                                         </li>
                                                         <?php

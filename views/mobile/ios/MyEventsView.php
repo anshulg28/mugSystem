@@ -199,6 +199,7 @@
                                                         <div class="comment my-event-status">
                                                             <span>
                                                             <?php
+                                                            $isApprov = false;
                                                                 if($row['ifApproved'] == EVENT_DECLINED)
                                                                 {
                                                                     ?>
@@ -211,11 +212,13 @@
                                                                 }
                                                                 elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == ACTIVE)
                                                                 {
+                                                                    $isApprov = true;
                                                                     ?>
                                                                     <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved!<?php
                                                                 }
                                                                     elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == NOT_ACTIVE)
                                                                 {
+                                                                    $isApprov = true;
                                                                     ?>
                                                                     <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved But Not Active<?php
                                                                 }
@@ -225,7 +228,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-footer event-card-footer">
-                                                    <a href="<?php echo 'eventEdit/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">View&nbsp;Details</a>
+                                                    <?php
+                                                        if($isApprov === true)
+                                                        {
+                                                            ?>
+                                                            <a href="<?php echo 'event_details/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">View&nbsp;Details</a>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+                                                            ?>
+                                                            <a href="<?php echo 'event_details/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow" disabled>View&nbsp;Details</a>
+                                                            <?php
+                                                        }
+                                                    ?>
+
                                                 </div>
                                             </div>
                                             <?php

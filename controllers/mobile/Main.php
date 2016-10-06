@@ -41,6 +41,12 @@ class Main extends MY_Controller {
             $this->instaMojoStatus = '0';
             $data['MojoStatus'] = 1;
         }
+        elseif(isSessionVariableSet($this->instaMojoStatus) && $this->instaMojoStatus == '2')
+        {
+            $this->generalfunction_library->setSessionVariable('instaMojoStatus','0');
+            $this->instaMojoStatus = '0';
+            $data['MojoStatus'] = 2;
+        }
         else
         {
             $data['MojoStatus'] = 0;
@@ -242,6 +248,32 @@ class Main extends MY_Controller {
         echo json_encode($eventView);
 
     }
+    public function eventDetails($eventId, $evenHash)
+    {
+        $data = array();
+        if(hash_compare(encrypt_data($eventId),$evenHash))
+        {
+            $decodedS = explode('-',$eventId);
+            $eventId = $decodedS[count($decodedS)-1];
+            $events = $this->dashboard_model->getDashboardEventDetails($eventId);
+            $shortDWName = $this->googleurlapi->shorten($events[0]['eventShareLink']);
+            if($shortDWName !== false)
+            {
+                $events[0]['eventShareLink'] = $shortDWName;
+            }
+            $data['meta']['title'] = $events[0]['eventName'];
+            $data['eventDetails'] = $events;
+
+            $aboutView = $this->load->view('mobile/ios/EventSingleView', $data);
+
+            echo json_encode($aboutView);
+        }
+        else
+        {
+            $pgError = $this->load->view('mobile/ios/EventView', $data);
+            echo json_encode($pgError);
+        }
+    }
     function thankYou($eventId, $mojoId)
     {
         $sessionDone = false;
@@ -325,8 +357,16 @@ class Main extends MY_Controller {
 
                 $this->dashboard_model->saveEventRegis($requiredInfo);
                 //$this->sendemail_library->newEventMail($mailEvent);
-                $this->login_model->setLastLogin($userId);
-                $this->generalfunction_library->setMobUserSession($userId);
+                if(isSessionVariableSet($this->isMobUserSession) === false)
+                {
+                    $this->login_model->setLastLogin($userId);
+                    $this->generalfunction_library->setMobUserSession($userId);
+                }
+            }
+            else
+            {
+                $this->generalfunction_library->setSessionVariable('instaMojoStatus','2');
+                $this->instaMojoStatus = '2';
             }
 
         }
