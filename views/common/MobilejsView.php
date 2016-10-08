@@ -9,8 +9,9 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.swipebox.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/croppic.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/dialog-polyfill.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/js/jquery-ui.js"></script>
+<!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/dialog-polyfill.js"></script>-->
+<!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/js/jquery-ui.js"></script>-->
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/vex.combined.min.js"></script>
 
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/hammer.min.js"></script>-->
 
@@ -40,6 +41,7 @@
         closeButton:false,
         pagination:false
     };
+    vex.defaultOptions.className = 'vex-theme-plain';
    /* <div class="windows8">'+
     '<div class="wBall" id="wBall_1">'+
     '<div class="wInnerBall"></div>'+

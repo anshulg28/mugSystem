@@ -17,7 +17,19 @@
                 <i class="fa fa-minus"></i>-->
             </a>
         </div>
-        <div class="center sliding">My Events</div>
+        <div class="center sliding">
+            <!--My Events-->
+            <?php
+                if(isSessionVariableSet($this->userMobFirstName))
+                {
+                    echo 'Welcome '.$this->userMobFirstName;
+                }
+                else
+                {
+                    echo 'My Events';
+                }
+            ?>
+        </div>
         <div class="right">
             <?php
                 if(isset($status) && $status === true)

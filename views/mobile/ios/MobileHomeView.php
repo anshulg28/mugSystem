@@ -51,7 +51,7 @@
     <div class="content-block">
         <ul class="demo-list-icon mdl-list">
             <li class="mdl-list__item">
-                <a href="#" id="global-home-btn">
+                <a href="#" id="global-home-btn" class="my-fullWidth">
                     <span class="mdl-list__item-primary-content">
                         <i class="fa fa-home fa-15x mdl-list__item-icon"></i>
                         <!--<i class="material-icons ">location_on</i>-->
@@ -74,7 +74,7 @@
                 </a>
             </li>-->
             <li class="mdl-list__item">
-                <a href="#">
+                <a href="#" class="my-fullWidth">
                     <span class="mdl-list__item-primary-content">
                         <i class="fa fa-music mdl-list__item-icon"></i>
                         <!--<i class="material-icons mdl-list__item-icon">music_note</i>-->
@@ -83,7 +83,7 @@
                 </a>
             </li>
             <li class="mdl-list__item">
-                <a href="#" id="my-events-tab">
+                <a href="#" id="my-events-tab" class="my-fullWidth">
                     <span class="mdl-list__item-primary-content">
                         <i class="fa fa-calendar mdl-list__item-icon"></i>
                         <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
@@ -91,13 +91,13 @@
                     </span>
                 </a>
             </li>
-            <li class="mdl-list__item">
-                <a href="#">
-                    <span class="mdl-list__item-primary-content">
-                        <i class="fa fa-cog mdl-list__item-icon"></i>
-                        <!--<i class="material-icons mdl-list__item-icon">settings</i>-->
-                        Settings
-                    </span>
+            <li class="user-settings mdl-list__item <?php if(isSessionVariableSet($this->isMobUserSession) === false){echo 'hide';}?>">
+                <a href="#" class="my-fullWidth">
+                <span class="mdl-list__item-primary-content">
+                    <i class="fa fa-cog mdl-list__item-icon"></i>
+                    <!--<i class="material-icons mdl-list__item-icon">settings</i>-->
+                    Settings
+                </span>
                 </a>
             </li>
         </ul>
