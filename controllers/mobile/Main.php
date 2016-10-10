@@ -182,23 +182,33 @@ class Main extends MY_Controller {
     {
         $data = array();
 
-        if(hash_compare(encrypt_data($eventId),$evenHash))
+        if(isSessionVariableSet($this->isMobUserSession) === false)
         {
-            $decodedS = explode('-',$eventId);
-            $eventId = $decodedS[count($decodedS)-1];
-            $data['eventDetails'] = $this->dashboard_model->getFullEventInfoById($eventId);
-            $data['eventTc'] = $this->config->item('eventTc');
-            $data['locData'] = $this->locations_model->getAllLocations();
-
-            $aboutView = $this->load->view('mobile/ios/EventEditView', $data);
-
-            echo json_encode($aboutView);
+            $data['status'] = false;
         }
         else
         {
-            $pgError = $this->load->view('mobile/ios/EventEditView', $data);
-            echo json_encode($pgError);
+            $data['status'] = true;
+            if(hash_compare(encrypt_data($eventId),$evenHash))
+            {
+                $decodedS = explode('-',$eventId);
+                $eventId = $decodedS[count($decodedS)-1];
+                $data['eventDetails'] = $this->dashboard_model->getFullEventInfoById($eventId);
+                $data['eventTc'] = $this->config->item('eventTc');
+                $data['locData'] = $this->locations_model->getAllLocations();
+
+            }
+            /*else
+            {
+                $pgError = $this->load->view('mobile/ios/EventEditView', $data);
+                echo json_encode($pgError);
+            }*/
         }
+
+        $aboutView = $this->load->view('mobile/ios/EventEditView', $data);
+
+        echo json_encode($aboutView);
+
     }
 
     public function createEvent()
@@ -251,29 +261,65 @@ class Main extends MY_Controller {
     public function eventDetails($eventId, $evenHash)
     {
         $data = array();
-        if(hash_compare(encrypt_data($eventId),$evenHash))
+        if(isSessionVariableSet($this->isMobUserSession) === false)
         {
-            $decodedS = explode('-',$eventId);
-            $eventId = $decodedS[count($decodedS)-1];
-            $events = $this->dashboard_model->getDashboardEventDetails($eventId);
-            $shortDWName = $this->googleurlapi->shorten($events[0]['eventShareLink']);
-            if($shortDWName !== false)
-            {
-                $events[0]['eventShareLink'] = $shortDWName;
-            }
-            $data['meta']['title'] = $events[0]['eventName'];
-            $data['eventDetails'] = $events;
-
-            $aboutView = $this->load->view('mobile/ios/EventSingleView', $data);
-
-            echo json_encode($aboutView);
+            $data['status'] = false;
         }
         else
         {
-            $pgError = $this->load->view('mobile/ios/EventView', $data);
-            echo json_encode($pgError);
+            $data['status'] = true;
+            if(hash_compare(encrypt_data($eventId),$evenHash))
+            {
+                $decodedS = explode('-',$eventId);
+                $eventId = $decodedS[count($decodedS)-1];
+                $events = $this->dashboard_model->getDashboardEventDetails($eventId);
+                $shortDWName = $this->googleurlapi->shorten($events[0]['eventShareLink']);
+                if($shortDWName !== false)
+                {
+                    $events[0]['eventShareLink'] = $shortDWName;
+                }
+                $data['meta']['title'] = $events[0]['eventName'];
+                $data['eventDetails'] = $events;
+
+            }
+            /*else
+            {
+                $pgError = $this->load->view('mobile/ios/EventView', $data);
+                echo json_encode($pgError);
+            }*/
         }
+
+        $aboutView = $this->load->view('mobile/ios/EventSingleView', $data);
+
+        echo json_encode($aboutView);
     }
+
+    public function signupList($eventId, $evenHash)
+    {
+        $data = array();
+        if(isSessionVariableSet($this->isMobUserSession) === false)
+        {
+            $data['status'] = false;
+        }
+        else
+        {
+            $data['status'] = true;
+            if(hash_compare(encrypt_data($eventId),$evenHash))
+            {
+                $decodedS = explode('-',$eventId);
+                $eventId = $decodedS[count($decodedS)-1];
+                $events = $this->dashboard_model->getJoinersInfo($eventId);
+
+                $data['meta']['title'] = $events[0]['eventName'];
+                $data['eventDetails'] = $events;
+            }
+        }
+
+        $aboutView = $this->load->view('mobile/ios/signUpListView', $data);
+
+        echo json_encode($aboutView);
+    }
+
     function thankYou($eventId, $mojoId)
     {
         $sessionDone = false;

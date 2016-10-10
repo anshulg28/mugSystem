@@ -509,9 +509,9 @@ class Dashboard_Model extends CI_Model
     public function getJoinersInfo($eventId)
     {
         $query = "SELECT um.firstName, um.lastName, erm.quantity, erm.createdDT
-                  FROM `eventregistermaster`erm
+                  FROM eventregistermaster erm
                   LEFT JOIN doolally_usersmaster um ON um.userId = erm.bookerUserId
-                  WHERE erm.eventId = $eventId ORDER BY erm.createdDT desc";
+                  WHERE erm.eventId = $eventId ORDER BY erm.createdDT DESC";
 
         $result = $this->db->query($query)->result_array();
 
