@@ -55,7 +55,8 @@
         Organiser Name: <?php echo $mailData[0]['creatorName'];?><br>
         Organiser Phone: <?php echo $mailData[0]['creatorPhone'];?><br>
         Organiser Email: <?php echo $mailData[0]['creatorEmail'];?><br>
-        Organiser Email: <?php echo $mailData[0]['creatorEmail'];?><br><br>
+        Organiser Email: <?php echo $mailData[0]['creatorEmail'];?><br>
+        About Organiser: <?php echo $mailData[0]['aboutCreator'];?><br><br>
 
         <a href="<?php echo base_url().'dashboard/eventEmailApprove/'.$mailData['senderUser'].'/'.$mailData[0]['eventId'];?>"
         style="text-decoration: none;border: 2px solid #000;padding: 5px;border-radius: 5px;color:green;">Approve Event</a>

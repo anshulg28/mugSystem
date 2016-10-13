@@ -396,34 +396,209 @@ class Dashboard extends MY_Controller {
 
     public function cropEventImage()
     {
-        $post = $this->input->post();
+        $data = $this->input->post()['cropData'];
+        $src = $data['imgUrl'];
+        $img = $data['imgData'];
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        $filename = explode('.',basename($src));
+        $dst = './uploads/events/thumb/'.$filename[0].'_cropped'.'.'.$filename[1];
+        if(file_put_contents($dst, $data) === false)
+        {
+            $response = Array(
+                "status" => 'error',
+                "message" => 'Failed to save image'
+            );
+        }
+        else
+        {
+            $response = Array(
+                "status" => 'success',
+                "url" => $dst
+            );
+        }
+        echo json_encode($response);
+    }
+    /*public function cropEventImage()
+    {
+        $data = $this->input->post()['data'];
+        $src = $data['imgUrl'];
+        $response = array();
+
+        $src_img = '';
+        $type = '.png';
+        $what = getimagesize($src);
+
+        switch(strtolower($what['mime']))
+        {
+            case 'image/png':
+                $src_img = imagecreatefrompng($src);
+                $type = '.png';
+                break;
+            case 'image/jpeg':
+                $src_img = imagecreatefromjpeg($src);
+                $type = '.jpeg';
+                break;
+            case 'image/gif':
+                $src_img = imagecreatefromgif($src);
+                $type = '.gif';
+                break;
+
+        }
+
+        $filename = explode('.',basename($src));
+        $dst = './uploads/events/thumb/'.$filename[0].'_cropped'.$type;
+
+        if (!empty($src) && !empty($dst) && !empty($data))
+        {
+
+            if (!$src_img)
+            {
+                $response = Array(
+                    "status" => 'error',
+                    "message" => 'Failed to read the image file'
+                );
+            }
+            else
+            {
+                $size = getimagesize($src);
+                $size_w = $size[0]; // natural width
+                $size_h = $size[1]; // natural height
+
+                $src_img_w = $size_w;
+                $src_img_h = $size_h;
+
+                $degrees = $data['rotate'];
+
+                // Rotate the source image
+                if (is_numeric($degrees) && $degrees != 0) {
+                    // PHP's degrees is opposite to CSS's degrees
+                    $new_img = imagerotate( $src_img, -$degrees, imagecolorallocatealpha($src_img, 0, 0, 0, 127) );
+
+                    imagedestroy($src_img);
+                    $src_img = $new_img;
+
+                    $deg = abs($degrees) % 180;
+                    $arc = ($deg > 90 ? (180 - $deg) : $deg) * M_PI / 180;
+
+                    $src_img_w = $size_w * cos($arc) + $size_h * sin($arc);
+                    $src_img_h = $size_w * sin($arc) + $size_h * cos($arc);
+
+                    // Fix rotated image miss 1px issue when degrees < 0
+                    $src_img_w -= 1;
+                    $src_img_h -= 1;
+                }
+
+                $tmp_img_w = $data['width'];
+                $tmp_img_h = $data['height'];
+                $dst_img_w = 220;
+                $dst_img_h = 220;
+
+                $src_x = $data['x'];
+                $src_y = $data['y'];
+
+                if ($src_x <= -$tmp_img_w || $src_x > $src_img_w) {
+                    $src_x = $src_w = $dst_x = $dst_w = 0;
+                } else if ($src_x <= 0) {
+                    $dst_x = -$src_x;
+                    $src_x = 0;
+                    $src_w = $dst_w = min($src_img_w, $tmp_img_w + $src_x);
+                } else if ($src_x <= $src_img_w) {
+                    $dst_x = 0;
+                    $src_w = $dst_w = min($tmp_img_w, $src_img_w - $src_x);
+                }
+
+                if ($src_w <= 0 || $src_y <= -$tmp_img_h || $src_y > $src_img_h) {
+                    $src_y = $src_h = $dst_y = $dst_h = 0;
+                } else if ($src_y <= 0) {
+                    $dst_y = -$src_y;
+                    $src_y = 0;
+                    $src_h = $dst_h = min($src_img_h, $tmp_img_h + $src_y);
+                } else if ($src_y <= $src_img_h) {
+                    $dst_y = 0;
+                    $src_h = $dst_h = min($tmp_img_h, $src_img_h - $src_y);
+                }
+
+                // Scale to destination position and size
+                $ratio = $tmp_img_w / $dst_img_w;
+                $dst_x /= $ratio;
+                $dst_y /= $ratio;
+                $dst_w /= $ratio;
+                $dst_h /= $ratio;
+
+
+                $dst_img = imagecreatetruecolor($dst_img_w, $dst_img_h);
+
+                // Add transparent background to destination image
+                imagefill($dst_img, 0, 0, imagecolorallocatealpha($dst_img, 0, 0, 0, 127));
+                imagesavealpha($dst_img, true);
+
+                $result = imagecopyresampled($dst_img, $src_img, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+
+                if ($result)
+                {
+                    if (!imagepng($dst_img, $dst))
+                    {
+                        $response = Array(
+                            "status" => 'error',
+                            "message" => 'Failed to save the cropped image file'
+                        );
+                    }
+                }
+                else
+                {
+                    $response = Array(
+                        "status" => 'error',
+                        "message" => 'Failed to crop the image file'
+                    );
+                }
+
+                if(!myIsMultiArray($response))
+                {
+                    $response = Array(
+                        "status" => 'success',
+                        "url" => $dst
+                    );
+                }
+                imagedestroy($src_img);
+                imagedestroy($dst_img);
+                echo json_encode($response);
+            }
+        }
+    }*/
+
+    /*public function cropEventImage()
+    {
+        $post = $this->input->post()['data'];
 
         $imgUrl = $post['imgUrl'];
         // original sizes
-        $imgInitW = $post['imgInitW'];
-        $imgInitH = $post['imgInitH'];
+        $what = getimagesize($imgUrl);
+
+        $imgInitW = $what[0];
+        $imgInitH = $what[1];
 
         // resized sizes
-        $imgW = $post['imgW'];
-        $imgH = $post['imgH'];
+        $imgW = $post['width'];
+        $imgH = $post['height'];
 
         // offsets
-        $imgY1 = $post['imgY1'];
-        $imgX1 = $post['imgX1'];
+        $imgY1 = $post['y'];
+        $imgX1 = $post['x'];
 
         // crop box
-        $cropW = $post['cropW'];
-        $cropH = $post['cropH'];
+        $cropW = $post['cWidth'];
+        $cropH = $post['cHeight'];
 
         // rotation angle
-        $angle = $post['rotation'];
+        $angle = $post['rotate'];
 
         $jpeg_quality = 100;
 
         $filename = explode('.',basename($imgUrl));
         $output_filename = './uploads/events/thumb/'.$filename[0].'_cropped';
 
-        $what = getimagesize($imgUrl);
 
         switch(strtolower($what['mime']))
         {
@@ -480,7 +655,7 @@ class Dashboard extends MY_Controller {
 
         echo json_encode($response);
 
-    }
+    }*/
 
     public function uploadEventFiles()
     {

@@ -62,7 +62,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="cropContainerModal" class="hide"></div>
+                                        <div id="cropContainerModal" class="hide">
+                                            <i class="fa fa-times upload-img-close"></i>
+                                            <img id="img-container" src="" style="max-width:100%"/>
+                                        </div>
                                         <br>
                                         <div class="event-descrip-wrapper">
                                             <div class="event-header-name">Create an event</div>
@@ -366,7 +369,7 @@
                                         <div class="row">
                                             <div class="col-5"></div>
                                             <div class="col-90">
-                                                <input type="submit" onclick="fillEventImgs()" class="button button-big button-fill submit-event-btn" value="Update Event"/>
+                                                <input type="submit" class="button button-big button-fill submit-event-btn" value="Update Event"/>
                                             </div>
                                             <div class="col-5"></div>
                                         </div>

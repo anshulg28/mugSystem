@@ -8,7 +8,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery-clockpicker.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.swipebox.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/croppic.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/cropper.min.js"></script>
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/dialog-polyfill.js"></script>-->
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/js/jquery-ui.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/vex.combined.min.js"></script>

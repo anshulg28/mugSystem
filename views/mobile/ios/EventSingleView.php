@@ -94,7 +94,34 @@
                                             </div>
                                         </div>
                                         <div class="col-50">
-                                            <a href="<?php echo 'signup_list/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link event-bookNow">
+                                            <?php
+                                            if(isset($row['totalQuant']))
+                                            {
+                                                ?>
+                                                <a href="<?php echo 'signup_list/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link event-bookNow">
+                                                    <div class="card numbr-signup">
+                                                        <div class="card-content">
+                                                            <div class="card-content-inner">
+                                                                <label class="bigInfo"><?php
+                                                                    if(isset($row['totalQuant']))
+                                                                    {
+                                                                        echo $row['totalQuant'];
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        echo '0';
+                                                                    }
+                                                                    ?></label>
+                                                                <br> Signups
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
                                                 <div class="card numbr-signup">
                                                     <div class="card-content">
                                                         <div class="card-content-inner">
@@ -112,7 +139,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </a>
+                                                <?php
+                                            }
+                                            ?>
+
                                         </div>
                                     </div>
                                     <div class="list-block">
