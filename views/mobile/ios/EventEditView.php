@@ -40,11 +40,11 @@
                                 <div class="content-block event-wrapper">
                                     <form action="<?php echo base_url().'updateEvent';?>" id="eventSave" method="post" class="ajax-submit">
                                         <input type="hidden" name="eventId" value="<?php echo $row['eventId'];?>"/>
+                                        <input type="hidden" name="attachment" value="<?php echo $row['filename']; ?>"/>
                                         <div class="event-img-space"
                                              style="background:linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), 0 / cover url('<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>') no-repeat">
                                             <div class="event-img-before hide">
                                                 <input type="file" id="event-img-upload" onchange="uploadChange(this)" class="my-vanish"/>
-                                                <input type="hidden" name="attachment" value="<?php echo $row['filename']; ?>"/>
                                                 <!--<a href="#" class="button event-img-add-btn">
                                                     <i class="ic_add"></i>
                                                 </a>-->

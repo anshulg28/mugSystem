@@ -22,10 +22,10 @@
         <div class="page-content">
             <div class="content-block event-wrapper">
                 <form action="<?php echo base_url().'saveEvent';?>" id="eventSave" method="post" class="ajax-submit">
+                    <input type="hidden" name="attachment"/>
                     <div class="event-img-space" id="event-img-space">
                         <div class="event-img-before">
                             <input type="file" id="event-img-upload" onchange="uploadChange(this)" class="my-vanish"/>
-                            <input type="hidden" name="attachment"/>
                             <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-add-btn">
                                 <i class="ic_add"></i>
                             </button>
