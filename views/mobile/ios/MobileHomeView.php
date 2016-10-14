@@ -460,6 +460,15 @@
                                                                                             </div>
                                                                                             <?php
                                                                                         }
+                                                                                        elseif($row['source']['term_type'] == 'location')
+                                                                                        {
+                                                                                            $locs = $this->config->item('insta_locationMap');
+                                                                                            ?>
+                                                                                            <div class="item-subtitle"><?php echo $locs[$row['source']['term']];?>
+                                                                                                <time class="timeago time-stamp" datetime="<?php echo $row['created_at'];?>"></time>
+                                                                                            </div>
+                                                                                            <?php
+                                                                                        }
                                                                                         else
                                                                                         {
                                                                                             ?>

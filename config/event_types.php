@@ -7,6 +7,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Time: 4:16 PM
  */
 
+$config['insta_locationMap'] = array(
+    '1020175853' => 'Andheri Taproom',
+    '402256524' => 'Bandra Taproom',
+    '1741740822733140' => 'Kemps Taproom'
+);
 $config['phons'] = array(
     'Tresha' => '9820570311',
     'Priyanka' => '9920087855',

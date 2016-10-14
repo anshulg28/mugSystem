@@ -74,6 +74,11 @@ class curl_library
         $url = 'https://www.juicer.io/api/feeds/24816';
         return $this->getDataByGet($url, 30);
     }
+    public function getMoreInstaFeeds()
+    {
+        $url = 'https://www.juicer.io/api/feeds/31761';
+        return $this->getDataByGet($url, 30);
+    }
 
     /* Instamojo API */
 

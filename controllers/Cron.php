@@ -120,8 +120,8 @@ class Cron extends MY_Controller
     }
     public function getInstagramFeeds()
     {
-
         $instaFeeds = $this->curl_library->getInstagramPosts();
+        $moreInsta = $this->curl_library->getMoreInstaFeeds();
 
         if(!isset($instaFeeds) && !myIsMultiArray($instaFeeds))
         {
@@ -132,7 +132,30 @@ class Cron extends MY_Controller
             $instaFeeds = $instaFeeds['posts']['items'];
         }
 
-        return $instaFeeds;
+        if(!isset($moreInsta) && !myIsMultiArray($moreInsta))
+        {
+            $moreInsta = null;
+        }
+        else
+        {
+            $moreInsta = $moreInsta['posts']['items'];
+        }
+
+        if(myIsMultiArray($instaFeeds) && myIsMultiArray($moreInsta))
+        {
+            $totalFeeds = array_merge($instaFeeds,$moreInsta);
+            shuffle($totalFeeds);
+            if(count($totalFeeds) > 110)
+            {
+                $totalFeeds = array_slice($totalFeeds,0, 100);
+            }
+        }
+        else
+        {
+            $totalFeeds = (isset($instaFeeds) ? $instaFeeds : $moreInsta);
+        }
+
+        return $totalFeeds;
     }
 
     public function getFacebookResponse()
