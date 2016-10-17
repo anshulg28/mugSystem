@@ -396,7 +396,7 @@ class Dashboard extends MY_Controller {
 
     public function cropEventImage()
     {
-        $data = $this->input->post()['cropData'];
+        $data = $this->input->post()['data'];
         $src = $data['imgUrl'];
         $img = $data['imgData'];
         $img = str_replace('data:image/png;base64,', '', $img);

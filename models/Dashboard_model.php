@@ -477,6 +477,17 @@ class Dashboard_Model extends CI_Model
 
         return $result;
     }
+    public function getWeeklyEvents()
+    {
+        $query = "SELECT GROUP_CONCAT(eventName SEPARATOR ',') as eventNames,eventDate FROM eventmaster
+                  WHERE eventDate BETWEEN CURRENT_DATE() AND (CURRENT_DATE() + INTERVAL 1 WEEK) 
+                  AND ifActive  = ".ACTIVE." AND ifApproved = ".EVENT_APPROVED." GROUP BY eventDate 
+                  ORDER BY eventDate ASC";
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
     public function getAllApprovedEvents()
     {
         $query = "SELECT em.eventId, em.eventName, em.eventDescription, em.eventType, em.eventDate, em.startTime, em.endTime, em.costType, 

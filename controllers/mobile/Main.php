@@ -58,6 +58,29 @@ class Main extends MY_Controller {
         $data['myFeeds'] = $this->returnAllFeeds();
         $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
 
+        $weekEvents = $this->dashboard_model->getWeeklyEvents();
+        if(myIsMultiArray($weekEvents))
+        {
+            $oldWeek = $weekEvents;
+            $oldCount = 0;
+            foreach($weekEvents as $key => $row)
+            {
+                $onlyDates[] = $row['eventDate'];
+            }
+            for($i=0;$i<8;$i++)
+            {
+                if(myInArray(date('Y-m-d',strtotime('+'.$i.' day')),$onlyDates) === false)
+                {
+                    $weekEvents[$i] = null;
+                }
+                else
+                {
+                    $weekEvents[$i] = $oldWeek[$oldCount];
+                    $oldCount++;
+                }
+            }
+            $data['weekEvents'] = $weekEvents;
+        }
         $events = $this->dashboard_model->getAllApprovedEvents();
         usort($events,
             function($a, $b) {
