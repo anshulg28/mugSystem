@@ -337,6 +337,31 @@ class Dashboard extends MY_Controller {
         redirect(base_url().'dashboard');
 
     }
+
+    public function beerLocation($fnbId)
+    {
+        $locRecord = $this->dashboard_model->getTagLocsFnb($fnbId);
+        if(isset($locRecord) && myIsMultiArray($locRecord))
+        {
+            $data['status'] = true;
+            $data['locData'] = $locRecord;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+        echo json_encode($data);
+    }
+    public function fnbTagSet($fnbId)
+    {
+        $post = $this->input->post();
+
+        $this->dashboard_model->updateBeerLocTag($post,$fnbId);
+
+        $data['status'] = true;
+        echo json_encode($data);
+
+    }
     public function uploadFiles()
     {
         $attchmentArr = '';

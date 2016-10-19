@@ -511,6 +511,15 @@
                                             <td><?php echo $row['fnb']['priceHalf'];?></td>
                                             <td>
                                                 <?php
+                                                if($row['fnb']['itemType'] == "2")
+                                                {
+                                                    ?>
+                                                    <a data-toggle="tooltip" class="beer-tags" title="Tag Location" href="#" data-fnbId="<?php echo $row['fnb']['fnbId'];?>">
+                                                        <i class="fa fa-15x fa-tags my-success-text"></i></a>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
                                                 if($row['fnb']['ifActive'] == ACTIVE)
                                                 {
                                                     ?>
@@ -1068,6 +1077,53 @@
                     }
                     ?>
                     <canvas id="feedWeekly-canvas" class="mygraphs"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="beerLoc-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Tag Beer Location</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <input type="hidden" id="fnbId" value=""/>
+                    <label>Tagged Locations</label>
+                    <div class="tagged-locations">
+
+                    </div>
+                    <hr>
+
+                    <div class="beer-loc-select">
+                        <label>Available Locations</label>
+                        <ul class="list-inline">
+                            <?php
+                            if(isset($locations))
+                            {
+                                foreach($locations as $key => $row)
+                                {
+                                    if(isset($row['id']))
+                                    {
+                                        ?>
+                                        <li data-value="<?php echo $row['id'];?>"><?php echo $row['locName'];?></li>
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <br>
+                    <button type="button" class="btn btn-primary save-fnb-tags">Save</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1961,7 +2017,7 @@
 </script>
 
 <script>
-    CKEDITOR.replace( 'itemDesc' );
+    //CKEDITOR.replace( 'itemDesc' );
     function toggleHalf(ele)
     {
         if($(ele).is(':checked'))
@@ -1998,7 +2054,6 @@
     var filesArr = [];
     function uploadChange(ele)
     {
-
         $('button[type="submit"]').attr('disabled','true');
         $('.progress').removeClass('hide');
         var xhr = [];
@@ -2036,6 +2091,118 @@
     {
         $('input[name="attachment"]').val(filesArr.join());
     }
+    $(document).on('click', '.beer-tags', function(){
+        $('#beerLoc-modal .modal-body .tagged-locations').empty();
+        $('#beerLoc-modal .beer-loc-select ul li').each(function(i,val){
+            if($(val).hasClass('hide'))
+            {
+                $(val).removeClass('hide');
+            }
+        });
+        beerLocs = [];
+        var fnbId = $(this).attr('data-fnbId');
+        $('#beerLoc-modal #fnbId').val(fnbId);
+        showCustomLoader();
+        $.ajax({
+            type:'GET',
+            dataType:"json",
+            url:base_url+'/dashboard/beerLocation/'+fnbId,
+            success: function(data){
+                hideCustomLoader();
+                if(data.status === true)
+                {
+                    var newHtml = '<ul class="list-inline">';
+                    for(var i=0;i<data.locData.length;i++)
+                    {
+                        beerLocs.push(data.locData[i].id);
+                        newHtml += '<li class="loc-info" data-value="'+data.locData[i].id+'"><span>'+data.locData[i].locName+'</span>'+
+                                '<i class="fa fa-times"></i></li>';
+                        $('#beerLoc-modal .beer-loc-select ul li').each(function(h,val){
+                            if($(val).attr('data-value') == data.locData[i].id)
+                            {
+                                $(val).addClass('hide');
+                            }
+
+                        });
+                    }
+                    newHtml += '</ul>';
+                    $('#beerLoc-modal .modal-body .tagged-locations').html(newHtml);
+                }
+                $('#beerLoc-modal').modal('show');
+            },
+            error: function(){
+                hideCustomLoader();
+                bootbox.alert('Some Error Occurred!');
+            }
+        });
+    });
+
+    var beerLocs = [];
+    $(document).on('click','#beerLoc-modal .beer-loc-select ul li', function(){
+        var locVal = $(this).attr('data-value');
+        beerLocs.push(locVal);
+        $(this).addClass('hide');
+        var tagLocHtml = '';
+        if($('#beerLoc-modal .modal-body .tagged-locations ul').length == 0)
+        {
+            tagLocHtml += '<ul class="list-inline"><li class="loc-info" data-value="'+locVal+'"><span>'+$(this).html()+'&nbsp;</span>'+
+                    '<i class="fa fa-times"></i></li></ul>';
+            $('#beerLoc-modal .modal-body .tagged-locations').html(tagLocHtml);
+        }
+        else
+        {
+            tagLocHtml += '<li class="loc-info" data-value="'+locVal+'"><span>'+$(this).html()+'</span>'+
+                '<i class="fa fa-times"></i></li>';
+            $('#beerLoc-modal .modal-body .tagged-locations ul').append(tagLocHtml);
+        }
+    });
+    $(document).on('click','#beerLoc-modal .loc-info i', function(){
+        var locVal = $(this).parent().attr('data-value');
+        beerLocs.splice( $.inArray(locVal,beerLocs) ,1 );
+        $(this).parent().addClass('hide');
+
+        $('#beerLoc-modal .beer-loc-select ul li').each(function(i,val){
+            console.log(locVal);
+            if($(val).attr('data-value') == locVal)
+            {
+                $(val).removeClass('hide');
+            }
+        });
+    });
+    $(document).on('click',".save-fnb-tags", function () {
+        if(typeof beerLocs[0] != 'undefined')
+        {
+            showCustomLoader();
+            var postData = {'taggedLoc':beerLocs.join(',')};
+
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:base_url+'dashboard/fnbTagSet/'+$('#beerLoc-modal #fnbId').val(),
+                data:postData,
+                success: function(data){
+                    hideCustomLoader();
+                    if(data.status === true)
+                    {
+                        $('#beerLoc-modal').modal('hide');
+                    }
+                    else
+                    {
+                        bootbox.alert('Some Error Occurred!');
+                    }
+
+                },
+                error: function(){
+                    hideCustomLoader();
+                    bootbox.alert('Some Error Occurred!');
+                }
+            });
+        }
+        else
+        {
+            $('#beerLoc-modal').modal('hide');
+        }
+    });
 </script>
 
 <script>

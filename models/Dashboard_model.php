@@ -385,6 +385,24 @@ class Dashboard_Model extends CI_Model
         return $result;
     }
 
+    public function getTagLocsFnb($fnbId)
+    {
+        $query = "SELECT fm.taggedLoc,lm.locName, lm.id
+                  FROM fnbmaster fm
+                  LEFT JOIN locationmaster lm ON FIND_IN_SET(lm.id,fm.taggedLoc)
+                  WHERE fm.taggedLoc IS NOT NULL AND fm.fnbId = ".$fnbId;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+    public function updateBeerLocTag($details, $fnbId)
+    {
+        $this->db->where('fnbId',$fnbId);
+        $this->db->update('fnbmaster', $details);
+        return true;
+    }
+
     public function getFnbAttById($id)
     {
         $query = "SELECT id,fnbId,filename,attachmentType
