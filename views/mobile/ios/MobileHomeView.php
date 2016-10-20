@@ -78,7 +78,7 @@
                         <span class="mdl-list__item-primary-content">
                             <i class="fa fa-music mdl-list__item-icon"></i>
                             <!--<i class="material-icons mdl-list__item-icon">music_note</i>-->
-                            Music
+                            Jukebox
                         </span>
                     </a>
                 </li>
@@ -620,48 +620,54 @@
                                     <!-- Calendar Cards -->
                                     <div class="row">
                                         <div class="col-100">
-                                            <div class="my-flipster">
-                                                <ul id="index_cards">
+                                            <div class="swiper-container my-cal-glance">
+                                                <div class="swiper-pagination"></div>
+                                                <div class="swiper-wrapper">
                                                     <?php
                                                     for($i=0;$i<8;$i++)
                                                     {
                                                         if(isset($weekEvents[$i]))
                                                         {
                                                             ?>
-                                                            <li>
+                                                            <div class="swiper-slide">
                                                                 <h3><?php echo date('D, d',strtotime('+'.$i.' day'));?></h3>
                                                                 <p>
                                                                     <?php
-                                                                        $events = explode(',',$weekEvents[$i]['eventNames']);
+                                                                    $events = explode(',',$weekEvents[$i]['eventNames']);
                                                                     foreach($events as $eveName)
                                                                     {
                                                                         $shortName = (strlen($eveName) > 13) ? substr($eveName, 0, 13) . '..' : $eveName;
                                                                         ?>
                                                                         <span class="chip">
-                                                                            <span class="chip-label"><?php echo $eveName;?></span>
-                                                                        </span><br>
+                                                                        <span class="chip-label"><?php echo $eveName;?></span>
+                                                                    </span><br>
                                                                         <?php
                                                                     }
                                                                     ?>
                                                                 </p>
-                                                            </li>
+                                                            </div>
                                                             <?php
                                                         }
                                                         else
                                                         {
                                                             ?>
-                                                            <li>
+                                                            <div class="swiper-slide">
                                                                 <h3><?php echo date('D, d',strtotime('+'.$i.' day'));?></h3>
                                                                 <p>
                                                                     No Events
                                                                 </p>
-                                                            </li>
+                                                            </div>
                                                             <?php
                                                         }
                                                     }
                                                     ?>
-                                                </ul>
+                                                </div>
                                             </div>
+                                            <!--<div class="my-flipster">
+                                                <ul id="index_cards">
+
+                                                </ul>
+                                            </div>-->
                                         </div>
                                     </div>
                                     <br>

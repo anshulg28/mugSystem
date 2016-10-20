@@ -41,6 +41,13 @@
                         </div>
                     </div>
                     <div id="cropContainerModal" class="hide">
+                        <div class="done-overlay hide">
+                            <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-overlay-remove">
+                                <i class="ic_add"></i>
+                                <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+                            </button>
+                        </div>
+                        <i class="fa fa-check upload-done-icon"></i>
                         <i class="fa fa-times upload-img-close"></i>
                         <img id="img-container" src="" style="max-width:100%"/>
                     </div>
