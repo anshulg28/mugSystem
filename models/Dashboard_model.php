@@ -365,7 +365,7 @@ class Dashboard_Model extends CI_Model
     }
     public function getAllActiveFnB()
     {
-        $query = "SELECT fm.fnbId,fm.itemType,fm.itemName,fm.itemDescription,fm.priceFull,fm.priceHalf,
+        $query = "SELECT fm.fnbId,fm.itemType,fm.taggedLoc,fm.itemName,fm.itemDescription,fm.priceFull,fm.priceHalf,
                   fm.ifActive,fa.id,fa.filename
                   FROM fnbmaster fm
                   LEFT JOIN fnbattachment fa ON fa.fnbId = fm.fnbId

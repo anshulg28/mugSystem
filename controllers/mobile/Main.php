@@ -57,6 +57,7 @@ class Main extends MY_Controller {
 
         $data['myFeeds'] = $this->returnAllFeeds();
         $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
+        $data['mainLocs'] = $this->locations_model->getAllLocations();
 
         $weekEvents = $this->dashboard_model->getWeeklyEvents();
         if(myIsMultiArray($weekEvents))

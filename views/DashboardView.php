@@ -2017,7 +2017,7 @@
 </script>
 
 <script>
-    //CKEDITOR.replace( 'itemDesc' );
+    CKEDITOR.replace( 'itemDesc' );
     function toggleHalf(ele)
     {
         if($(ele).is(':checked'))

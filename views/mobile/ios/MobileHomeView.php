@@ -599,6 +599,9 @@
                             <i class="fa fa-minus color-black"></i>-->
                         </a>
                     </div>
+                    <div class="right">
+                        <i class="ic_filter_icon open-popover event-filter-toggler" data-popover=".popover-event-filter"></i>
+                    </div>
                     <!--<div class="center sliding">Doolally</div>-->
                 </div>
             </div>
@@ -665,110 +668,117 @@
                                     <?php
                                 }
                             ?>
-                            <?php
-                            if(isset($eventDetails) && myIsMultiArray($eventDetails))
-                            {
-                                $postImg = 0;
-                                foreach($eventDetails as $key => $row)
+                            <div class="event-section">
+                                <?php
+                                if(isset($eventDetails) && myIsMultiArray($eventDetails))
                                 {
-                                    $img_collection = array();
-                                    ?>
-                                    <div class="card demo-card-header-pic">
-                                        <div class="row no-gutter">
-                                            <div class="col-100"> <!--more-photos-wrapper-->
-                                                <?php
-                                                if($postImg >=5)
-                                                {
-                                                    $img_collection[] = base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];
-                                                    ?>
-                                                    <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
-                                                        <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];?>" class="mainFeed-img"/>
-                                                    </a>
+                                    $postImg = 0;
+                                    foreach($eventDetails as $key => $row)
+                                    {
+                                        $img_collection = array();
+                                        ?>
+                                        <div class="card demo-card-header-pic <?php
+                                            if(isset($row['eventData']['eventPlace']))
+                                            {
+                                                echo 'eve-'.$row['eventData']['eventPlace'];
+                                            }
+                                            ?>">
+                                            <div class="row no-gutter">
+                                                <div class="col-100"> <!--more-photos-wrapper-->
                                                     <?php
-                                                }
-                                                else
-                                                {
-                                                    $img_collection[] = base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];
-                                                    ?>
-                                                    <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
-                                                        <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
-                                                    </a>
-                                                    <?php
-                                                }
-                                                $postImg++;
-                                                if(myIsArray($img_collection))
-                                                {
-                                                    ?>
-                                                    <input type="hidden" class="imgs_collection"
-                                                           value="<?php echo implode(',',$img_collection); ?>"/>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-                                        <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
-                                        <div class="card-content">
-                                            <div class="card-content-inner">
-                                                <div class="event-info-wrapper">
-                                                    <p class="pull-left card-ptag event-date-tag">
-                                                        <?php
-                                                        $eventName = (strlen($row['eventData']['eventName']) > 25) ? substr($row['eventData']['eventName'], 0, 25) . '..' : $row['eventData']['eventName'];
-                                                        echo $eventName;
-                                                        ?>
-                                                    </p>
-                                                    <input type="hidden" data-name="<?php echo $row['eventData']['eventName'];?>" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
-                                                    <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
-                                                </div>
-
-                                                <div class="comment clear">
-                                                    <?php echo $row['eventData']['eventDescription'];?>
-                                                    <p>
-                                                        <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['eventData']['locName']; ?>
-                                                        &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
-                                                        <?php $d = date_create($row['eventData']['eventDate']);
-                                                            echo date_format($d,EVENT_DATE_FORMAT); ?>
-                                                        &nbsp;&nbsp;<i class="ic_me_rupee_icon main-rupee-icon"></i>
-                                                        <?php
-                                                        switch($row['eventData']['costType'])
-                                                        {
-                                                            case "1":
-                                                                echo "Free";
-                                                                break;
-                                                            case "2":
-                                                                echo 'Rs '.$row['eventData']['eventPrice'];
-                                                                break;
-                                                        }
-                                                        ?>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer event-card-footer">
-                                            <!--<span class="event-new-notify">
-                                                <?php
-        /*                                            switch($row['eventData']['costType'])
+                                                    if($postImg >=5)
                                                     {
-                                                        case "1":
-                                                            echo "Free";
-                                                            break;
-                                                        case "2":
-                                                            echo 'Rs '.$row['eventData']['eventPrice'];
-                                                            break;
+                                                        $img_collection[] = base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];
+                                                        ?>
+                                                        <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
+                                                            <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];?>" class="mainFeed-img"/>
+                                                        </a>
+                                                        <?php
                                                     }
-                                                */?>
+                                                    else
+                                                    {
+                                                        $img_collection[] = base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];
+                                                        ?>
+                                                        <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>">
+                                                            <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['eventData']['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                        </a>
+                                                        <?php
+                                                    }
+                                                    $postImg++;
+                                                    if(myIsArray($img_collection))
+                                                    {
+                                                        ?>
+                                                        <input type="hidden" class="imgs_collection"
+                                                               value="<?php echo implode(',',$img_collection); ?>"/>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
+                                            <div class="card-content">
+                                                <div class="card-content-inner">
+                                                    <div class="event-info-wrapper">
+                                                        <p class="pull-left card-ptag event-date-tag">
+                                                            <?php
+                                                            $eventName = (strlen($row['eventData']['eventName']) > 25) ? substr($row['eventData']['eventName'], 0, 25) . '..' : $row['eventData']['eventName'];
+                                                            echo $eventName;
+                                                            ?>
+                                                        </p>
+                                                        <input type="hidden" data-name="<?php echo $row['eventData']['eventName'];?>" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
+                                                        <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
+                                                    </div>
+
+                                                    <div class="comment clear">
+                                                        <?php echo $row['eventData']['eventDescription'];?>
+                                                        <p>
+                                                            <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['eventData']['locName']; ?>
+                                                            &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
+                                                            <?php $d = date_create($row['eventData']['eventDate']);
+                                                            echo date_format($d,EVENT_DATE_FORMAT); ?>
+                                                            &nbsp;&nbsp;<i class="ic_me_rupee_icon main-rupee-icon"></i>
+                                                            <?php
+                                                            switch($row['eventData']['costType'])
+                                                            {
+                                                                case "1":
+                                                                    echo "Free";
+                                                                    break;
+                                                                case "2":
+                                                                    echo 'Rs '.$row['eventData']['eventPrice'];
+                                                                    break;
+                                                            }
+                                                            ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer event-card-footer">
+                                                <!--<span class="event-new-notify">
+                                                <?php
+                                                /*                                            switch($row['eventData']['costType'])
+                                                                                            {
+                                                                                                case "1":
+                                                                                                    echo "Free";
+                                                                                                    break;
+                                                                                                case "2":
+                                                                                                    echo 'Rs '.$row['eventData']['eventPrice'];
+                                                                                                    break;
+                                                                                            }
+                                                                                        */?>
                                             </span>-->
-                                            <!--<a href="#" class="link color-black event-card-share-btn">Share</a>-->
-                                            <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;Event</a>
+                                                <!--<a href="#" class="link color-black event-card-share-btn">Share</a>-->
+                                                <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;Event</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <?php
+                                        <?php
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                echo 'No Items Found!';
-                            }
-                            ?>
+                                else
+                                {
+                                    echo 'No Items Found!';
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -790,6 +800,9 @@
                         </a>
                     </div>
                     <!--<div class="center sliding">F & B</div>-->
+                    <div class="right">
+                        <i class="ic_filter_icon open-popover beer-filter-toggler" data-popover=".popover-filters"></i>
+                    </div>
                 </div>
             </div>
             <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -798,15 +811,34 @@
                 <div class="page" data-page="menusPage">
                     <!-- Scrollable page content -->
                     <div class="page-content" id="my-page3">
-                        <div class="content-block">
+                        <div class="content-block fnb-section">
                             <?php
                                 if(isset($fnbItems) && myIsMultiArray($fnbItems))
                                 {
                                     $postImg = 0;
                                     foreach($fnbItems as $key => $row)
                                     {
+                                        $freecard = true;
+                                        $locClass = array();
+                                        if($row['itemType'] == ITEM_BEVERAGE && isset($row['taggedLoc']))
+                                        {
+                                            $freecard = false;
+                                            $locClass = explode(',',$row['taggedLoc']);
+                                        }
                                         ?>
-                                        <div class="card demo-card-header-pic">
+                                        <div class="card demo-card-header-pic <?php
+                                            if($freecard === false)
+                                            {
+                                                if(myIsArray($locClass))
+                                                {
+                                                    foreach($locClass as $key)
+                                                    {
+                                                        $cat = $key;
+                                                        echo ' category-'.$key;
+                                                    }
+                                                }
+                                            }
+                                        ?>">
                                             <div class="row no-gutter">
                                                 <div class="col-100 more-photos-wrapper">
                                                     <?php
@@ -959,6 +991,76 @@
                             </div>
                         </div>
                     </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="popover popover-filters">
+        <div class="popover-angle"></div>
+        <div class="popover-inner">
+            <p>Filter Location
+            <i class="fa fa-times pull-right clear-beer-filter hide"></i></p>
+            <div class="list-block inset">
+                <ul>
+                    <?php
+                        if(isset($mainLocs) && myIsMultiArray($mainLocs) && $mainLocs['status'] == true)
+                        {
+                            foreach($mainLocs as $key => $row)
+                            {
+                                if(isset($row['id']))
+                                {
+                                    ?>
+                                    <li>
+                                        <div class="item-inner">
+                                            <div class="item-title"><?php echo $row['locName'];?></div>
+                                            <div class="item-after">
+                                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-<?php echo $row['id'];?>">
+                                                    <input type="radio" id="option-<?php echo $row['id'];?>" class="mdl-radio__button" name="beer-locations" value="<?php echo $row['id'];?>">
+                                                    <span class="mdl-radio__label"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php
+                                }
+                            }
+                        }
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="popover popover-event-filter">
+        <div class="popover-angle"></div>
+        <div class="popover-inner">
+            <p>Filter Location
+                <i class="fa fa-times pull-right clear-event-filter hide"></i></p>
+            <div class="list-block inset">
+                <ul>
+                    <?php
+                    if(isset($mainLocs) && myIsMultiArray($mainLocs) && $mainLocs['status'] == true)
+                    {
+                        foreach($mainLocs as $key => $row)
+                        {
+                            if(isset($row['id']))
+                            {
+                                ?>
+                                <li>
+                                    <div class="item-inner">
+                                        <div class="item-title"><?php echo $row['locName'];?></div>
+                                        <div class="item-after">
+                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="even-<?php echo $row['id'];?>">
+                                                <input type="radio" id="even-<?php echo $row['id'];?>" class="mdl-radio__button" name="event-locations" value="<?php echo $row['id'];?>">
+                                                <span class="mdl-radio__label"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php
+                            }
+                        }
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
