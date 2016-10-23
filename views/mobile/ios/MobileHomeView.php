@@ -617,63 +617,23 @@
                                 if(isset($weekEvents) && myIsMultiArray($weekEvents))
                                 {
                                     ?>
-                                    <!-- Calendar Cards -->
-                                    <div class="row">
-                                        <div class="col-100">
-                                            <div class="swiper-container my-cal-glance">
-                                                <div class="swiper-pagination"></div>
-                                                <div class="swiper-wrapper">
-                                                    <?php
-                                                    for($i=0;$i<8;$i++)
-                                                    {
-                                                        if(isset($weekEvents[$i]))
-                                                        {
-                                                            ?>
-                                                            <div class="swiper-slide">
-                                                                <h3><?php echo date('D, d',strtotime('+'.$i.' day'));?></h3>
-                                                                <p>
-                                                                    <?php
-                                                                    $events = explode(',',$weekEvents[$i]['eventNames']);
-                                                                    foreach($events as $eveName)
-                                                                    {
-                                                                        $shortName = (strlen($eveName) > 13) ? substr($eveName, 0, 13) . '..' : $eveName;
-                                                                        ?>
-                                                                        <span class="chip">
-                                                                        <span class="chip-label"><?php echo $eveName;?></span>
-                                                                    </span><br>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
-                                                                </p>
-                                                            </div>
-                                                            <?php
-                                                        }
-                                                        else
-                                                        {
-                                                            ?>
-                                                            <div class="swiper-slide">
-                                                                <h3><?php echo date('D, d',strtotime('+'.$i.' day'));?></h3>
-                                                                <p>
-                                                                    No Events
-                                                                </p>
-                                                            </div>
-                                                            <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                            <!--<div class="my-flipster">
-                                                <ul id="index_cards">
-
-                                                </ul>
-                                            </div>-->
-                                        </div>
-                                    </div>
-                                    <br>
+                                    <ul class="hide even-cal-list">
+                                        <?php
+                                        foreach($weekEvents as $key => $row)
+                                        {
+                                            ?>
+                                                <li data-evenDate="<?php echo $row['eventDate'];?>"
+                                                    data-evenNames="<?php echo $row['eventNames'];?>"
+                                                    data-evenPlaces="<?php echo $row['eventPlaces'];?>">
+                                                </li>
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
                                     <?php
                                 }
                             ?>
+                            <div id='calendar-glance'></div>
                             <div class="event-section">
                                 <?php
                                 if(isset($eventDetails) && myIsMultiArray($eventDetails))

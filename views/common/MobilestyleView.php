@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jssocials-theme-minima.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/swipebox.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/cropper.min.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/jquery.flipster.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/fullcalendar.min.css">
 <!--<link rel="stylesheet" href="<?php /*echo base_url(); */?>asset/mobile/css/dialog-polyfill.css">-->
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/vex.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>asset/mobile/css/vex-theme-plain.css">

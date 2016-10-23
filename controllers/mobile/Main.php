@@ -59,8 +59,8 @@ class Main extends MY_Controller {
         $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
         $data['mainLocs'] = $this->locations_model->getAllLocations();
 
-        $weekEvents = $this->dashboard_model->getWeeklyEvents();
-        if(myIsMultiArray($weekEvents))
+        $data['weekEvents'] = $this->dashboard_model->getWeeklyEvents();
+        /*if(myIsMultiArray($weekEvents))
         {
             $oldWeek = $weekEvents;
             $oldCount = 0;
@@ -81,7 +81,7 @@ class Main extends MY_Controller {
                 }
             }
             $data['weekEvents'] = $weekEvents;
-        }
+        }*/
         $events = $this->dashboard_model->getAllApprovedEvents();
         usort($events,
             function($a, $b) {

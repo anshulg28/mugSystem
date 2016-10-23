@@ -98,6 +98,23 @@
                                                 <textarea class="mdl-textfield__input" type="text" rows= "3" id="eventDesc" name="eventDescription"><?php echo $row['eventDescription'];?></textarea>
                                                 <label class="mdl-textfield__label" for="eventDesc">Describe your event</label>
                                             </div>
+                                            <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" placeholder="Date of Event" readonly
+                                                   value="<?php echo $row['eventDate'];?>">
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="input-group clockpicker" id="startTime">
+                                                        <input type="text" class="mdl-textfield__input" name="startTime" placeholder="Start Time" readonly
+                                                               value="<?php echo $row['startTime'];?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div class="input-group clockpicker" id="endTime">
+                                                        <input type="text" class="mdl-textfield__input" name="endTime" placeholder="End Time" readonly
+                                                               value="<?php echo $row['endTime'];?>">
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="list-block">
                                                 <ul>
                                                     <li>
@@ -179,24 +196,6 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                            </div>
-
-                                            <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" placeholder="Date of Event" readonly
-                                                   value="<?php echo $row['eventDate'];?>">
-                                            <br>
-                                            <div class="row">
-                                                <div class="col-50">
-                                                    <div class="input-group clockpicker" id="startTime">
-                                                        <input type="text" class="mdl-textfield__input" name="startTime" placeholder="Start Time" readonly
-                                                               value="<?php echo $row['startTime'];?>">
-                                                    </div>
-                                                </div>
-                                                <div class="col-50">
-                                                    <div class="input-group clockpicker" id="endTime">
-                                                        <input type="text" class="mdl-textfield__input" name="endTime" placeholder="End Time" readonly
-                                                               value="<?php echo $row['endTime'];?>">
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="event-header-name">Is the event Free or Paid?</div>
 

@@ -497,7 +497,8 @@ class Dashboard_Model extends CI_Model
     }
     public function getWeeklyEvents()
     {
-        $query = "SELECT GROUP_CONCAT(eventName SEPARATOR ',') as eventNames,eventDate FROM eventmaster
+        $query = "SELECT GROUP_CONCAT(eventName SEPARATOR ',') as eventNames,
+                  GROUP_CONCAT(eventPlace SEPARATOR ',') as eventPlaces,eventDate FROM eventmaster
                   WHERE eventDate BETWEEN CURRENT_DATE() AND (CURRENT_DATE() + INTERVAL 1 WEEK) 
                   AND ifActive  = ".ACTIVE." AND ifApproved = ".EVENT_APPROVED." GROUP BY eventDate 
                   ORDER BY eventDate ASC";
