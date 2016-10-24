@@ -29,7 +29,7 @@
                             <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-add-btn">
                                 <i class="ic_add"></i>
                             </button>
-                            <p class="add-img-caption">Add a cover photo<br> The image must be at least 1080 x 540 pixels</p>
+                            <p class="add-img-caption">Add a cover photo<!--<br> The image must be at least 1080 x 540 pixels--></p>
                         </div>
                         <div class="event-img-after hide">
                             <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-remove hide">
@@ -125,7 +125,7 @@
                                     <a href="#" class="item-link smart-select" data-back-on-select="true">
                                         <!-- select -->
                                         <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
-                                            <!--<option value=""></option>-->
+                                            <option value="">Select</option>
                                             <?php
                                             if(isset($locData))
                                             {
@@ -206,21 +206,25 @@
                             <label class="col-100">Need Accessories: </label>
                             <div class="col-100">
                                 <ul class="my-mainMenuList">
-                                    <li id="micWrapper" disabled="disabled">
-                                        <span class="ic_disabled"></span>
-                                        <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1" />
-                                        <label for="ifMicRequired">
-                                            <i class="ic_mic_icon"></i>
-                                            <span>Microphone</span>
-                                        </label>
-                                    </li>
-                                    <li id="projWrapper" disabled="disabled">
-                                        <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1" />
-                                        <label for="ifProjectorRequired">
-                                            <i class="ic_projector_icon"></i>
-                                            <span>Projector</span>
-                                        </label>
-                                    </li>
+                                    <div class="micDiv">
+                                        <li id="micWrapper" disabled="disabled">
+                                            <span class="ic_disabled"></span>
+                                            <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1" />
+                                            <label for="ifMicRequired">
+                                                <i class="ic_mic_icon"></i>
+                                                <span>Microphone</span>
+                                            </label>
+                                        </li>
+                                    </div>
+                                    <div class="projDiv">
+                                        <li id="projWrapper" disabled="disabled">
+                                            <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1" />
+                                            <label for="ifProjectorRequired">
+                                                <i class="ic_projector_icon"></i>
+                                                <span>Projector</span>
+                                            </label>
+                                        </li>
+                                    </div>
                                 </ul>
                                 <!--<label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="ifMicRequired">
                                     <input type="checkbox" id="ifMicRequired" class="mdl-icon-toggle__input" name="ifMicRequired" value="1">

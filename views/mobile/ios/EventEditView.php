@@ -51,7 +51,7 @@
                                                 <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-add-btn">
                                                     <i class="ic_add"></i>
                                                 </button>
-                                                <p class="add-img-caption">Add a cover photo<br> The image must be at least 1080 x 540 pixels</p>
+                                                <p class="add-img-caption">Add a cover photo<!--<br> The image must be at least 1080 x 540 pixels--></p>
                                             </div>
                                             <div class="event-img-after">
                                                 <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-remove">
@@ -144,7 +144,8 @@
                                                     <li>
                                                         <a href="#" class="item-link smart-select" data-back-on-select="true">
                                                             <!-- select -->
-                                                            <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
+                                                            <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">4
+                                                                <option value="">Select</option>
                                                                 <?php
                                                                 if(isset($locData))
                                                                 {

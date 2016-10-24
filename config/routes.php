@@ -101,3 +101,4 @@ $route['signup_list/(:any)/(:any)'] = 'mobile/main/signupList/$1/$2';
 $route['mobile/renderLink'] = 'mobile/main/renderLink';
 $route['saveEvent'] = 'mobile/main/saveEvent';
 $route['updateEvent'] = 'mobile/main/updateEvent';
+$route['checkEventSpace'] = 'mobile/main/checkEventSpace';

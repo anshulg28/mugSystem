@@ -122,6 +122,9 @@
                             <i class="fa fa-minus"></i>-->
                         </a>
                     </div>
+                    <div class="right">
+                        <i class="ic_filter_icon open-popover event-filter-toggler" data-popover=".popover-links"></i>
+                    </div>
                     <!--<div class="center sliding">events</div>-->
                 </div>
             </div>
@@ -910,11 +913,11 @@
         </div>
     </div>
     <!-- Colored FAB button with ripple -->
-    <button data-popover=".popover-links"
+<!--    <button data-popover=".popover-links"
             class="open-popover mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored my-fab-btn hide">
         <i class="popover-toggle-on fa fa-filter"></i>
         <i class="popover-toggle-off fa fa-times"></i>
-    </button>
+    </button>-->
     <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-fab-btn hide">
         <i class="ic_add"></i>
     </button>

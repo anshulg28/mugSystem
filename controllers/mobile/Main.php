@@ -484,6 +484,27 @@ class Main extends MY_Controller {
         $data['status'] = true;
         echo json_encode($data);
     }
+    public function checkEventSpace()
+    {
+        $post = $this->input->post();
+        $Edetails = array(
+            "startTime" => $post['startTime'],
+            "endTime" => $post['endTime'],
+            "eventPlace" => $post['eventPlace'],
+            "eventDate" => $post['eventDate']
+        );
+        $eventSpace = $this->dashboard_model->checkEventSpace($Edetails);
+        if($eventSpace['status'] === true)
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Sorry, This time slot is already booked!';
+        }
+        else
+        {
+            $data['status'] = true;
+        }
+        echo json_encode($data);
+    }
     public function saveEvent()
     {
         $isUserCreated = false;

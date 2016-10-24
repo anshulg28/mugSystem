@@ -785,21 +785,24 @@ class Dashboard extends MY_Controller {
             $eventDetail['senderEmail'] = $senderEmail;
             $this->sendemail_library->eventApproveMail($eventDetail);
             $details = array();
-            if(isset($donePost['link']['shorturl']))
+            if(isset($donePost['link']))
             {
-                $details = array(
-                    'eventPaymentLink' => $donePost['link']['shorturl'],
-                    'eventSlug' => $donePost['link']['slug']
-                );
+                if(isset($donePost['link']['shorturl']))
+                {
+                    $details = array(
+                        'eventPaymentLink' => $donePost['link']['shorturl'],
+                        'eventSlug' => $donePost['link']['slug']
+                    );
+                }
+                else
+                {
+                    $details = array(
+                        'eventPaymentLink' => $donePost['link']['url'],
+                        'eventSlug' => $donePost['link']['slug']
+                    );
+                }
+                $this->dashboard_model->updateEventRecord($details, $eventDetail[0]['eventId']);
             }
-            else
-            {
-                $details = array(
-                    'eventPaymentLink' => $donePost['link']['url'],
-                    'eventSlug' => $donePost['link']['slug']
-                );
-            }
-            $this->dashboard_model->updateEventRecord($details, $eventDetail[0]['eventId']);
         }
 
     }

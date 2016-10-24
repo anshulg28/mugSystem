@@ -170,9 +170,9 @@
             var el = $$(e.target);
             var page = el.closest(".page-content");
             var elTop = el.offset().top; //do correction if input at near or below middle of screen
-            if(elTop > page.height() / 2 - 20 )
+            if(elTop > (page.height() / 2) )
             {
-                var delta = page.offset().top + elTop - $$(".statusbar-overlay").height() * (myApp.device.ios?2:1) - $$(".navbar").height();
+                var delta = page.offset().top + elTop - $$(".statusbar-overlay").height() * (myApp.device.ios?1:2) - $$(".navbar").height();
                 //minus navbar height?&quest;? 56 fot MD
                 var kbdfix = page.find("#keyboard-fix");
                 if(kbdfix.length == 0)
