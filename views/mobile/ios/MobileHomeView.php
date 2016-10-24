@@ -648,7 +648,7 @@
                                             {
                                                 echo 'eve-'.$row['eventData']['eventPlace'];
                                             }
-                                            ?>">
+                                            ?>" data-eveTitle="<?php echo $row['eventData']['eventName'];?>">
                                             <div class="row no-gutter">
                                                 <div class="col-100"> <!--more-photos-wrapper-->
                                                     <?php
