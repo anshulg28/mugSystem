@@ -85,13 +85,13 @@
                         <br>
                         <div class="row">
                             <div class="col-50">
-                                <div class="input-group clockpicker" id="startTime">
-                                    <input type="text" class="mdl-textfield__input" name="startTime" value="" placeholder="Start Time" readonly>
+                                <div class="input-group" > <!--clockpicker-->
+                                    <input id="startTime" onchange="timeCheck()" type="text" class="mdl-textfield__input" name="startTime" value="" placeholder="Start Time" readonly>
                                 </div>
                             </div>
                             <div class="col-50">
-                                <div class="input-group clockpicker" id="endTime">
-                                    <input type="text" class="mdl-textfield__input" name="endTime" value="" placeholder="End Time" readonly>
+                                <div class="input-group">
+                                    <input id="endTime" type="text" onchange="timeCheck()" class="mdl-textfield__input" name="endTime" value="" placeholder="End Time" readonly>
                                 </div>
                             </div>
                         </div>

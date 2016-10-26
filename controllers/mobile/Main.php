@@ -282,6 +282,17 @@ class Main extends MY_Controller {
         echo json_encode($eventView);
 
     }
+    public function contactUs()
+    {
+        $data = array();
+
+        $data['locData'] = $this->locations_model->getAllLocations();
+
+        $eventView = $this->load->view('mobile/ios/ContactUsView', $data);
+
+        echo json_encode($eventView);
+
+    }
     public function eventDetails($eventId, $evenHash)
     {
         $data = array();
@@ -488,8 +499,8 @@ class Main extends MY_Controller {
     {
         $post = $this->input->post();
         $Edetails = array(
-            "startTime" => $post['startTime'],
-            "endTime" => $post['endTime'],
+            "startTime" => date('H:i', strtotime($post['startTime'])),
+            "endTime" => date('H:i', strtotime($post['endTime'])),
             "eventPlace" => $post['eventPlace'],
             "eventDate" => $post['eventDate']
         );
@@ -513,8 +524,8 @@ class Main extends MY_Controller {
         $userId = '';
 
         $Edetails = array(
-            "startTime" => $post['startTime'],
-            "endTime" => $post['endTime'],
+            "startTime" => date('H:i', strtotime($post['startTime'])),
+            "endTime" => date('H:i', strtotime($post['endTime'])),
             "eventPlace" => $post['eventPlace'],
             "eventDate" => $post['eventDate']
         );
@@ -580,6 +591,8 @@ class Main extends MY_Controller {
                 {
                     $post['ifProjectorRequired'] = $post['ifProjectorRequired'][0];
                 }
+                $post['startTime'] = date('H:i', strtotime($post['startTime']));
+                $post['endTime'] = date('H:i', strtotime($post['endTime']));
                 $eventId = $this->dashboard_model->saveEventRecord($post);
 
                 $eventShareLink = base_url().'mobile?page/events/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
@@ -656,6 +669,8 @@ class Main extends MY_Controller {
                 {
                     $post['ifProjectorRequired'] = $post['ifProjectorRequired'][0];
                 }
+                $post['startTime'] = date('H:i', strtotime($post['startTime']));
+                $post['endTime'] = date('H:i', strtotime($post['endTime']));
                 $eventId = $this->dashboard_model->saveEventRecord($post);
 
                 $eventShareLink = base_url().'mobile?page/events/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);

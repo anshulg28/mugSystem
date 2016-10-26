@@ -95,6 +95,7 @@ $route['events/(:any)/(:any)'] = 'mobile/main/eventFetch/$1/$2';
 $route['eventEdit/(:any)/(:any)'] = 'mobile/main/editEvent/$1/$2';
 $route['create_event'] = 'mobile/main/createEvent';
 $route['event_dash'] = 'mobile/main/myEvents';
+$route['contact_us'] = 'mobile/main/contactUs';
 $route['event_details/(:any)/(:any)'] = 'mobile/main/eventDetails/$1/$2';
 $route['signup_list/(:any)/(:any)'] = 'mobile/main/signupList/$1/$2';
 //$route['thankYou/(:any)'] = 'mobile/main/thankYou/$1';

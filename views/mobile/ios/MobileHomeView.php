@@ -100,6 +100,15 @@
                     </span>
                     </a>
                 </li>
+                <li class="mdl-list__item">
+                    <a href="#" id="contact-tab" class="my-fullWidth">
+                        <span class="mdl-list__item-primary-content">
+                            <i class="fa fa-life-ring mdl-list__item-icon"></i>
+                            <!--<i class="material-icons mdl-list__item-icon">insert_invitation</i>-->
+                            Contact Us
+                        </span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -967,7 +976,7 @@
     <div class="popover popover-filters">
         <div class="popover-angle"></div>
         <div class="popover-inner">
-            <p>Filter Location
+            <p>What's on tap in..
             <i class="fa fa-times pull-right clear-beer-filter hide"></i></p>
             <div class="list-block inset">
                 <ul>
@@ -1002,7 +1011,7 @@
     <div class="popover popover-event-filter">
         <div class="popover-angle"></div>
         <div class="popover-inner">
-            <p>Filter Location
+            <p>Show events in..
                 <i class="fa fa-times pull-right clear-event-filter hide"></i></p>
             <div class="list-block inset">
                 <ul>

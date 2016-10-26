@@ -83,12 +83,12 @@ class Cron extends MY_Controller
         $twitterFeeds = '';
         $this->twitter->tmhOAuth->reconfigure();
         $oldparmas = array(
-            'count' => '35',
+            'count' => '20',
             'exclude_replies' => 'true',
             'screen_name' => 'godoolally'
         );
         $parmas = array(
-            'count' => '35',
+            'count' => '20',
             'q' => '#doolally OR #animalsofdoolally OR #ontapnow OR doolally OR @godoolally -filter:retweets',
             'geocode' => '20.1885251,64.446117,1000km',
             'lang' => 'en',
@@ -145,9 +145,9 @@ class Cron extends MY_Controller
         {
             $totalFeeds = array_merge($instaFeeds,$moreInsta);
             shuffle($totalFeeds);
-            if(count($totalFeeds) > 110)
+            if(count($totalFeeds) > 90)
             {
-                $totalFeeds = array_slice($totalFeeds,0, 100);
+                $totalFeeds = array_slice($totalFeeds,0, 85);
             }
         }
         else
@@ -162,7 +162,7 @@ class Cron extends MY_Controller
     {
         $params = array(
             'access_token' => FACEBOOK_TOKEN,
-            'limit' => '25',
+            'limit' => '15',
             'fields' => 'message,permalink_url,id,from,name,picture,source,updated_time'
         );
         $fbFeeds[] = $this->curl_library->getFacebookPosts('godoolallyandheri',$params);
@@ -180,6 +180,7 @@ class Cron extends MY_Controller
         {
             foreach($events as $key => $row)
             {
+                $this->cron_model->updateEventRegis($row['eventId']);
                 $this->cron_model->transferEventRecord($row['eventId']);
             }
         }

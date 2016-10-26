@@ -80,6 +80,15 @@ class Cron_Model extends CI_Model
         return $result;
     }
 
+    public function updateEventRegis($eventId)
+    {
+        $post['eventDone'] = '1';
+
+        $this->db->where('eventId', $eventId);
+        $this->db->update('eventregistermaster', $post);
+        return true;
+    }
+
     public function transferEventRecord($eventId)
     {
         $query = "INSERT INTO eventcompletedmaster "

@@ -5,7 +5,8 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/js/material.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.timeago.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jssocials.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery-clockpicker.min.js"></script>
+<!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/jquery-clockpicker.min.js"></script>-->
+<script type="text/javascript" src="<?php echo base_url();?>asset/mobile/js/bootstrap-timepicker.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.swipebox.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/cropper.min.js"></script>
@@ -280,19 +281,25 @@
 
     function ConvertTimeformat(format, str)
     {
-        var time = str;
-        var hours = Number(time.match(/^(\d+)/)[1]);
-        var minutes = Number(time.match(/:(\d+)/)[1]);
-        var AMPM = time.substr(-2);
-        //var AMPM = time.match(/\s(.*)$/)[1];
-        if (AMPM == "PM" && hours < 12) hours = hours + 12;
-        if (AMPM == "AM" && hours == 12) hours = hours - 12;
-        var sHours = hours.toString();
-        var sMinutes = minutes.toString();
-        if (hours < 10) sHours = "0" + sHours;
-        if (minutes < 10) sMinutes = "0" + sMinutes;
-        return sHours+":"+sMinutes;
-        //alert(sHours + ":" + sMinutes);
+        if(str != '')
+        {
+            var time = str;
+            var hours = Number(time.match(/^(\d+)/)[1]);
+            var minutes = Number(time.match(/:(\d+)/)[1]);
+            //var AMPM = time.substr(-2);
+            var AMPM = time.match(/\s(.*)$/)[1];
+            if (AMPM == "PM" && hours < 12) hours = hours + 12;
+            if (AMPM == "AM" && hours == 12) hours = hours - 12;
+            var sHours = hours.toString();
+            var sMinutes = minutes.toString();
+            if (hours < 10) sHours = "0" + sHours;
+            if (minutes < 10) sMinutes = "0" + sMinutes;
+            return sHours+":"+sMinutes;
+        }
+        else
+        {
+            return '';
+        }
     }
 
 </script>

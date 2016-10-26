@@ -480,7 +480,7 @@ class Dashboard_Model extends CI_Model
                   LEFT JOIN eventmaster em ON em.eventId = erm.eventId
                   LEFT JOIN eventattachment ea ON ea.eventId = erm.eventId
                   LEFT JOIN locationmaster l ON l.id = em.eventPlace
-                  WHERE bookerUserId = ".$userId." GROUP BY erm.eventId";
+                  WHERE erm.eventDone != 1 AND bookerUserId = ".$userId." GROUP BY erm.eventId";
 
         $result = $this->db->query($query)->result_array();
 
