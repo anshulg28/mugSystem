@@ -74,7 +74,7 @@
                     </a>
                 </li>-->
                 <li class="mdl-list__item">
-                    <a href="#" class="my-fullWidth">
+                    <a href="#" id="my-jukebox-tab" class="my-fullWidth">
                         <span class="mdl-list__item-primary-content">
                             <i class="fa fa-music mdl-list__item-icon"></i>
                             <!--<i class="material-icons mdl-list__item-icon">music_note</i>-->

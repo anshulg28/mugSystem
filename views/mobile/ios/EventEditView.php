@@ -105,13 +105,13 @@
                                                 <div class="col-50">
                                                     <div class="input-group">
                                                         <input id="startTime" onchange="timeCheck()" type="text" class="mdl-textfield__input" name="startTime" placeholder="Start Time" readonly
-                                                               value="<?php echo $row['startTime'];?>">
+                                                               value="<?php echo date("h:i A", strtotime($row['startTime']));?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-50">
                                                     <div class="input-group">
                                                         <input id="endTime" onchange="timeCheck()" type="text" class="mdl-textfield__input" name="endTime" placeholder="End Time" readonly
-                                                               value="<?php echo $row['endTime'];?>">
+                                                               value="<?php echo date("h:i A", strtotime($row['endTime']));?>">
                                                     </div>
                                                 </div>
                                             </div>

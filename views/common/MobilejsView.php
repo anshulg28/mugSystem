@@ -8,6 +8,7 @@
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/jquery-clockpicker.min.js"></script>-->
 <script type="text/javascript" src="<?php echo base_url();?>asset/mobile/js/bootstrap-timepicker.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.swipebox.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.geolocation.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/cropper.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/moment.min.js"></script>
@@ -302,4 +303,24 @@
         }
     }
 
+    function getGeoError(code)
+    {
+        switch(code)
+        {
+            case 0:
+                return 'Some Unknown Error Occurred!';
+                break;
+            case 1:
+                return 'User Permission Denied Or Location Unknown';
+                break;
+            case 2:
+                return 'position unavailable (error response from location provider)';
+                break;
+            case 3:
+                return 'Location Fetching Timed out!';
+                break;
+            default:
+                return 'Try again after sometime';
+        }
+    }
 </script>

@@ -293,6 +293,15 @@ class Main extends MY_Controller {
         echo json_encode($eventView);
 
     }
+    public function jukeBox()
+    {
+        $data = array();
+
+        $eventView = $this->load->view('mobile/ios/JukeboxView', $data);
+
+        echo json_encode($eventView);
+
+    }
     public function eventDetails($eventId, $evenHash)
     {
         $data = array();
