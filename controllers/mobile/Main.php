@@ -297,10 +297,23 @@ class Main extends MY_Controller {
     {
         $data = array();
 
+        $data['taprooms'] = $this->curl_library->getJukeboxTaprooms();
+
         $eventView = $this->load->view('mobile/ios/JukeboxView', $data);
 
         echo json_encode($eventView);
 
+    }
+
+    public function taproomInfo($id)
+    {
+        $data = array();
+
+        $data['taproomInfo'] = $this->curl_library->getTaproomInfo($id);
+
+        $eventView = $this->load->view('mobile/ios/TaproomView', $data);
+
+        echo json_encode($eventView);
     }
     public function eventDetails($eventId, $evenHash)
     {

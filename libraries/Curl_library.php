@@ -120,4 +120,21 @@ class curl_library
         );
         return $this->getDataByGet($url,0, $header);
     }
+
+    public function getJukeboxTaprooms()
+    {
+        $url = 'http://api.bcjukebox.in/api/restaurants/';
+        $header = array(
+            'bcclientid:'.BCJUKEBOX_CLIENT,
+        );
+        return $this->getDataByGet($url,0, $header);
+    }
+    public function getTaproomInfo($id)
+    {
+        $url = 'http://api.bcjukebox.in/api/restaurants/'.$id.'/request_queue/';
+        $header = array(
+            'bcclientid:'.BCJUKEBOX_CLIENT,
+        );
+        return $this->getDataByGet($url,0, $header);
+    }
 }

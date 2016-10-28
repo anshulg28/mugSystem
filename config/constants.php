@@ -128,6 +128,7 @@ defined('FACEBOOK_TOKEN') OR define('FACEBOOK_TOKEN','EAAJCOvplqxQBAAPtYtZAUdJyv
 defined('INSTA_API_KEY') OR define('INSTA_API_KEY','362388bd44886b30aa0d9973d7b99794');
 defined('INSTA_AUTH_TOKEN') OR define('INSTA_AUTH_TOKEN','2e8a6cb6ddb931a722e05d2c99dc3888');
 defined('GOOGLE_API_KEY') OR define('GOOGLE_API_KEY','AIzaSyC0XOtBMXgQaLJg_Wgatzx6zlyjmx4C7xw');
+defined('BCJUKEBOX_CLIENT') OR define('BCJUKEBOX_CLIENT','UUN5m270I7nxuuBDzukIVtAV0QxL5UQEV1FaYmUg');
 
 
 /* Image Paths for Fnb*/

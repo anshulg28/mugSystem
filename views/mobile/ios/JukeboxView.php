@@ -21,9 +21,46 @@
     <div data-page="jukeboxPage" class="page jukebox-page">
         <div class="page-content">
             <div class="content-block">
-                <div class="comment">
-                    <p class="juke_status"></p>
-                </div>
+                <?php
+                if(isset($taprooms) && myIsMultiArray($taprooms))
+                {
+                    foreach($taprooms as $key => $row)
+                    {
+                        if(isset($row['id']) && $row['is_online'] === true)
+                        {
+                            ?>
+                            <a href="taproom/<?php echo $row['id'];?>" class="taproom-btn">
+                                <div class="card">
+                                    <div class="row no-gutter">
+                                        <div class="col-100">
+                                            <img src="<?php echo $row['app_image_thumb'];?>" alt="<?php echo $row['name'];?>"
+                                                 class="taproom-img"/>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <div class="comment clear">
+                                                <p>
+                                                    <?php echo $row['name'];?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <?php
+                        }
+                    }
+                }
+                else
+                {
+                    ?>
+                    <div class="content-block">
+                        Not Available!
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     </div>
