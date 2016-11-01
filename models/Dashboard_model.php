@@ -744,4 +744,15 @@ class Dashboard_Model extends CI_Model
         $this->db->update('fnbmaster', $details);
         return true;
     }
+
+    public function getTapSongs($tapId)
+    {
+        $query = 'SELECT * 
+                  FROM jukeboxmaster
+                  WHERE tapId = '.$tapId;
+
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
 }

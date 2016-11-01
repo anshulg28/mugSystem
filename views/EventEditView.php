@@ -1,346 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Event Edit :: Doolally</title>
-	<?php echo $globalStyle; ?>
-</head>
+
 <body>
-    <?php echo $headerView; ?>
-    <main class="eventEdit">
-        <div class="container">
-            <div class="row">
-                <a href="<?php echo base_url().'dashboard';?>" class="btn btn-warning"><i class="fa fa-arrow-circle-o-left"></i> Go Back</a>
-                <?php
-                    if(isset($eventInfo) && myIsArray($eventInfo))
-                    {
-                        $eventDate = '';
-                        foreach($eventInfo as $key => $row)
-                        {
-                            if(isset($row['eventData']['eventId']))
+<!-- Status bar overlay for full screen mode (PhoneGap) -->
+<!-- Top Navbar-->
+<?php
+    if(isset($eventDetails) && myIsMultiArray($eventDetails))
+    {
+        foreach($eventDetails as $key => $row)
+        {
+            ?>
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left">
+                        <a href="#" class="back link" data-ignore-cache="true">
+                            <i class="ic_back_icon point-item"></i>
+                        </a>
+                    </div>
+                    <!--<div class="center sliding"><?php /*echo $row['eventData']['eventName'];*/?></div>-->
+                    <!--<div class="right">
+
+                    </div>-->
+                </div>
+            </div>
+            <div class="pages">
+                <div data-page="eventEdit" class="page event-add">
+                    <div class="page-content">
+                        <?php
+                            if(isset($status) && $status === false)
                             {
                                 ?>
-                                <h2><i class="fa fa-calendar fa-1x"></i> Edit Event: <?php echo $row['eventData']['eventName'];?></h2>
-                                <hr>
-                                <br>
-                                <form action="<?php echo base_url();?>dashboard/updateEvent" method="post" class="form-horizontal" role="form">
-                                    <input type="hidden" name="eventId" value="<?php echo $row['eventData']['eventId'];?>"/>
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
-                                        <input class="mdl-textfield__input" type="text" name="eventName"
-                                               id="eventName" value="<?php echo $row['eventData']['eventName'];?>">
-                                        <label class="mdl-textfield__label" for="eventName">Event Name</label>
-                                    </div>
-                                    <br>
-                                    <div class="text-left">
-                                        <label for="eventType">Event Type :</label>
-                                        <select name="eventType" id="eventType" class="form-control">
-                                            <?php
-                                            $foundType = false;
-                                            foreach($this->config->item('eventTypes') as $evekey => $everow)
-                                            {
-                                                ?>
-                                                <option value="<?php echo $everow;?>"
-                                                <?php if($row['eventData']['eventType'] == $everow){$foundType = true;echo 'selected';};?>><?php echo $everow;?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-                                        <div class="mdl-textfield mdl-js-textfield other-event hide">
-                                            <input class="mdl-textfield__input" type="text"
-                                                   id="otherType" <?php if($foundType == false){echo 'value="'.$row['eventData']['eventType'].'"';}?>>
-                                            <label class="mdl-textfield__label" for="otherType">Other</label>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth text-left">
-                                        <label for="eventDescription">Event Description: </label>
-                                        <textarea class="mdl-textfield__input my-singleBorder" type="text" name="eventDescription" rows="5"
-                                                  id="eventDescription"><?php echo strip_tags($row['eventData']['eventDescription']);?></textarea>
-                                    </div>
-                                    <ul class="list-inline text-left">
-                                        <li>
-                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                                <input class="mdl-textfield__input" type="text" name="eventDate"
-                                                       id="eventDate" placeholder="">
-                                                <label class="mdl-textfield__label" for="eventDate">Event Date(old: <?php echo $row['eventData']['eventDate'];?>)</label>
-                                                <?php
-                                                $eventDate = $row['eventData']['eventDate'];
-                                                ?>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                                <input class="mdl-textfield__input" type="text" name="startTime"
-                                                       id="startTime" placeholder="" value="<?php echo $row['eventData']['startTime'];?>">
-                                                <label class="mdl-textfield__label" for="startTime">Start Time</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                                <input class="mdl-textfield__input" type="text" name="endTime"
-                                                       id="endTime" placeholder="" value="<?php echo $row['eventData']['endTime'];?>">
-                                                <label class="mdl-textfield__label" for="endTime">End Time</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="text-left">
-                                        <label>Event Cost :</label>
-                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
-                                            <input type="radio" id="freeType" class="mdl-radio__button" name="costType"
-                                                   value="1" <?php if($row['eventData']['costType'] == "1"){echo 'checked';}?>>
-                                            <span class="mdl-radio__label">Free</span>
-                                        </label>
-                                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
-                                            <input type="radio" id="paidType" class="mdl-radio__button" name="costType"
-                                                   value="2" <?php if($row['eventData']['costType'] == "2"){echo 'checked';}?>>
-                                            <span class="mdl-radio__label">Paid</span>
-                                        </label>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price hide">
-                                            <input class="mdl-textfield__input" type="text" name="eventPrice" pattern="-?[0-9]*(\.[0-9]+)?"
-                                                   id="eventPrice" value="<?php echo $row['eventData']['eventPrice'];?>">
-                                            <label class="mdl-textfield__label" for="eventPrice">Price</label>
-                                            <span class="mdl-textfield__error">Input is not a number!</span>
-                                        </div>
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label special-offer hide">
-                                            <input class="mdl-textfield__input" type="text" name="priceFreeStuff" id="priceFreeStuff"
-                                                   placeholder="" value="<?php echo $row['eventData']['priceFreeStuff'];?>">
-                                            <label class="mdl-textfield__label" for="priceFreeStuff">Special Offer With Price?</label>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="text-left">
-                                        <label>Event Place: </label>
-                                        <select id="eventPlace" name="eventPlace" class="form-control">
-                                            <?php
-                                            if(isset($locations))
-                                            {
-                                                foreach($locations as $lockey => $locrow)
-                                                {
-                                                    if(isset($locrow['id']))
-                                                    {
-                                                        ?>
-                                                        <option value="<?php echo $locrow['id'];?>"
-                                                        <?php if($locrow['id'] == $row['eventData']['eventPlace']){echo 'selected';}?>><?php echo $locrow['locName'];?></option>
-                                                        <?php
-                                                    }
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <br>
-                                    <div class="text-left">
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                            <input class="mdl-textfield__input" type="text" name="eventCapacity" id="eventCapacity"
-                                                   placeholder="" value="<?php echo $row['eventData']['eventCapacity'];?>">
-                                            <label class="mdl-textfield__label" for="eventCapacity">Event Capacity</label>
-                                        </div>
-                                        <br>
-                                        <label><input type="checkbox" value="1"
-                                                      name="ifMicRequired" <?php if($row['eventData']['ifMicRequired'] == "1"){echo 'checked';}?>>Do you need a mic?</label>
-                                        <label><input type="checkbox" value="2"
-                                                      name="ifProjectorRequired" <?php if($row['eventData']['ifProjectorRequired'] == "1"){echo 'checked';}?>>Do you need a projector?</label>
-                                    </div>
-                                    <br>
-                                    <div class="text-left">
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                            <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName"
-                                                   placeholder="" value="<?php echo $row['eventData']['creatorName'];?>">
-                                            <label class="mdl-textfield__label" for="creatorName">Organizer Name</label>
-                                        </div>
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                            <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone"
-                                                   placeholder="" value="<?php echo $row['eventData']['creatorPhone'];?>">
-                                            <label class="mdl-textfield__label" for="creatorPhone">Organizer Phone</label>
-                                        </div>
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                            <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail"
-                                                   placeholder="" value="<?php echo $row['eventData']['creatorEmail'];?>">
-                                            <label class="mdl-textfield__label" for="creatorEmail">Organizer Email</label>
-                                        </div>
-                                        <br>
-                                        <label for="eventDescription">Organizer Description: </label>
-                                        <textarea class="mdl-textfield__input my-singleBorder" type="text" name="aboutCreator" rows="5"
-                                                  id="aboutCreator"><?php echo $row['eventData']['aboutCreator'];?></textarea>
-                                    </div>
-                                    <br>
-                                    <?php
-                                        if(isset($row['eventAtt']) && myIsMultiArray($row['eventAtt']))
-                                        {
-                                            ?>
-                                            <div class="text-left">
-                                                <?php
-                                                    foreach($row['eventAtt'] as $imgkey => $imgrow)
-                                                    {
-                                                        ?>
-                                                        <div class="pics-preview-panel col-sm-2 col-xs-5">
-                                                            <img src="<?php echo base_url().EVENT_PATH_THUMB.$imgrow['filename'];?>"
-                                                                 class="img-thumbnail"/>
-                                                            <i class="fa fa-times img-remove-icon" data-picId="<?php echo $imgrow['id'];?>"></i>
-                                                        </div>
-                                                        <?php
-                                                    }
-                                                ?>
-                                            </div>
-                                            <?php
-                                        }
-                                    ?>
-                                    <div class="myUploadPanel text-left">
-                                        <input type="file" multiple class="form-control" onchange="eventUploadChange(this)" />
-                                        <input type="hidden" name="attachment" />
-                                    </div>
-                                    <br>
-                                    <button onclick="fillEventImgs()" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit</button>
-                                    <br><br>
-                                    <div class="progress hide">
-                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                </form>
+                                <a href="#" class="open-login-screen" id="login-btn">Open Login Screen</a>
+                                <input type="hidden" id="isLoggedIn" value="0"/>
                                 <?php
                             }
-                        }
+                            else
+                            {
+                                ?>
+                                <div class="content-block event-wrapper">
+                                    <form action="<?php echo base_url().'updateEvent';?>" id="eventSave" method="post" class="ajax-submit">
+                                        <input type="hidden" name="eventId" value="<?php echo $row['eventId'];?>"/>
+                                        <input type="hidden" name="attachment" value="<?php echo $row['filename']; ?>"/>
+                                        <div class="event-img-space"
+                                             style="background:linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), 0 / cover url('<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>') no-repeat">
+                                            <div class="event-img-before hide">
+                                                <input type="file" id="event-img-upload" onchange="uploadChange(this)" class="my-vanish"/>
+                                                <!--<a href="#" class="button event-img-add-btn">
+                                                    <i class="ic_add"></i>
+                                                </a>-->
+                                                <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-add-btn">
+                                                    <i class="ic_add"></i>
+                                                </button>
+                                                <p class="add-img-caption">Add a cover photo<!--<br> The image must be at least 1080 x 540 pixels--></p>
+                                            </div>
+                                            <div class="event-img-after">
+                                                <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-img-remove">
+                                                    <i class="ic_add"></i>
+                                                </button>
+                                                <div class="progress-bar">
+                                                    <div class="progressbar hide"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="cropContainerModal" class="hide">
+                                            <div class="done-overlay hide">
+                                                <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored event-overlay-remove">
+                                                    <i class="ic_add"></i>
+                                                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+                                                </button>
+                                            </div>
+                                            <i class="fa fa-check upload-done-icon"></i>
+                                            <i class="fa fa-times upload-img-close"></i>
+                                            <img id="img-container" src="" style="max-width:100%"/>
+                                        </div>
+                                        <br>
+                                        <div class="event-descrip-wrapper">
+                                            <div class="event-header-name">Create an event</div>
+                                            <p class="event-sub-text">To organise an event, please read the event guidelines and then fill up the form.</p>
+                                            <div class="row">
+                                                <div class="col-5"></div>
+                                                <div class="col-90">
+                                                    <div class="hide" id="event-guide"><?php echo $eventTc;?></div>
+                                                    <a href="#" class="button button-big button-fill book-event-btn">
+                                                        <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Read Event Guidelines
+                                                    </a>
+                                                </div>
+                                                <div class="col-5"></div>
+                                            </div>
+                                        </div>
+                                        <div class="event-header-name">
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                                <input class="mdl-textfield__input" type="text" id="eventName" name="eventName"
+                                                       value="<?php echo $row['eventName'];?>">
+                                                <label class="mdl-textfield__label" for="eventName">Name of event</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="eventDesc" name="eventDescription"><?php echo $row['eventDescription'];?></textarea>
+                                                <label class="mdl-textfield__label" for="eventDesc">Describe your event</label>
+                                            </div>
+                                            <input class="mdl-textfield__input" type="text" id="eventDate" name="eventDate" placeholder="Date of Event" readonly
+                                                   value="<?php echo $row['eventDate'];?>">
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-50">
+                                                    <div class="input-group">
+                                                        <input id="startTime" onchange="timeCheck()" type="text" class="mdl-textfield__input" name="startTime" placeholder="Start Time" readonly
+                                                               value="<?php echo date("h:i A", strtotime($row['startTime']));?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-50">
+                                                    <div class="input-group">
+                                                        <input id="endTime" onchange="timeCheck()" type="text" class="mdl-textfield__input" name="endTime" placeholder="End Time" readonly
+                                                               value="<?php echo date("h:i A", strtotime($row['endTime']));?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="list-block">
+                                                <ul>
+                                                    <li>
+                                                        <a href="#" class="item-link smart-select" data-back-on-select="true">
+                                                            <!-- select -->
+                                                            <select name="eventType" id="eventType" class="mdl-textfield__input">
+                                                                <?php
+                                                                foreach($this->config->item('eventTypes') as $subkey => $subrow)
+                                                                {
+                                                                    ?>
+                                                                    <option value="<?php echo $subrow;?>" <?php if($subrow == $row['eventType']){echo 'selected';} ?>>
+                                                                        <?php echo $subrow;?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <div class="item-content">
+                                                                <div class="item-inner">
+                                                                    <!-- Select label -->
+                                                                    <div class="item-title">Type of event</div>
+                                                                    <!-- Selected value, not required -->
+                                                                    <div class="item-after"></div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="item-link smart-select" data-back-on-select="true">
+                                                            <!-- select -->
+                                                            <select id="eventPlace" name="eventPlace" class="mdl-textfield__input">
+                                                                <option value="">Select</option>
+                                                                <?php
+                                                                if(isset($locData))
+                                                                {
+                                                                    foreach($locData as $subkey => $subrow)
+                                                                    {
+                                                                        if(isset($subrow['id']))
+                                                                        {
+                                                                            ?>
+                                                                            <option value="<?php echo $subrow['id'];?>" <?php if($subrow['id'] == $row['eventPlace']){echo 'selected';} ?>>
+                                                                                <?php echo $subrow['locName'];?></option>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <div class="item-content">
+                                                                <div class="item-inner">
+                                                                    <!-- Select label -->
+                                                                    <div class="item-title">Location of event</div>
+                                                                    <!-- Selected value, not required -->
+                                                                    <div class="item-after"></div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="item-link smart-select" data-back-on-select="true">
+                                                            <!-- select -->
+                                                            <select name="eventCapacity" id="eventCapacity" class="mdl-textfield__input">
+                                                                <?php
+                                                                for($i=1;$i<=20;$i++)
+                                                                {
+                                                                    ?>
+                                                                    <option value="<?php echo $i;?>" <?php if($i == $row['eventCapacity']){echo 'selected';} ?>>
+                                                                        <?php echo $i;?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <div class="item-content">
+                                                                <div class="item-inner">
+                                                                    <!-- Select label -->
+                                                                    <div class="item-title">Number of People</div>
+                                                                    <!-- Selected value, not required -->
+                                                                    <div class="item-after"></div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="event-header-name">Is the event Free or Paid?</div>
+
+                                            <?php
+                                            if($row['costType'] == '2')
+                                            {
+                                                ?>
+                                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
+                                                    <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2" checked>
+                                                    <span class="mdl-radio__label">Paid</span>
+                                                </label>
+                                                <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                                <div class="row">
+                                                    <div class="col-50">
+                                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
+                                                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
+                                                                   value="<?php echo $row['eventPrice'];?>">
+                                                            <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
+                                                            <span class="mdl-textfield__error">Input is not a number!</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-50">
+                                                        <p class="event-sub-text">+ Rs. 250 Doolally Fee</p>
+                                                    </div>
+                                                </div>
+                                                <div class="event-header-name">Total Price: Rs.
+                                                    <span class="total-event-price">
+                                                    <?php echo ($row['eventPrice']+250); ?>
+                                                </span>
+                                                </div>
+                                                <input type="hidden" name="eventPrice" value="<?php echo $row['eventPrice'];?>"/>
+                                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
+                                                    <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1">
+                                                    <span class="mdl-radio__label">Free</span>
+                                                </label>
+                                                <p class="event-sub-text">If you don't charge, we don't charge</p>
+                                                <?php
+                                            }
+                                            elseif($row['costType'] == '1')
+                                            {
+                                                ?>
+                                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="paidType">
+                                                    <input type="radio" id="paidType" class="mdl-radio__button" name="costType" value="2">
+                                                    <span class="mdl-radio__label">Paid</span>
+                                                </label>
+                                                <p class="event-sub-text">For paid events, we charge Rs 250 per attendee which includes a pint or house fries.</p>
+                                                <div class="row">
+                                                    <div class="col-50">
+                                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
+                                                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
+                                                                   value="">
+                                                            <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
+                                                            <span class="mdl-textfield__error">Input is not a number!</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-50">
+                                                        <p class="event-sub-text">+ Rs. 250 Doolally Fee</p>
+                                                    </div>
+                                                </div>
+                                                <div class="event-header-name">Total Price: Rs.
+                                                    <span class="total-event-price">
+                                                    0
+                                                </span>
+                                                </div>
+                                                <input type="hidden" name="eventPrice" value="0"/>
+                                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="freeType">
+                                                    <input type="radio" id="freeType" class="mdl-radio__button" name="costType" value="1" checked>
+                                                    <span class="mdl-radio__label">Free</span>
+                                                </label>
+                                                <p class="event-sub-text">If you don't charge, we don't charge</p>
+                                                <?php
+                                            }
+                                            ?>
+                                            <div class="row">
+                                                <label class="col-100">Need Accessories: </label>
+                                                <div class="col-100">
+                                                    <ul class="my-mainMenuList">
+                                                        <?php
+                                                        if($row['ifMicRequired'] == '1')
+                                                        {
+                                                            ?>
+                                                            <li id="micWrapper" class="isChecked">
+                                                                <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1" checked/>
+                                                                <label for="ifMicRequired">
+                                                                    <i class="ic_mic_icon on"></i>
+                                                                    <span class="on">Microphone</span>
+                                                                </label>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+                                                            ?>
+                                                            <li id="micWrapper" disabled="disabled">
+                                                                <input type="checkbox" name="ifMicRequired" onchange="toggleAccess(this)" id="ifMicRequired" value="1"/>
+                                                                <label for="ifMicRequired">
+                                                                    <i class="ic_mic_icon"></i>
+                                                                    <span>Microphone</span>
+                                                                </label>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        <?php
+                                                        if($row['ifProjectorRequired'] == '1')
+                                                        {
+                                                            ?>
+                                                            <li id="projWrapper" class="isChecked">
+                                                                <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1" checked>
+                                                                <label for="ifProjectorRequired" class="">
+                                                                    <i class="ic_projector_icon on"></i>
+                                                                    <span class="on">Projector</span>
+                                                                </label>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                        else
+                                                        {
+                                                            ?>
+                                                            <li id="projWrapper" disabled="disabled">
+                                                                <input type="checkbox" name="ifProjectorRequired" onchange="toggleAccess(this)" id="ifProjectorRequired" value="1"/>
+                                                                <label for="ifProjectorRequired">
+                                                                    <i class="ic_projector_icon"></i>
+                                                                    <span>Projector</span>
+                                                                </label>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </ul>
+                                                    <!--<label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="ifMicRequired">
+                                                        <input type="checkbox" id="ifMicRequired" class="mdl-icon-toggle__input" name="ifMicRequired" value="1">
+                                                        <i class="fa fa-microphone mdl-icon-toggle__label"></i>
+                                                    </label>
+                                                    <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect" for="ifProjectorRequired">
+                                                        <input type="checkbox" id="ifProjectorRequired" class="mdl-icon-toggle__input" value="1" name="ifProjectorRequired">
+                                                        <i class="mdl-icon-toggle__label fa fa-video-camera"></i>
+                                                    </label>-->
+                                                </div>
+                                            </div>
+
+                                            <div class="event-header-name">Your details</div>
+                                            <!--<p class="event-sub-text">We'll contact you while we curate your event.</p>-->
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                                <input class="mdl-textfield__input" type="text" name="creatorName" id="creatorName"
+                                                       value="<?php echo $row['creatorName']; ?>">
+                                                <label class="mdl-textfield__label" for="creatorName">Name</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                                <input class="mdl-textfield__input" type="number" name="creatorPhone" id="creatorPhone" maxlength="10"
+                                                       oninput="maxLengthCheck(this)" value="<?php echo $row['creatorPhone']; ?>">
+                                                <label class="mdl-textfield__label" for="creatorPhone">Phone Number</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                                <input class="mdl-textfield__input" type="email" name="creatorEmail" id="creatorEmail"
+                                                       value="<?php echo $row['creatorEmail']; ?>">
+                                                <label class="mdl-textfield__label" for="creatorEmail">Email ID</label>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="aboutCreator" name="aboutCreator"><?php echo $row['aboutCreator']; ?></textarea>
+                                                <label class="mdl-textfield__label" for="aboutCreator">Something about yourself (Optional)</label>
+                                            </div>
+                                            <input type="hidden" name="userId" value="<?php echo $row['userId'];?>"/>
+                                            <div class="event-header-name">
+                                                All events are reviewed and approved by Doolally. Once approved, we will create an Instamojo payment link and
+                                                accept payments on your behalf.
+                                            </div>
+                                            <hr>
+                                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tnc">
+                                                <input type="checkbox" id="tnc" value="1" class="mdl-checkbox__input">
+                                                <span class="mdl-checkbox__label">I have read and agree to the
+                                <a href="#">Terms and Conditions.</a>
+                            </span>
+                                            </label>
+                                        </div>
+                                        <br><br>
+                                        <div class="row">
+                                            <div class="col-5"></div>
+                                            <div class="col-90">
+                                                <input type="submit" class="button button-big button-fill submit-event-btn" value="Update Event"/>
+                                            </div>
+                                            <div class="col-5"></div>
+                                        </div>
+                                        <br>
+                                    </form>
+                                </div>
+                                <?php
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php
+        }
+    }
+    else
+    {
+        ?>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="back link" data-ignore-cache="true">
+                        <i class="fa fa-arrow-left color-black"></i>
+                    </a>
+                </div>
+                <!--<div class="center sliding"><?php /*echo $row['eventData']['eventName'];*/?></div>-->
+                <!--<div class="right">
+
+                </div>-->
+            </div>
+        </div>
+        <div class="pages">
+            <div data-page="eventEdit" class="page">
+                <div class="page-content">
+                    <?php
+                    if(isset($status) && $status === false)
+                    {
+                        ?>
+                        <a href="#" class="open-login-screen" id="login-btn">Open Login Screen</a>
+                        <input type="hidden" id="isLoggedIn" value="0"/>
+                        <?php
                     }
                     else
                     {
-                        echo '<h2 class="my-danger-text text-center>Mug Number Not Found!</h2>"';
+                        ?>
+                        <div class="content-block">
+                            <p>No result Found!</p>
+                        </div>
+                        <?php
                     }
-                ?>
+                    ?>
+                </div>
             </div>
         </div>
-    </main>
+        <?php
+    }
+?>
 </body>
-<?php echo $globalJs; ?>
-
-<script>
-    $(document).on('click','.img-remove-icon', function(){
-        var picId = $(this).attr('data-picId');
-        var parent = $(this).parent();
-        bootbox.confirm("Remove Image?", function(result) {
-            if(result === true)
-            {
-                $.ajax({
-                    type:"POST",
-                    dataType:"json",
-                    url:"<?php echo base_url();?>dashboard/deleteEventAtt",
-                    data:{picId:picId},
-                    success: function(data)
-                    {
-                        if(data.status === true)
-                        {
-                            $(parent).fadeOut();
-                        }
-                    },
-                    error: function(){
-                        bootbox.alert('Some Error Occurred!');
-                    }
-                });
-            }
-        });
-    });
-    function fillEventImgs()
-    {
-        $('input[name="attachment"]').val(filesEventsArr.join());
-    }
-    var filesEventsArr = [];
-    function eventUploadChange(ele)
-    {
-
-        $('button[type="submit"]').attr('disabled','true');
-        $('.progress').removeClass('hide');
-        var xhr = [];
-        var totalFiles = ele.files.length;
-        for(var i=0;i<totalFiles;i++)
-        {
-            xhr[i] = new XMLHttpRequest();
-            (xhr[i].upload || xhr[i]).addEventListener('progress', function(e) {
-                var done = e.position || e.loaded;
-                var total = e.totalSize || e.total;
-                $('.progress-bar').css('width', Math.round(done/total*100)+'%').attr('aria-valuenow', Math.round(done/total*100)).html(parseInt(Math.round(done/total*100))+'%');
-            });
-            xhr[i].addEventListener('load', function(e) {
-                $('button[type="submit"]').removeAttr('disabled');
-            });
-            xhr[i].open('post', '<?php echo base_url();?>dashboard/uploadEventFiles', true);
-
-            var data = new FormData;
-            data.append('attachment', ele.files[i]);
-            xhr[i].send(data);
-            xhr[i].onreadystatechange = function(e) {
-                if (e.srcElement.readyState == 4 && e.srcElement.status == 200) {
-                    if(e.srcElement.responseText == 'Some Error Occurred!')
-                    {
-                        bootbox.alert('File size Limit 30MB');
-                        return false;
-                    }
-                    filesEventsArr.push(e.srcElement.responseText);
-                }
-            }
-        }
-    }
-    var date = new Date();
-    <?php
-        if(isset($eventDate) && $eventDate != '')
-        {
-            ?>
-    $('#eventDate').datetimepicker({
-        format: 'YYYY-MM-DD',
-        useCurrent: false,
-        minDate: date
-    });
-    $('#eventDate').val('<?php echo $eventDate;?>');
-            <?php
-        }
-        else
-        {
-            ?>
-    $('#eventDate').datetimepicker({
-        format: 'YYYY-MM-DD',
-        minDate: date
-    });
-            <?php
-        }
-    ?>
-    $('#startTime, #endTime').datetimepicker({
-        format: 'HH:mm'
-    });
-    $(document).on('change','#eventType', function(){
-        if($(this).find('option:checked').val() != 'Others')
-        {
-            $(this).attr('name','eventType');
-            $('.other-event').addClass('hide');
-            $('.other-event input').removeAttr('name');
-        }
-        else
-        {
-            $(this).removeAttr('name');
-            $('.other-event').removeClass('hide');
-            $('.other-event input').attr('name','eventType');
-        }
-    });
-
-    $(document).on('change','input[name="costType"]', function(){
-        costToggle();
-    });
-
-    function costToggle()
-    {
-        if($('input[name="costType"]:checked').val() == "2")
-        {
-            $('.event-price').removeClass('hide');
-            $('.special-offer').removeClass('hide');
-        }
-        else
-        {
-            $('.event-price').addClass('hide');
-            $('.special-offer').addClass('hide');
-        }
-    }
-    $(window).load(function(){
-        costToggle();
-    });
-</script>
 
 </html>

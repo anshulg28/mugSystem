@@ -20,6 +20,8 @@
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/hammer.min.js"></script>-->
 
 <script>
+    window.jukeLat = 0;
+    window.jukeLong = 0;
     window.base_url = '<?php echo base_url(); ?>';
     var isAndroid = Framework7.prototype.device.android === true;
     var isIos = Framework7.prototype.device.ios === true;

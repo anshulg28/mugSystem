@@ -121,6 +121,7 @@ class curl_library
         return $this->getDataByGet($url,0, $header);
     }
 
+    /* JukeBox API */
     public function getJukeboxTaprooms()
     {
         $url = 'http://api.bcjukebox.in/api/restaurants/';
@@ -136,5 +137,64 @@ class curl_library
             'bcclientid:'.BCJUKEBOX_CLIENT,
         );
         return $this->getDataByGet($url,0, $header);
+    }
+    public function checkJukeboxUser($email, $pwd)
+    {
+        $url = 'http://api.bcjukebox.in/signup/email/';
+        $post = array(
+            'client_id' => BCJUKEBOX_CLIENT,
+            'email' => $email,
+            'password1' => $pwd
+        );
+
+        return $this->getDataByPost($url,$post,0);
+    }
+
+    public function loginJukeboxUser($email, $pwd)
+    {
+        $url = 'http://api.bcjukebox.in/oauth2/access_token/';
+        $post = array(
+            'client_id' => BCJUKEBOX_CLIENT,
+            'username' => $email,
+            'password' => $pwd,
+            'grant_type' => 'password'
+        );
+
+        return $this->getDataByPost($url,$post,0);
+    }
+
+    //Fetching playlist of taproom
+    public function getTapPlaylist($resId)
+    {
+        $url = 'http://api.bcjukebox.in/api/restaurants/'.$resId.'/playlistsongs/';
+        $header = array(
+            'bcclientid:'.BCJUKEBOX_CLIENT,
+        );
+        return $this->getDataByGet($url,0, $header);
+    }
+
+    //Fetching songs in a playlist
+    public function getTapSongsByPlaylist($resId,$playId)
+    {
+        $url = 'http://api.bcjukebox.in/api/restaurants/'.$resId.'/playlistsongs/'.$playId.'/';
+        $header = array(
+            'bcclientid:'.BCJUKEBOX_CLIENT,
+        );
+        return $this->getDataByGet($url,0, $header);
+    }
+
+    public function requestTapSong($post)
+    {
+        $url = 'http://api.bcjukebox.in/api/restaurants/'.$post['tapId'].'/requests/';
+        $details = array(
+            'song' => $post['songId']
+        );
+        $headers = array(
+            'bcclientid: '.BCJUKEBOX_CLIENT,
+            'Authorization: Bearer '.$post['Auth'],
+            'bclocation: '.$post['location']
+        );
+
+        return $this->getDataByPost($url,$details,0,$headers);
     }
 }

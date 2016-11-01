@@ -137,7 +137,7 @@ class Main extends MY_Controller {
         }*/
         $data['iosStyle'] = $this->dataformatinghtml_library->getIosStyleHtml($data);
         $data['iosJs'] = $this->dataformatinghtml_library->getIosJsHtml($data);
-        $this->load->view('mobile/ios/MobileHomeView', $data);
+        $this->load->view('MobileHomeView', $data);
 	}
 
     public function about()
@@ -146,11 +146,11 @@ class Main extends MY_Controller {
 
         if($this->session->userdata('osType') == 'android')
         {
-            $aboutView = $this->load->view('mobile/ios/AboutUsView', $data);
+            $aboutView = $this->load->view('AboutUsView', $data);
         }
         else
         {
-            $aboutView = $this->load->view('mobile/android/AboutUsView', $data);
+            $aboutView = $this->load->view('AboutUsView', $data);
         }
         echo json_encode($aboutView);
     }
@@ -191,13 +191,13 @@ class Main extends MY_Controller {
                 }
             }
 
-            $aboutView = $this->load->view('mobile/ios/EventView', $data);
+            $aboutView = $this->load->view('EventView', $data);
 
             echo json_encode($aboutView);
         }
         else
         {
-            $pgError = $this->load->view('mobile/ios/EventView', $data);
+            $pgError = $this->load->view('EventView', $data);
             echo json_encode($pgError);
         }
     }
@@ -229,7 +229,7 @@ class Main extends MY_Controller {
             }*/
         }
 
-        $aboutView = $this->load->view('mobile/ios/EventEditView', $data);
+        $aboutView = $this->load->view('EventEditView', $data);
 
         echo json_encode($aboutView);
 
@@ -242,7 +242,7 @@ class Main extends MY_Controller {
         $data['eventTc'] = $this->config->item('eventTc');// $this->load->view('mobile/ios/EventTcView', $data);
         $data['locData'] = $this->locations_model->getAllLocations();
         
-        $aboutView = $this->load->view('mobile/ios/EventAddView', $data);
+        $aboutView = $this->load->view('EventAddView', $data);
 
         echo json_encode($aboutView);
     }
@@ -277,18 +277,37 @@ class Main extends MY_Controller {
             }
         }
 
-        $eventView = $this->load->view('mobile/ios/MyEventsView', $data);
+        $eventView = $this->load->view('MyEventsView', $data);
 
         echo json_encode($eventView);
 
     }
+
+    public function requestSong()
+    {
+        $data = array();
+        if(isSessionVariableSet($this->isMobUserSession) === false)
+        {
+            $data['status'] = false;
+        }
+        else
+        {
+            $data['status'] = true;
+        }
+
+        $eventView = $this->load->view('MyEventsView', $data);
+
+        echo json_encode($eventView);
+
+    }
+
     public function contactUs()
     {
         $data = array();
 
         $data['locData'] = $this->locations_model->getAllLocations();
 
-        $eventView = $this->load->view('mobile/ios/ContactUsView', $data);
+        $eventView = $this->load->view('ContactUsView', $data);
 
         echo json_encode($eventView);
 
@@ -299,7 +318,7 @@ class Main extends MY_Controller {
 
         $data['taprooms'] = $this->curl_library->getJukeboxTaprooms();
 
-        $eventView = $this->load->view('mobile/ios/JukeboxView', $data);
+        $eventView = $this->load->view('JukeboxView', $data);
 
         echo json_encode($eventView);
 
@@ -309,9 +328,10 @@ class Main extends MY_Controller {
     {
         $data = array();
 
+        $data['taproomId'] = $id;
         $data['taproomInfo'] = $this->curl_library->getTaproomInfo($id);
 
-        $eventView = $this->load->view('mobile/ios/TaproomView', $data);
+        $eventView = $this->load->view('TaproomView', $data);
 
         echo json_encode($eventView);
     }
@@ -346,7 +366,7 @@ class Main extends MY_Controller {
             }*/
         }
 
-        $aboutView = $this->load->view('mobile/ios/EventSingleView', $data);
+        $aboutView = $this->load->view('EventSingleView', $data);
 
         echo json_encode($aboutView);
     }
@@ -372,7 +392,7 @@ class Main extends MY_Controller {
             }
         }
 
-        $aboutView = $this->load->view('mobile/ios/signUpListView', $data);
+        $aboutView = $this->load->view('signUpListView', $data);
 
         echo json_encode($aboutView);
     }
@@ -506,6 +526,237 @@ class Main extends MY_Controller {
         echo json_encode($data);
     }
 
+    public function requestTapSong($id)
+    {
+        $data = array();
+
+        if(isSessionVariableSet($this->isMobUserSession) === false)
+        {
+            $data['status'] = false;
+        }
+        else
+        {
+            if(isSessionVariableSet($this->jukeboxToken))
+            {
+                $data['status'] = true;
+            }
+            else
+            {
+                $userData = $this->users_model->getUserDetailsById($this->userMobId);
+                if(!isset($userData['userData'][0]['plain_pass']))
+                {
+                    $this->appLogout();
+                    $data['status'] = false;
+                }
+                else
+                {
+                    $loginCheck = $this->getAccessFromJukebox($userData['userData'][0]['emailId'],$userData['userData'][0]['plain_pass']);
+                    if($loginCheck['status'] === false)
+                    {
+                        $data['status'] = false;
+                    }
+                    else
+                    {
+                        $data['status'] = true;
+                        $this->generalfunction_library->setSessionVariable('jukebox_token',$loginCheck['token']);
+                        $this->jukeboxToken = $loginCheck['token'];
+                    }
+                }
+            }
+
+        }
+
+        if($data['status'] === true && isSessionVariableSet($this->jukeboxToken))
+        {
+            $data['tapId'] = $id;
+            $data['tapSongs'] = $this->dashboard_model->getTapSongs($id);
+        }
+
+        $eventView = $this->load->view('RequestSongView', $data);
+
+        echo json_encode($eventView);
+    }
+
+    function getAccessFromJukebox($email, $pwd)
+    {
+        $checkUser = $this->curl_library->checkJukeboxUser($email, $pwd);
+        $data = array();
+
+        if(isset($checkUser) && isset($checkUser['email']))
+        {
+            $logUser = $this->curl_library->loginJukeboxUser($email,$pwd);
+            if(isset($logUser['error']))
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'Invalid Email or Password!';
+            }
+            elseif(isset($logUser['access_token']))
+            {
+                $data['status'] = true;
+                $data['token'] = $logUser['access_token'];
+            }
+        }
+        elseif(isset($checkUser['access_token']))
+        {
+            $data['status'] = true;
+            $data['token'] = $checkUser['access_token'];
+        }
+
+        return $data;
+    }
+    public function checkJukeUser()
+    {
+        $this->load->model('login_model');
+        $post = $this->input->post();
+
+        $data = array();
+        $userInfo = $this->login_model->checkAppUser($post['username'], md5($post['password']));
+
+        if($userInfo['status'] === true)
+        {
+            if($userInfo['userData']['ifActive'] == NOT_ACTIVE)
+            {
+                $data['status'] = false;
+                $data['errorMsg'] = 'User Account is Disabled!';
+            }
+            else
+            {
+                $token = $this->getAccessFromJukebox($post['username'], $post['password']);
+                if($token['status'] === true)
+                {
+                    $this->generalfunction_library->setSessionVariable('jukebox_token',$token['token']);
+                    $this->jukeboxToken = $token['token'];
+                    $userId = $userInfo['userData']['userId'];
+                    $this->login_model->setLastLogin($userId);
+                    $this->generalfunction_library->setMobUserSession($userId);
+                    $data['status'] = true;
+                }
+                else
+                {
+                    $data['status'] = false;
+                    $data['errorMsg'] = 'Email or Password is wrong!';
+                }
+            }
+        }
+        else
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Email or Password is wrong!';
+        }
+        echo json_encode($data);
+    }
+    public function saveUser()
+    {
+        $this->load->model('users_model');
+        $this->load->model('login_model');
+        $post = $this->input->post();
+
+        if(isset($post['hasjukebox']))
+        {
+            $loginJuke = $this->getAccessFromJukebox($post['username'], $post['jukepass']);
+        }
+        else
+        {
+            $loginJuke = $this->getAccessFromJukebox($post['username'], $post['mobNum']);
+        }
+
+
+        if(isset($loginJuke['status']) && $loginJuke['status'] === true)
+        {
+            $this->generalfunction_library->setSessionVariable('jukebox_token',$loginJuke['token']);
+            $this->jukeboxToken = $loginJuke['token'];
+            $userInfo = $this->users_model->checkUserDetails($post['username'], md5($post['mobNum']));
+
+            if($userInfo['status'] === true)
+            {
+                if($userInfo['userData']['ifActive'] == NOT_ACTIVE)
+                {
+                    $data['status'] = false;
+                    $data['errorMsg'] = 'User Account is Disabled!';
+                }
+                else
+                {
+                    $data['status'] = true;
+                    $userId = $userInfo['userData']['userId'];
+                    $this->login_model->setLastLogin($userId);
+                    $this->generalfunction_library->setMobUserSession($userId);
+                }
+            }
+            else
+            {
+                $pss = $post['mobNum'];
+                if(isset($post['jukepass']))
+                {
+                    $pss = $post['jukepass'];
+                }
+                $details = array(
+                    'userName' => $post['username'],
+                    'firstName' => '',
+                    'lastName' => '',
+                    'password' => md5($pss),
+                    'plain_pass' => $pss,
+                    'LoginPin' => null,
+                    'emailId' => $post['username'],
+                    'mobNum' => $post['mobNum'],
+                    'userType' => '4'
+                );
+                $userId = $this->users_model->saveMobUserRecord($details);
+                if(isset($userId) && isStringSet($userId))
+                {
+                    $this->login_model->setLastLogin($userId);
+                    $this->generalfunction_library->setMobUserSession($userId);
+                    $data['status'] = true;
+                }
+                else
+                {
+                    $data['status'] = false;
+                    $data['errorMsg'] = 'Error Saving User';
+                }
+            }
+        }
+        else
+        {
+            $data['status'] = false;
+            $data['errorMsg'] = 'Please use the jukebox password for login!';
+        }
+
+        echo json_encode($data);
+    }
+
+    public function playTapSong()
+    {
+        $post = $this->input->post();
+
+        if(isSessionVariableSet($this->jukeboxToken))
+        {
+            $post['Auth'] = $this->jukeboxToken;
+            $songStatus = $this->curl_library->requestTapSong($post);
+            if(isset($songStatus['error']))
+            {
+                $data['status'] = false;
+                $data['errorNum'] = 2;
+                $data['errorMsg'] = $songStatus['error'];
+            }
+            elseif(isset($songStatus['detail']))
+            {
+                $data['status'] = false;
+                $data['errorNum'] = 2;
+                $data['errorMsg'] = $songStatus['detail'];
+            }
+            elseif(isset($songStatus['is_requested']) && $songStatus['is_requested'] === true)
+            {
+                $data['status'] = true;
+            }
+        }
+        else
+        {
+            $data['status'] = false;
+            $data['errorNum'] = 1;
+            $data['errorMsg'] = 'Invalid Login/Session';
+        }
+
+        echo json_encode($data);
+    }
     public function appLogout()
     {
         $this->session->unset_userdata('user_mob_id');
@@ -513,6 +764,12 @@ class Main extends MY_Controller {
         $this->session->unset_userdata('user_mob_name');
         $this->session->unset_userdata('user_mob_email');
         $this->session->unset_userdata('user_mob_firstname');
+        $this->isMobUserSession = '';
+        $this->userMobType = '';
+        $this->userMobId = '';
+        $this->userMobName = '';
+        $this->userMobFirstName = '';
+        $this->userMobEmail = '';
 
         $data['status'] = true;
         echo json_encode($data);
@@ -617,7 +874,7 @@ class Main extends MY_Controller {
                 $post['endTime'] = date('H:i', strtotime($post['endTime']));
                 $eventId = $this->dashboard_model->saveEventRecord($post);
 
-                $eventShareLink = base_url().'mobile?page/events/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
+                $eventShareLink = base_url().'?page/events/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
 
                 $details = array(
                     'eventShareLink'=> $eventShareLink
@@ -695,11 +952,12 @@ class Main extends MY_Controller {
                 $post['endTime'] = date('H:i', strtotime($post['endTime']));
                 $eventId = $this->dashboard_model->saveEventRecord($post);
 
-                $eventShareLink = base_url().'mobile?page/events/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
+                $eventShareLink = base_url().'?page/events/EV-'.$eventId.'/'.encrypt_data('EV-'.$eventId);
 
                 $details = array(
                     'eventShareLink'=> $eventShareLink
                 );
+
                 $this->dashboard_model->updateEventRecord($details,$eventId);
 
                 $img_names = array();

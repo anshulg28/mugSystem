@@ -232,4 +232,44 @@ class Cron extends MY_Controller
         $this->cron_model->insertWeeklyFeedback($details);
     }
 
+    public function fetchJukeBoxLists()
+    {
+        $rests = $this->curl_library->getJukeboxTaprooms();
+        if(isset($rests) && myIsMultiArray($rests))
+        {
+            foreach($rests as $key => $row)
+            {
+                $details = array();
+                $resId = $row['id'];
+                $details['tapId'] = $resId;
+                $details['tapName'] = $row['name'];
+                $playlist = $this->curl_library->getTapPlaylist($resId);
+                if(isset($playlist) && myIsMultiArray($playlist))
+                {
+                    $songs = array();
+                    foreach($playlist as $playSub => $playKey)
+                    {
+                        if($playSub == 1)
+                            break;
+                        $playId = $playKey['id'];
+                        $songs[] = $this->curl_library->getTapSongsByPlaylist($resId,$playId);
+                    }
+                    $details['tapSongs'] = json_encode($songs);
+                }
+
+                //save to DB
+                $songs = $this->cron_model->checkTapSongs($resId);
+                if($songs['status'] === true)
+                {
+                    $this->cron_model->updateSongs($resId,$details);
+                }
+                else
+                {
+                    $this->cron_model->insertSongs($details);
+                }
+
+            }
+        }
+    }
+
 }

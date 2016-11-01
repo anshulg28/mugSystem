@@ -277,7 +277,7 @@
             </div>-->
             <div class="page-content login-screen">
                 <div class="login-screen-title">Doolally Login</div>
-                <form action="<?php echo base_url().'mobile/main/checkUser';?>" id="user-app-login" method="post" class="ajax-submit">
+                <form action="<?php echo base_url().'main/checkUser';?>" id="user-app-login" method="post" class="ajax-submit">
                     <div class="list-block">
                         <ul>
                             <li class="item-content">
