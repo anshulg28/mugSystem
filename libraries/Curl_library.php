@@ -67,17 +67,17 @@ class curl_library
     public function getFacebookPosts($storeName,$params)
     {
         $url = FACEBOOK_API.$storeName.'/tagged?'.http_build_query($params);
-        return $this->getDataByGet($url, 30);
+        return $this->getDataByGet($url, 0);
     }
     public function getInstagramPosts()
     {
         $url = 'https://www.juicer.io/api/feeds/24816';
-        return $this->getDataByGet($url, 30);
+        return $this->getDataByGet($url, 0);
     }
     public function getMoreInstaFeeds()
     {
         $url = 'https://www.juicer.io/api/feeds/31761';
-        return $this->getDataByGet($url, 30);
+        return $this->getDataByGet($url, 0);
     }
 
     /* Instamojo API */
