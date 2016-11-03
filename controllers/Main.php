@@ -923,7 +923,10 @@ class Main extends MY_Controller {
                 $userD = $this->users_model->getUserDetailsById($userId);
                 if($userD['status'] === true)
                 {
-                    $post['creatorName'] = $userD['userData'][0]['firstName'] . ' ' . $userD['userData'][0]['lastName'];
+                    if(isStringSet($userD['userData'][0]['firstName']))
+                    {
+                        $post['creatorName'] = $userD['userData'][0]['firstName'] . ' ' . $userD['userData'][0]['lastName'];
+                    }
                     $post['creatorEmail'] = $userD['userData'][0]['emailId'];
                     $post['creatorPhone'] = $userD['userData'][0]['mobNum'];
                 }

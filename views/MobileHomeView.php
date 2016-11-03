@@ -907,7 +907,7 @@
                     </i>
                     <span class="tabbar-label">/doolally</span>
                 </a>
-                <a href="#tab2" class="tab-link">
+                <a href="#tab2" class="tab-link my-events-tab-icon">
                     <!--<i class="fa fa-hashtag"></i>-->
                     <!--<i class="fa fa-calendar"></i>-->
                     <span class="ic_events_icon"></span>
@@ -940,7 +940,7 @@
                         <div class="item-inner">
                             <div class="item-title">Facebook</div>
                             <div class="item-after">
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect my-fb-label" for="fb-checked">
+                                <label class="mdl-checkbox mdl-js-checkbox my-fb-label" for="fb-checked">
                                     <input type="checkbox" name="social-filter" value="1" id="fb-checked" class="mdl-checkbox__input">
                                     <span class="mdl-checkbox__label"></span>
                                 </label>
@@ -951,7 +951,7 @@
                         <div class="item-inner">
                             <div class="item-title">Twitter</div>
                             <div class="item-after">
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect my-tw-label" for="tw-checked">
+                                <label class="mdl-checkbox mdl-js-checkbox my-tw-label" for="tw-checked">
                                     <input type="checkbox" name="social-filter" value="2" id="tw-checked" class="mdl-checkbox__input">
                                     <span class="mdl-checkbox__label"></span>
                                 </label>
@@ -962,7 +962,7 @@
                         <div class="item-inner">
                             <div class="item-title">Instagram</div>
                             <div class="item-after">
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect my-insta-label" for="insta-checked">
+                                <label class="mdl-checkbox mdl-js-checkbox my-insta-label" for="insta-checked">
                                     <input type="checkbox" name="social-filter" value="3" id="insta-checked" class="mdl-checkbox__input">
                                     <span class="mdl-checkbox__label"></span>
                                 </label>
@@ -976,8 +976,8 @@
     <div class="popover popover-filters">
         <div class="popover-angle"></div>
         <div class="popover-inner">
-            <p>What's on tap in..
-            <i class="fa fa-times pull-right clear-beer-filter hide"></i></p>
+            <p class="clear-beer-filter">What's on tap in..
+            <i class="fa fa-times pull-right close-icon hide"></i></p>
             <div class="list-block inset">
                 <ul>
                     <?php
@@ -992,7 +992,7 @@
                                         <div class="item-inner">
                                             <div class="item-title"><?php echo $row['locName'];?></div>
                                             <div class="item-after">
-                                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-<?php echo $row['id'];?>">
+                                                <label class="mdl-radio mdl-js-radio" for="option-<?php echo $row['id'];?>">
                                                     <input type="radio" id="option-<?php echo $row['id'];?>" class="mdl-radio__button" name="beer-locations" value="<?php echo $row['id'];?>">
                                                     <span class="mdl-radio__label"></span>
                                                 </label>
@@ -1011,8 +1011,8 @@
     <div class="popover popover-event-filter">
         <div class="popover-angle"></div>
         <div class="popover-inner">
-            <p>Show events in..
-                <i class="fa fa-times pull-right clear-event-filter hide"></i></p>
+            <p class="clear-event-filter">Show events in..
+                <i class="fa fa-times pull-right close-icon hide"></i></p>
             <div class="list-block inset">
                 <ul>
                     <?php
@@ -1027,7 +1027,7 @@
                                     <div class="item-inner">
                                         <div class="item-title"><?php echo $row['locName'];?></div>
                                         <div class="item-after">
-                                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="even-<?php echo $row['id'];?>">
+                                            <label class="mdl-radio mdl-js-radio" for="even-<?php echo $row['id'];?>">
                                                 <input type="radio" id="even-<?php echo $row['id'];?>" class="mdl-radio__button" name="event-locations" value="<?php echo $row['id'];?>">
                                                 <span class="mdl-radio__label"></span>
                                             </label>
@@ -1079,6 +1079,11 @@
         <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect confirm-option"></button>
     </div>
 </dialog>
+    <!--<div class="custom-loader-overlay">
+        <div id="myCustomBeerLoader">
+            <img src="<?php /*echo base_url().'asset/images/Doolally_Small.gif';*/?>" class="img-responsive"/>
+        </div>
+    </div>-->
 </body>
 <?php echo $mobileJs; ?>
 <?php echo $iosJs; ?>
@@ -1485,7 +1490,7 @@
         $("time.timeago").timeago();
     }
     $$(window).on('load', function(e){
-        setInterval(fetchNewFeeds,5*60*1000);
+        setInterval(fetchNewFeeds,60*1000);
     });
 
     var ptrContent = $$('.pull-to-refresh-content');

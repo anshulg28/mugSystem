@@ -20,6 +20,17 @@
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/hammer.min.js"></script>-->
 
 <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-86757534-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+<script>
     window.jukeLat = 0;
     window.jukeLong = 0;
     window.base_url = '<?php echo base_url(); ?>';
@@ -324,5 +335,16 @@
             default:
                 return 'Try again after sometime';
         }
+    }
+    function showCustomLoader()
+    {
+        $('body').addClass('custom-loader-body');
+        $('.custom-loader-overlay').css('top',$(window).scrollTop()).addClass('show');
+    }
+
+    function hideCustomLoader()
+    {
+        $('body').removeClass('custom-loader-body');
+        $('.custom-loader-overlay').removeClass('show');
     }
 </script>

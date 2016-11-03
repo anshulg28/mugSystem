@@ -91,7 +91,7 @@
                                                 if($row['albumartThumbnail'] == '')
                                                 {
                                                     ?>
-                                                    <i class="fa fa-music"></i>
+                                                    <i class="fa fa-music music-placeholder"></i>
                                                     <?php
                                                 }
                                                 else
