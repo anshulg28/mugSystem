@@ -300,7 +300,7 @@
                     </div>
                     <div class="list-block">
                         <ul>
-                            <li><input type="submit" class="button button-big button-fill" value="Sign In"/></li>
+                            <li><input onclick="myApp.showIndicator()" type="submit" class="button button-big button-fill" value="Sign In"/></li>
                         </ul>
                     </div>
                 </form>

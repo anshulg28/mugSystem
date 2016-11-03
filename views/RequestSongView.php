@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="list-block">
                                         <ul>
-                                            <li><input type="submit" class="button button-big button-fill" value="Log In"/></li>
+                                            <li><input onclick="myApp.showIndicator()" type="submit" class="button button-big button-fill" value="Log In"/></li>
                                         </ul>
                                     </div>
                                 </form>
@@ -219,7 +219,7 @@
                                     </div>
                                     <div class="list-block">
                                         <ul>
-                                            <li><input type="submit" class="button button-big button-fill" value="Sign Up"/></li>
+                                            <li><input onclick="myApp.showIndicator()" type="submit" class="button button-big button-fill" value="Sign Up"/></li>
                                         </ul>
                                     </div>
                                 </form>

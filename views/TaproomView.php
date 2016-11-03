@@ -104,7 +104,7 @@
             </div>
         </div>
         <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored music-request-btn">
-            <i class="ic_request_music"></i>
+            <i class="ic_request_music_black"></i>
             <!--<i class="fa fa-plus"></i>-->
         </button>
     </div>

@@ -91,7 +91,8 @@
                         </span>
                     </a>
                 </li>
-                <li class="user-settings mdl-list__item <?php if(isSessionVariableSet($this->isMobUserSession) === false){echo 'hide';}?>">
+                <li class="user-settings mdl-list__item <?php if(isSessionVariableSet($this->isMobUserSession) === false){echo 'hide';}?>"
+                style="display:none !important;">
                     <a href="#" class="my-fullWidth">
                     <span class="mdl-list__item-primary-content">
                         <i class="fa fa-cog mdl-list__item-icon"></i>
