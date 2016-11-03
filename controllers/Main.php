@@ -1051,6 +1051,7 @@ class Main extends MY_Controller {
                 'ifActive' => '0',
                 'ifApproved' => '0'
             );
+
             $this->dashboard_model->updateEventRecord($details,$post['eventId']);
 
             $img_names = array();
