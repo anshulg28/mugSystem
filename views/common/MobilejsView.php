@@ -6,8 +6,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.timeago.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jssocials.min.js"></script>
 <!--<script type="text/javascript" src="<?php /*echo base_url(); */?>asset/mobile/js/jquery-clockpicker.min.js"></script>-->
-<script type="text/javascript" src="<?php echo base_url();?>asset/mobile/js/bootstrap-timepicker.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>asset/mobile/js/timedropper.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>asset/mobile/js/jquery.timepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.swipebox.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/jquery.geolocation.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>asset/mobile/js/welcomescreen.js"></script>
