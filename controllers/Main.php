@@ -23,121 +23,107 @@ class Main extends MY_Controller {
 	public function index()
 	{
         $data = array();
-        $get = $this->input->get();
-
-        if(isset($get['event']) && isStringSet($get['event']) && isset($get['hash']) && isStringSet($get['hash']))
+        if ($this->mobile_detect->isMobile())
         {
-            if(hash_compare(encrypt_data('EV-'.$get['event']),$get['hash']))
+            $get = $this->input->get();
+
+            if(isset($get['event']) && isStringSet($get['event']) && isset($get['hash']) && isStringSet($get['hash']))
             {
-                if(isset($get['status']) && $get['status'] == 'success' && isset($get['payment_id']))
+                if(hash_compare(encrypt_data('EV-'.$get['event']),$get['hash']))
                 {
-                    $this->thankYou($get['event'],$get['payment_id']);
+                    if(isset($get['status']) && $get['status'] == 'success' && isset($get['payment_id']))
+                    {
+                        $this->thankYou($get['event'],$get['payment_id']);
+                    }
                 }
             }
-        }
-        if(isSessionVariableSet($this->instaMojoStatus) && $this->instaMojoStatus == '1')
-        {
-            $this->generalfunction_library->setSessionVariable('instaMojoStatus','0');
-            $this->instaMojoStatus = '0';
-            $data['MojoStatus'] = 1;
-        }
-        elseif(isSessionVariableSet($this->instaMojoStatus) && $this->instaMojoStatus == '2')
-        {
-            $this->generalfunction_library->setSessionVariable('instaMojoStatus','0');
-            $this->instaMojoStatus = '0';
-            $data['MojoStatus'] = 2;
-        }
-        else
-        {
-            $data['MojoStatus'] = 0;
-        }
-
-        $data['mobileStyle'] = $this->dataformatinghtml_library->getMobileStyleHtml($data);
-        $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
-
-        $data['myFeeds'] = $this->returnAllFeeds();
-        $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
-        $data['mainLocs'] = $this->locations_model->getAllLocations();
-
-        $data['weekEvents'] = $this->dashboard_model->getWeeklyEvents();
-        /*if(myIsMultiArray($weekEvents))
-        {
-            $oldWeek = $weekEvents;
-            $oldCount = 0;
-            foreach($weekEvents as $key => $row)
+            if(isSessionVariableSet($this->instaMojoStatus) && $this->instaMojoStatus == '1')
             {
-                $onlyDates[] = $row['eventDate'];
+                $this->generalfunction_library->setSessionVariable('instaMojoStatus','0');
+                $this->instaMojoStatus = '0';
+                $data['MojoStatus'] = 1;
             }
-            for($i=0;$i<8;$i++)
+            elseif(isSessionVariableSet($this->instaMojoStatus) && $this->instaMojoStatus == '2')
             {
-                if(myInArray(date('Y-m-d',strtotime('+'.$i.' day')),$onlyDates) === false)
-                {
-                    $weekEvents[$i] = null;
+                $this->generalfunction_library->setSessionVariable('instaMojoStatus','0');
+                $this->instaMojoStatus = '0';
+                $data['MojoStatus'] = 2;
+            }
+            else
+            {
+                $data['MojoStatus'] = 0;
+            }
+
+            $data['mobileStyle'] = $this->dataformatinghtml_library->getMobileStyleHtml($data);
+            $data['mobileJs'] = $this->dataformatinghtml_library->getMobileJsHtml($data);
+
+            $data['myFeeds'] = $this->returnAllFeeds();
+            $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
+            $data['mainLocs'] = $this->locations_model->getAllLocations();
+
+            $data['weekEvents'] = $this->dashboard_model->getWeeklyEvents();
+
+            $events = $this->dashboard_model->getAllApprovedEvents();
+            usort($events,
+                function($a, $b) {
+                    $ts_a = strtotime($a['eventDate']);
+                    $ts_b = strtotime($b['eventDate']);
+
+                    return $ts_a > $ts_b;
                 }
-                else
-                {
-                    $weekEvents[$i] = $oldWeek[$oldCount];
-                    $oldCount++;
-                }
-            }
-            $data['weekEvents'] = $weekEvents;
-        }*/
-        $events = $this->dashboard_model->getAllApprovedEvents();
-        usort($events,
-            function($a, $b) {
-                $ts_a = strtotime($a['eventDate']);
-                $ts_b = strtotime($b['eventDate']);
+            );
 
-                return $ts_a > $ts_b;
-            }
-        );
-
-        if(isset($events) && myIsMultiArray($events))
-        {
-            foreach($events as $key => $row)
+            if(isset($events) && myIsMultiArray($events))
             {
-                $shortDWName = $this->googleurlapi->shorten($row['eventShareLink']);
-                if($shortDWName !== false)
+                foreach($events as $key => $row)
                 {
-                    $row['eventShareLink'] = $shortDWName;
-                }
-                $data['eventDetails'][$key]['eventData'] = $row;
-            }
-        }
-        if(isStringSet($_SERVER['QUERY_STRING']))
-        {
-            $query = explode('/',$_SERVER['QUERY_STRING']);
-            if(isset($query[1]) && $query[1] == 'events')
-            {
-                if(isset($query[2]))
-                {
-                    $event = explode('-',$query[2]);
-                    $eventData = $this->dashboard_model->getEventById($event[1]);
-                    $eventAtt = $this->dashboard_model->getEventAttById($event[1]);
-                    $data['meta']['title'] = $eventData[0]['eventName'];
-                    $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
-                    $data['meta']['description'] = $truncated_RestaurantName;
-                    $data['meta']['link'] = $eventData[0]['eventShareLink'];
-                    $data['meta']['img'] = $eventAtt[0]['filename'];
-
+                    $shortDWName = $this->googleurlapi->shorten($row['eventShareLink']);
+                    if($shortDWName !== false)
+                    {
+                        $row['eventShareLink'] = $shortDWName;
+                    }
+                    $data['eventDetails'][$key]['eventData'] = $row;
                 }
             }
-        }
-        /*if ($this->mobile_detect->isAndroidOS()) {
+            if(isStringSet($_SERVER['QUERY_STRING']))
+            {
+                $query = explode('/',$_SERVER['QUERY_STRING']);
+                if(isset($query[1]) && $query[1] == 'events')
+                {
+                    if(isset($query[2]))
+                    {
+                        $event = explode('-',$query[2]);
+                        $eventData = $this->dashboard_model->getEventById($event[1]);
+                        $eventAtt = $this->dashboard_model->getEventAttById($event[1]);
+                        $data['meta']['title'] = $eventData[0]['eventName'];
+                        $truncated_RestaurantName = (strlen(strip_tags($eventData[0]['eventDescription'])) > 140) ? substr(strip_tags($eventData[0]['eventDescription']), 0, 140) . '..' : strip_tags($eventData[0]['eventDescription']);
+                        $data['meta']['description'] = $truncated_RestaurantName;
+                        $data['meta']['link'] = $eventData[0]['eventShareLink'];
+                        $data['meta']['img'] = $eventAtt[0]['filename'];
 
-            $data['androidStyle'] = $this->dataformatinghtml_library->getAndroidStyleHtml($data);
-            $data['androidJs'] = $this->dataformatinghtml_library->getAndroidJsHtml($data);
-            $this->load->view('mobile/android/MobileHomeView', $data);
-        }
-        else
-        {
+                    }
+                }
+            }
+            /*if ($this->mobile_detect->isAndroidOS()) {
+
+                $data['androidStyle'] = $this->dataformatinghtml_library->getAndroidStyleHtml($data);
+                $data['androidJs'] = $this->dataformatinghtml_library->getAndroidJsHtml($data);
+                $this->load->view('mobile/android/MobileHomeView', $data);
+            }
+            else
+            {
+                $data['iosStyle'] = $this->dataformatinghtml_library->getIosStyleHtml($data);
+                $data['iosJs'] = $this->dataformatinghtml_library->getIosJsHtml($data);
+                $this->load->view('mobile/ios/MobileHomeView', $data);
+            }*/
             $data['iosStyle'] = $this->dataformatinghtml_library->getIosStyleHtml($data);
             $data['iosJs'] = $this->dataformatinghtml_library->getIosJsHtml($data);
-            $this->load->view('mobile/ios/MobileHomeView', $data);
-        }*/
-        $data['iosStyle'] = $this->dataformatinghtml_library->getIosStyleHtml($data);
-        $data['iosJs'] = $this->dataformatinghtml_library->getIosJsHtml($data);
-        $this->load->view('MobileHomeView', $data);
+            $this->load->view('MobileHomeView', $data);
+        }
+        else
+        {
+            $this->load->view('ComingSoonView', $data);
+        }
 	}
 
     public function about()
