@@ -3,9 +3,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php
+    if(isset($meta) && myIsArray($meta))
+    {
+        ?>
+        <title><?php echo $meta['title'];?></title>
+        <meta name="description" content="<?php echo $meta['description'];?>" />
+
+        <!-- Schema.org markup for Google+ -->
+        <meta itemprop="name" content="<?php echo $meta['title'];?>">
+        <meta itemprop="description" content="<?php echo $meta['description'];?>">
+        <meta itemprop="image" content="<?php echo base_url().EVENT_PATH_THUMB.$meta['img'];?>">
+
+        <!-- Twitter Card data -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@godoolally">
+        <meta name="twitter:title" content="<?php echo $meta['title'];?>">
+        <meta name="twitter:description" content="<?php echo $meta['description'];?>">
+        <meta name="twitter:creator" content="@godoolally">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="<?php echo base_url().EVENT_PATH_THUMB.$meta['img'];?>">
+
+        <!-- Open Graph data -->
+        <meta property="og:title" content="<?php echo $meta['title'];?>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="<?php echo $meta['link'];?>" />
+        <meta property="og:image" content="<?php echo base_url().EVENT_PATH_THUMB.$meta['img'];?>" />
+        <meta property="og:description" content="<?php echo $meta['description'];?>" />
+        <?php
+    }
+    else
+    {
+        ?>
+        <title>Doolally</title>
+        <?php
+    }
+    ?>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Coming Soon</title>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>asset/css/temp/component-coming.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans|Averia+Serif+Libre' rel='stylesheet' type='text/css'>
     <link rel="icon" sizes="76x76" href="<?php echo base_url();?>asset/images/doolally-app-icon.png"/>

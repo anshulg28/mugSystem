@@ -124,7 +124,7 @@ class curl_library
     /* JukeBox API */
     public function getJukeboxTaprooms()
     {
-        $url = 'http://api.bcjukebox.in/api/restaurants/';
+        $url = 'https://api.bcjukebox.in/api/restaurants/';
         $header = array(
             'bcclientid:'.BCJUKEBOX_CLIENT,
         );
@@ -132,7 +132,7 @@ class curl_library
     }
     public function getTaproomInfo($id)
     {
-        $url = 'http://api.bcjukebox.in/api/restaurants/'.$id.'/request_queue/';
+        $url = 'https://api.bcjukebox.in/api/restaurants/'.$id.'/request_queue/';
         $header = array(
             'bcclientid:'.BCJUKEBOX_CLIENT,
         );
@@ -140,7 +140,7 @@ class curl_library
     }
     public function checkJukeboxUser($email, $pwd)
     {
-        $url = 'http://api.bcjukebox.in/signup/email/';
+        $url = 'https://api.bcjukebox.in/signup/email/';
         $post = array(
             'client_id' => BCJUKEBOX_CLIENT,
             'email' => $email,
@@ -152,7 +152,7 @@ class curl_library
 
     public function loginJukeboxUser($email, $pwd)
     {
-        $url = 'http://api.bcjukebox.in/oauth2/access_token/';
+        $url = 'https://api.bcjukebox.in/oauth2/access_token/';
         $post = array(
             'client_id' => BCJUKEBOX_CLIENT,
             'username' => $email,
@@ -166,7 +166,7 @@ class curl_library
     //Fetching playlist of taproom
     public function getTapPlaylist($resId)
     {
-        $url = 'http://api.bcjukebox.in/api/restaurants/'.$resId.'/playlistsongs/';
+        $url = 'https://api.bcjukebox.in/api/restaurants/'.$resId.'/playlistsongs/';
         $header = array(
             'bcclientid:'.BCJUKEBOX_CLIENT,
         );
@@ -176,7 +176,7 @@ class curl_library
     //Fetching songs in a playlist
     public function getTapSongsByPlaylist($resId,$playId)
     {
-        $url = 'http://api.bcjukebox.in/api/restaurants/'.$resId.'/playlistsongs/'.$playId.'/';
+        $url = 'https://api.bcjukebox.in/api/restaurants/'.$resId.'/playlistsongs/'.$playId.'/';
         $header = array(
             'bcclientid:'.BCJUKEBOX_CLIENT,
         );
@@ -185,7 +185,7 @@ class curl_library
 
     public function requestTapSong($post)
     {
-        $url = 'http://api.bcjukebox.in/api/restaurants/'.$post['tapId'].'/requests/';
+        $url = 'https://api.bcjukebox.in/api/restaurants/'.$post['tapId'].'/requests/';
         $details = array(
             'song' => $post['songId']
         );
