@@ -49,10 +49,10 @@
                 <div class="subnavbar myCustomSubNav">
                     <!-- Buttons row as tabs controller in Subnavbar-->
                     <div class="buttons-row">
-                        <!-- Link to 1st tab, active -->
-                        <a href="#attending" class="button active tab-link">Attending</a>
                         <!-- Link to 2nd tab -->
-                        <a href="#hosting" class="button tab-link">Hosting</a>
+                        <a href="#hosting" class="button active tab-link">Hosting</a>
+                        <!-- Link to 1st tab, active -->
+                        <a href="#attending" class="button tab-link">Attending</a>
                     </div>
                 </div>
                 <?php
@@ -80,8 +80,118 @@
                 <div class="tabs-swipeable-wrap">
                     <!-- Tabs, tabs wrapper -->
                     <div class="tabs">
+                        <!-- Tab 2 -->
+                        <div id="hosting" class="page-content tab active">
+                            <div class="content-block">
+                                <?php
+                                if(isset($userEvents) && myIsMultiArray($userEvents))
+                                {
+                                    $postImg = 0;
+                                    foreach($userEvents as $key => $row)
+                                    {
+                                        $img_collection = array();
+                                        ?>
+                                        <div class="card demo-card-header-pic">
+                                            <div class="row no-gutter">
+                                                <div class="col-100"> <!--more-photos-wrapper-->
+                                                    <?php
+                                                    if($postImg >=10)
+                                                    {
+                                                        ?>
+                                                        <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                                                        <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                        <?php
+                                                    }
+                                                    $postImg++;
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
+                                            <div class="card-content">
+                                                <div class="card-content-inner">
+                                                    <div class="event-info-wrapper">
+                                                        <p class="pull-left card-ptag event-date-tag">
+                                                            <?php
+                                                            $eventName = (strlen($row['eventName']) > 25) ? substr($row['eventName'], 0, 25) . '..' : $row['eventName'];
+                                                            echo $eventName;?>
+                                                        </p>
+                                                        <input type="hidden" data-name="<?php echo $row['eventName'];?>" value="<?php echo $row['eventShareLink'];?>"/>
+                                                        <?php
+                                                        if($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == ACTIVE)
+                                                        {
+                                                            ?>
+                                                            <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+
+                                                    <div class="comment my-event-status">
+                                                            <span>
+                                                            <?php
+                                                            $isApprov = false;
+                                                            if($row['ifApproved'] == EVENT_DECLINED)
+                                                            {
+                                                                ?>
+                                                                <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Declined!<?php
+                                                            }
+                                                            elseif($row['ifApproved'] == EVENT_WAITING)
+                                                            {
+                                                                ?>
+                                                                <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Review In Progress...<?php
+                                                            }
+                                                            elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == ACTIVE)
+                                                            {
+                                                                $isApprov = true;
+                                                                ?>
+                                                                <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved!<?php
+                                                            }
+                                                            elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == NOT_ACTIVE)
+                                                            {
+                                                                $isApprov = true;
+                                                                ?>
+                                                                <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved But Not Active<?php
+                                                            }
+                                                            ?>
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer event-card-footer">
+                                                <?php
+                                                if($isApprov === true)
+                                                {
+                                                    ?>
+                                                    <a href="<?php echo 'event_details/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">View&nbsp;Details</a>
+                                                    <?php
+                                                }
+                                                else
+                                                {
+                                                    ?>
+                                                    <a href="<?php echo 'event_details/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow" disabled>View&nbsp;Details</a>
+                                                    <?php
+                                                }
+                                                ?>
+
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                }
+                                else
+                                {
+                                    echo 'No Event Created Yet!';
+                                }
+                                ?>
+                            </div>
+                        </div>
                         <!-- Tab 1, active by default -->
-                        <div id="attending" class="page-content tab active">
+                        <div id="attending" class="page-content tab">
                             <div class="content-block">
                                 <?php
                                     if(isset($registeredEvents) && myIsMultiArray($registeredEvents))
@@ -157,116 +267,6 @@
                                 ?>
                             </div>
                         </div>
-                        <!-- Tab 2 -->
-                        <div id="hosting" class="page-content tab">
-                            <div class="content-block">
-                                <?php
-                                    if(isset($userEvents) && myIsMultiArray($userEvents))
-                                    {
-                                        $postImg = 0;
-                                        foreach($userEvents as $key => $row)
-                                        {
-                                            $img_collection = array();
-                                            ?>
-                                            <div class="card demo-card-header-pic">
-                                                <div class="row no-gutter">
-                                                    <div class="col-100"> <!--more-photos-wrapper-->
-                                                        <?php
-                                                        if($postImg >=10)
-                                                        {
-                                                            ?>
-                                                            <img src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
-                                                            <?php
-                                                        }
-                                                        else
-                                                        {
-                                                            ?>
-                                                            <img data-src="<?php echo base_url().EVENT_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
-                                                            <?php
-                                                        }
-                                                        $postImg++;
-                                                        ?>
-                                                    </div>
-                                                </div>
-                                                <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
-                                                <div class="card-content">
-                                                    <div class="card-content-inner">
-                                                        <div class="event-info-wrapper">
-                                                            <p class="pull-left card-ptag event-date-tag">
-                                                                <?php
-                                                                $eventName = (strlen($row['eventName']) > 25) ? substr($row['eventName'], 0, 25) . '..' : $row['eventName'];
-                                                                echo $eventName;?>
-                                                            </p>
-                                                            <input type="hidden" data-name="<?php echo $row['eventName'];?>" value="<?php echo $row['eventShareLink'];?>"/>
-                                                            <?php
-                                                            if($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == ACTIVE)
-                                                            {
-                                                                ?>
-                                                                <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
-                                                                <?php
-                                                            }
-                                                            ?>
-                                                        </div>
-
-                                                        <div class="comment my-event-status">
-                                                            <span>
-                                                            <?php
-                                                            $isApprov = false;
-                                                                if($row['ifApproved'] == EVENT_DECLINED)
-                                                                {
-                                                                    ?>
-                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Declined!<?php
-                                                                }
-                                                                elseif($row['ifApproved'] == EVENT_WAITING)
-                                                                {
-                                                                    ?>
-                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Review In Progress...<?php
-                                                                }
-                                                                elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == ACTIVE)
-                                                                {
-                                                                    $isApprov = true;
-                                                                    ?>
-                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved!<?php
-                                                                }
-                                                                    elseif($row['ifApproved'] == EVENT_APPROVED && $row['ifActive'] == NOT_ACTIVE)
-                                                                {
-                                                                    $isApprov = true;
-                                                                    ?>
-                                                                    <i class="ic_me_info_icon info-icon"></i>&nbsp;&nbsp;Event Approved But Not Active<?php
-                                                                }
-                                                            ?>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer event-card-footer">
-                                                    <?php
-                                                        if($isApprov === true)
-                                                        {
-                                                            ?>
-                                                            <a href="<?php echo 'event_details/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">View&nbsp;Details</a>
-                                                            <?php
-                                                        }
-                                                        else
-                                                        {
-                                                            ?>
-                                                            <a href="<?php echo 'event_details/EV-'.$row['eventId'].'/'.encrypt_data('EV-'.$row['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow" disabled>View&nbsp;Details</a>
-                                                            <?php
-                                                        }
-                                                    ?>
-
-                                                </div>
-                                            </div>
-                                            <?php
-                                        }
-                                    }
-                                    else
-                                    {
-                                        echo 'No Event Created Yet!';
-                                    }
-                                ?>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <?php
@@ -292,7 +292,7 @@
                                 <div class="item-inner">
                                     <div class="item-title label">Password</div>
                                     <div class="item-input">
-                                        <input type="password" name="password" placeholder="Your password">
+                                        <input type="password" name="password" placeholder="Your password/Mobile Number">
                                     </div>
                                 </div>
                             </li>

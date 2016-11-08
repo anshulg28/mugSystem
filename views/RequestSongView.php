@@ -84,7 +84,8 @@
                             {
 
                                 ?>
-                                <li>
+                                <li class="request_song_btn" data-songId="<?php echo $row['id'];?>"
+                                    data-tapId="<?php echo $tapId;?>">
                                     <div class="item-content">
                                         <div class="item-media">
                                             <?php
@@ -108,8 +109,7 @@
                                             </div>
                                             <div class="item-subtitle">
                                                 <?php echo $row['artist'];?>
-                                                <div class="request_song_btn" data-songId="<?php echo $row['id'];?>"
-                                                     data-tapId="<?php echo $tapId;?>">
+                                                <div class="plus-sign-btn">
                                                     <i class="fa fa-plus"></i>
                                                 </div>
                                             </div>

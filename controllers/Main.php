@@ -517,6 +517,18 @@ class Main extends MY_Controller {
             }
             else
             {
+                $loginJuke = $this->getAccessFromJukebox($post['username'], $post['password']);
+                if($loginJuke['status'] === false)
+                {
+                    $data['status'] = false;
+                    $data['errorMsg'] = 'Email or Password is wrong!';
+                }
+                else
+                {
+                    $data['status'] = true;
+                    $this->generalfunction_library->setSessionVariable('jukebox_token',$loginJuke['token']);
+                    $this->jukeboxToken = $loginJuke['token'];
+                }
                 $data['status'] = true;
                 $userId = $userInfo['userData']['userId'];
                 $this->login_model->setLastLogin($userId);
