@@ -371,10 +371,10 @@ class Dashboard extends MY_Controller {
             if($_FILES['attachment']['error'] != 1)
             {
                 $config = array();
-                $config['upload_path'] = './'.FOOD_PATH_NORMAL; // FOOD_PATH_THUMB; //'uploads/food/';
+                $config['upload_path'] = '../mobile/'.FOOD_PATH_NORMAL; // FOOD_PATH_THUMB; //'uploads/food/';
                 if(isset($_POST['itemType']) && $_POST['itemType'] == '2')
                 {
-                    $config['upload_path'] = './'.BEVERAGE_PATH_NORMAL; //BEVERAGE_PATH_THUMB; //uploads/beverage/';
+                    $config['upload_path'] = '../mobile/'.BEVERAGE_PATH_NORMAL; //BEVERAGE_PATH_THUMB; //uploads/beverage/';
                 }
                 $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']      = '0';
@@ -406,7 +406,7 @@ class Dashboard extends MY_Controller {
             $config['image_library']    = 'gd2';
             $config['source_image']     = $image_path.$img_name;
             $config['new_image']        = $image_thumb;
-            $config['quality']          = 80;
+            $config['quality']          = 90;
             $config['maintain_ratio']   = TRUE;
             $config['height']           = 480;
             $config['width']            = 690;
@@ -544,7 +544,7 @@ class Dashboard extends MY_Controller {
             if($_FILES['attachment']['error'] != 1)
             {
                 $config = array();
-                $config['upload_path'] = './uploads/events/';
+                $config['upload_path'] = '../mobile/uploads/events/';
                 $config['allowed_types'] = 'gif|jpg|png|jpeg';
                 $config['max_size']      = '0';
                 $config['overwrite']     = TRUE;
@@ -664,11 +664,11 @@ class Dashboard extends MY_Controller {
         $data = array();
         $events = $this->dashboard_model->getEventById($eventId);
         $details = array(
-            'ifActive' => '0',
-            'ifApproved' => '0'
+            'ifActive' => '0'
         );
         $this->dashboard_model->updateEventRecord($details,$eventId);
         $this->sendemail_library->eventCancelMail($events);
+        $this->sendemail_library->eventCancelUserMail($events);
         $data['status'] = true;
         echo json_encode($data);
 
@@ -679,7 +679,7 @@ class Dashboard extends MY_Controller {
         if($sExplode[1] == '0')
         {
             $this->userName = 'Doolally';
-            $this->userEmail = 'events@brewcraftsindia.com';
+            $this->userEmail = 'events@doolally.in';
         }
         else
         {
@@ -697,7 +697,7 @@ class Dashboard extends MY_Controller {
         if($sExplode[1] == '0')
         {
             $this->userName = 'Doolally';
-            $this->userEmail = 'events@brewcraftsindia.com';
+            $this->userEmail = 'events@doolally.in';
         }
         else
         {
@@ -728,7 +728,7 @@ class Dashboard extends MY_Controller {
         {
             $this->dashboard_model->ApproveEvent($eventId);
             $senderName = 'Doolally';
-            $senderEmail = 'events@brewcraftsindia.com';
+            $senderEmail = 'events@doolally.in';
             if(isStringSet($this->userEmail) && isStringSet($this->userName))
             {
                 $senderEmail = $this->userEmail;
@@ -780,7 +780,7 @@ class Dashboard extends MY_Controller {
             }
             $this->dashboard_model->ApproveEvent($eventId);
             $senderName = 'Doolally';
-            $senderEmail = 'events@brewcraftsindia.com';
+            $senderEmail = 'events@doolally.in';
             if(isStringSet($this->userEmail) && isStringSet($this->userName))
             {
                 $senderEmail = $this->userEmail;
@@ -816,7 +816,7 @@ class Dashboard extends MY_Controller {
         $eventDetail = $this->dashboard_model->getFullEventInfoById($eventId);
         $this->dashboard_model->DeclineEvent($eventId);
         $senderName = 'Doolally';
-        $senderEmail = 'events@brewcraftsindia.com';
+        $senderEmail = 'events@doolally.in';
         if(isStringSet($this->userEmail) && isStringSet($this->userName))
         {
             $senderName = $this->userName;
@@ -929,4 +929,5 @@ class Dashboard extends MY_Controller {
         redirect(base_url().'dashboard');
 
     }
+
 }

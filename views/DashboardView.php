@@ -543,13 +543,13 @@
                                                         switch($attrow['attachmentType'])
                                                         {
                                                             case "1":
-                                                                $imgs[] = base_url().FOOD_PATH_THUMB.$attrow['filename'];
+                                                                $imgs[] = MOBILE_URL.FOOD_PATH_THUMB.$attrow['filename'];
                                                                 break;
                                                             case "2":
-                                                                $imgs[] = base_url().BEVERAGE_PATH_THUMB.$attrow['filename'];
+                                                                $imgs[] = MOBILE_URL.BEVERAGE_PATH_THUMB.$attrow['filename'];
                                                                 break;
                                                             default:
-                                                                $imgs[] = base_url().BEVERAGE_PATH_THUMB.$attrow['filename'];
+                                                                $imgs[] = MOBILE_URL.BEVERAGE_PATH_THUMB.$attrow['filename'];
                                                                 break;
 
                                                         }
@@ -756,7 +756,7 @@
                                                     $imgs = array();
                                                     foreach($row['eventAtt'] as $attkey => $attrow)
                                                     {
-                                                        $imgs[] = base_url().EVENT_PATH_THUMB.$attrow['filename'];
+                                                        $imgs[] = MOBILE_URL.EVENT_PATH_THUMB.$attrow['filename'];
                                                     }
                                                     ?>
                                                     <a class="view-photos" data-toggle="tooltip" title="View Photos" href="#" data-imgs="<?php echo implode(',',$imgs);?>">
