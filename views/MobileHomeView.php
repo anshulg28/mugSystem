@@ -709,7 +709,8 @@
                                                     </div>
 
                                                     <div class="comment clear">
-                                                        <?php echo $row['eventData']['eventDescription'];?>
+                                                        <?php echo $row['eventData']['eventDescription'];?><br>
+                                                        By <?php echo $row['eventData']['creatorName'];?>
                                                         <p>
                                                             <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['eventData']['locName']; ?>
                                                             &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;

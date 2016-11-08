@@ -679,7 +679,7 @@ class Dashboard extends MY_Controller {
         if($sExplode[1] == '0')
         {
             $this->userName = 'Doolally';
-            $this->userEmail = 'events@brewcraftsindia.com';
+            $this->userEmail = 'events@doolally.in';
         }
         else
         {
@@ -697,7 +697,7 @@ class Dashboard extends MY_Controller {
         if($sExplode[1] == '0')
         {
             $this->userName = 'Doolally';
-            $this->userEmail = 'events@brewcraftsindia.com';
+            $this->userEmail = 'events@doolally.in';
         }
         else
         {
@@ -728,7 +728,7 @@ class Dashboard extends MY_Controller {
         {
             $this->dashboard_model->ApproveEvent($eventId);
             $senderName = 'Doolally';
-            $senderEmail = 'events@brewcraftsindia.com';
+            $senderEmail = 'events@doolally.in';
             if(isStringSet($this->userEmail) && isStringSet($this->userName))
             {
                 $senderEmail = $this->userEmail;
@@ -780,7 +780,7 @@ class Dashboard extends MY_Controller {
             }
             $this->dashboard_model->ApproveEvent($eventId);
             $senderName = 'Doolally';
-            $senderEmail = 'events@brewcraftsindia.com';
+            $senderEmail = 'events@doolally.in';
             if(isStringSet($this->userEmail) && isStringSet($this->userName))
             {
                 $senderEmail = $this->userEmail;
@@ -816,7 +816,7 @@ class Dashboard extends MY_Controller {
         $eventDetail = $this->dashboard_model->getFullEventInfoById($eventId);
         $this->dashboard_model->DeclineEvent($eventId);
         $senderName = 'Doolally';
-        $senderEmail = 'events@brewcraftsindia.com';
+        $senderEmail = 'events@doolally.in';
         if(isStringSet($this->userEmail) && isStringSet($this->userName))
         {
             $senderName = $this->userName;
@@ -929,4 +929,5 @@ class Dashboard extends MY_Controller {
         redirect(base_url().'dashboard');
 
     }
+
 }

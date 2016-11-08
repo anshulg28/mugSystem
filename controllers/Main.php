@@ -471,7 +471,8 @@ class Main extends MY_Controller {
                         'creatorName' => $mojoDetails['payment']['buyer_name'],
                         'creatorEmail' => $mojoDetails['payment']['buyer_email']
                     );
-                    $this->sendemail_library->memberWelcomeMail($mailData);
+                    $eventData = $this->dashboard_model->getEventById($eventId);
+                    $this->sendemail_library->memberWelcomeMail($mailData,$eventData[0]['eventPlace']);
                 }
 
                 //Save Booking Details
