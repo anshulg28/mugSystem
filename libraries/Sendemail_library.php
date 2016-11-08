@@ -102,11 +102,11 @@ class Sendemail_library
 
         $content = $this->CI->load->view('emailtemplates/eventCancelMailView', $data, true);
 
-        $fromEmail = 'events@doolally.in';
-        if(isset($userData[0]['creatorEmail']))
+        $fromEmail = 'info@doolally.in';
+        /*if(isset($userData[0]['creatorEmail']))
         {
             $fromEmail = $userData[0]['creatorEmail'];
-        }
+        }*/
         $cc        = 'tresha@doolally.in';
         $fromName  = 'Doolally';
 
@@ -204,7 +204,7 @@ class Sendemail_library
             $fromName = $userData['senderName'];
         }
 
-        $subject = ' Sorry, your event has not been approved';
+        $subject = 'Sorry, your event has not been approved';
         $toEmail = $userData[0]['creatorEmail'];
 
         $this->sendEmail($toEmail, $cc, $fromEmail, $fromName, $subject, $content);

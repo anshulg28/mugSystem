@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <p>Dear <?php echo $mailData[0]['creatorName'] ?>,</p>
+    <p>Dear <?php echo trim($mailData[0]['creatorName'])?>,</p>
     <p>
         Your event <?php echo $mailData[0]['eventName'];?> has been cancelled. Fees collected will be refunded to participants within 7 days.<br><br>
 

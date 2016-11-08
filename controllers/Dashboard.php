@@ -664,11 +664,11 @@ class Dashboard extends MY_Controller {
         $data = array();
         $events = $this->dashboard_model->getEventById($eventId);
         $details = array(
-            'ifActive' => '0',
-            'ifApproved' => '0'
+            'ifActive' => '0'
         );
         $this->dashboard_model->updateEventRecord($details,$eventId);
         $this->sendemail_library->eventCancelMail($events);
+        $this->sendemail_library->eventCancelUserMail($events);
         $data['status'] = true;
         echo json_encode($data);
 

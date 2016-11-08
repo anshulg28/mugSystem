@@ -213,7 +213,7 @@
                                                     <div class="col-50">
                                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label event-price">
                                                             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="eventPrice"
-                                                                   value="<?php echo $row['eventPrice'];?>">
+                                                                   value="<?php $price = (int)$row['eventPrice'] - 250; echo $price;?>">
                                                             <label class="mdl-textfield__label" for="eventPrice">Event Fee</label>
                                                             <span class="mdl-textfield__error">Input is not a number!</span>
                                                         </div>
@@ -224,7 +224,7 @@
                                                 </div>
                                                 <div class="event-header-name">Total Price: Rs.
                                                     <span class="total-event-price">
-                                                    <?php echo ($row['eventPrice']+250); ?>
+                                                    <?php echo ($row['eventPrice']); ?>
                                                 </span>
                                                 </div>
                                                 <input type="hidden" name="eventPrice" value="<?php echo $row['eventPrice'];?>"/>

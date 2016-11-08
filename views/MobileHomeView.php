@@ -39,7 +39,7 @@
     ?>
 	<?php echo $mobileStyle; ?>
     <?php echo $iosStyle; ?>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans|Averia+Serif+Libre' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans|Averia+Serif+Libre' rel='stylesheet' type='text/css'>
 </head>
 <body class="iosHome">
     <!-- Status bar overlay for full screen mode (PhoneGap) -->
