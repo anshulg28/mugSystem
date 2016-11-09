@@ -149,7 +149,7 @@
                                                 <div class="item-inner">
                                                     <div class="item-title label">Password</div>
                                                     <div class="item-input">
-                                                        <input type="password" name="password" placeholder="Your password/Mobile Number>
+                                                        <input type="password" name="password" placeholder="Your password/Mobile Number">
                                                     </div>
                                                 </div>
                                             </li>
