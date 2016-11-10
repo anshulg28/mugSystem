@@ -347,7 +347,7 @@ class Dashboard_Model extends CI_Model
 
     public function getAllFnB()
     {
-        $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
+        $query = "SELECT fnbId,itemType,itemName,itemHeadline,itemDescription,priceFull,priceHalf,ifActive
                   FROM fnbmaster ORDER BY fnbId DESC";
 
         $result = $this->db->query($query)->result_array();
@@ -365,19 +365,27 @@ class Dashboard_Model extends CI_Model
     }
     public function getAllActiveFnB()
     {
-        $query = "SELECT fm.fnbId,fm.itemType,fm.taggedLoc,fm.itemName,fm.itemDescription,fm.priceFull,fm.priceHalf,
+        $query = "SELECT fm.fnbId,fm.itemType,fm.taggedLoc,fm.itemName,fm.itemHeadline,fm.itemDescription,fm.priceFull,fm.priceHalf,
                   fm.ifActive,fa.id,fa.filename
                   FROM fnbmaster fm
                   LEFT JOIN fnbattachment fa ON fa.fnbId = fm.fnbId
                   WHERE fm.ifActive = 1 
-                  GROUP BY fm.fnbId";
+                  GROUP BY fm.fnbId
+                  ORDER BY fm.itemType DESC";
 
         $result = $this->db->query($query)->result_array();
         return $result;
     }
+    public function getBeersCount()
+    {
+        $query = "SELECT count(*) as 'beers' FROM fnbmaster WHERE itemType = 2";
+
+        $result = $this->db->query($query)->row_array();
+        return $result;
+    }
     public function getFnBById($fnbId)
     {
-        $query = "SELECT fnbId,itemType,itemName,itemDescription,priceFull,priceHalf,ifActive
+        $query = "SELECT fnbId,itemType,itemName,itemHeadline,itemDescription,priceFull,priceHalf,ifActive
                   FROM fnbmaster WHERE ifActive = 1 AND fnbId = ".$fnbId;
 
         $result = $this->db->query($query)->result_array();

@@ -59,6 +59,8 @@ class Main extends MY_Controller {
 
             $data['myFeeds'] = $this->returnAllFeeds();
             $data['fnbItems'] = $this->dashboard_model->getAllActiveFnB();
+            $data['beerCount'] = $this->dashboard_model->getBeersCount();
+
             $data['mainLocs'] = $this->locations_model->getAllLocations();
 
             $data['weekEvents'] = $this->dashboard_model->getWeeklyEvents();

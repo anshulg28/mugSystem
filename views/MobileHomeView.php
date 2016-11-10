@@ -39,7 +39,7 @@
     ?>
 	<?php echo $mobileStyle; ?>
     <?php echo $iosStyle; ?>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans|Averia+Serif+Libre' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans|Averia+Serif+Libre:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body class="iosHome">
     <!-- Status bar overlay for full screen mode (PhoneGap) -->
@@ -646,7 +646,9 @@
                                     <?php
                                 }
                             ?>
+                            <div class="content-block-title">What's happening this week</div>
                             <div id='calendar-glance'></div>
+                            <div class="content-block-title">All Events</div>
                             <div class="event-section">
                                 <?php
                                 if(isset($eventDetails) && myIsMultiArray($eventDetails))
@@ -700,17 +702,17 @@
                                                     <div class="event-info-wrapper">
                                                         <p class="pull-left card-ptag event-date-tag">
                                                             <?php
-                                                            $eventName = (strlen($row['eventData']['eventName']) > 25) ? substr($row['eventData']['eventName'], 0, 25) . '..' : $row['eventData']['eventName'];
+                                                            $eventName = (strlen($row['eventData']['eventName']) > 35) ? substr($row['eventData']['eventName'], 0, 35) . '..' : $row['eventData']['eventName'];
                                                             echo $eventName;
-                                                            ?>
+                                                            ?><br>
+                                                            <span class="sub-card-bytag">By <?php echo $row['eventData']['creatorName'];?></span>
                                                         </p>
                                                         <input type="hidden" data-name="<?php echo $row['eventData']['eventName'];?>" value="<?php echo $row['eventData']['eventShareLink'];?>"/>
                                                         <i class="ic_me_share_icon pull-right event-share-icn event-card-share-btn"></i>
                                                     </div>
 
                                                     <div class="comment clear">
-                                                        <?php echo $row['eventData']['eventDescription'];?><br>
-                                                        By <?php echo $row['eventData']['creatorName'];?>
+                                                        <?php echo $row['eventData']['eventDescription'];?>
                                                         <p>
                                                             <i class="ic_me_location_icon main-loc-icon"></i>&nbsp;<?php echo $row['eventData']['locName']; ?>
                                                             &nbsp;&nbsp;<span class="ic_events_icon event-date-main"></span>&nbsp;
@@ -747,7 +749,7 @@
                                                                                         */?>
                                             </span>-->
                                                 <!--<a href="#" class="link color-black event-card-share-btn">Share</a>-->
-                                                <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Book&nbsp;Event</a>
+                                                <a href="<?php echo 'events/EV-'.$row['eventData']['eventId'].'/'.encrypt_data('EV-'.$row['eventData']['eventId']);?>" data-ignore-cache="true" class="link color-black event-bookNow">Register&nbsp;Event</a>
                                             </div>
                                         </div>
                                         <?php
@@ -792,101 +794,158 @@
                     <!-- Scrollable page content -->
                     <div class="page-content" id="my-page3">
                         <div class="content-block fnb-section">
+                            <div class="content-block-title">What's On Tap</div>
                             <?php
                                 if(isset($fnbItems) && myIsMultiArray($fnbItems))
                                 {
                                     $postImg = 0;
+                                    $resetCard = 0;
+                                    $foodFlag = 0;
                                     foreach($fnbItems as $key => $row)
                                     {
-                                        $freecard = true;
-                                        $locClass = array();
-                                        if($row['itemType'] == ITEM_BEVERAGE && isset($row['taggedLoc']))
+                                        switch($row['itemType'])
                                         {
-                                            $freecard = false;
-                                            $locClass = explode(',',$row['taggedLoc']);
-                                        }
-                                        ?>
-                                        <div class="card demo-card-header-pic <?php
-                                            if($freecard === false)
-                                            {
-                                                if(myIsArray($locClass))
+                                            case ITEM_BEVERAGE:
+                                                $freecard = true;
+                                                $locClass = array();
+                                                if($row['itemType'] == ITEM_BEVERAGE && isset($row['taggedLoc']))
                                                 {
-                                                    foreach($locClass as $key)
-                                                    {
-                                                        $cat = $key;
-                                                        echo ' category-'.$key;
-                                                    }
+                                                    $freecard = false;
+                                                    $locClass = explode(',',$row['taggedLoc']);
                                                 }
-                                            }
-                                        ?>">
-                                            <div class="row no-gutter">
-                                                <div class="col-100 more-photos-wrapper">
+                                                if($postImg == 0)
+                                                {
+                                                    ?>
+                                                    <div class="row no-gutter">
                                                     <?php
-                                                    $img_collection = array();
-                                                        if($postImg >=5)
+                                                }
+                                                ?>
+                                                    <div class="<?php
+                                                        if($beerCount['beers'] - 1 == $postImg)
                                                         {
-                                                            if($row['itemType'] == ITEM_FOOD)
+                                                            if($beerCount['beers'] % 2 != 0)
+                                                            {
+                                                                echo 'col-100';
+                                                            }
+                                                            else
+                                                            {
+                                                                echo 'col-50';
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            echo 'col-50';
+                                                        }
+                                                    ?>">
+                                                        <div class="card demo-card-header-pic show-full-beer-card <?php
+                                                        if($freecard === false)
+                                                        {
+                                                            if(myIsArray($locClass))
+                                                            {
+                                                                foreach($locClass as $key)
+                                                                {
+                                                                    $cat = $key;
+                                                                    echo ' category-'.$key;
+                                                                }
+                                                            }
+                                                        }
+                                                        ?>"  data-img="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>"
+                                                             data-title="<?php echo $row['itemName'];?>"
+                                                             data-descrip="<?php if(isset($row['itemHeadline'])){echo $row['itemHeadline'];} else{echo strip_tags($row['itemDescription'],'<br>');} ?>"
+                                                             data-fullprice="<?php echo $row['priceFull'];?>"
+                                                             data-halfprice="<?php echo $row['priceHalf'];?>">
+                                                            <?php
+                                                            if($postImg >=5)
+                                                            {
+                                                                ?>
+                                                                <img src="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
+                                                                <?php
+                                                            }
+                                                            else
+                                                            {
+                                                                ?>
+                                                                <img data-src="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
+                                                                <?php
+                                                            }
+                                                            $postImg++;
+                                                            ?>
+                                                            <div class="card-content custom-beer-card">
+                                                                <div class="card-content-inner">
+                                                                    <p class="pull-left card-ptag"><?php echo $row['itemName'];?></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php
+                                                if($beerCount['beers'] == $postImg)
+                                                {
+                                                    ?>
+                                                        </div>
+                                                    <?php
+                                                }
+                                                break;
+                                            case ITEM_FOOD:
+                                                ?>
+                                                <?php
+                                                    if($foodFlag == 0)
+                                                    {
+                                                        $foodFlag = 1;
+                                                        ?>
+                                                        <div class="content-block-title">Food</div>
+                                                        <?php
+                                                    }
+                                                ?>
+                                                <div class="card demo-card-header-pic">
+                                                    <div class="row no-gutter">
+                                                        <div class="col-100 more-photos-wrapper">
+                                                            <?php
+                                                            $img_collection = array();
+                                                            if($postImg >=5)
                                                             {
                                                                 $img_collection[] = base_url().FOOD_PATH_THUMB.$row['filename'];
                                                                 ?>
                                                                 <img src="<?php echo base_url().FOOD_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
                                                                 <?php
                                                             }
-                                                            elseif($row['itemType'] == ITEM_BEVERAGE)
-                                                            {
-                                                                $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$row['filename'];
-                                                                ?>
-                                                                <img src="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>" class="mainFeed-img"/>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            if($row['itemType'] == ITEM_FOOD)
+                                                            else
                                                             {
                                                                 $img_collection[] = base_url().FOOD_PATH_THUMB.$row['filename'];
                                                                 ?>
                                                                 <img data-src="<?php echo base_url().FOOD_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
                                                                 <?php
                                                             }
-                                                            elseif($row['itemType'] == ITEM_BEVERAGE)
+                                                            $postImg++;
+                                                            if(myIsArray($img_collection))
                                                             {
-                                                                $img_collection[] = base_url().BEVERAGE_PATH_THUMB.$row['filename'];
                                                                 ?>
-                                                                <img data-src="<?php echo base_url().BEVERAGE_PATH_THUMB.$row['filename'];?>" class="mainFeed-img lazy lazy-fadein"/>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        $postImg++;
-                                                        if(myIsArray($img_collection))
-                                                        {
-                                                            ?>
                                                                 <input type="hidden" class="imgs_collection"
                                                                        value="<?php echo implode(',',$img_collection); ?>"/>
-                                                            <?php
-                                                        }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                            <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
-                                            <div class="card-content">
-                                                <div class="card-content-inner">
-                                                    <p class="pull-left card-ptag"><?php echo $row['itemName'];?></p>
-                                                    <span class="pull-right">Rs. <?php echo $row['priceFull'];?>
-                                                        <?php
-                                                            if(isset($row['priceHalf']) && $row['priceHalf'] != '0')
-                                                            {
-                                                                echo '/'.$row['priceHalf'];
+                                                                <?php
                                                             }
-                                                        ?>
-                                                    </span>
-                                                    <div class="comment more content-block clear">
-                                                        <?php echo strip_tags($row['itemDescription'],'<br>');?>
+                                                            ?>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div style="background-image:url()" valign="bottom" class="card-header color-white no-border">Journey To Mountains</div>-->
+                                                    <div class="card-content custom-food-card">
+                                                        <div class="card-content-inner">
+                                                            <p class="pull-left card-ptag"><?php echo $row['itemName'];?></p>
+                                                            <span class="pull-right">Rs. <?php echo $row['priceFull'];?>
+                                                                <?php
+                                                                if(isset($row['priceHalf']) && $row['priceHalf'] != '0')
+                                                                {
+                                                                    echo '/'.$row['priceHalf'];
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                            <div class="comment more content-block clear">
+                                                                <?php echo strip_tags($row['itemDescription'],'<br>');?>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <?php
+                                                <?php
+                                                break;
+                                        }
                                     }
                                 }
                                 else

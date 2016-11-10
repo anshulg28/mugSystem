@@ -907,6 +907,7 @@ class Dashboard extends MY_Controller {
         $details = array(
             'itemType'=> $post['itemType'],
             'itemName' => $post['itemName'],
+            'itemHeadline' => $post['itemHeadline'],
             'itemDescription' => $post['itemDescription'],
             'priceFull' => $post['priceFull'],
             'priceHalf' => $post['priceHalf']

@@ -7,15 +7,30 @@
 <div class="navbar mycustomNav">
     <div class="navbar-inner">
         <div class="left">
-            <a href="#" class="link icon-only open-panel main-menu-icon">
-                <!--<i class="fa fa-bars color-black"></i>-->
-                <span class="d-logo"></span>
-                <span class="bottom-bar-line"></span>
-                <!--<span class="d-logo"></span>-->
-                <!--<span class="bottom-bar-line"></span>-->
-                <!--<i class="fa fa-minus"></i>
-                <i class="fa fa-minus"></i>-->
-            </a>
+            <?php
+                if(isSessionVariableSet($this->userMobFirstName))
+                {
+                    ?>
+                    <a href="#" class="link icon-only open-panel main-menu-icon">
+                        <!--<i class="fa fa-bars color-black"></i>-->
+                        <span class="d-logo"></span>
+                        <span class="bottom-bar-line"></span>
+                        <!--<span class="d-logo"></span>-->
+                        <!--<span class="bottom-bar-line"></span>-->
+                        <!--<i class="fa fa-minus"></i>
+                        <i class="fa fa-minus"></i>-->
+                    </a>
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    <a href="#" class="back link" data-ignore-cache="true">
+                        <i class="ic_back_icon point-item"></i>
+                    </a>
+                    <?php
+                }
+            ?>
         </div>
         <div class="center sliding">
             <!--My Events-->
