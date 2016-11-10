@@ -45,6 +45,12 @@
                                     </div>
                                     <br>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth text-left">
+                                        <label for="itemHeadline">Item Headline: </label>
+                                        <textarea class="mdl-textfield__input my-singleBorder" type="text" name="itemHeadline" rows="5"
+                                                  id="itemHeadline"><?php echo strip_tags($row['fnbData']['itemHeadline']);?></textarea>
+                                    </div>
+                                    <br>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth text-left">
                                         <label for="itemDescription">Item Description: </label>
                                         <textarea class="mdl-textfield__input my-singleBorder" type="text" name="itemDescription" rows="5"
                                                   id="itemDescription"><?php echo strip_tags($row['fnbData']['itemDescription']);?></textarea>
@@ -79,7 +85,7 @@
                                                             case '1':
                                                                 ?>
                                                                 <div class="pics-preview-panel col-sm-2 col-xs-5">
-                                                                    <img src="<?php echo base_url().FOOD_PATH_THUMB.$imgrow['filename'];?>"
+                                                                    <img src="<?php echo MOBILE_URL.FOOD_PATH_THUMB.$imgrow['filename'];?>"
                                                                          class="img-thumbnail"/>
                                                                     <i class="fa fa-times img-remove-icon" data-picId="<?php echo $imgrow['id'];?>"></i>
                                                                 </div>
@@ -88,7 +94,7 @@
                                                             case '2':
                                                                 ?>
                                                                 <div class="pics-preview-panel col-sm-2 col-xs-5">
-                                                                    <img src="<?php echo base_url().BEVERAGE_PATH_THUMB.$imgrow['filename'];?>"
+                                                                    <img src="<?php echo MOBILE_URL.BEVERAGE_PATH_THUMB.$imgrow['filename'];?>"
                                                                          class="img-thumbnail"/>
                                                                     <i class="fa fa-times img-remove-icon" data-picId="<?php echo $imgrow['id'];?>"></i>
                                                                 </div>
@@ -97,7 +103,7 @@
                                                             default:
                                                                 ?>
                                                                 <div class="pics-preview-panel col-sm-2 col-xs-5">
-                                                                    <img src="<?php echo base_url().BEVERAGE_PATH_THUMB.$imgrow['filename'];?>"
+                                                                    <img src="<?php echo MOBILE_URL.BEVERAGE_PATH_THUMB.$imgrow['filename'];?>"
                                                                          class="img-thumbnail"/>
                                                                     <i class="fa fa-times img-remove-icon" data-picId="<?php echo $imgrow['id'];?>"></i>
                                                                 </div>

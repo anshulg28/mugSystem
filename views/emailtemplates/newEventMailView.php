@@ -13,8 +13,8 @@
             if(isset($mailData['creatorPhone']))
             {
                 ?>
-        Since this is the first time you have created an event, here are your login details
-        Login: <?php echo $mailData['creatorEmail'];?>
+        Since this is the first time you have created an event, here are your login details<br>
+        Login: <?php echo $mailData['creatorEmail'];?><br>
         Password: <?php echo $mailData['creatorPhone'];?><br><br>
                 <?php
             }

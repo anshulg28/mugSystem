@@ -479,6 +479,7 @@
                                         <th>Fnb Id</th>
                                         <th>Item Type</th>
                                         <th>Name</th>
+                                        <th>Headline</th>
                                         <th>Description</th>
                                         <th>Price Full</th>
                                         <th>Price Half</th>
@@ -506,6 +507,7 @@
                                                 ?>
                                             </td>
                                             <td><?php echo $row['fnb']['itemName'];?></td>
+                                            <td><?php echo $row['fnb']['itemHeadline'];?></td>
                                             <td><?php echo strip_tags($row['fnb']['itemDescription']);?></td>
                                             <td><?php echo $row['fnb']['priceFull'];?></td>
                                             <td><?php echo $row['fnb']['priceHalf'];?></td>
@@ -605,6 +607,8 @@
                                     </div>
                                     <br>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                        <textarea class="mdl-textfield__input" placeholder="Headline" name="itemHeadline" rows="5"></textarea>
+                                        <br>
                                         <textarea class="mdl-textfield__input" type="text" name="itemDescription" rows="5" id="itemDesc"></textarea>
                                     </div>
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
