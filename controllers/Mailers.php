@@ -174,13 +174,13 @@ class Mailers extends MY_Controller {
                 $mainBody .= $body .'</body></html>';
                 $newBody = $mainBody;
             }
-            $cc        = 'priyanka@brewcrafts.in,tresha@brewcrafts.in,daksha@brewcrafts.in,shweta@brewcrafts.in';
+            $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in';
             $fromName  = 'Doolally';
             if(isset($this->userFirstName))
             {
                 $fromName = trim(ucfirst($this->userFirstName));
             }
-            $fromEmail = 'priyanka@brewcrafts.in';
+            $fromEmail = 'priyanka@doolally.in';
 
             if(isset($this->userEmail))
             {
@@ -339,13 +339,13 @@ class Mailers extends MY_Controller {
         {
             $pressInfo = $this->mailers_model->getPressInfoByMail($key);
             $newBody = $this->replacePressName($mainBody,$pressInfo);
-            $cc        = 'priyanka@brewcrafts.in,tresha@brewcrafts.in,daksha@brewcrafts.in,shweta@brewcrafts.in';
+            $cc        = 'priyanka@doolally.in,tresha@doolally.in,daksha@doolally.in,shweta@doolally.in';
             $fromName  = 'Doolally';
             if(isset($this->userFirstName))
             {
                 $fromName = trim(ucfirst($this->userFirstName));
             }
-            $fromEmail = 'priyanka@brewcrafts.in';
+            $fromEmail = 'priyanka@doolally.in';
 
             if(isset($this->userEmail))
             {
