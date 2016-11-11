@@ -181,13 +181,13 @@
                                                                                         if($postlimit > 5)
                                                                                         {
                                                                                             ?>
-                                                                                            <img class="myAvtar-list" data-src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
+                                                                                            <img class="myAvtar-list" data-src="<?php echo $row['user']['profile_image_url_https'];?>" width="44"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
                                                                                         {
                                                                                             ?>
-                                                                                            <img class="myAvtar-list" src="<?php echo $row['user']['profile_image_url'];?>" width="44"/>
+                                                                                            <img class="myAvtar-list" src="<?php echo $row['user']['profile_image_url_https'];?>" width="44"/>
                                                                                             <?php
                                                                                         }
                                                                                         ?>
@@ -261,13 +261,13 @@
                                                                                         if($postlimit > 5)
                                                                                         {
                                                                                             ?>
-                                                                                            <img data-src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
+                                                                                            <img data-src="<?php echo $mediaRow['media_url_https'];?>" class="mainFeed-img"/>
                                                                                             <?php
                                                                                         }
                                                                                         else
                                                                                         {
                                                                                             ?>
-                                                                                            <img src="<?php echo $mediaRow['media_url'];?>" class="mainFeed-img"/>
+                                                                                            <img src="<?php echo $mediaRow['media_url_https'];?>" class="mainFeed-img"/>
                                                                                             <?php
                                                                                         }
                                                                                         ?>
@@ -278,6 +278,54 @@
                                                                             ?>
                                                                         </div>
                                                                         <?php
+                                                                    }
+                                                                    elseif(isset($row['is_quote_status']) && $row['is_quote_status'] == true)
+                                                                    {
+                                                                        ?>
+                                                                        <p class="final-card-text"><?php echo $row['text'];?></p>
+                                                                        <?php
+                                                                        if(isset($row['quoted_status']) && myIsMultiArray($row['quoted_status']))
+                                                                        {
+                                                                            ?>
+                                                                            <div class="content-block inset quoted-block">
+                                                                                <div class="content-block-inner">
+                                                                                    <div class="item-inner">
+                                                                                        <div class="item-title-row">
+                                                                                            <div class="item-title"><?php echo $row['quoted_status']['user']['name'];?></div>
+                                                                                        </div>
+                                                                                        <div class="item-subtitle">@<?php echo $row['quoted_status']['user']['screen_name'];?></div>
+                                                                                    </div>
+                                                                                    <?php
+                                                                                    $row['quoted_status']['text'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['quoted_status']['text']);
+                                                                                    $row['quoted_status']['text'] = highlight('/#\w+/',$row['quoted_status']['text']);
+                                                                                    $row['quoted_status']['text'] = highlight('/@\w+/',$row['quoted_status']['text']);
+                                                                                    ?>
+                                                                                    <p class="final-card-text"><?php echo $row['quoted_status']['text'];?></p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
+                                                                        elseif(isset($row['retweeted_status']) && myIsMultiArray($row['retweeted_status']))
+                                                                        {
+                                                                            ?>
+                                                                            <div class="content-block inset quoted-block">
+                                                                                <div class="content-block-inner">
+                                                                                    <div class="item-inner">
+                                                                                        <div class="item-title-row">
+                                                                                            <div class="item-title"><?php echo $row['retweeted_status']['quoted_status']['user']['name'];?></div>
+                                                                                        </div>
+                                                                                        <div class="item-subtitle">@<?php echo $row['retweeted_status']['quoted_status']['user']['screen_name'];?></div>
+                                                                                    </div>
+                                                                                    <?php
+                                                                                    $row['retweeted_status']['quoted_status']['text'] = preg_replace('!(http|ftp|scp)(s)?:\/\/[a-zA-Z0-9.?%=&_/]+!', "", $row['retweeted_status']['quoted_status']['text']);
+                                                                                    $row['retweeted_status']['quoted_status']['text'] = highlight('/#\w+/',$row['retweeted_status']['quoted_status']['text']);
+                                                                                    $row['retweeted_status']['quoted_status']['text'] = highlight('/@\w+/',$row['retweeted_status']['quoted_status']['text']);
+                                                                                    ?>
+                                                                                    <p class="final-card-text"><?php echo $row['retweeted_status']['quoted_status']['text'];?></p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
                                                                     }
                                                                     elseif(isset($row['entities']['urls']) && myIsMultiArray($row['entities']['urls']))
                                                                     {
@@ -295,7 +343,14 @@
                                                                         <?php
                                                                     }
                                                                     ?>
-                                                                    <p class="final-card-text"><?php echo $row['text'];?></p>
+                                                                    <?php
+                                                                        if(isset($row['is_quote_status']) && $row['is_quote_status'] == false)
+                                                                        {
+                                                                            ?>
+                                                                            <p class="final-card-text"><?php echo $row['text'];?></p>
+                                                                            <?php
+                                                                        }
+                                                                    ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1458,7 +1513,7 @@
                     bigCardHtml += '<div class="my-card-items"><div class="card demo-card-header-pic">';
                     bigCardHtml += '<div class="card-content"><div class="card-content-inner">';
                     bigCardHtml += '<div class="list-block media-list"><ul><li><div class="item-content">';
-                    bigCardHtml += '<div class="item-media"><img class="myAvtar-list lazy" data-src="'+data[i]['user']['profile_image_url']+'" width="44"/></div>';
+                    bigCardHtml += '<div class="item-media"><img class="myAvtar-list lazy" data-src="'+data[i]['user']['profile_image_url_https']+'" width="44"/></div>';
                     bigCardHtml += '<div class="item-inner"><div class="item-title-row">';
                     bigCardHtml += '<div class="item-title">'+data[i]['user']['name'].capitalize()+'</div>';
                     bigCardHtml += '<i class="fa fa-twitter social-icon-gap"></i></div>';
@@ -1507,9 +1562,41 @@
                             else
                             {
                                 bigCardHtml += '<div class="col-100">';
-                                bigCardHtml += '<img data-src="'+data[i]['extended_entities']['media'][j]['media_url']+'" class="mainFeed-img lazy lazy-fadein"/>';
+                                bigCardHtml += '<img data-src="'+data[i]['extended_entities']['media'][j]['media_url_https']+'" class="mainFeed-img lazy lazy-fadein"/>';
                                 bigCardHtml += '</div></div>';
                             }
+                        }
+                    }
+                    else if(data[i]['is_quote_status'] != null && data[i]['is_quote_status'] == true)
+                    {
+                        bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
+                        if(data[i]['quoted_status'] != null && Array.isArray(data[i]['quoted_status']))
+                        {
+                            bigCardHtml += '<div class="content-block inset quoted-block">';
+                            bigCardHtml += '<div class="content-block-inner">';
+                            bigCardHtml += '<div class="item-inner">';
+                            bigCardHtml += '<div class="item-title-row"><div class="item-title">'+data[i]['quoted_status']['user']['name']+'</div></div>';
+                            bigCardHtml += '<div class="item-subtitle">'+data[i]['quoted_status']['user']['screen_name']+'</div></div>';
+                            data[i]['quoted_status']['text'] = data[i]['quoted_status']['text'].replace(urlRegex,'');
+
+                            data[i]['quoted_status']['text'] = data[i]['quoted_status']['text'].replace(/(#[a-z\d-]+)/ig,"<label>$1</label>");
+                            data[i]['quoted_status']['text'] = data[i]['quoted_status']['text'].replace(/(@[a-z\d-]+)/ig,"<label>$1</label>");
+                            bigCardHtml += '<p class="final-card-text">'+data[i]['quoted_status']['text']+'</p>';
+                            bigCardHtml += '</div></div>';
+                        }
+                        else if(data[i]['retweeted_status'] != null && Array.isArray(data[i]['retweeted_status']))
+                        {
+                            bigCardHtml += '<div class="content-block inset quoted-block">';
+                            bigCardHtml += '<div class="content-block-inner">';
+                            bigCardHtml += '<div class="item-inner">';
+                            bigCardHtml += '<div class="item-title-row"><div class="item-title">'+data[i]['retweeted_status']['quoted_status']['user']['name']+'</div></div>';
+                            bigCardHtml += '<div class="item-subtitle">'+data[i]['retweeted_status']['quoted_status']['user']['screen_name']+'</div></div>';
+                            data[i]['retweeted_status']['quoted_status']['text'] = data[i]['retweeted_status']['quoted_status']['text'].replace(urlRegex,'');
+
+                            data[i]['retweeted_status']['quoted_status']['text'] = data[i]['retweeted_status']['quoted_status']['text'].replace(/(#[a-z\d-]+)/ig,"<label>$1</label>");
+                            data[i]['retweeted_status']['quoted_status']['text'] = data[i]['retweeted_status']['quoted_status']['text'].replace(/(@[a-z\d-]+)/ig,"<label>$1</label>");
+                            bigCardHtml += '<p class="final-card-text">'+data[i]['retweeted_status']['quoted_status']['text']+'</p>';
+                            bigCardHtml += '</div></div>';
                         }
                     }
                     else if(data[i]['entities']['urls'] != null && data[i]['entities']['urls'].length > 0)
@@ -1522,7 +1609,10 @@
                         bigCardHtml += '</div></div></div>';
                     }
 
-                    bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
+                    if(data[i]['is_quote_status'] != null && data[i]['is_quote_status'] == false)
+                    {
+                        bigCardHtml += '<p class="final-card-text">'+truncated_RestaurantName+'</p>';
+                    }
                     bigCardHtml += '</div></div></div></a>';
                     $('.custom-accordion').prepend(bigCardHtml);
                     /*var oldHeight = $('.custom-accordion').height();
