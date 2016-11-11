@@ -19,7 +19,7 @@ class Dataformatinghtml_library
         $htmlPage = $this->CI->load->view('common/MobilestyleView', $data, true);
         return $htmlPage;
     }
-    public function getAndroidStyleHtml($data)
+    /*public function getAndroidStyleHtml($data)
     {
         $htmlPage = $this->CI->load->view('mobile/android/AndroidstyleView', $data, true);
         return $htmlPage;
@@ -28,15 +28,15 @@ class Dataformatinghtml_library
     {
         $htmlPage = $this->CI->load->view('mobile/android/AndroidjsView', $data, true);
         return $htmlPage;
-    }
+    }*/
     public function getIosStyleHtml($data)
     {
-        $htmlPage = $this->CI->load->view('mobile/ios/IosstyleView', $data, true);
+        $htmlPage = $this->CI->load->view('IosstyleView', $data, true);
         return $htmlPage;
     }
     public function getIosJsHtml($data)
     {
-        $htmlPage = $this->CI->load->view('mobile/ios/IosjsView', $data, true);
+        $htmlPage = $this->CI->load->view('IosjsView', $data, true);
         return $htmlPage;
     }
 

@@ -21,6 +21,7 @@
     <div data-page="taproomPage" class="page taproom-page">
         <div class="page-content">
             <div class="content-block">
+                <input type="hidden" value="<?php echo $taproomId;?>" id="taproom-Id"/>
                 <?php
                 if(isset($taproomInfo) && myIsMultiArray($taproomInfo))
                 {
@@ -103,8 +104,8 @@
             </div>
         </div>
         <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored music-request-btn">
-            <i class="fa fa-music"></i>
-            <i class="fa fa-plus"></i>
+            <i class="ic_request_music"></i>
+            <!--<i class="fa fa-plus"></i>-->
         </button>
     </div>
 </div>

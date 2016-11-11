@@ -26,6 +26,7 @@ class MY_Controller extends CI_Controller
     public $userMobName = '';
     public $userMobFirstName = '';
     public $userMobEmail = '';
+    public $jukeboxToken = '';
 
 	public $isUserSession = '';
 	public $userType = '';
@@ -92,6 +93,10 @@ class MY_Controller extends CI_Controller
             $this->userFirstName = $this->session->user_firstname;
 		}
 
+		if(isSession($this->session->jukebox_token) !== false)
+        {
+            $this->jukeboxToken = $this->session->jukebox_token;
+        }
 		//get location from session
 		if(isSessionVariableSet($this->session->currentLocation) === true)
         {

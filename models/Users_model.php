@@ -163,6 +163,19 @@ class Users_Model extends CI_Model
         $this->db->insert('doolally_usersmaster', $post);
         return true;
     }
+
+    public function saveMobUserRecord($post)
+    {
+        $post['insertedDate'] = date('Y-m-d H:i:s');
+        $post['updateDate'] = date('Y-m-d H:i:s');
+        $post['updatedBy'] = '';
+        $post['ifActive'] = '1';
+
+        $this->db->insert('doolally_usersmaster', $post);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
     public function savePublicUser($post)
     {
         $this->db->insert('doolally_usersmaster', $post);

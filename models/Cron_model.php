@@ -106,4 +106,42 @@ class Cron_Model extends CI_Model
         $this->db->insert('feedbackweekscore', $post);
         return true;
     }
+
+    public function updateSongs($restId, $post)
+    {
+        $post['updateDateTime'] = date('Y-m-d H:i:s');
+
+        $this->db->where('tapId',$restId);
+        $this->db->update('jukeboxmaster', $post);
+        return true;
+    }
+
+    public function insertSongs($post)
+    {
+        $post['updateDateTime'] = date('Y-m-d H:i:s');
+
+        $this->db->insert('jukeboxmaster', $post);
+        return true;
+    }
+
+    public function checkTapSongs($resId)
+    {
+        $query = "SELECT * "
+            ."FROM jukeboxmaster "
+            ."where tapId = '".$resId."' ";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
 }

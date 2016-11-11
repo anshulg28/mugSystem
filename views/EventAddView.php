@@ -86,12 +86,12 @@
                         <div class="row">
                             <div class="col-50">
                                 <div class="input-group" > <!--clockpicker-->
-                                    <input id="startTime" onchange="timeCheck()" type="text" class="mdl-textfield__input" name="startTime" value="" placeholder="Start Time" readonly>
+                                    <input id="startTime" onblur="timeCheck()" type="text" class="mdl-textfield__input" name="startTime" value="" placeholder="Start Time">
                                 </div>
                             </div>
                             <div class="col-50">
                                 <div class="input-group">
-                                    <input id="endTime" type="text" onchange="timeCheck()" class="mdl-textfield__input" name="endTime" value="" placeholder="End Time" readonly>
+                                    <input id="endTime" type="text" onblur="timeCheck()" class="mdl-textfield__input" name="endTime" value="" placeholder="End Time">
                                 </div>
                             </div>
                         </div>
@@ -257,6 +257,17 @@
                                 </div>
                                 <?php
                             }
+                            elseif(!isStringSet($this->userMobFirstName))
+                            {
+                                ?>
+                                <div class="event-header-name">Your details</div>
+                                <!--<p class="event-sub-text">We'll contact you while we curate your event.</p>-->
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
+                                    <input class="mdl-textfield__input kbdfix" type="text" name="creatorName" id="creatorName">
+                                    <label class="mdl-textfield__label" for="creatorName">Name</label>
+                                </div>
+                                <?php
+                            }
                         ?>
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label my-fullWidth">
                             <textarea class="mdl-textfield__input kbdfix" type="text" rows= "3" id="aboutCreator" name="aboutCreator"></textarea>
@@ -267,7 +278,7 @@
                             accept payments on your behalf.
                         </div>
                         <hr>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tnc">
+                        <label class="mdl-checkbox mdl-js-checkbox" for="tnc">
                             <input type="checkbox" id="tnc" value="1" class="mdl-checkbox__input">
                             <span class="mdl-checkbox__label">I have read and agree to the
                                 <a href="#">Terms and Conditions.</a>

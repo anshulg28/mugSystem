@@ -45,7 +45,7 @@ class Mailers extends MY_Controller {
             $data['birthdayMugs'] = $this->mugclub_model->getBirthdayMugsList();
         }
 
-        
+
         $data['globalStyle'] = $this->dataformatinghtml_library->getGlobalStyleHtml($data);
         $data['globalJs'] = $this->dataformatinghtml_library->getGlobalJsHtml($data);
         $data['headerView'] = $this->dataformatinghtml_library->getHeaderHtml($data);
