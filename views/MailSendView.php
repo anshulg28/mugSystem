@@ -204,6 +204,7 @@
                                                 <li class="my-pointer-item"><span class="label label-success">[mobno]</span></li>
                                                 <li class="my-pointer-item"><span class="label label-success">[expirydate]</span></li>
                                                 <li class="my-pointer-item"><span class="label label-success">[sendername]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[brcode]</span></li>
                                             </ul>
                                         </div>
                                     </form>

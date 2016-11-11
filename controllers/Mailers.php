@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property Mailers_Model $mailers_model
  * @property Mugclub_Model $mugclub_model
  * @property users_model $users_model
+ * @property offers_model $offers_model
 */
 
 class Mailers extends MY_Controller {
@@ -16,6 +17,7 @@ class Mailers extends MY_Controller {
 		$this->load->model('mailers_model');
         $this->load->model('mugclub_model');
         $this->load->model('users_model');
+        $this->load->model('offers_model');
 	}
 	public function index()
 	{
@@ -203,6 +205,23 @@ class Mailers extends MY_Controller {
     function replaceMugTags($tagStr,$mugInfo)
     {
         $tagStr = str_replace('[sendername]',trim(ucfirst($this->userName)),$tagStr);
+        preg_match_all('/\[[brcode]\w+\]/', $tagStr, $output_array);
+        if(myIsMultiArray($output_array))
+        {
+            foreach($output_array as $key => $row)
+            {
+                foreach($row as $subKey)
+                {
+                    if($subKey == '[brcode]')
+                    {
+                        $breakCode = $this->generateBreakfastTwoCode($mugInfo['mugList'][0]['mugId']);
+                        $tagStr = str_replace('[brcode]',$breakCode,$tagStr);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
         foreach($mugInfo['mugList'][0] as $key => $row)
         {
             switch($key)
@@ -224,6 +243,10 @@ class Mailers extends MY_Controller {
                     $tagStr = str_replace('[mobno]',trim($row),$tagStr);
                     break;
                 case 'membershipEnd':
+                    $d = date_create($row);
+                    $tagStr = str_replace('[expirydate]',date_format($d,DATE_MAIL_FORMAT_UI),$tagStr);
+                    break;
+                case 'brcode':
                     $d = date_create($row);
                     $tagStr = str_replace('[expirydate]',date_format($d,DATE_MAIL_FORMAT_UI),$tagStr);
                     break;
@@ -341,5 +364,51 @@ class Mailers extends MY_Controller {
             return true;
         }
 
+    }
+
+    public function generateBreakfastTwoCode($mugId)
+    {
+        $allCodes = $this->offers_model->getAllCodes();
+        $usedCodes = array();
+        $toBeInserted = array();
+        if($allCodes['status'] === true)
+        {
+            foreach($allCodes['codes'] as $key => $row)
+            {
+                $usedCodes[] = $row['offerCode'];
+            }
+            $newCode = mt_rand(1000,99999);
+            while(myInArray($newCode,$usedCodes))
+            {
+                $newCode = mt_rand(1000,99999);
+            }
+            $toBeInserted = array(
+                'offerCode' => $newCode,
+                'offerType' => 'Breakfast2',
+                'offerLoc' => null,
+                'offerMug' => $mugId,
+                'isRedeemed' => 0,
+                'ifActive' => 1,
+                'createDateTime' => date('Y-m-d H:i:s'),
+                'useDateTime' => null
+            );
+        }
+        else
+        {
+            $newCode = mt_rand(1000,99999);
+            $toBeInserted = array(
+                'offerCode' => $newCode,
+                'offerType' => 'Breakfast2',
+                'offerLoc' => null,
+                'offerMug' => $mugId,
+                'isRedeemed' => 0,
+                'ifActive' => 1,
+                'createDateTime' => date('Y-m-d H:i:s'),
+                'useDateTime' => null
+            );
+        }
+
+        $this->offers_model->setSingleCode($toBeInserted);
+        return 'BR-'.$newCode;
     }
 }
