@@ -114,11 +114,11 @@ class Offers extends MY_Controller {
                     }
                     $unUsedCodes[] = array(
                         'code' => $newCode,
-                        'type' => 'Breakfast'
+                        'type' => 'Breakfast2'
                     );
                     $toBeInserted[] = array(
                         'offerCode' => $newCode,
-                        'offerType' => 'Breakfast',
+                        'offerType' => 'Breakfast2',
                         'offerLoc' => null,
                         'isRedeemed' => 0,
                         'ifActive' => 1,
@@ -186,11 +186,11 @@ class Offers extends MY_Controller {
 
                     $unUsedCodes[] = array(
                         'code' => $newCode,
-                        'type' => 'Breakfast'
+                        'type' => 'Breakfast2'
                     );
                     $toBeInserted[] = array(
                         'offerCode' => $newCode,
-                        'offerType' => 'Breakfast',
+                        'offerType' => 'Breakfast2',
                         'offerLoc' => null,
                         'isRedeemed' => 0,
                         'ifActive' => 1,

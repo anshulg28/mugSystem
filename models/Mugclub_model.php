@@ -16,7 +16,7 @@ class Mugclub_Model extends CI_Model
 
     public function getAllMugClubList()
     {
-        $query = "SELECT mugId,mugTag,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipStart, membershipEnd,notes "
+        $query = "SELECT mugId,mugTag,homeBase,l.locName,firstName,lastName,mobileNo, emailId, birthDate, membershipStart, membershipEnd,notes "
             ."FROM mugmaster m "
             ."LEFT JOIN locationmaster l ON id = m.homeBase";
 
@@ -61,8 +61,10 @@ class Mugclub_Model extends CI_Model
         $query = "SELECT DISTINCT (SELECT count(*) FROM mugmaster WHERE membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldOverall,
                   (SELECT count(*) FROM mugmaster WHERE homeBase = 2 AND membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldAndheri,
                   (SELECT count(*) FROM mugmaster WHERE homeBase = 1 AND membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldBandra,
+                  (SELECT count(*) FROM mugmaster WHERE homeBase = 3 AND membershipStart <= (CURRENT_DATE() - INTERVAL 1 MONTH)) as oldKemps,
                   (SELECT count(*) FROM mugmaster WHERE membershipStart <= CURRENT_DATE()) as newOverall,
                   (SELECT count(*) FROM mugmaster WHERE homeBase = 2 AND membershipStart <= CURRENT_DATE()) as newAndheri,
+                  (SELECT count(*) FROM mugmaster WHERE homeBase = 3 AND membershipStart <= CURRENT_DATE()) as newKemps,
                   (SELECT count(*) FROM mugmaster WHERE homeBase = 1 AND membershipStart <= CURRENT_DATE()) as newBandra
                   FROM mugmaster";
         $result = $this->db->query($query)->row_array();
@@ -70,6 +72,7 @@ class Mugclub_Model extends CI_Model
         $avgMugs['overall'] = ((int)$result['newOverall']+(int)$result['oldOverall'])/2;
         $avgMugs['bandra'] = ((int)$result['newBandra']+(int)$result['oldBandra'])/2;
         $avgMugs['andheri'] = ((int)$result['newAndheri']+(int)$result['oldAndheri'])/2;
+        $avgMugs['kemps'] = ((int)$result['newKemps']+(int)$result['oldKemps'])/2;
 
         $data = $avgMugs;
         return $data;
@@ -96,9 +99,49 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
+    public function getMugHoldById($mugId)
+    {
+        $query = "SELECT * "
+            ."FROM holdmugmaster "
+            ."where mugId = ".$mugId;
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['mugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+    public function getAllMugHolds()
+    {
+        $query = "SELECT mugId "
+            ."FROM holdmugmaster ";
+
+        $result = $this->db->query($query)->result_array();
+
+        $data['mugList'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+
     public function getMugIdForRenew($mugId)
     {
-        $query = "SELECT firstName, invoiceDate, invoiceNo, membershipStart, membershipEnd "
+        $query = "SELECT emailId, firstName, invoiceDate, invoiceNo, membershipStart, membershipEnd "
             ."FROM mugmaster "
             ."where mugId = ".$mugId;
 
@@ -295,7 +338,7 @@ class Mugclub_Model extends CI_Model
         return true;
     }
 
-    public function updateMugRecord($post)
+    public function updateMugRecord($post, $mugNum = '')
     {
         if(isset($post['birthDate']))
         {
@@ -324,12 +367,37 @@ class Mugclub_Model extends CI_Model
 
         $post['ifActive'] = '1';
 
-        $this->db->where('mugId', $post['mugId']);
+        if(isset($mugNum) && isStringSet($mugNum))
+        {
+            $this->db->where('mugId', $mugNum);
+        }
+        else
+        {
+            $this->db->where('mugId', $post['mugId']);
+        }
         $this->db->update('mugmaster', $post);
         return true;
     }
     public function deleteMugRecord($mugId)
     {
+        $query = "INSERT INTO deletedmugmaster "
+            ."SELECT * FROM mugmaster "
+            ."where mugId = ".$mugId;
+
+        $this->db->query($query);
+
+        $this->db->where('mugId', $mugId);
+        $this->db->delete('mugmaster');
+        return true;
+    }
+    public function holdMugRecord($mugId)
+    {
+        $query = "INSERT INTO holdmugmaster "
+            ."SELECT * FROM mugmaster "
+            ."where mugId = ".$mugId;
+
+        $this->db->query($query);
+
         $this->db->where('mugId', $mugId);
         $this->db->delete('mugmaster');
         return true;
@@ -341,7 +409,7 @@ class Mugclub_Model extends CI_Model
         return true;
     }
 
-    public function getExpiringMugsList($intervalNum, $intervalSpan)
+    public function getExpiringMugsList($intervalNum, $intervalSpan,$locSort = false, $locArray = '')
     {
 
         $timeInterval = 'DAY';
@@ -367,6 +435,11 @@ class Mugclub_Model extends CI_Model
                 ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' AND mailStatus = 0 "
                 ."AND membershipEnd = (CURRENT_DATE() + INTERVAL ".$intervalNum." ".$timeInterval.")";
 
+        if($locSort === true)
+        {
+            $query .= ' AND homeBase IN('.$locArray.')';
+        }
+
         $result = $this->db->query($query)->result_array();
 
         $data['expiryMugList'] = $result;
@@ -382,13 +455,18 @@ class Mugclub_Model extends CI_Model
         return $data;
     }
 
-    public function getExpiredMugsList()
+    public function getExpiredMugsList($locSort = false, $locArray = '')
     {
         $query = "SELECT mugId, firstName, emailId"
             ." FROM mugmaster "
             ."WHERE membershipEnd IS NOT NULL AND membershipEnd != '0000-00-00' "
             ."AND membershipEnd <= CURRENT_DATE() AND mailStatus = 0";
 
+        if($locSort === true)
+        {
+            $query .= ' AND homeBase IN('.$locArray.')';
+        }
+
         $result = $this->db->query($query)->result_array();
 
         $data['expiryMugList'] = $result;
@@ -405,12 +483,17 @@ class Mugclub_Model extends CI_Model
 
     }
 
-    public function getBirthdayMugsList()
+    public function getBirthdayMugsList($locSort = false, $locArray = '')
     {
         $query = "SELECT mugId, firstName, emailId "
             ." FROM mugmaster "
-            ."WHERE birthDate IS NOT NULL AND birthDate != '0000-00-00' "
+            ."WHERE birthDate IS NOT NULL AND birthDate != '0000-00-00' AND membershipEnd >= CURRENT_DATE() "
             ."AND DATE_FORMAT(birthDate,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d') AND birthdayMailStatus = 0";
+
+        if($locSort === true)
+        {
+            $query .= ' AND homeBase IN('.$locArray.')';
+        }
 
         $result = $this->db->query($query)->result_array();
 

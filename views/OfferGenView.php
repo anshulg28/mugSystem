@@ -102,8 +102,30 @@
                                     ?>
                                     <tr>
                                         <td><?php echo date('d/m/Y');?></td>
-                                        <td><?php echo 'DO-'.$row['offerCode'];?></td>
-                                        <td><?php echo $row['offerType'];?></td>
+                                        <td>
+                                            <?php
+                                            if($row['offerType'] == 'Breakfast2')
+                                            {
+                                                echo 'BR-'.$row['offerCode'];
+                                            }
+                                            else
+                                            {
+                                                echo 'DO-'.$row['offerCode'];
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if($row['offerType'] == 'Breakfast2')
+                                            {
+                                                echo 'Breakfast For Two';
+                                            }
+                                            else
+                                            {
+                                                echo $row['offerType'];
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
@@ -151,8 +173,30 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo date('d/m/Y');?></td>
-                                                <td><?php echo 'DO-'.$row['offerCode'];?></td>
-                                                <td><?php echo $row['offerType'];?></td>
+                                                <td>
+                                                    <?php
+                                                    if($row['offerType'] == 'Breakfast2')
+                                                    {
+                                                        echo 'BR-'.$row['offerCode'];
+                                                    }
+                                                    else
+                                                    {
+                                                        echo 'DO-'.$row['offerCode'];
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    if($row['offerType'] == 'Breakfast2')
+                                                    {
+                                                        echo 'Breakfast For Two';
+                                                    }
+                                                    else
+                                                    {
+                                                        echo $row['offerType'];
+                                                    }
+                                                    ?>
+                                                </td>
                                             </tr>
                                             <?php
                                         }
@@ -206,8 +250,24 @@
                     var tableCodes = '<table><thead><tr><th>Date</th><th>Offer Code</th><th>Type</th></tr></thead><tbody>';
                     for(var num in data)
                     {
-                        myCodesHtml += 'DO-'+data[num].code+'&#13;&#10;';
-                        tableCodes += '<tr><td><?php echo date('d/m/Y');?></td><td>DO-'+data[num].code+'</td><td>'+data[num].type+'</td></tr>';
+                        if(data[num].type == 'Breakfast2')
+                        {
+                            myCodesHtml += 'BR-'+data[num].code+'&#13;&#10;';
+                        }
+                        else
+                        {
+                            myCodesHtml += 'DO-'+data[num].code+'&#13;&#10;';
+                        }
+                        tableCodes += '<tr><td><?php echo date('d/m/Y');?></td><td>';
+                        if(data[num].type == 'Breakfast2')
+                        {
+                            tableCodes += 'BR-'+data[num].code;
+                        }
+                        else
+                        {
+                            tableCodes += 'DO-'+data[num].code;
+                        }
+                        tableCodes += '</td><td>'+data[num].type+'</td></tr>';
                     }
                     tableCodes += '</tbody></table>';
                     $('#exportTab').html(tableCodes);

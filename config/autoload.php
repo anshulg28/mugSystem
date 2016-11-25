@@ -103,7 +103,7 @@ $autoload['helper'] = array('form', 'url','generalfunctions');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+$autoload['config'] = array('event_types');
 
 /*
 | -------------------------------------------------------------------

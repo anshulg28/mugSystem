@@ -93,8 +93,30 @@
                                     ?>
                                     <tr class="<?php if($row['isRedeemed'] == 1) {echo 'danger';};?>">
                                         <th scope="row"><?php echo $row['id'];?></th>
-                                        <td><?php echo 'DO-'.$row['offerCode'];?></td>
-                                        <td><?php echo $row['offerType'];?></td>
+                                        <td>
+                                            <?php
+                                            if($row['offerType'] == 'Breakfast2')
+                                            {
+                                                echo 'BR-'.$row['offerCode'];
+                                            }
+                                            else
+                                            {
+                                                echo 'DO-'.$row['offerCode'];
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if($row['offerType'] == 'Breakfast2')
+                                            {
+                                                echo 'Breakfast For Two';
+                                            }
+                                            else
+                                            {
+                                                echo $row['offerType'];
+                                            }
+                                            ?>
+                                        </td>
                                         <td><?php echo $row['locName'];?></td>
                                         <td><?php echo $row['createDateTime'];?></td>
                                         <td><?php echo $row['useDateTime'];?></td>

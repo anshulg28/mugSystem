@@ -54,6 +54,26 @@ class Users_Model extends CI_Model
 
         return $data;
     }
+    public function searchUserByLoc($locId)
+    {
+        $query = "SELECT * "
+            ."FROM doolally_usersmaster "
+            ."WHERE FIND_IN_SET('".$locId."', assignedLoc)";
+
+        $result = $this->db->query($query)->row_array();
+
+        $data['userData'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
     public function getUserDetailsByUsername($userName)
     {
         $query = "SELECT * "
@@ -61,6 +81,26 @@ class Users_Model extends CI_Model
             ."WHERE userName = '".$userName."'";
 
         $result = $this->db->query($query)->result_array();
+
+        $data['userData'] = $result;
+        if(myIsArray($result))
+        {
+            $data['status'] = true;
+        }
+        else
+        {
+            $data['status'] = false;
+        }
+
+        return $data;
+    }
+    public function checkUserDetails($email, $mob)
+    {
+        $query = "SELECT * "
+            ."FROM doolally_usersmaster "
+            ."WHERE userType = 4 AND emailId = '".$email."' AND mobNum = '".$mob."'";
+
+        $result = $this->db->query($query)->row_array();
 
         $data['userData'] = $result;
         if(myIsArray($result))
@@ -122,6 +162,25 @@ class Users_Model extends CI_Model
 
         $this->db->insert('doolally_usersmaster', $post);
         return true;
+    }
+
+    public function saveMobUserRecord($post)
+    {
+        $post['insertedDate'] = date('Y-m-d H:i:s');
+        $post['updateDate'] = date('Y-m-d H:i:s');
+        $post['updatedBy'] = '';
+        $post['ifActive'] = '1';
+
+        $this->db->insert('doolally_usersmaster', $post);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
+    public function savePublicUser($post)
+    {
+        $this->db->insert('doolally_usersmaster', $post);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
     }
 
     public function updateUserRecord($post)

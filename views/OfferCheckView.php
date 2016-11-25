@@ -24,6 +24,12 @@
                             </div>
                             <h4 class="text-center">OR</h4>
                             <div class="input-group">
+                                <span class="input-group-addon">BR-</span>
+                                <input type="number" name="breakOfferCode" id="breakOfferCode"
+                                       class="form-control" placeholder="11111">
+                            </div>
+                            <h4 class="text-center">OR</h4>
+                            <div class="input-group">
                                 <span class="input-group-addon">TW-</span>
                                 <input type="number" name="oldOfferCode" id="oldOfferCode"
                                        class="form-control" placeholder="11111">
@@ -52,13 +58,14 @@
 
         var newOffer = $('#offerCode').val();
         var oldOffer = $('#oldOfferCode').val();
+        var breakOffer = $('#breakOfferCode').val();
         var offerUrl,offerPrifix,finalCode;
-        if(newOffer != '' && oldOffer != '')
+        if(newOffer != '' && oldOffer != '' && breakOffer != '')
         {
             bootbox.alert('Enter Only 1 Code!');
             return false;
         }
-        if(newOffer == '' && oldOffer == '')
+        if(newOffer == '' && oldOffer == '' && breakOffer == '')
         {
             bootbox.alert('Please Provide Offer Code!');
             return false;
@@ -68,6 +75,12 @@
             finalCode = newOffer;
             offerUrl = base_url+'offers/offerCheck/'+newOffer;
             offerPrifix = 'DO';
+        }
+        else if(breakOffer != '')
+        {
+            finalCode = breakOffer;
+            offerUrl = base_url+'offers/offerCheck/'+breakOffer;
+            offerPrifix = 'BR';
         }
         else if(oldOffer != '')
         {
@@ -93,9 +106,17 @@
                             {
                                 bootbox.alert('<label class="my-success-text">Congrats, you get a 330ml Beer! Mug Club members get 500ml</label>');
                             }
+                            else if(data.offerType == 'Breakfast2')
+                            {
+                                bootbox.alert('<label class="my-success-text">Congrats, you get Two Breakfasts. This includes Two pint. </label>');
+                            }
                             else if(data.offerType == 'Breakfast')
                             {
                                 bootbox.alert('<label class="my-success-text">Congrats, you get a Breakfast. This includes one pint. </label>');
+                            }
+                            else
+                            {
+                                bootbox.alert('<label class="my-success-text">Success, '+data.offerType+' </label>');
                             }
 
                         }

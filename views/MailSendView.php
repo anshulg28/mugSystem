@@ -97,6 +97,14 @@
                                                            }
                                                        ?>
                                                        />
+                                                <?php
+                                                    if($mailList['status'] === false)
+                                                    {
+                                                        ?>
+                                                        <input type="hidden" name="isSimpleMail" value="1"/>
+                                                        <?php
+                                                    }
+                                                ?>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -153,6 +161,7 @@
                                 <div class="col-sm-10 col-xs-12">
                                     <form action="<?php echo base_url();?>mailers/sendAllMails/json" id="mainMailerForm" method="post" class="form-horizontal" role="form">
                                         <input type="hidden" name="mailType" value="<?php echo $mailType;?>"/>
+                                        <input type="hidden" name="isSimpleMail" value="1"/>
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" for="toList">To:</label>
                                             <div class="col-sm-10">
@@ -195,6 +204,7 @@
                                                 <li class="my-pointer-item"><span class="label label-success">[mobno]</span></li>
                                                 <li class="my-pointer-item"><span class="label label-success">[expirydate]</span></li>
                                                 <li class="my-pointer-item"><span class="label label-success">[sendername]</span></li>
+                                                <li class="my-pointer-item"><span class="label label-success">[brcode]</span></li>
                                             </ul>
                                         </div>
                                     </form>
@@ -409,6 +419,7 @@
         }
         else
         {
+            $('input[name="isSimpleMail"]').val('0');
             $('.mailPage #mailBody').html(content);
             $('#bodyModal').modal('hide');
         }
@@ -502,6 +513,7 @@
                     bootbox.alert('Mail Send Successfully', function(){
                         window.location.href=base_url+'mailers';
                     });
+                    removeNotifications();
                 }
             },
             error: function(){

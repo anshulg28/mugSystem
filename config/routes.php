@@ -49,13 +49,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'home';
+$route['default_controller'] = 'main';
 $route['404_override'] = 'Page404';
 $route['translate_uri_dashes'] = FALSE;
 $route['mugclub/add'] = 'mugclub/addNewMug';
 $route['mugclub/edit/(:any)'] = 'mugclub/editExistingMug/$1';
 $route['mugclub/save'] = 'mugclub/saveOrUpdateMug';
 $route['mugclub/delete/(:any)'] = 'mugclub/deleteMugData/$1';
+$route['mugclub/hold/(:any)'] = 'mugclub/holdMugData/$1';
+$route['mugclub/check'] = 'mugclub/mugAvail';
 $route['check-ins'] = 'checkin';
 $route['check-ins/add'] = 'checkin/addNewCheckIn';
 $route['check-ins/edit/(:any)'] = 'checkin/editExistingCheckin/$1';
@@ -81,4 +83,26 @@ $route['dashboard/custom'] = 'dashboard/getCustomStats';
 $route['dashboard/save'] = 'dashboard/saveRecord';
 $route['dashboard/instamojo'] = 'dashboard/instaMojoRecord';
 $route['dashboard/instadone/(:any)/(:any)'] = 'dashboard/setInstamojoDone/$1/$2';
-$route['main'] = 'home/main';
+$route['dashboard/approve/(:any)'] = 'dashboard/eventApproved/$1';
+$route['dashboard/decline/(:any)'] = 'dashboard/eventDeclined/$1';
+/*$route['main'] = 'home/main';*/
+//$route['share-event/(:any)/(:any)'] = 'home/eventFetch/$1/$2';
+
+/* Mobile Routes */
+/*$route['mobile'] = 'mobile/main';*/
+$route['about'] = 'main/about';
+$route['events/(:any)/(:any)'] = 'main/eventFetch/$1/$2';
+$route['eventEdit/(:any)/(:any)'] = 'main/editEvent/$1/$2';
+$route['create_event'] = 'main/createEvent';
+$route['event_dash'] = 'main/myEvents';
+$route['contact_us'] = 'main/contactUs';
+$route['jukebox'] = 'main/jukeBox';
+$route['taproom/(:any)'] = 'main/taproomInfo/$1';
+$route['songlist/(:any)'] = 'main/requestTapSong/$1';
+$route['event_details/(:any)/(:any)'] = 'main/eventDetails/$1/$2';
+$route['signup_list/(:any)/(:any)'] = 'main/signupList/$1/$2';
+//$route['thankYou/(:any)'] = 'main/thankYou/$1';
+$route['renderLink'] = 'main/renderLink';
+$route['saveEvent'] = 'main/saveEvent';
+$route['updateEvent'] = 'main/updateEvent';
+$route['checkEventSpace'] = 'main/checkEventSpace';
