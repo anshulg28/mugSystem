@@ -105,6 +105,7 @@ defined('ADMIN_USER') OR define('ADMIN_USER',1);
 defined('EXECUTIVE_USER') OR define('EXECUTIVE_USER',2);
 defined('SERVER_USER') OR define('SERVER_USER',3);
 defined('GUEST_USER') OR define('GUEST_USER',4);
+defined('WALLET_USER') OR define('WALLET_USER',5);
 
 /*Active or not*/
 defined('ACTIVE')   OR define('ACTIVE', 1);

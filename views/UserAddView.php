@@ -76,6 +76,11 @@
                                 Server (new mugs, check-ins)
                             </label>
                             <br>
+                            <label for="is_wallet">
+                                <input type="radio" onchange="toggleEmailField(this)" id="is_wallet" name="userLevel" value="5">
+                                Wallet Management
+                            </label>
+                            <br>
                             <input type="email" name="email"
                                    class="form-control hide" id="emailid" placeholder="Email (abc@doolally.in)" required/>
                         </div>
